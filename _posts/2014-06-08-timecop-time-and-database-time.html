@@ -2,14 +2,9 @@
 layout: post
 title: Timecop time and database time
 date: 2014-06-08 12:36:35.000000000 -07:00
-categories:
-- Work
 tags:
 - rails
 - testing
-status: publish
-type: post
-published: true
 ---
 <p><a title="Timecop gem on github" href="https://github.com/travisjeffery/timecop">Timecop</a> is a great addition to your testing toolbox, but if you've ever tried to use Timecop to interact with a database, and then got the most mysterious of existential errors:</p>
 <blockquote>
@@ -19,24 +14,33 @@ published: true
 <p>I feel your pain.</p>
 <p>The trouble comes from the fact that Timecop is freezing time at the resolution of the native Time class, which on my Mac OS X machine is microseconds (aka "usec"), but the database, in this case MySQL only records time to the second. RSpec is trying to be helpful with its matchers by calling <code>#to_s</code>, but that hides the significant, sub-second difference.</p>
 <p>Here's a quick little monkey patch that I added to my spec support:</p>
-<pre style="padding-left:30px;">class Timecop
+
+{% highlight ruby %}
+class Timecop
   def self.database_compatible_time(now = Time.zone.now)
     now.change(usec: 0)
   end
 end
-</pre>
+{% endhighlight %}
+
 <p>This uses a Rails helper to reset the microsecond portion of the time object. So, instead of</p>
-<pre style="padding-left:30px;">now = Time.zone.now
+
+{% highlight ruby %}
+now = Time.zone.now
 
 Timecop.freeze(now) do
   ...
 end
-</pre>
+{% endhighlight %}
+
 <p>I do this:</p>
-<pre style="padding-left:30px;">now = Timecop.database_compatible_time
+
+{% highlight ruby %}
+now = Timecop.database_compatible_time
 
 Timecop.freeze(now) do
   ...
 end
-</pre>
+{% endhighlight %}
+
 <p>And no more head scratching. It's sort of database specific, so your mileage may vary.</p>

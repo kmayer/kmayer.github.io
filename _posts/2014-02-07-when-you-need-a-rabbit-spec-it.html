@@ -2,15 +2,14 @@
 layout: post
 title: When you need a rabbit, spec it
 date: 2014-02-07 17:03:06.000000000 -08:00
-categories:
-- Work
 tags:
 - agile
 - devops
 - testing
 ---
 <p>On my current project, we're using RabbitMQ. It's a bit of infrastructure that has to be present, and if it isn't, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let's write a test that asserts that we have the requisite infrastructure in place.</p>
-<pre>
+
+{% highlight ruby %}
 require "bunny"
 require "bunny/exceptions"
 
@@ -28,5 +27,6 @@ describe "RabbitMQ" do
     end
   end
 end
-</pre>
+{% endhighlight %}
+
 <p>Run this test and you will know whether the underlying RabbitMQ infrastructure is running.</p>

@@ -2,15 +2,17 @@
 layout: post
 title: Deploy Strategies for HerokuSan
 date: 2012-05-12 14:34:35.000000000 -07:00
-categories:
-- Work
 tags:
 - deploy
 - heroku
 ---
 <h1>Deploy Strategies</h1>
 <p>If you look at the network graphs of <code>heroku_san</code> on github, you'll see a number of branches where the only change is the deletion of the following line from the <code>deploy</code> task:</p>
-<p><span style="font-family:'Courier 10 Pitch', Courier, monospace;font-size:13px;font-style:normal;line-height:1.5;">stage.migrate</span></p>
+
+{% highlight ruby %}
+stage.migrate
+{% endhighlight %}
+
 <p>If more than a few people are willing to take the effort to fork a gem just so they can delete 1 line, something smells. The reason is that these forkers were using something other than Rails+ActiveRecord+SQL in their project. Some were using Sinatra, others were using Rails, but with CouchDB.</p>
 <p>The <em>raison d'être</em> for the <code>heroku_san</code> gem is to make Heroku deploys dirt simple. So, if people are making whole forks to customize the deploy task, we should make it less painful.</p>
 <h2>Enter strategies</h2>
@@ -27,22 +29,27 @@ tags:
 <p>You can create your own strategies and then configure HerokuSan to use it instead of its default:</p>
 <h2>Rails 3 projects</h2>
 <p>Amend your <code>Rakefile</code>:</p>
-<pre><code>require 'heroku_san'
 
-class MyStrategy &lt; HerokuSan::Deploy::Base
+{% highlight ruby %}
+require 'heroku_san'
+
+class MyStrategy < HerokuSan::Deploy::Base
   def deploy
     super
     # call my own code to do something unique
   end
 end
 
-HerokuSan.project = HerokuSan::Project.new(Rails.root.join("config","heroku.yml"), :deploy =&gt; MyStrategy)
-</code></pre>
+HerokuSan.project = HerokuSan::Project.new(Rails.root.join("config","heroku.yml"), :deploy => MyStrategy)
+{% endhighlight %}
+
 <h2>Sinatra (and other Rack based apps)</h2>
 <p>Amend your <code>Rakefile</code></p>
-<pre><code>require 'heroku_san'
 
-class MyStrategy &lt; HerokuSan::Deploy::Base
+{% highlight ruby %}
+require 'heroku_san'
+
+class MyStrategy < HerokuSan::Deploy::Base
   def deploy
     super
     # call my own code to do something unique
@@ -50,7 +57,7 @@ class MyStrategy &lt; HerokuSan::Deploy::Base
 end
 
 config_file = File.join(File.expand_path(File.dirname(__FILE__)), 'config', 'heroku.yml')
-HerokuSan.project = HerokuSan::Project.new(config_file, :deploy =&gt; MyStrategy)
+HerokuSan.project = HerokuSan::Project.new(config_file, :deploy => MyStrategy)
 
 load "heroku_san/tasks.rb"
-</code></pre>
+{% endhighlight %}
