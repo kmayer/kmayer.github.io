@@ -1,0 +1,34 @@
+# Site settings
+title: Mutterings of the Global Village Idiot
+email: ken@bitwrangler.com
+description: >
+  Ramblings about technology, traveling, sailing, family, entrepeneurship.
+  Mostly ramblings.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://blog.bitwrangler.com" # the base hostname & protocol for your site
+twitter_username: kennethmayer
+github_username:  kmayer
+
+# Build settings
+markdown: kramdown
+
+# Default extension for new posts and pages
+post_ext: markdown
+page_ext: html
+
+# Default templates for posts and pages
+# Found in _templates/
+post_layout: post
+page_layout: page
+
+# Format titles with titlecase?
+titlecase: true
+
+# Change default template file (in _templates/)
+post_template: post
+page_template: page
+draft_template: draft
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
