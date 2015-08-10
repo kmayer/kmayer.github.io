@@ -1,9 +1,12 @@
 # Site settings
 title: Mutterings of the Global Village Idiot
 email: ken@bitwrangler.com
+timezone: America/Los_Angeles
+
 description: >
   Ramblings about technology, traveling, sailing, family, entrepeneurship.
   Mostly ramblings.
+
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://blog.bitwrangler.com" # the base hostname & protocol for your site
 twitter_username: kennethmayer

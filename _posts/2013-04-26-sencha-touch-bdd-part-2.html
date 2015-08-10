@@ -1,0 +1,107 @@
+---
+layout: post
+title: Sencha Touch BDD Part 2
+date: 2013-04-26 14:51:42.000000000 -07:00
+categories:
+- Work
+tags:
+- bdd
+- jasmine
+- javascript
+- mobile
+- Sencha Touch
+- unit testing
+---
+<h1 id="senchatouchbdd">Sencha Touch BDD</h1>
+<h2 id="tldr">tl;dr</h2>
+<p>A multi-part series of articles on how to test Sencha Touch applications. It uses Jasmine for unit testing and Siesta for integration testing.</p>
+<h2 id="part2--unittestingmodels">Part 2 &#8211; Unit Testing Models</h2>
+<p>In <a href="http://blog.bitwrangler.com/2013/04/17/sencha-touch-bdd-part-1/" title="Sencha Touch BDD Part 1">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://pivotal.github.com/jasmine">Jasmine</a> JavaScript test framework. We&#8217;re going to take a bit of a breather from all the hard work we did last week. In this blog, I&#8217;m going to show you how to test simple models.</p>
+<h3 id="letshavesomefunshallwe">Let&#8217;s have some fun, shall we?</h3>
+<p>Test-Driven-Development starts with a test, of course. Let&#8217;s write one that just asserts that our model class <em>exists</em>:</p>
+<pre><code class="js">$ cat spec/javascripts/model/MyModelSpec.js
+describe(&apos;SenchaBdd.model.MyModel&apos;, function() {
+  it(&apos;exists&apos;, function() {
+    var model = Ext.create(&apos;SenchaBdd.model.MyModel&apos;);
+    expect(model.$className).toEqual(&apos;SenchaBdd.model.MyModel&apos;);
+  });
+});</code></pre>
+<p>When we run our tests in the browser, Jasmine reports this:</p>
+<pre>
+  Error: [Ext.Loader] Failed loading synchronously via XHR: 'app/model/MyModel.js'; 
+  please verify that the file exists. XHR status code: 404
+</pre>
+<p>Which is just Ext&#8217;s very formal way of saying, &#8220;No such class exists&#8221; because we haven&#8217;t written it, yet.</p>
+<p>Let&#8217;s write one that makes the test pass:</p>
+<pre><code class="js">$ cat app/model/MyModel.js
+Ext.define(&apos;SenchaBdd.model.MyModel&apos;, {
+  extend: &apos;Ext.data.Model&apos;
+});</code></pre>
+<p>We have proven that we can create a new class, and that it&#8217;s name is what we expect.</p>
+<h3 id="attributes">Attributes</h3>
+<p>Let&#8217;s assert that our model has some attributes:</p>
+<pre><code class="js">$ cat spec/javascripts/model/MyModelSpec.js
+it(&apos;has data&apos;, function () {
+  var model = Ext.create(&apos;SenchaBdd.model.MyModel&apos;, {
+    name: &apos;Test&apos;,
+    email: &apos;test@example.com&apos;,
+    favoriteColor: &apos;blue&apos;
+  });
+  expect(model.get(&apos;name&apos;)).toEqual(&apos;Test&apos;);
+  expect(model.get(&apos;email&apos;)).toEqual(&apos;test@example.com&apos;);
+  expect(model.get(&apos;favoriteColor&apos;)).toEqual(&apos;blue&apos;);
+});</code></pre>
+<p>Which of course, fails, until we add some fields to our model:</p>
+<pre><code class="js">$ cat app/model/MyModel.js
+Ext.define(&apos;SenchaBdd.model.MyModel&apos;, {
+  extend: &apos;Ext.data.Model&apos;,
+  config: {
+    fields: [
+      { name: &apos;name&apos;, type: &apos;string&apos; },
+      { name: &apos;email&apos;, type: &apos;string&apos; },
+      { name: &apos;favoriteColor&apos; }
+    ]
+  }
+});</code></pre>
+<h3 id="defaultvalues">Default values</h3>
+<p>Let&#8217;s say that our model has some default values</p>
+<pre><code class="js">$ cat spec/javascripts/model/MyModelSpec.js
+it(&apos;has default values&apos;, function() {
+  var model = Ext.create(&apos;SenchaBdd.model.MyModel&apos;)
+  expect(model.get(&apos;favoriteColor&apos;)).toEqual(&apos;yellow&apos;);
+})</code></pre>
+<p>Reload the Jasmine runner in the browser and &#8230;</p>
+<pre>
+  SenchaBdd.model.MyModel has default values.
+  Expected undefined to equal 'yellow'.
+</pre>
+<p>Which is easily resolved by adding it to the class:</p>
+<pre><code class="js">$ cat app/model/MyModel.js
+{ name: &apos;favoriteColor&apos;, defaultValue: &apos;yellow&apos; }</code></pre>
+<h3 id="validations">Validations</h3>
+<p>One last simple piece, let&#8217;s assert that email is a <em>required</em> field.</p>
+<pre><code class="js">$ cat spec/javascripts/model/MyModelSpec.js
+it(&apos;requires an email address&apos;, function() {
+  var model = Ext.create(&apos;SenchaBdd.model.MyModel&apos;);
+  var errors = model.validate();
+  expect(errors.isValid()).toBeFalsy();
+
+  expect(errors.getByField(&apos;email&apos;)[0].getMessage()).toEqual(&apos;must be present&apos;);
+})</code></pre>
+<p>The first expectation asserts that the model is not <em>valid</em> at all. It&#8217;s a gatekeeper test. The second test asserts that there&#8217;s validation error on the email field (and not some other field).</p>
+<pre><code class="js">$ cat app/model/MyModel.js
+  config: {
+    ...
+    validations: [
+      { field: &apos;email&apos;, type: &apos;presence&apos; }
+    ]</code></pre>
+<h2 id="roundup">Roundup</h2>
+<p>This is a pretty simple set of tests. If you are at all familiar with unit testing, you won&#8217;t find much new here. Testing for validations by inspecting on the Errors collection was a little tricky to suss out. Hopefully I&#8217;ve saved you a few frustrating moments digging through the source code. What&#8217;s also interesting, I think, is how the test report <em>reads</em>:</p>
+<pre>
+  SenchaBdd.model.MyModel
+    exists
+    has data
+    has default values
+    requires an email address
+</pre>
+<p>The test <em>itself</em> communicates something to the reader about the <em>intention</em> of the model. That&#8217;s a key concept to understand about TDD; the most important and expensive reader of the application is not the <em>browser</em>, it&#8217;s the <em>person</em> who reads and maintains it. It might be your successor or your team mate, or perhaps, yourself, six months from now, when you&#8217;ve forgotten everything about this particular patch of code.</p>

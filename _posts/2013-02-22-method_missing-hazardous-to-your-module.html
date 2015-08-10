@@ -1,0 +1,27 @@
+---
+layout: post
+title: method_missing hazardous to your module?
+date: 2013-02-22 14:14:57.000000000 -08:00
+categories:
+- Work
+tags:
+- object factory
+- refactoring
+- ruby
+- testing
+---
+<p>We built an(other) object factory module for our current project and it looks a lot like all the others:</p>
+<p><!--more--></p>
+<p>After a while, we noticed that the <code>create</code> methods were all exactly the same. Time for dynamic refactoring!</p>
+<p>Unfortunately, this leads to rather bizarre error messages during testing:</p>
+<pre>Failures:
+
+  1) MyHelper#filter returns an empty filter if there's nothing in the session
+     Failure/Error: not_my_method
+     NameError:
+       undefined local variable or method `not_my_method' for ...
+     <strong># ./spec/support/object_creation_methods.rb:141:in `method_missing'</strong>
+     # ./spec/helpers/my_helper_spec.rb:14:in</pre>
+<p>We became our own enemy; Since we are including our module in RSpec for our tests, <em>any</em> missing method passed through our dynamic response method, with unfortunate, confusing results. Sad Panda.</p>
+<p>There's a refactoring pattern, "<cite>Replace Dynamic Method Receptor with Dynamic Method Definition</cite>" which translates run time <code>#method_missing</code> into methods defined at load time. No more crazy stack traces!</p>
+<p>Thank you! <a title="Jay Fields, et al." href="https://www.google.com/search?q=Refactoring%3A+Ruby+Edition&amp;oq=Refactoring%3A+Ruby+Edition&amp;aqs=chrome.0.57j58j61j60j62.473&amp;sourceid=chrome&amp;ie=UTF-8">Jay Fields, et al.</a></p>

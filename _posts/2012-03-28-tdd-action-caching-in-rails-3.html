@@ -1,0 +1,113 @@
+---
+layout: post
+title: TDD Action Caching in Rails 3
+date: 2012-03-28 14:41:48.000000000 -07:00
+categories:
+- Work
+tags:
+- caching
+- rails
+- ruby
+- tdd
+---
+<p>On my current project, we needed to prove that an action cache was working as expected. Alas, the blogosphere had either out-of-date or unhelpful information. So, after many experiments, we came up with an RSpec test that does what we want. It seems ugly to me, and I hope there's a better way. The names have been changed to protect the guilty. Any resemblances to actual classes and methods are purely coincidental.</p>
+<p>We needed to confirm that a certain action was cached. This action is <code>preview</code> in the brands controller. Using the usual Rails url helpers, we construct some fixture data.</p>
+<pre><code>describe BrandsController do
+  describe "caching" do
+    let&#040;:brand&#041; { Factory.create&#040;:brand&#041; }
+    let&#040;:preview_cache_path&#041; {'views/test.host' + preview_brand_path&#040;brand&#041;}
+  end
+end
+</code></pre>
+<p>Then we wrote our first test:</p>
+<pre><code>it "should action cache #preview" do
+  Rails.cache.clear
+  get :preview, :brand_id =&gt; brand.to_param
+  ActionController::Base.cache_store.exist?&#040;preview_cache_path&#041;.should be_true
+end
+</code></pre>
+<p>This won't work at all, however; because, in the test environment, caching is turned off.</p>
+<pre><code>$ cat config/environments/test.rb
+Activator::Application.configure do
+...
+  config.action_controller.perform_caching = false
+</code></pre>
+<p>So, we need an <code>around</code> block to temporarily turn caching on:</p>
+<pre><code>around do |example|
+  caching, ActionController::Base.perform_caching = ActionController::Base.perform_caching, true
+  example.run
+  ActionController::Base.perform_caching = caching
+end
+</code></pre>
+<p>That's great, but the default cache store is the <code>:null</code> store, which, as its name implies, does nothing.</p>
+<pre><code>around do |example|
+  caching, ActionController::Base.perform_caching = ActionController::Base.perform_caching, true
+  store, ActionController::Base.cache_store = ActionController::Base.cache_store, :memory_store
+  example.run
+  ActionController::Base.cache_store = store
+  ActionController::Base.perform_caching = caching
+end
+</code></pre>
+<p>Better. But our tests still won't run because while ActionController uses the <code>cache_store</code>, <code>Observers</code> and <code>Sweepers</code><br />
+use <code>Rails.cache</code> and <em>that</em> is only updated at boot time.</p>
+<pre><code>around do |example|
+  caching, ActionController::Base.perform_caching = ActionController::Base.perform_caching, true
+  store, ActionController::Base.cache_store = ActionController::Base.cache_store, :memory_store
+  silence_warnings { Object.const_set "RAILS_CACHE", ActionController::Base.cache_store }
+
+  example.run
+
+  silence_warnings { Object.const_set "RAILS_CACHE", store }
+  ActionController::Base.cache_store = store
+  ActionController::Base.perform_caching = caching
+end
+</code></pre>
+<p>Did I mention that Rails.cache is an accessor for the global, <em>constant</em>, <code>RAILS_CACHE</code>. Ugh.</p>
+<p>So, now, we can implement our method</p>
+<pre><code>class BrandsController &lt; ApplicationController
+caches_action :preview
+  def preview
+  end
+end
+</code></pre>
+<p>But <em>that</em> is <em>still</em> not enough. <a href="https://github.com/rails/rails/blob/b42fbd3ecbc3e2c55987e0ae6331443dfd68d5b4/actionpack/lib/action_controller/caching/actions.rb#L95"><code>caches_action</code></a><br />
+has an interesting performance enhancement; it doesn't actually set up the action caching unless <em>caching is enabled at class load time</em>. Since we're not turning caching on until <em>test</em> time, the <code>caches_action</code> method call in the controller class does <em>nothing</em>. We need to re-add it in our test spec.</p>
+<pre><code>it "should action cache #preview" do
+  Rails.cache.clear
+  BrandsController.caches_action :preview # must be recapitulated to get around load time weirdfullness
+
+  get :preview, :brand_id =&gt; brand.to_param
+
+  ActionController::Base.cache_store.exist?&#040;preview_cache_path&#041;.should be_true
+end
+</code></pre>
+<p>This is ugly; it doesn't test very much &#040;except the underlying caching module, and why bother testing the framework&#041;. At least it proves to ourselves that the action is cached and the cache key is what we expect.</p>
+<p>Now that we've got caching under control, let's check cache expiration &#040;using a Sweeper&#041;.</p>
+<pre><code>it "should clear the cache on #update" do
+  ActionController::Base.cache_store.write&#040;preview_cache_path, 'CACHED ACTION'&#041;
+
+  put :update, id: brand.to_param, brand: {one: 'attribute', after: 'another'}
+
+  ActionController::Base.cache_store.exist?&#040;sign_up_cache_path&#041;.should be_false
+end
+</code></pre>
+<p>First, I create a cached object, in this case, just the string 'CACHED ACTION' and then I invoke the action, and then, I hope, the cache will be expired.</p>
+<p>It doesn't really matter what happens in the <code>#update</code> method of the <code>BrandsController</code> as long as it updates a <code>Brand</code> object. A sweeper in Rails is a mix of Observer &amp; controller filters, so all you need to do is "declare" it in the controller</p>
+<pre><code>class BrandsController &lt; ApplicationController
+caches_action :preview
+cache_sweeper :brand_sweeper
+def update
+  ...
+  @brand.save
+</code></pre>
+<p>Awesome sauce! Now our tests are red and I'm ready to implement the sweeper</p>
+<pre><code>class BrandSweeper &lt; ActionController::Caching::Sweeper
+  observe Brand # Observers will introspect on the class, but Sweepers don't
+
+  def after_update&#040;brand&#041;
+    expire_action :controller =&gt; "brand", :action =&gt; :preview, :brand_id =&gt; brand.to_param
+  end
+  ...
+</code></pre>
+<p>And voilà! We have greenness.</p>
+<p>So what have we learned from this? The Rails source is still your best friend when exploring a sticky problem. Caching is hard, and testing caching is even harder.</p>

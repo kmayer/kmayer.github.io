@@ -1,0 +1,39 @@
+---
+layout: post
+title: Speed up your integration tests with a jig
+date: 2014-02-07 16:53:48.000000000 -08:00
+categories:
+- Work
+tags:
+- agile
+- ruby
+- testing
+---
+<p>If you've written enough integration tests (with Capybara <em>et al.</em>), you must have noticed how much time your tests spend just logging into your web app. Even if it takes 1 second each time, it starts to add up. Here's a solution that I've written several times, now. I create a test "jig" that allows me to authenticate into my application with a single <code>visit</code>.</p>
+<pre>
+class AuthenticationJigController &lt; Devise::SessionsController
+  def create
+    resource = User.find_by_email!(params[:email])
+    set_flash_message(:notice, :signed_in) if is_flashing_format?
+    sign_in(resource_name, resource)
+    yield resource if block_given?
+    redirect_to root_url
+  end
+end
+</pre>
+<p>This is a simple override of the normal Devise session controller. Next I add a route that is <strong>only</strong> present in a development or testing environment. </p>
+<pre>
+... config/routes.rb ...
+devise_scope :user do
+  # DO NOT REMOVE THE if .. end FROM THIS ROUTE
+  # IT WILL OPEN A HUGE, GAPING MAW OF A SECURITY HOLE
+  # ...
+  # FOR REALZ, NOT EVEN KIDDKING. OKAY?
+  if Rails.env.development? || Rails.env.test?
+    get "/users/auth" =&gt; "authentication_jig#create"
+  end
+...
+</pre>
+<p>There, that's about it. Now, whenever you need to authenticate to your system, say in a Capybara test, you can replace your multi-line login steps with a single <code>visit "/users/auth?email=user@example.com"</code>.</p>
+<p>And you will be authenticated!</p>
+<p>I also use this during development to log in as different test users by creating bookmarks in my browser.</p>
