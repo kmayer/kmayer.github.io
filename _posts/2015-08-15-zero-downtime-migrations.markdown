@@ -31,15 +31,15 @@ Some notes:
 
 #### 0. On a clean, working copy of your code.
 
-{% highlight sh %}
+```sh
 git checkout master
-{% endhighlight %}
+```
     
 #### 1. Create a patch file of all migrations, added since your last production deploy:
 
 {% highlight sh %}
 git fetch production
-git diff production/master... -- 'db/migrate/*' > patch0
+git diff production/master... -- 'db/migrate/' > patch0
 {% endhighlight %}
 
 #### 2. Check out a branch, starting at _production/master_'s head.
@@ -93,10 +93,13 @@ git status # => should be "reasonably" empty
 
 #### 8. Compare your commit against master.
 
-Make sure that nothing snuck in by accident.
+Make sure that nothing snuck in by accident. Conceptually, `schema.rb` will represent the
+state of the database after the migrations have been run, and should exactly match the
+schema that we want to have for our new feature.
 
 {% highlight sh %}
-git diff head..master -- 'db/*' # => This should return zero changes!
+git diff head..origin/master -- 'db/migrate/' # => This should return zero changes!
+git diff head..origin/master -- 'db/schema.rb' # => This should return zero changes!
 {% endhighlight %}
 
 > There __might__ be differences that are okay. You'll have to do a manual code
