@@ -7,6 +7,11 @@ main_nav:
   - { url: '/archive/', title: 'Archive' }
   - { url: '/feed.xml', title: 'Subscribe' }
 
+footer_nav:
+  - { url: '/', title: 'Posts' }
+  - { url: '/archive/', title: 'Archive' }
+  - { url: '/feed.xml', title: 'Subscribe' }
+
 # Link labels
 permalink_label: "Permalink"
 read_more_label: "Continue Reading →"
