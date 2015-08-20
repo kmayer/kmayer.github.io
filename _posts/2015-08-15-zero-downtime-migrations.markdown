@@ -4,8 +4,6 @@ title: "Zero Downtime Migrations"
 date: 2015-08-15T19:35:44-07:00
 ---
 
-# Preparing Migrations for Production
-
 For any sufficiently large application, you want to minimize interruptions to service
 while deploying new code. This is especially challenging for migrations on Heroku and
 other Platforms-as-a-Service, where you have a Catch-22 problem; you want to run your
