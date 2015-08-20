@@ -1,0 +1,33 @@
+# Settings for main header
+title: Mutterings of the Global Village Idiot
+ 
+# Links for main navigation
+main_nav:
+  - { url: '/', title: 'Posts' }
+  - { url: '/archive/', title: 'Archive' }
+  - { url: '/feed.xml', title: 'Subscribe' }
+
+# Link labels
+permalink_label: "Permalink"
+read_more_label: "Continue Reading →"
+
+# Show excerpts on post index
+excerpt_posts: true
+# Excerpt linkposts on index
+excerpt_linkposts: false
+
+search: google
+
+sharing:
+  - facebook
+  - twitter
+  - gplus
+  - email
+
+share_with: links # or buttons
+
+# Embed comments, options: false, facebook, disqus
+comments: false
+
+# Center the text in post and page headings.
+center_headings: false
