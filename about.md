@@ -1,11 +1,8 @@
 ---
-layout: page
-title: About
+layout: theme:page
+title: About the Global Village Idiot
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+Ken is a serial technologist, agile cheerleader and open source advocate. He is a sporadic blogger; an unpredictable tweeter; a recovering SCUBA instructor; an erstwhile master of vessels steam and sail; but most of all; a devoted husband and father. His sons thinks he’s cooler than anything.
 
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
-
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)

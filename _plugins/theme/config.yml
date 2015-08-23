@@ -5,12 +5,12 @@ title: Mutterings of the Global Village Idiot
 main_nav:
   - { url: '/', title: 'Posts' }
   - { url: '/archive/', title: 'Archive' }
-  - { url: '/feed.xml', title: 'Subscribe' }
+  - { url: '/about/', title: 'About' }
 
 footer_nav:
   - { url: '/', title: 'Posts' }
   - { url: '/archive/', title: 'Archive' }
-  - { url: '/feed.xml', title: 'Subscribe' }
+  - { url: '/about/', title: 'About' }
 
 # Link labels
 permalink_label: "Permalink"
