@@ -1,0 +1,18 @@
+<article class="archive {{ post.class }}" role="article">
+  <header class="archive-entry-header">
+    <h2 class="archive-entry-title">{{ post.title_link }}</h2>
+    <div class="archive-entry-date">{{ post.date_html }}</div>
+  </header>
+
+  {% assign bullet = " <span class='separator'>&bull;</span> " %}
+
+  <footer class='archive-entry-footer' role='contentinfo'>
+  <p>
+    {% filter join_lines:bullet | compact_newlines %}
+    {{ post.permalink }}
+    {%_ categories post %}
+    {%_ tags post %}
+    {% endfilter %}
+  </p>
+  </footer>
+</article>

@@ -1,0 +1,17 @@
+.cover-image {
+  .site-top-content {
+    position: absolute;
+    z-index: 10;
+    background: none;
+    overflow: visible;
+    padding: 0;
+  }
+  .main-nav-item, .site-title-link {
+    opacity: .8;
+    transition: opacity .25s ease-in-out;
+    &:hover {
+      color: inherit;
+      opacity: 1;
+    }
+  }
+}

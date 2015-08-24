@@ -1,0 +1,21 @@
+---
+layout: theme:base
+---
+{% include theme:mobile_nav.html %}
+<div class="site-content">
+<div class="site-top"><div class="site-top-content">
+{% include theme:site_header.html | compact_newlines %}
+{% include theme:main_nav.html | compact_newlines %}
+</div></div>
+<div class="site-main">
+<div class="main {% return 'with-sidebar' if page.sidebar %}">
+  <div class="main-content">{{ content }}</div>
+  {% if page.sidebar %}
+    {% capture sidebar %}sidebars/{{ page.sidebar }}.html{% endcapture %}
+    {% wrap include sidebar %}<div class="main-sidebar"><div class="main-sidebar-content">{{ yield }}</div></div>{% endwrap %}
+  {% endif %}
+</div>
+</div>
+<div class="site-bottom"><div class="site-bottom-content">
+{% include theme:site_footer.html %}
+</div></div></div>

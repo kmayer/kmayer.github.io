@@ -1,0 +1,35 @@
+html {
+  color: $text-color;
+  background: $main-bg;
+}
+
+.site-content {
+  background: $main-bg;
+}
+
+a {
+  text-decoration: none;
+  color: $accent-color;
+  transition: color .25s ease-in-out;
+  &:hover {
+    color: $light-text-color;
+  }
+}
+
+.site-top-content,
+.site-bottom-content {
+  text-align: center;
+}
+
+.site-bottom-content {
+  border-top: 1px solid $page-border;
+}
+
+.full-width {
+  width: 101vw;
+  transform: translateX(-#{$content-pad});
+  @include at-least($main-content-max) {
+    $w: $main-content-max - ($content-pad * 2);
+    transform: translateX(calc((#{$w} - 101vw)/2));
+  }
+}

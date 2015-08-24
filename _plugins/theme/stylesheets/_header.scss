@@ -1,0 +1,74 @@
+.site-top-content {
+  width: 100%;
+  padding: 1px 0;
+  background: $site-header-bg;
+}
+
+.site-header, .main-nav {
+  vertical-align: middle;
+  text-align: center;
+  margin: .5em 0;
+}
+
+.site-title {
+  margin: 0;
+  color: $site-title-color;
+  font-size: 2.2rem;
+  @include at-least($small) {
+    font-size: 2.5rem;
+  }
+  @include at-least($small) {
+    font-size: 2.8rem;
+  }
+}
+
+.site-title-link {
+  text-decoration: none;
+  color: inherit;
+  font-weight: normal;
+}
+
+.main-nav {
+  color: $main-nav-color;
+  font-size: $main-nav-font-size;
+}
+
+.main-nav-item {
+  display: none;
+  font-family: $nav-font;
+  text-decoration: none;
+  color: inherit;
+  padding: 0 .3em;
+  line-height: 1.8em;
+
+  &:last-child {
+    padding-right: 0;
+  }
+
+  @include at-least($small) {
+    display: inline-block;
+  }
+}
+
+a.main-nav-item {
+  &:hover {
+    color: $accent-color;
+  }
+}
+
+@include at-least($medium) {
+  .site-top-content {
+    display: table;
+  }
+  .site-header, .main-nav {
+    display: table-cell;
+    padding: .7em 1.4em;
+  }
+  .site-header {
+    text-align: left;
+  }
+  .main-nav {
+    text-align: right;
+  }
+}
+
