@@ -12,15 +12,10 @@ tags:
 - testing
 ---
 
-[Part 4]({% post_url 2013-05-10-sencha-touch-bdd-part-4-phantomjs %}) Introduced PhantomJS as an easy and faster alternative to headful Jasmine testing.
-  [Part 3]({% post_url 2013-05-05-sencha-touch-bdd-part-3-testing-views-and-mocking-stores %}) added
-  [jasmine-ajax](https://github.com/pivotal/jasmine-ajax/tree/2_0) so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without depending on a back-end server. In
-  [Part 2]({% post_url 2013-04-26-sencha-touch-bdd-part-2 %}) I showed you how to unit test Sencha model classes in Jasmine. In
-  [Part 1]({% post_url 2013-04-17-sencha-touch-bdd-part-1 %}) I showed you how to set up your Sencha Touch development environment to use the
-  [Jasmine](http://jasmine.github.io) JavaScript test framework.
+[Part 4]({% post_url 2013-05-10-sencha-touch-bdd-part-4-phantomjs %}) Introduced PhantomJS as an easy and faster alternative to headful Jasmine testing. [Part 3]({% post_url 2013-05-05-sencha-touch-bdd-part-3-testing-views-and-mocking-stores %}) added [jasmine-ajax](https://github.com/pivotal/jasmine-ajax/tree/2_0) so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without depending on a back-end server. In [Part 2]({% post_url 2013-04-26-sencha-touch-bdd-part-2 %}) I showed you how to unit test Sencha model classes in Jasmine. In [Part 1]({% post_url 2013-04-17-sencha-touch-bdd-part-1 %}) I showed you how to set up your Sencha Touch development environment to use the [Jasmine](http://jasmine.github.io) JavaScript test framework. 
 
 
-##It’s a control thing, but I will let you understand
+### It’s a control thing, but I will let you understand
 
 
 Sencha Touch controllers usually live within the context of a single application object. Normally, this is handled for you when you invoke `Ext.Application()` in your app.js file. It creates a singleton object for you in the namespace of your application. For example, if you configured your application’s name to be ‘SenchaBdd’, then the application will be available as the `.app` attribute of the global SenchaBdd object, that is, `SenchaBdd.app`.
