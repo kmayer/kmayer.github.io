@@ -178,7 +178,7 @@ GEM
     rubypants (0.2.0)
     rubypants-unicode (0.2.5)
     safe_yaml (1.0.4)
-    sass (3.4.16)
+    sass (3.4.17)
     slop (3.6.0)
     timers (4.0.1)
       hitimes
