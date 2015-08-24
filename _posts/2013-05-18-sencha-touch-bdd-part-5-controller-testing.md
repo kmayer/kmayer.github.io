@@ -79,8 +79,7 @@ describe('SenchaBdd.controller.MyController', function () {
 ```
 
 
-You might notice that I neither ‘tap’, nor do I test for a ‘POST’ ajax call. The former is better tested through integration tests. The latter is better tested in the model. All the controller need do assert that the model was saved. We trust external classes to function (because they’re tested, too, right?) Testing the #save method on the model follows the same process as testing stores, as I outlined in
-[Part3](http://pivotallabs.com/sencha-touch-bdd-part-3/). Another thing to note is that, under test, this controller does not have any views associated with it; Ext.ComponentQuery calls will return empty (undefined) results. This is to be expected in an isolated test, but may make for some head scratching when you first encounter it. If you must test something in the DOM, you should be writing an integration test anyway.
+You might notice that I neither ‘tap’, nor do I test for a ‘POST’ ajax call. The former is better tested through integration tests. The latter is better tested in the model. All the controller need do assert that the model was saved. We trust external classes to function (because they’re tested, too, right?) Testing the `#save` method on the model follows the same process as testing stores, as I outlined in [Part 3]({% post_url 2013-05-05-sencha-touch-bdd-part-3-testing-views-and-mocking-stores %}). Another thing to note is that, under test, this controller does not have any views associated with it; Ext.ComponentQuery calls will return empty (undefined) results. This is to be expected in an isolated test, but may make for some head scratching when you first encounter it. If you must test something in the DOM, you should be writing an integration test anyway.
 
 ```js
 Ext.define('SenchaBdd.controller.MyController', {
