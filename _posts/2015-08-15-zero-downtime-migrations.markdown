@@ -2,6 +2,11 @@
 layout: theme:post
 title: "Zero Downtime Migrations"
 date: 2015-08-15T19:35:44-07:00
+tags: 
+- rails
+- database
+- deploy
+- heroku
 ---
 
 For any sufficiently large application, you want to minimize interruptions to service
