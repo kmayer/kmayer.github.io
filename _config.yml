@@ -1,5 +1,6 @@
 # Site settings
 title: Mutterings of the Global Village Idiot
+author: Ken Mayer
 email: ken@bitwrangler.com
 timezone: America/Los_Angeles
 
@@ -16,7 +17,7 @@ github_username:  kmayer
 markdown: kramdown
 
 # Default extension for new posts and pages
-post_ext: markdown
+post_ext: md
 page_ext: html
 
 # Default templates for posts and pages
@@ -35,3 +36,9 @@ draft_template: draft
 exclude:
   - Gemfile
   - Gemfile.lock
+
+#date_format: ordinal
+
+#asset_pipeline:
+#  compress_css: false
+#  compress_js: false
