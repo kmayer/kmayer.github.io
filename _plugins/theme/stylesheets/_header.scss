@@ -18,8 +18,8 @@
   @include at-least($small) {
     font-size: 2.5rem;
   }
-  @include at-least($small) {
-    font-size: 2.8rem;
+  @include at-least($medium) {
+    font-size: 3.0rem;
   }
 }
 
