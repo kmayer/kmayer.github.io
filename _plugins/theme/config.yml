@@ -1,13 +1,8 @@
 # Settings for main header
 title: Mutterings of the Global Village Idiot
- 
+
 # Links for main navigation
 main_nav:
-  - { url: '/', title: 'Posts' }
-  - { url: '/archive/', title: 'Archive' }
-  - { url: '/about/', title: 'About' }
-
-footer_nav:
   - { url: '/', title: 'Posts' }
   - { url: '/archive/', title: 'Archive' }
   - { url: '/about/', title: 'About' }

@@ -10,8 +10,8 @@
   <p>
     {% filter join_lines:bullet | compact_newlines %}
     {{ post.permalink }}
-    {%_ categories post %}
-    {%_ tags post %}
+    {{ post.categories | join: ", " }}
+    {{ post.tags | join: ", " }}
     {% endfilter %}
   </p>
   </footer>
