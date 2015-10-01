@@ -1,0 +1,3 @@
+[ ] Google Analytics
+[ ] Tag links to articles, e.g. /tag/bdd is a page with links to all articles that are tagged with bdd
+[ ] Tag cloud rendered on main page

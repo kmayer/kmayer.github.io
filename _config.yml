@@ -36,6 +36,7 @@ draft_template: draft
 exclude:
   - Gemfile
   - Gemfile.lock
+  - TODO.txt
 
 #date_format: ordinal
 
