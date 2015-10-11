@@ -119,8 +119,10 @@ rake production deploy
 #### 10. Run your migrations on your production instance.
 
 {% highlight sh %}
-heroku run rake db:migrate -r production
+heroku run:detached rake db:migrate -r production
 {% endhighlight %}
+
+What's this [`run:detached`](https://devcenter.heroku.com/articles/one-off-dynos#running-tasks-in-background)?
 
 #### 11. Merge the branch into master.
 
