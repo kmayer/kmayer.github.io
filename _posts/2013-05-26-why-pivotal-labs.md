@@ -1,5 +1,5 @@
 ---
-layout: theme:post
+layout: post
 title: Why Pivotal Labs
 date: 2013-05-26 15:11:57.000000000 -07:00
 tags:

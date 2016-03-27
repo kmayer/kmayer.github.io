@@ -1,5 +1,5 @@
 ---
-layout: theme:post
+layout: post
 title: Sencha Touch BDD - Part 4 - PhantomJS
 date: 2013-05-10 14:57:14.000000000 -07:00
 tags:

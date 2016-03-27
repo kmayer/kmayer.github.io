@@ -1,5 +1,5 @@
 ---
-layout: theme:post
+layout: post
 title: Stop thinking like an employee
 date: 2013-11-05 08:45:06.000000000 -08:00
 tags:

@@ -1,5 +1,5 @@
 ---
-layout: theme:post
+layout: post
 title: The slow road
 date: 2014-06-01 08:00:37.000000000 -07:00
 tags:

@@ -22,8 +22,8 @@ page_ext: html
 
 # Default templates for posts and pages
 # Found in _templates/
-post_layout: theme:post
-page_layout: theme:page
+post_layout: post
+page_layout: page
 
 # Format titles with titlecase?
 titlecase: true

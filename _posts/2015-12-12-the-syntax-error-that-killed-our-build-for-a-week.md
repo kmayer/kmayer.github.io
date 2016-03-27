@@ -1,5 +1,5 @@
 ---
-layout: theme:post
+layout: post
 title: "The Syntax Error That Killed Our Build for a Week."
 date: 2015-12-12T14:02:10-08:00
 ---

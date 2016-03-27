@@ -1,5 +1,5 @@
 ---
-layout: theme:post
+layout: post
 title: Sencha Touch BDD - Part 5 - Controller Testing
 date: 2013-05-18 14:59:04.000000000 -07:00
 tags:
