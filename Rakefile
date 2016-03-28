@@ -192,14 +192,14 @@ desc "Generate and publish blog to gh-pages"
 task :deploy => [:build] do
   Dir.mktmpdir do |tmp|
     system "mv _site/* #{tmp}"
-    system "git checkout -B gh-pages"
+    system "git checkout master"
     system "rm -rf *"
     system "mv #{tmp}/* ."
     message = "Site updated at #{Time.now.utc}"
     system "git add ."
     system "git commit -am #{message.shellescape}"
-    system "git push origin gh-pages:master --force"
-    system "git checkout master"
+    system "git push origin master:master --force"
+    system "git checkout build"
     system "echo yolo"
   end
 end
