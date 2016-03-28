@@ -30,3 +30,4 @@ exclude:
   - TODO.txt
   - LICENSE
   - UploadToGithub.Rakefile
+  - tufte.zip
