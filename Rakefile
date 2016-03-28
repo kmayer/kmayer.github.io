@@ -198,7 +198,7 @@ task :deploy => [:build] do
     message = "Site updated at #{Time.now.utc}"
     system "git add ."
     system "git commit -am #{message.shellescape}"
-    system "git push origin master:master --force"
+    system "git push origin master:master"
     system "git checkout build"
     system "echo yolo"
   end
