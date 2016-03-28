@@ -1,5 +1,5 @@
 ---
-layout: logbook
+layout: post
 title: "Renaming Ceremony"
 date: 1998-04-26T00:00:00-07:00
 category: wt
