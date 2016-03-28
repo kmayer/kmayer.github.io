@@ -4,6 +4,11 @@ require 'rake'
 require 'yaml'
 require 'fileutils'
 require 'rbconfig'
+require 'rdoc'
+require 'date'
+require 'yaml'
+require 'tmpdir'
+require 'jekyll'
 
 # == Configuration =============================================================
 
@@ -24,7 +29,7 @@ DRAFTS = "_drafts"
 
 # Execute a system command
 def execute(command)
-  system "#{command}"
+  sh "#{command}"
 end
 
 # Chech the title
@@ -183,42 +188,18 @@ task :preview do
   Rake::Task[:watch].invoke
 end
 
-# rake deploy["Commit message"]
-desc "Deploy the site to a remote git repo"
-task :deploy, :message do |t, args|
-  message = args[:message]
-  branch = CONFIG["git"]["branch"]
-  if message.nil? or message.empty?
-    raise "Please add a commit message."
-  end
-  if branch.nil? or branch.empty?
-    raise "Please add a branch."
-  else
-    Rake::Task[:build].invoke
-    execute("git add .")
-    execute("git commit -m \"#{message}\"")
-    execute("git push origin #{branch}")
-  end
-end
-
-# rake transfer
-desc "Transfer the site (remote server or a local git repo)"
-task :transfer do
-  command = CONFIG["transfer"]["command"]
-  source = CONFIG["transfer"]["source"]
-  destination = CONFIG["transfer"]["destination"]
-  settings = CONFIG["transfer"]["settings"]
-  if command.nil? or command.empty?
-    raise "Please choose a file transfer command."
-  elsif command == "robocopy"
-    Rake::Task[:build].invoke
-    execute("robocopy #{source} #{destination} #{settings}")
-    puts "Your site was transfered."
-  elsif command == "rsync"
-    Rake::Task[:build].invoke
-    execute("rsync #{settings} #{source} #{destination}")
-    puts "Your site was transfered."
-  else
-    raise "#{command} isn't a valid file transfer command."
+desc "Generate and publish blog to gh-pages"
+task :deploy => [:build] do
+  Dir.mktmpdir do |tmp|
+    system "mv _site/* #{tmp}"
+    system "git checkout -B gh-pages"
+    system "rm -rf *"
+    system "mv #{tmp}/* ."
+    message = "Site updated at #{Time.now.utc}"
+    system "git add ."
+    system "git commit -am #{message.shellescape}"
+    system "git push origin master --force"
+    system "git checkout master"
+    system "echo yolo"
   end
 end
