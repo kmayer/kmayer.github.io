@@ -1,45 +1,30 @@
 # Site settings
-title: Mutterings of the Global Village Idiot
-author: Ken Mayer
-email: ken@bitwrangler.com
-timezone: America/Los_Angeles
-
+baseurl:
+title: Ken Mayer
+subtitle: Mutterings of the Global Village Idiot
 description: >
   Ramblings about technology, traveling, sailing, family, entrepeneurship.
   Mostly ramblings.
-
-baseurl: "" # the subpath of your site, e.g. /blog/
+author: Ken Mayer
+email: ken@bitwrangler.com
+timezone: America/Los_Angeles
 url: "http://blog.bitwrangler.com" # the base hostname & protocol for your site
-twitter_username: kennethmayer
-github_username:  kmayer
 
-# Build settings
-markdown: kramdown
+simple_search: http://google.com/search
 
-# Default extension for new posts and pages
-post_ext: html
-page_ext: html
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
-# Default templates for posts and pages
-# Found in _templates/
-post_layout: post
-page_layout: page
-
-# Format titles with titlecase?
-titlecase: true
-
-# Change default template file (in _templates/)
-post_template: post
-page_template: page
-draft_template: draft
+excerpt_separator: <!--more-->  # you can specify your own separator, of course.
+post:
+  template: _post.txt
+  extension: md
+page:
+  template: _page.txt
+  extension: md
 
 exclude:
   - Gemfile
   - Gemfile.lock
+  - Rakefile
+  - README.md
   - TODO.txt
-
-#date_format: ordinal
-
-#asset_pipeline:
-#  compress_css: false
-#  compress_js: false

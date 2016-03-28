@@ -1,10 +1,10 @@
-- link: //www.twitter.com/twitter_handle 
+- link: //www.twitter.com/kennethmayer
   icon: icon-twitter
-- link: //plus.google.com/+googlePlusName 
-  icon: icon-googleplus
-- link: //github.com/GithubHandle 
+- link: //github.com/kmayer
   icon: icon-github
-- link: //www.flickr.com/photos/FlickrUserID 
-  icon: icon-flickr
-- link: /feed 
+- link: //www.linkedin.com/in/kennethlmayer
+  icon: icon-linkedin
+- link: //www.facebook.com/ken.mayer
+  icon: icon-facebook
+- link: /feed
   icon: icon-feed
