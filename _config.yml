@@ -28,3 +28,5 @@ exclude:
   - Rakefile
   - README.md
   - TODO.txt
+  - LICENSE
+  - UploadToGithub.Rakefile
