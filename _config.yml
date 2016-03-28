@@ -12,9 +12,14 @@ url: "http://blog.bitwrangler.com" # the base hostname & protocol for your site
 
 simple_search: http://google.com/search
 
+markdown: kramdown
+highlighter: rouge
 markdown_ext: "markdown,mkdown,mkdn,mkd,md"
 
-excerpt_separator: <!--more-->  # you can specify your own separator, of course.
+kramdown:
+  input: GFM
+
+excerpt_separator: "\n\n"  # you can specify your own separator, of course.
 post:
   template: _post.txt
   extension: md
