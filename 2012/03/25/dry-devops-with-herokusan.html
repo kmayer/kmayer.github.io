@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Dry DevOps with HerokuSan</title>
+  <meta name="description" content="Quiz time!">
+
+
+  <link rel="stylesheet" href="/css/tufte.css">	
+  
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="canonical" href="http://blog.bitwrangler.com/2012/03/25/dry-devops-with-herokusan.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Dry devops with herokusan</h1>
+<p class="subtitle">March 25, 2012</p>
+
+
+<h2>Quiz time!</h2>
+
+<ol>
+<li>How many times (each day) have you typed this at your console?<br />
+<code>git push heroku master</code> and then <em>forgotten</em> to run<br />
+<code>heroku run rake db:migrate --app yellow-snow-3141</code> <em>or</em><br />
+<code>heroku ps:restart</code></li>
+<li>Does your script support a multi-stage environments?</li>
+<li>Do you remember how to get to the application's console process?</li>
+<li>Is your application's configuration <em>consistent</em> across all stages?</li>
+<li>Are you deploy scripts <em>tested</em>?</li>
+</ol>
+
+<h2>Yeah, me too.</h2>
+
+<p>Enter <a href="http://github.com/fastestforward/heroku_san"><code>heroku_san</code></a>, the 85% solution, which allows me to do this:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>rake staging deploy</code></pre></figure>
+
+<p>And this is what happens: Maintenance mode is turned on; the latest green build is deployed to my staging server; all pending migrations are run, the app restarted, and then maintenance mode disabled. All while I go get a fresh cup of joe.</p>
+
+<p>The value for us is that we don't repeat ourselves, that our app will deploy, and we are confident that extending the toolkit is easy with a clear API and good test coverage. That's a big win when you have dozens of apps deploying all day long.</p>
+
+<p>Installation is pretty simple; add <code>gem 'heroku_san'</code> to your <code>Gemfile</code> (you <em>are</em> using Bundler, aren't you?). This gem is only used locally, so you can add it to your <code>group :development, :test</code> block. Then create and edit a configuration file; <code>config/heroku.yml</code>[1]. The README file has more details and there's a <a href="http://github.com/fastestforward/heroku_san/wiki">wiki</a> on github with handy tips on how to extend the basic functionality in common ways.</p>
+
+<h2>So, why?</h2>
+
+<p>The gem has been around since 2010 and supported by a loyal core of maintainers. Version 2.1.1 brings <a href="http://github.com/fastestforward/heroku_san/compare/v1.3.0...v2.1.1">changes large and small</a>.</p>
+
+<p>The biggest change since v1.3 is the creation of 2 new classes: Project and Stage, and a test suite to drive out the features. The task library is now almost entirely simple method calls, so there's a lot of confidence that they will run correctly. Just to make sure, however, I've written an integration test, <a href="http://github.com/fastestforward/heroku_san/blob/ffe43224bc65479e46a3a02891f6ef17357b30e2/features/remote.feature"><code>remote.feature</code></a> which exercises the whole stack by creating an app on Heroku and run it through its paces. It's worth a read.</p>
+
+<p>There are some other new features worth highlighting:</p>
+<ul>
+<li>Heroku stack support (aspen, bamboo and cedar)</li>
+<li>Direct use of the Heroku::Client (instead of calls out to the shell)</li>
+<li>tags -- By adding an (optional) tag configuration value to your <code>heroku.yml</code> file, <code>heroku_san</code> will deploy only the most recent revision with that tag to your stage. This is great for creating a multi-stage environment, and when combined with <a href="http://github.com/zilkey/auto_tagger">auto_tagger</a> and a continuous integration server (CI), you get a lot of bang for a little bit. See the <a href="http://github.com/fastestforward/heroku_san/wiki/Using-Autotagger">wiki</a> for more complete instructions.</li>
+</ul>
+
+<h2>tl;dr</h2>
+
+<p>Why write your own deploy scripts, again. Use <a href="http://rubygems.org/gems/heroku_san"><code>heroku_san</code></a> (or another gem like <a href="http://rubygems.org/gems/kumade"><code>kumade</code></a>)</p>
+
+<hr />
+
+<h3>Notes</h3>
+
+<p>[1]: I am working hard to remove the Rails dependencies.</p>
+
+
+
+    </article>
+    <span class="print-footer">Dry DevOps with HerokuSan - March 25, 2012 - Ken Mayer</span>
+    <footer>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:hate@spam.net"><span class="icon-mail"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook"></span></a>
+      </li>
+    
+      <li>
+        <a href="/feed"><span class="icon-feed"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2016 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+  </body>
+</html>

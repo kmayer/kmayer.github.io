@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>When you need a rabbit, spec it</title>
+  <meta name="description" content="On my current project, we're using RabbitMQ. It's a bit of infrastructure that has to be present, and if it isn't, our integration tests will fail with myste...">
+
+
+  <link rel="stylesheet" href="/css/tufte.css">	
+  
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="canonical" href="http://blog.bitwrangler.com/2014/02/07/when-you-need-a-rabbit-spec-it.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>When you need a rabbit, spec it</h1>
+<p class="subtitle">February 7, 2014</p>
+
+
+<p>On my current project, we're using RabbitMQ. It's a bit of infrastructure that has to be present, and if it isn't, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let's write a test that asserts that we have the requisite infrastructure in place.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">require</span> <span class="s2">"bunny"</span>
+<span class="nb">require</span> <span class="s2">"bunny/exceptions"</span>
+
+<span class="n">describe</span> <span class="s2">"RabbitMQ"</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">"is running"</span> <span class="k">do</span>
+    <span class="n">rabbitmq_is_available</span><span class="p">.</span><span class="nf">should</span> <span class="n">be_true</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">rabbitmq_is_available</span>
+    <span class="k">begin</span>
+      <span class="no">Bunny</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"... amqp configuration uri ..."</span><span class="p">)</span>
+      <span class="kp">true</span>
+    <span class="k">rescue</span> <span class="no">Bunny</span><span class="o">::</span><span class="no">TCPConnectionFailed</span>
+      <span class="kp">false</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Run this test and you will know whether the underlying RabbitMQ infrastructure is running.</p>
+
+
+
+    </article>
+    <span class="print-footer">When you need a rabbit, spec it - February 7, 2014 - Ken Mayer</span>
+    <footer>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:hate@spam.net"><span class="icon-mail"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook"></span></a>
+      </li>
+    
+      <li>
+        <a href="/feed"><span class="icon-feed"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2016 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+  </body>
+</html>

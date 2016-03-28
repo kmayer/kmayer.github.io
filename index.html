@@ -1,17 +1,1034 @@
----
-layout: full-width
-title: blog
-# Note that this index page uses a full-width layout!
----
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <h1 class="content-listing-header sans">Articles</h1>
+  <title>blog</title>
+  <meta name="description" content="Ramblings about technology, traveling, sailing, family, entrepeneurship. Mostly ramblings.
+">
+
+
+  <link rel="stylesheet" href="/css/tufte.css">	
+  
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="canonical" href="http://blog.bitwrangler.com/">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
+</head>
+
+  <body class="full-width">
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a class="active" href="/" class="active">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article>
+        <h1 class="content-listing-header sans">Articles</h1>
   <ul class="content-listing ">
-    {% for post in site.posts %}      
+          
         <li class="listing">
           <hr class="slender">
-          <a href="{{ post.url | prepend: site.baseurl }}"><h3 class="contrast">{{ post.title }}</h3></a>
-          <br><span class="smaller">{{ post.date | date: "%B %-d, %Y" }}</span>  <br/>
-          <div>{{ post.excerpt }}</div> 
+          <a href="/2015/12/12/the-syntax-error-that-killed-our-build-for-a-week.html"><h3 class="contrast">The Syntax Error That Killed Our Build for a Week.</h3></a>
+          <br><span class="smaller">December 12, 2015</span>  <br/>
+          <div><p>Back in the day when I wrote in C and we used X11 with Motif, I was creating a new module based on an existing one, so I just copied and pasted the file from one xterm to another:</p>
+
+</div> 
         </li>
-    {% endfor %}
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2015/08/15/zero-downtime-migrations.html"><h3 class="contrast">Zero Downtime Migrations</h3></a>
+          <br><span class="smaller">August 15, 2015</span>  <br/>
+          <div><p>For any sufficiently large application, you want to minimize interruptions to service while deploying new code. This is especially challenging for migrations on Heroku and other Platforms-as-a-Service, where you have a Catch-22 problem; you want to run your migrations, <em>first</em>, but you can’t run them until you’ve deployed the migrations to production. Usually, at this point, your new migration-dependent features are in the deploy, too. So when your application restarts, and the migration hasn’t run, yet, your poor application will trip some exceptions, and perhaps, create problems to your users. Of course, you can put the app into maintenance mode, but that creates more downtime for your users.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2015/01/06/unintended-consequences-and-a-disaster-averted.html"><h3 class="contrast">Unintended consequences (and a disaster averted)</h3></a>
+          <br><span class="smaller">January 6, 2015</span>  <br/>
+          <div><p>I want to tell you a scary-as-shit story, mostly so that my friends that have <a href="http://en.wikipedia.org/wiki/Concealed_carry">CCW</a> permits might read it and not get killed by good intentions, because I love you all.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2014/06/08/timecop-time-and-database-time.html"><h3 class="contrast">Timecop time and database time</h3></a>
+          <br><span class="smaller">June 8, 2014</span>  <br/>
+          <div><p><a href="https://github.com/travisjeffery/timecop">Timecop</a> is a great addition to your testing toolbox, but if you’ve ever tried to use Timecop to interact with a database, and then got the most mysterious of existential errors:</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2014/06/01/the-slow-road.html"><h3 class="contrast">The slow road</h3></a>
+          <br><span class="smaller">June 1, 2014</span>  <br/>
+          <div><p>Once a week, we run a query on our production system that takes a very long time to complete. Invariably, it times out because the default settings on Heroku are (quite reasonably) for web / API interactions; anything longer than 30 seconds is too long and the connection should be closed to let other requests through. How do you get around this, then? You could set up your <code class="highlighter-rouge">database.yml</code> file so that you connect to your production database from a developer workstation. This is actually quite useful, but opens up a hellacious security hole. Let’s not get started about the consequences of accidentally running <code class="highlighter-rouge">rake db:drop:all</code>! Moreover, you want your system to be automated as much as possible, and that means running your tasks on a Heroku instance. Fortunately, with a little hackery, you can modify the connection timeout settings within your application. Do this carefully, and make sure that it can not leak into your running web application dynos.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2014/02/07/when-you-need-a-rabbit-spec-it.html"><h3 class="contrast">When you need a rabbit, spec it</h3></a>
+          <br><span class="smaller">February 7, 2014</span>  <br/>
+          <div><p>On my current project, we're using RabbitMQ. It's a bit of infrastructure that has to be present, and if it isn't, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let's write a test that asserts that we have the requisite infrastructure in place.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2014/02/07/speed-up-your-integration-tests-with-a-jig.html"><h3 class="contrast">Speed up your integration tests with a jig</h3></a>
+          <br><span class="smaller">February 7, 2014</span>  <br/>
+          <div><p>If you've written enough integration tests (with Capybara <em>et al.</em>), you must have noticed how much time your tests spend just logging into your web app. Even if it takes 1 second each time, it starts to add up. Here's a solution that I've written several times, now. I create a test "jig" that allows me to authenticate into my application with a single <code>visit</code>.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2013/11/05/stop-thinking-like-an-employee.html"><h3 class="contrast">Stop thinking like an employee</h3></a>
+          <br><span class="smaller">November 5, 2013</span>  <br/>
+          <div><p>A few weeks ago, some of the managers got together for drinks after work. I started to reminisce about an old employer who had, what I thought, was an incredibly unique and reasonable way to handle the “vacation liability” problem. The old firm was a consulting firm, mostly military contracts, in the DC area. We were paid for every hour we billed, and we accrued vacation hours for every hour we were paid. It created an environment where the top performers could rack up so much vacation that they could not use it all. Many companies handle this with the familiar “use it or lose it” policy, which caps the accrued vacation hours to some limit. Instead, the firm let vacation accrue forever, with one modification: When you got a raise, your vacation hours were reduced by exactly the same percentage.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2013/05/26/why-pivotal-labs.html"><h3 class="contrast">Why Pivotal Labs</h3></a>
+          <br><span class="smaller">May 26, 2013</span>  <br/>
+          <div><p>It is a time-honored tradition for Pivots to blog about their first few months at Pivotal. A typical day at Pivotal is <em>strong</em> work. It’s different from any previous job. It’s exhausting. After six weeks or so, however, the Pivots find their rhythm. I’m not going to write any more about that. I’ll include some links, below, so you can read them for yourself. I’m here to write about the two-years-later; When most developers are itching to move on to the next big thing. I’m still happily learning new stuff every day.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2013/05/18/sencha-touch-bdd-part-5-controller-testing.html"><h3 class="contrast">Sencha Touch BDD - Part 5 - Controller Testing</h3></a>
+          <br><span class="smaller">May 18, 2013</span>  <br/>
+          <div><p><a href="/2013/05/10/sencha-touch-bdd-part-4-phantomjs.html">Part 4</a> Introduced PhantomJS as an easy and faster alternative to headful Jasmine testing. <a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">Part 3</a> added <a href="https://github.com/pivotal/jasmine-ajax/tree/2_0">jasmine-ajax</a> so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without depending on a back-end server. In <a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you how to unit test Sencha model classes in Jasmine. In <a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2013/05/10/sencha-touch-bdd-part-4-phantomjs.html"><h3 class="contrast">Sencha Touch BDD - Part 4 - PhantomJS</h3></a>
+          <br><span class="smaller">May 10, 2013</span>  <br/>
+          <div><p><a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">Part 3</a> added <code class="highlighter-rouge">jasmine-ajax</code> so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without depending on a back-end server. In <a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you how to unit test Sencha model classes in Jasmine. In <a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html"><h3 class="contrast">Sencha Touch BDD - Part 3 - Testing Views and Mocking Stores</h3></a>
+          <br><span class="smaller">May 5, 2013</span>  <br/>
+          <div><p>In<br />
+<a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the<br />
+<a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework. In<br />
+<a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you to unit test Sencha model classes in Jasmine.</p>
+
+<p>###I don’t normally test views, but when I do</p>
+
+<p>There’s an old MVC mantra: “Fat models, skinny controllers and stupid views.” We don’t want complex logic in our views; that makes them hard to maintain. We don’t want any business logic in our controllers, either. That’s why we have models. Views should be so simple that they don’t require tests. There is a gray area with Sencha, however, where we found testing to be useful in our design process. It has to do with how views interact with stores.</p>
+
+<p>Stores are essentially collections of models. They also encapsulate the persistence layer logic, separate from the business logic of the model. DataViews are a special class of Views in Sencha Touch that will consume a collection to generate a list-type view via a template.</p>
+
+<p>Here are two goals for testing views and stores:</p>
+
+<ul>
+  <li>Does the view consume the right fields from the store, without hitting the back-end for data?</li>
+  <li>Does the store organize the data from the back-end, i.e. create the interface that is used by the view? Again, without hitting the back-end for data.</li>
+</ul>
+
+<p>###Small steps and iterate</p>
+
+<p>Let’s define a very simple view via tests, we’ll make it work using an in-line store, then we’ll refactor the store into its own class. Next, we’ll refactor the storage class to use a remote back-end.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">);</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="s2">"has a list of colors"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">renderTo</span><span class="p">:</span> <span class="s1">'jasmine_content'</span><span class="p">,</span>
+      <span class="na">store</span><span class="p">:</span>    <span class="p">{</span>
+        <span class="na">fields</span><span class="p">:</span> <span class="p">[</span><span class="s1">'color'</span><span class="p">],</span>
+        <span class="na">data</span><span class="p">:</span>   <span class="p">[</span>
+          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">},</span>
+          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
+          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">Ext</span><span class="p">.</span><span class="nx">DomQuery</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'.favorite-color'</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span>
+    <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s1">', '</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'red, green, blue'</span><span class="p">);</span>
+
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Sencha does not come bundled with jQuery, so if you were expecting a DOM query like, $(“.favorite-color”), you might be surprised by the expectation. Ext has its own flavor of querying the DOM, using Ext.DomQuery.select.</p>
+
+<p>Try implementing the view on your own to make the test pass. It should look remarkably similar to this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.dataview.DataView'</span><span class="p">,</span>
+  <span class="na">xtype</span><span class="p">:</span>  <span class="s1">'myview'</span><span class="p">,</span>
+  <span class="na">config</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">itemTpl</span><span class="p">:</span> <span class="s1">'&lt;div class="favorite-color"&gt;{color}&lt;/div&gt;'</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>In your application, you probably won’t hardwire a store into the view. In fact, you will probably embed this little view inside a larger container, like so (this adds another tab to the sample app):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/app/view/Main.js
+</span><span class="gi">+++ b/app/view/Main.js
+</span><span class="gu">@@ -10,6 +10,11 @@ Ext.define('SenchaBdd.view.Main', {
+</span>
+         items: [
+<span class="gi">+            {
++              title: 'Favorites',
++              iconCls: 'star',
++              xtype: 'myview',
++              store: 'mystore',
++              styleHtmlContent: true
++            },
+</span>             {
+                 title: 'Welcome',
+                 iconCls: 'home',
+</code></pre>
+</div>
+
+<p>Let’s create a store so our view will show us something:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Store'</span><span class="p">,</span>
+  <span class="na">config</span><span class="p">:</span>    <span class="p">{</span>
+    <span class="na">storeId</span><span class="p">:</span> <span class="s1">'mystore'</span><span class="p">,</span>
+    <span class="na">fields</span><span class="p">:</span> <span class="p">[</span><span class="s1">'color'</span><span class="p">],</span>
+    <span class="na">data</span><span class="p">:</span>   <span class="p">[</span>
+      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">},</span>
+      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
+      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>In order to see this view, we’ll need to add it to our app.js file:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/app.js
+</span><span class="gi">+++ b/app.js
+</span><span class="gu">@@ -31,7 +31,11 @@ Ext.application({
+</span>     ],
+
+     views: [
+<span class="gd">-        'Main'
+</span><span class="gi">+        'Main', 'MyView'
+</span>     ],
+
+<span class="gi">+    stores: [
++            'MyStore'
++    ],
+</span>
+     icon: {
+</code></pre>
+</div>
+
+<p>Now, let’s go back and refactor our test so it uses MyStore instead of one that was hard-wired.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/view/MyViewSpec.js
+</span><span class="gi">+++ b/spec/javascripts/view/MyViewSpec.js
+</span><span class="gu">@@ -2,17 +2,16 @@ Ext.require('SenchaBdd.view.MyView');
+</span>
+ describe('SenchaBdd.view.MyView', function () {
+   it("has a list of colors", function () {
+<span class="gi">+    var store = Ext.create('SenchaBdd.store.MyStore', {
++      data:     [
++        {color: 'red'},
++        {color: 'green'},
++        {color: 'blue'}
++      ]
++    });
+</span>     var view = Ext.create('SenchaBdd.view.MyView', {
+       renderTo: 'jasmine_content',
+<span class="gd">-      store:    {
+-        fields: ['color'],
+-        data:   [
+-          {color: 'red'},
+-          {color: 'green'},
+-          {color: 'blue'}
+-        ]
+-      }
+-
+</span><span class="gi">+      store:    store
+</span>     });
+     expect(Ext.DomQuery.select('.favorite-color').map(function (el) {
+       return el.textContent
+</code></pre>
+</div>
+
+<p>All of our tests should remain green, but we’ve removed the “fake” store from our test.</p>
+
+<p>###Let’s get dynamic</p>
+
+<p>Static data stores are boring. The fun starts when you start talking to a back-end API. Let’s say that we have a server that responds to an end point of ‘/colors.json’ with a list of favorite colors. We can even “fake” it by placing a file in the appropriate place. Even so, we don’t want our tests to make network calls to the back-end. That’s not appropriate for unit testing. We’ll use Jasmine’s AJAX mocking helper,<br />
+<a href="https://github.com/pivotal/jasmine-ajax/tree/2_0">jasmine-ajax</a>. At the time of this writing, the 2.0 branch had not been merged into the main line, and we need the 2.0 branch in order to work with Ext.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nb">cd </span>spec/javascripts/helpers
+curl -O <span class="s1">'https://raw.github.com/pivotal/jasmine-ajax/2_0/lib/mock-ajax.js'</span>
+git add ./mock-ajax.js
+</code></pre>
+</div>
+
+<p>And we’ll create our first store spec in<br />
+<code class="highlighter-rouge">spec/javascripts/store/MyStoreSpec.js</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">store</span><span class="p">;</span>
+  <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">jasmine</span><span class="p">.</span><span class="nx">Ajax</span><span class="p">.</span><span class="nx">useMock</span><span class="p">();</span>
+    <span class="nx">clearAjaxRequests</span><span class="p">();</span>
+    <span class="nx">store</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">)</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'calls out to the proper url'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">store</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">mostRecentAjaxRequest</span><span class="p">();</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'/colors.json'</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Notice that I call<br />
+<code class="highlighter-rouge">jasmine.Ajax.useMock()</code> and<br />
+<code class="highlighter-rouge">clearAjaxRequests()</code> in the set up block. This is because I want to wait until the very last moment to turn on ajax mocking. The Ext class loader might still be trying to load a class (via xhr), and the mocker will prevent that from happening. I also clear all previous requests (in case there were any left over, to prevent test polution).</p>
+
+<p>When you run Jasmine, you’ll get a test failure, “TypeError: Cannot read property ‘url’ of null” because we haven’t set up the proxy in the store, yet. Let’s do that.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">store</span><span class="o">/</span><span class="nx">MyStore</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Store'</span><span class="p">,</span>
+  <span class="na">config</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">autoLoad</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">storeId</span><span class="p">:</span>  <span class="s1">'mystore'</span><span class="p">,</span>
+    <span class="na">fields</span><span class="p">:</span>   <span class="p">[</span><span class="s1">'color'</span><span class="p">],</span>
+    <span class="na">proxy</span><span class="p">:</span>    <span class="p">{</span>
+      <span class="na">type</span><span class="p">:</span>       <span class="s1">'ajax'</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">:</span>        <span class="s1">'/colors.json'</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Now, when you run the test suite, you’ll get a<br />
+<em>different</em> error! This is because the default settings for the ajax proxy enables caching, paging, etc. Things we don’t need, so we have to turn them off:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    <span class="nx">proxy</span><span class="err">:</span>   <span class="p">{</span>
+      <span class="nl">type</span><span class="p">:</span>       <span class="s1">'ajax'</span><span class="p">,</span>
+      <span class="nx">url</span><span class="err">:</span>        <span class="s1">'/colors.json'</span><span class="p">,</span>
+      <span class="nx">noCache</span><span class="err">:</span>    <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">pageParam</span><span class="err">:</span>  <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">startParam</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">limitParam</span><span class="err">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now our api test is green! You can even test this in the application by dropping a file, ‘colors.json’ into the public directory.</p>
+
+<p>Let’s add one more test to finish things off.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="nx">it</span><span class="p">(</span><span class="s1">'populates the collection'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">store</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">mockedRequest</span> <span class="o">=</span> <span class="nx">mostRecentAjaxRequest</span><span class="p">();</span>
+
+    <span class="nx">mockedRequest</span><span class="p">.</span><span class="nx">response</span><span class="p">({</span>
+      <span class="na">status</span><span class="p">:</span>       <span class="mi">200</span><span class="p">,</span>
+      <span class="na">responseText</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">});</span>
+
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getCount</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'red'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'green'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
+  <span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Every mocked ajax request has a<br />
+<code class="highlighter-rouge">response()</code> method that you can use to inject your own response, synchronously, to your tests. This confirms that MyStore properly parses and arranges the received data so that it can be presented by the view.</p>
+
+<p>###Validate your mocks</p>
+
+<p>We now have 2 tests that depend on a back-end to respond in a specified way. How do we keep these tests from drifting out of sync? Since we’ve mocked the store in our view test, we might never know if the back-end API changes!</p>
+
+<p>You can wrap Jasmine expectation in functions so that they are reusable. Then we can mix this matcher into our view test to confirm that the store we use there is the same.</p>
+
+<p>Let’s add this function to our<br />
+SpecHelper.js file:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">myStoreDataIsValid</span><span class="p">(</span><span class="nx">store</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getCount</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'red'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'green'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And we’ll replace our existing tests with a single line:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="nx">myStoreDataIsValid</span><span class="p">(</span><span class="nx">store</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>We’ll also modify the MyViewSpec.js:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/view/MyViewSpec.js
+</span><span class="gi">+++ b/spec/javascripts/view/MyViewSpec.js
+</span><span class="gu">@@ -9,6 +9,7 @@ describe('SenchaBdd.view.MyView', function () {
+</span>         {color: 'blue'}
+       ]
+     });
+<span class="gi">+    myStoreDataIsValid(store);
+</span>     var view = Ext.create('SenchaBdd.view.MyView', {
+       renderTo: 'jasmine_content',
+       store:    store
+</code></pre>
+</div>
+
+<p>Similarly, we can refactor our colors array into var:<br />
+```diff<br />
+— a/spec/javascripts/helpers/SpecHelper.js<br />
++++ b/spec/javascripts/helpers/SpecHelper.js<br />
+@@ -16,6 +16,15 @@ afterEach(function () {<br />
+     domEl.setAttribute(‘style’, ‘display:none;’);<br />
+ });</p>
+
+<p>+var colorsJSON;<br />
++beforeEach(function() {<br />
++  colorsJSON = [<br />
++    {color: ‘red’},<br />
++    {color: ‘green’},<br />
++    {color: ‘blue’}<br />
++  ];<br />
++});<br />
+```</p>
+
+<p>And then use <code class="highlighter-rouge">colorsJSON</code> in our tests.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/store/MyStoreSpec.js
+</span><span class="gi">+++ b/spec/javascripts/store/MyStoreSpec.js
+</span><span class="gu">@@ -18,11 +18,7 @@ describe('SenchaBdd.store.MyStore', function () {
+</span>
+     request.response({
+       status:       200,
+<span class="gd">-      responseText: [
+-        {color: 'red'},
+-        {color: 'green'},
+-        {color: 'blue'}
+-      ]
+</span><span class="gi">+      responseText: colorsJSON
+</span>     });
+     myStoreDataIsValid(store);
+   });
+</code></pre>
+</div>
+
+<p>and</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/view/MyViewSpec.js
+</span><span class="gi">+++ b/spec/javascripts/view/MyViewSpec.js
+</span><span class="gu">@@ -3,12 +3,9 @@ Ext.require('SenchaBdd.view.MyView');
+</span> describe('SenchaBdd.view.MyView', function () {
+   it("has a list of colors", function () {
+     var store = Ext.create('SenchaBdd.store.MyStore', {
+<span class="gd">-      data:     [
+-        {color: 'red'},
+-        {color: 'green'},
+-        {color: 'blue'}
+-      ]
+</span><span class="gi">+      data:     colorsJSON
+</span>     });
+<span class="gi">+    myStoreDataIsValid(store);
+</span>     var view = Ext.create('SenchaBdd.view.MyView', {
+       renderTo: 'jasmine_content',
+       store:    store
+</code></pre>
+</div>
+
+<h3 id="what-weve-managed-so-far">What we’ve managed, so far</h3>
+
+<p>The toy app is coming along. We’ve test driven a DataView that consumes a back-end API. We’ve added the mock-ajax library so we can unit tests our stores in isolation. We’ve even seen a few techniques for keeping our mocks from getting out of sync (although, if you’ve been paying attention, I’ve still left a gaping hole, that needs to be plugged).</p>
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2013/04/26/sencha-touch-bdd-part-2.html"><h3 class="contrast">Sencha Touch BDD Part 2 -- Unit Testing Models</h3></a>
+          <br><span class="smaller">April 26, 2013</span>  <br/>
+          <div><p>In <a href="/2013/04/17/sencha-touch-bdd-part-1.html" title="Sencha Touch BDD Part 1">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework. We’re going to take a bit of a breather from all the hard work we did last week. In this blog, I’m going to show you how to test simple models.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2013/04/17/sencha-touch-bdd-part-1.html"><h3 class="contrast">Sencha Touch BDD Part 1</h3></a>
+          <br><span class="smaller">April 17, 2013</span>  <br/>
+          <div><p>(tl;dr) A multi-part series of articles on how to test Sencha Touch applications. It uses Jasmine for unit testing and Siesta for integration testing.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2013/02/22/method_missing-hazardous-to-your-module.html"><h3 class="contrast">method_missing hazardous to your module?</h3></a>
+          <br><span class="smaller">February 22, 2013</span>  <br/>
+          <div><p>We built an(other) object factory module for our current project and it looks a lot like all the others:</p>
+<p><!--more--></p>
+<p>After a while, we noticed that the <code>create</code> methods were all exactly the same. Time for dynamic refactoring!</p>
+<p>Unfortunately, this leads to rather bizarre error messages during testing:</p>
+<pre>Failures:
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2013/02/19/its-the-volatility-that-will-kill-you.html"><h3 class="contrast">It's The Volatility That Will Kill You</h3></a>
+          <br><span class="smaller">February 19, 2013</span>  <br/>
+          <div><h1></h1>
+<p>Volatility is what Pivotal Tracker uses to measure the consistency of your team's work output. You can use that number to help you estimate the first approximation to answer the eternal question, "Will I make the deadline?"</p>
+<h2>One fine day at the office…</h2>
+<h2><img src="/assets/deathstar.jpg" alt="DeathStar" width="150" height="112" class="alignright size-thumbnail wp-image-20" /></h2>
+<p>You've scoped out 100 points worth of stories for the Next Big Release™. <a title="Pivotal Tracker" href="http://pivotaltracker.com/">Pivotal Tracker</a> shows your velocity is 10 points per week. Your annual review is in 3 months and on-time delivery of this high profile project will figure <em>prominently</em>.</p>
+<p><img src="/assets/darthvader.jpg" alt="darthvader" width="103" height="150" class="alignleft size-thumbnail wp-image-19" />Then the CEO walks over to your desk and asks, "Will I make the launch date, 10 weeks from now?"</p>
+<p><em>What do you say?</em></p>
+<ol>
+<li>"Yes, my lord. Of course we'll make our date! I'm <em>100% certain</em> of it; Behold; Tracker says we'll finish in 10 parsecs."</li>
+<li>"Probably; We had some iterations that cleared 30 points, but last week we were working on bugs and only accepted 2 points. A couple weeks of those and we might miss the deadline."</li>
+<li>"There's no clear answer. There are so many other uncertainties, technical debt, QA, deployment work."</li>
+</ol>
+<h3>It's a trap!</h3>
+<p><img src="/assets/its-a-trap.jpg" alt="its-a-trap" width="150" height="150" class="alignright size-thumbnail wp-image-18" />Hopefully, you answered with "none of the above." <a title="Velocity Matters" href="http://pivotallabs.com/velocity-matters/">Velocity</a> is just one measure of how your project is performing. Staking your career on it would be foolhardy. The second answer is honest, yet hopelessly vague. The third reply is why many people still think <a title="The Agile Manifesto" href="http://agilemanifest.org/">Agile</a> is a way to duck your responsibilities as a software professional. There is hope, however; We can use Pivotal Tracker's tools to make a better (albeit imperfect) estimate.</p>
+<h3>Past Performance is No Guarantee of Future Returns, but <a title="Martin Fowler defines &quot;Yesterday's Weather&quot;" href="http://martinfowler.com/bliki/YesterdaysWeather.html">Yesterday's Weather</a> is Often Good Enough</h3>
+<p>Velocity, week over week, varies; sometimes a lot, sometimes a little. It depends on the project. Ideally, each iteration would have the same mix of stories, bugs and chores and Velocity would be very consistent. Steady velocity is a <em>good thing</em>™. In the real world, however, all sorts of things crop up; Your head-count goes up (or down), business priorities shift (or pivot), deferred technical debt demands payment, quality assurance files a slew of bug reports, user testing reveals flaws in product, visual design changes. The real world creates <a href="#volatility">volatility</a> in your Velocity.</p>
+<p>A simple measure of this is <a href="http://wikipedia.org/wiki/Standard_deviation">standard deviation</a>, which Tracker constantly computes for your project. Using that metric, you can decide what you should watch or change in order to meet your goals. Let's go back to our example and look at the velocity charts in Tracker.</p>
+<p style="text-align:center;"><img src="/assets/chart1.png" alt="chart1" width="479" height="434" class="aligncenter size-full wp-image-17" /></p>
+<p>Assuming that we have a <a href="http://en.wikipedia.org/wiki/68-95-99.7_rule">normal distribution</a> of weekly velocities, the first sigma (±35%) will fall into the range of 10±3.5 points each week. That is, there is a 70% probability that your project will deliver all 100 points somewhere between 8 and 16 weeks. Why so much spread? 40% volatility is a big number! In the worst case scenario, where every iteration delivers only 6.5 points, it gets you to your goal in 100 ÷ 6.5 ≅ 16 weeks.</p>
+<p><img src="/assets/chart2.png" alt="chart2" width="553" height="371" class="aligncenter size-full wp-image-16" /></p>
+<h2>I Find Your Lack of Faith Disturbing</h2>
+<p>By now, you've had your meeting with the CEO. You've shown him the stories left in the backlog, the volatility of the project, and the range of estimates for delivery. This is the <em>beginning</em> of a conversation. If you're team is not comfortable with the worst case scenario, something must change and, really, you have only two choices; you can reduce volatility or you can reduce scope. You will probably need to do both. Alas, there is no simple formula here. This is where skill, experience and insight will come into play. Here are some suggestions:</p>
+<h3>Reduce Volatility</h3>
+<ul>
+<li>It's <a href="#acceptance">critical</a> that stories are accepted as soon as possible after they are delivered. Is the project manager unable to accept stores as they are delivered, so they don't get credited in the iteration where they started? You can backdate acceptance to reflect when the <a href="#stories">stories</a> were ready (rather than when the PM accepted them), but it is not something I would do on a regular basis.</li>
+<li>Are the stories marked as bugs and chores *truly* overhead, or are they "stealth" features? Does the story add business value to the product? That's a feature. Flaws introduced by feature stories are bugs. Design changes surfaced by testing is a new feature.</li>
+<li>Are there too many stories in flight? Can you deliver stories more reliably by starting fewer at a time? Study after study shows that human beings <em>do not</em> multitask well at all. Do one thing, do it well, then move on.</li>
+<li>Are there blocked tracks? Do stories get stalled because of dependencies? Can you reorganize your backlog so each story is independent.</li>
+<li>Are there outside resources, out of your control, that are introducing volatility?</li>
+<li><em>Multiple</em> rejected stories are toxic. If your team is getting more than one or two rejects each week, this may be a sign that your stories are not accurately representing what your product manager intended. It's time to look at your work flow to prevent them from happening so often.</li>
+<li>Are you not refactoring <em>enough</em>? Constant, steady refactoring, delivered during each story is much better than giant refactors that last a week. You should consider refactoring as critical to your process and not something to do "later, when you have more time for it."</li>
+<li>Make all of your projects <em>small</em> by breaking them up. Delivering a project on time is always tricky business. I've discovered that it is actually <em>easier</em> to work on projects with short time-lines (6 weeks seems to be a good number). Urgency and a looming dead-line focuses the mind in wonderful ways.</li>
+<li>As a tactical measure, <em>simplify</em> your pointing strategy. Pivotal Tracker offers many pointing "styles;" linear, quadratic, fibonacci, or you can customize your own. Try going simpler (instead of finer granularity); a 0-1-2-3 scale (easy, medium and hard), might give you a more accurate picture.</li>
+</ul>
+<h3>Reduce Scope</h3>
+<ul>
+<li>What's really at risk if you miss the deadline? Often, the perceived urgency is far greater than the actual risk to the project.</li>
+<li>Are there features that you can jettison?</li>
+<li>Are there features that you can defer?</li>
+<li>Are you spending too much time on "pixel-perfect fidelity?" Talk to your designers; look for ways to reduce complexity. One good way to reduce complexity is to lean more heavily on standard user interface libraries (which might affect the unique visual design of the project).</li>
+<li>Can you make "soft releases" where you deliver fewer features, earlier, to reduce risk?</li>
+<li>Look at your project goals again. Are the stories in the backlog truly delivering features that will meet your goals?</li>
+<li>Are there parallel "tracks" that allow you to add man-power to the project (but see <a href="#brookes-law">below</a>).</li>
+</ul>
+<h3>Watch for Icebergs</h3>
+<ul>
+<li>Do you need to stand up a new production environment? That will take time. It's a point-able story. Make sure that all the necessary steps to release are in the budget.</li>
+<li>Are you refactoring as you go? Have you been postponing technical debt? Those interest payments will start to pile up as you get closer to release time. Make sure you and your team know that keeping the code clean is an essential part of every story.</li>
+<li>Anything that changes your team will change both Volatility *and* Velocity. Are you adding a new team member? (Remember <a href="http://wikipedia.org/wiki/Brooks's_law">Brook's Law</a>, <a name="brookes-law"></a>"adding manpower to a late software project makes it later.") Vacations, holidays, sick days and babies will affect your velocity. Remember to account for it in Tracker.</li>
+</ul>
+<h2>You're all clear, kid, now let's <em>blow</em> this thing and go <em>home</em>!</h2>
+<p>This article should give you a lot to think about. Good project management is hard work. When projects are just getting started, everything feels fine, and later you start to wonder when everything went to hell. Remember, volatility kills.</p>
+<hr />
+<h2>Notes</h2>
+<dl>
+<dt><a title="Velocity definition" href="https://www.pivotaltracker.com/help/faq#whatisvelocity">velocity</a></dt>
+<dd><a name="velocity"></a>Just like a speedometer that measures how fast you're hurtling through space, Tracker's velocity is a measurement of how fast your team completes stories. Instead of miles or kilometers per hour, Tracker expresses velocity as the number of points completed per iteration (normally a week).Because Tracker stories are assigned point values instead of due dates, Tracker calculates velocity by averaging the number of points you've completed over the past few iterations. In Tracker, past predicts future.</dd>
+<dt><a name="volatility"></a>volatility</dt>
+<dd>Mathematically, Volatility isStandard Deviation ÷ Mean Velocity</dd>
+<dt><a name="acceptance"></a>acceptance</dt>
+<dd>If stories languish in the accept/reject state (a field of red and green buttons in the backlog is a strong indicator), several bad things may happen to your project: You lose the fast feedback loop between delivery and deployment. Developers will move on to the next story and may have already lost "context" about past ones. Unaccepted stories can not be deployed, so there's less and later feedback about the feature in the full project.</dd>
+<dt><a name="stories"></a>stories</dt>
+<dd>What makes a feature or a bug or a chore is worthy of an entire article on its own.</dd>
+</dl>
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2012/05/12/from-customer-requirements-to-releasable-gem.html"><h3 class="contrast">From customer requirements to releasable gem</h3></a>
+          <br><span class="smaller">May 12, 2012</span>  <br/>
+          <div><p>One of the many pleasures of working at Pivotal Labs is that we are encouraged to release some of our work as open source. Often during the course of our engagements, we write code that might have wide-spread use. Due to the nature of our contracts, we can not unilaterally release such code. Those rights belong to the client. And rightly so. So, it is an even greater pleasure when one of our clients believes in "giving back" to the community, as well. </p>
+<p>One such example is this modest gem, <code>attribute_access_controllable</code> which allows you to set read-only access at the <em>attribute</em> level, on a per-instance basis. For example, let's say that you have a model <code>Person</code> with an attribute <code>birthday</code>, which, for security purposes, cannot be changed once this attribute is set (except, perhaps, by an administrator with extraordinary privileges). Any future attempts to change this attribute will result in a validation error.</p>
+<p>e.g.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2012/05/12/deploy-strategies-for-herokusan.html"><h3 class="contrast">Deploy Strategies for HerokuSan</h3></a>
+          <br><span class="smaller">May 12, 2012</span>  <br/>
+          <div><h1>Deploy Strategies</h1>
+<p>If you look at the network graphs of <code>heroku_san</code> on github, you'll see a number of branches where the only change is the deletion of the following line from the <code>deploy</code> task:</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2012/03/28/tdd-action-caching-in-rails-3.html"><h3 class="contrast">TDD Action Caching in Rails 3</h3></a>
+          <br><span class="smaller">March 28, 2012</span>  <br/>
+          <div><p>On my current project, we needed to prove that an action cache was working as expected. Alas, the blogosphere had either out-of-date or unhelpful information. So, after many experiments, we came up with an RSpec test that does what we want. It seems ugly to me, and I hope there's a better way. The names have been changed to protect the guilty. Any resemblances to actual classes and methods are purely coincidental.</p>
+<p>We needed to confirm that a certain action was cached. This action is <code>preview</code> in the brands controller. Using the usual Rails url helpers, we construct some fixture data.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="no">BrandsController</span> <span class="k">do</span>
+  <span class="n">describe</span> <span class="s2">"caching"</span> <span class="k">do</span>
+    <span class="n">let</span><span class="p">(</span><span class="ss">:brand</span><span class="p">)</span> <span class="p">{</span> <span class="no">Factory</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">:brand</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">let</span><span class="p">(</span><span class="ss">:preview_cache_path</span><span class="p">)</span> <span class="p">{</span><span class="s1">'views/test.host'</span> <span class="o">+</span> <span class="n">preview_brand_path</span><span class="p">(</span><span class="n">brand</span><span class="p">)}</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Then we wrote our first test:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">it</span> <span class="s2">"should action cache #preview"</span> <span class="k">do</span>
+  <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">clear</span>
+  <span class="n">get</span> <span class="ss">:preview</span><span class="p">,</span> <span class="ss">:brand_id</span> <span class="o">=&gt;</span> <span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">preview_cache_path</span><span class="p">).</span><span class="nf">should</span> <span class="n">be_true</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This won't work at all, however; because, in the test environment, caching is turned off.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>cat config/environments/test.rb
+Activator::Application.configure <span class="k">do</span>
+...
+  config.action_controller.perform_caching <span class="o">=</span> <span class="nb">false</span></code></pre></figure>
+
+<p>So, we need an <code>around</code> block to temporarily turn caching on:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">around</span> <span class="k">do</span> <span class="o">|</span><span class="n">example</span><span class="o">|</span>
+  <span class="n">caching</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span><span class="p">,</span> <span class="kp">true</span>
+  <span class="n">example</span><span class="p">.</span><span class="nf">run</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="n">caching</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>That's great, but the default cache store is the <code>:null</code> store, which, as its name implies, does nothing.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">around</span> <span class="k">do</span> <span class="o">|</span><span class="n">example</span><span class="o">|</span>
+  <span class="n">caching</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span><span class="p">,</span> <span class="kp">true</span>
+  <span class="n">store</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">,</span> <span class="ss">:memory_store</span>
+  <span class="n">example</span><span class="p">.</span><span class="nf">run</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="o">=</span> <span class="n">store</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="n">caching</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Better. But our tests still won't run because while ActionController uses the <code>cache_store</code>, <code>Observers</code> and <code>Sweepers</code><br />
+use <code>Rails.cache</code> and <em>that</em> is only updated at boot time.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">around</span> <span class="k">do</span> <span class="o">|</span><span class="n">example</span><span class="o">|</span>
+  <span class="n">caching</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span><span class="p">,</span> <span class="kp">true</span>
+  <span class="n">store</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">,</span> <span class="ss">:memory_store</span>
+  <span class="n">silence_warnings</span> <span class="p">{</span> <span class="no">Object</span><span class="p">.</span><span class="nf">const_set</span> <span class="s2">"RAILS_CACHE"</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="p">}</span>
+
+  <span class="n">example</span><span class="p">.</span><span class="nf">run</span>
+
+  <span class="n">silence_warnings</span> <span class="p">{</span> <span class="no">Object</span><span class="p">.</span><span class="nf">const_set</span> <span class="s2">"RAILS_CACHE"</span><span class="p">,</span> <span class="n">store</span> <span class="p">}</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="o">=</span> <span class="n">store</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="n">caching</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Did I mention that Rails.cache is an accessor for the global, <em>constant</em>, <code>RAILS_CACHE</code>. Ugh.</p>
+<p>So, now, we can implement our method</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BrandsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+<span class="n">caches_action</span> <span class="ss">:preview</span>
+  <span class="k">def</span> <span class="nf">preview</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>But <em>that</em> is <em>still</em> not enough. <a href="https://github.com/rails/rails/blob/b42fbd3ecbc3e2c55987e0ae6331443dfd68d5b4/actionpack/lib/action_controller/caching/actions.rb#L95"><code>caches_action</code></a><br />
+has an interesting performance enhancement; it doesn't actually set up the action caching unless <em>caching is enabled at class load time</em>. Since we're not turning caching on until <em>test</em> time, the <code>caches_action</code> method call in the controller class does <em>nothing</em>. We need to re-add it in our test spec.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">it</span> <span class="s2">"should action cache #preview"</span> <span class="k">do</span>
+  <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">clear</span>
+  <span class="no">BrandsController</span><span class="p">.</span><span class="nf">caches_action</span> <span class="ss">:preview</span> <span class="c1"># must be recapitulated to get around load time weirdfullness</span>
+
+  <span class="n">get</span> <span class="ss">:preview</span><span class="p">,</span> <span class="ss">:brand_id</span> <span class="o">=&gt;</span> <span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span>
+
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">preview_cache_path</span><span class="p">).</span><span class="nf">should</span> <span class="n">be_true</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This is ugly; it doesn't test very much (except the underlying caching module, and why bother testing the framework). At least it proves to ourselves that the action is cached and the cache key is what we expect.</p>
+<p>Now that we've got caching under control, let's check cache expiration (using a Sweeper).</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">it</span> <span class="s2">"should clear the cache on #update"</span> <span class="k">do</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="n">preview_cache_path</span><span class="p">,</span> <span class="s1">'CACHED ACTION'</span><span class="p">)</span>
+
+  <span class="n">put</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">id: </span><span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span><span class="p">,</span> <span class="ss">brand: </span><span class="p">{</span><span class="ss">one: </span><span class="s1">'attribute'</span><span class="p">,</span> <span class="ss">after: </span><span class="s1">'another'</span><span class="p">}</span>
+
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">sign_up_cache_path</span><span class="p">).</span><span class="nf">should</span> <span class="n">be_false</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>First, I create a cached object, in this case, just the string 'CACHED ACTION' and then I invoke the action, and then, I hope, the cache will be expired.</p>
+<p>It doesn't really matter what happens in the <code>#update</code> method of the <code>BrandsController</code> as long as it updates a <code>Brand</code> object. A sweeper in Rails is a mix of Observer &amp; controller filters, so all you need to do is "declare" it in the controller</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BrandsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+<span class="n">caches_action</span> <span class="ss">:preview</span>
+<span class="n">cache_sweeper</span> <span class="ss">:brand_sweeper</span>
+<span class="k">def</span> <span class="nf">update</span>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+  <span class="vi">@brand</span><span class="p">.</span><span class="nf">save</span></code></pre></figure>
+
+<p>Awesome sauce! Now our tests are red and I'm ready to implement the sweeper</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BrandSweeper</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Caching</span><span class="o">::</span><span class="no">Sweeper</span>
+  <span class="n">observe</span> <span class="no">Brand</span> <span class="c1"># Observers will introspect on the class, but Sweepers don't</span>
+
+  <span class="k">def</span> <span class="nf">after_update</span><span class="p">(</span><span class="n">brand</span><span class="p">)</span>
+    <span class="n">expire_action</span> <span class="ss">:controller</span> <span class="o">=&gt;</span> <span class="s2">"brand"</span><span class="p">,</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:preview</span><span class="p">,</span> <span class="ss">:brand_id</span> <span class="o">=&gt;</span> <span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span>
+  <span class="k">end</span>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span></code></pre></figure>
+
+<p>And voilà! We have greenness.</p>
+<p>So what have we learned from this? The Rails source is still your best friend when exploring a sticky problem. Caching is hard, and testing caching is even harder.</p>
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2012/03/25/dry-devops-with-herokusan.html"><h3 class="contrast">Dry DevOps with HerokuSan</h3></a>
+          <br><span class="smaller">March 25, 2012</span>  <br/>
+          <div><h2>Quiz time!</h2>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2011/04/05/dropbox-git-designer-3.html"><h3 class="contrast">DropBox + Git => Designer &lt;3</h3></a>
+          <br><span class="smaller">April 5, 2011</span>  <br/>
+          <div><p>One of the thornier problems in our workflow is knowing when assets are delivered from the designer and keeping them in sync with our application as they change. We used to use e-mail, Skype or sticky notes. The trouble is that the designer's file naming and directory structure were never quite the same as the application's <code>/public/images</code> directory, so direct comparisons were impossible and we ended with a lot bookkeeping to make sure that we didn't lose any changes. Our solution is to <em>clone</em> the project's git repository into a folder inside a <em>shared</em> Dropbox folder.</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2010/11/18/when-to-do-user-acceptance-testing.html"><h3 class="contrast">When to do User Acceptance Testing?</h3></a>
+          <br><span class="smaller">November 18, 2010</span>  <br/>
+          <div><p>A former client asked:</p>
+<blockquote>
+<p>"<em>What does Scrum say about User Acceptance Testing? I am wondering if it should best be done within 24 hours of delivery, or at the end of a sprint...</em>"</p>
+</blockquote>
+<p>I'll dodge scrum, but answer how we do it here by framing this in terms of risk and velocity:</p>
+<blockquote>
+<p>We prefer to get acceptance as soon as a story can be delivered to the acceptance/demo server. Intra-day is the best, but certainly within the same sprint when the work is done so as not to muddy velocity measures (a story isn't done until it is accepted, so there's incentive on all sides). </p>
+</blockquote>
+<p>The longer a story sits out there (waiting to be accepted), the bigger the risk that it is "wrong" and needs re-work. Since the code base continues to evolve, fixes are harder the further they are away (in terms of commits) from the original change-set. This can slow down velocity. We want to reduce risk and maintain a steady velocity. Thus, the sooner a story is accepted by the stake holder, the better.</p>
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2007/02/24/the-elevator-speech.html"><h3 class="contrast">The Elevator Speech</h3></a>
+          <br><span class="smaller">February 24, 2007</span>  <br/>
+          <div><h1>The Elevator Speech</h1>
+<hr>
+<p>The purpose of the "speech" is to condense the project definition
+into something that would fit into the time it takes to ride an
+elevator. This is where all good ideas are pitched, apparently; you
+stalk an unwary VC until he or she is trapped inside the elevator has
+no choice but to listen to your prattling. If your idea has any merit,
+pray that the VC doesn't call on someone else to launch the project
+and leave you out in the cold.
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2000/09/19/using-cvs-for-web-server-farms.html"><h3 class="contrast">Using CVS for Web Server Farms</h3></a>
+          <br><span class="smaller">September 19, 2000</span>  <br/>
+          <div><h2>Using CVS for Web Server Farms</h2>
+<p>by Ken Mayer (<cite><a href="mailto:kmayer@worldpages.com">kmayer@worldpages.com</a></cite>)
+<hr>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2000/09/19/crack-keys-in-your-spare-time.html"><h3 class="contrast">Crack Keys in Your Spare Time</h3></a>
+          <br><span class="smaller">September 19, 2000</span>  <br/>
+          <div><p>or 'Hey buddy, got any spare CPU cycles?'
+<hr>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/2000/09/19/a-modest-housing-proposal.html"><h3 class="contrast">A Modest Housing Proposal</h3></a>
+          <br><span class="smaller">September 19, 2000</span>  <br/>
+          <div><p>I've been thinking about the next logical step in Silicon Valley human
+  resource management. Already there are campuses where you never have to
+  leave for (almost) all of your personal needs: the dry-cleaner will pick
+  up and deliver; cafeterias, webvan.com and take-out-taxi/ meals on wheels
+  keep you fed; health clubs, masseuse and the roving chiropractor keep your
+  body functional; showers and locker rooms keep personal hygiene up to
+  acceptable standards. So what's next in this reinvention of the company
+  town?
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/1999/08/16/go-west-young-man-go-west.html"><h3 class="contrast">Go West, Young Man, Go West</h3></a>
+          <br><span class="smaller">August 16, 1999</span>  <br/>
+          <div><h2>Maybe wax in your ears isn't such a bad thing after all</h2>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/12/24/the-first-full-year-of-wishful-thinking.html"><h3 class="contrast">The First Full Year of Wishful Thinking</h3></a>
+          <br><span class="smaller">December 24, 1998</span>  <br/>
+          <div>    <P>It's hard to believe that it's been over a year since we left the
+      house in Los Gatos and moved aboard the S/V <EM>Wishful Thinking.</EM>
+      We made trips to Angel Island, South Beach Harbor, Richmond Marina,
+      Pier 39, Vallejo YC, Golden Gate YC... covering something over 800
+      miles this year.</P>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/11/10/the-smartest-boat-in-the-marina.html"><h3 class="contrast">The Smartest Boat in the Marina</h3></a>
+          <br><span class="smaller">November 10, 1998</span>  <br/>
+          <div>    <p><strong>Day 1</strong>: Moved in to my new digitally-maxed out Hunter 450 at last. Finally, I
+      live on the Smartest Boat in the Marina. Everything's networked. The
+      cable TV is connected to our phone, which is connected to my personal
+      computer, which is connected to the shore-power lines, all the appliances
+      and the security system. Everything runs off a universal remote with the
+      friendliest interface I've ever used. Programming is a snap.
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/11/06/a-travelogue-of-a-dive-vacation-to-the-bahamas-hurricane-and-shipwreck-included-at-no-extra-charge.html"><h3 class="contrast">A Travelogue of a Dive Vacation to the Bahamas, Hurricane and Shipwreck Included at No Extra Charge</h3></a>
+          <br><span class="smaller">November 6, 1998</span>  <br/>
+          <div><img src="/assets/img/pcd0644/IMG0037.JPG" ALT="IMG0037.JPG">
+<img src="/assets/img/pcd0644/IMG0032.JPG" ALT="IMG0032.JPG">
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/10/11/fleet-week-at-treasure-island.html"><h3 class="contrast">Fleet Week at Treasure Island</h3></a>
+          <br><span class="smaller">October 11, 1998</span>  <br/>
+          <div>    <p>An eventful weekend, that's what we had.  It started Friday evening
+      about 6 PM as that was our window of opportunity to escape from the
+      shallows of the marina entrance in the South bay.  The winds had been
+      blowing 25+ out of the north since early afternoon so it was going to
+      be wet and splashy, but we really wanted to stay at Treasure Island
+      Marina that night and on to Angel Island early the next morning.  So,
+      it was now or never.  <strong>Wishful Thinking</strong> was actually
+      the last of three to leave.  <strong>Gypsy</strong>, a Union 38, left
+      about 5 PM and <strong>Dragon Lady</strong>, a Cheoy Lee 40, left
+      about 5:30.  We gave them a call once we were underway.  "Hope you
+      guys are reefed" came their answer.  "Reefed" I said, "hell we're
+      motoring!"  "We're making fine progress just quartering these seas a
+      bit and heading into the 25+ knots".</p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/06/01/treasure-island-cybercruise.html"><h3 class="contrast">Treasure Island CyberCruise</h3></a>
+          <br><span class="smaller">June 1, 1998</span>  <br/>
+          <div>    <p>Home port, Peninsula Marina, Redwood City, US<br>
+      <a href="http://tiger.census.gov/cgi-bin/mapsurfer?infact=2&outfact=2&act=place&tlevel=-&tvar=-&tmeth=i&mlat=&mlon=&msym=redpin&mlabel=Peninsula+Marina&murl=&lat=37.5044022&lon=-122.2129211&wid=0.090&ht=0.033&conf=mapnew.con&map.x=178&map.y=211">37N29.55' 122W15.98'</a>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/04/26/renaming-ceremony.html"><h3 class="contrast">Renaming Ceremony</h3></a>
+          <br><span class="smaller">April 26, 1998</span>  <br/>
+          <div><p><img src="/assets/img/photo/apply-new-name.jpg" alt="Applying the new name" /></p>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/04/23/projects-list.html"><h3 class="contrast">Projects List</h3></a>
+          <br><span class="smaller">April 23, 1998</span>  <br/>
+          <div>    <p>Home port, Peninsula Marina, Redwood City, US<br>
+      <a href="http://tiger.census.gov/cgi-bin/mapsurfer?infact=2&outfact=2&act=place&tlevel=-&tvar=-&tmeth=i&mlat=&mlon=&msym=redpin&mlabel=Peninsula+Marina&murl=&lat=37.5044022&lon=-122.2129211&wid=0.090&ht=0.033&conf=mapnew.con&map.x=178&map.y=211">37N29.55' 122W15.98'</a>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/04/10/letter-home.html"><h3 class="contrast">Letter Home</h3></a>
+          <br><span class="smaller">April 10, 1998</span>  <br/>
+          <div>    <p>Home port, Peninsula Marina, Redwood City, US<br>
+      <a href="http://tiger.census.gov/cgi-bin/mapsurfer?infact=2&outfact=2&act=place&tlevel=-&tvar=-&tmeth=i&mlat=&mlon=&msym=redpin&mlabel=Peninsula+Marina&murl=&lat=37.5044022&lon=-122.2129211&wid=0.090&ht=0.033&conf=mapnew.con&map.x=178&map.y=211">37N29.55' 122W15.98'</a>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/03/16/three-bridges.html"><h3 class="contrast">Three Bridges</h3></a>
+          <br><span class="smaller">March 16, 1998</span>  <br/>
+          <div>    <p>Berkeley Yacht Club, California, US<br>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1998/02/27/the-birthday-month.html"><h3 class="contrast">The Birthday Month</h3></a>
+          <br><span class="smaller">February 27, 1998</span>  <br/>
+          <div>    <p>Home port, Peninsula Marina, Redwood City, US<br>
+      <a href="http://tiger.census.gov/cgi-bin/mapsurfer?infact=2&outfact=2&act=place&
+tlevel=-&tvar=-&tmeth=i&mlat=&mlon=&msym=redpin&mlabel=Peninsula+Marina&murl=&la
+t=37.5044022&lon=-122.2129211&wid=0.090&ht=0.033&conf=mapnew.con&map.x=178&map.y
+=211">37N29.55' 122W15.98'</a>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1997/11/28/on-a-lighter-note.html"><h3 class="contrast">On a Lighter Note</h3></a>
+          <br><span class="smaller">November 28, 1997</span>  <br/>
+          <div>    <p>Home port, Peninsula Marina, Redwood City, US<br>
+      <a href="http://tiger.census.gov/cgi-bin/mapsurfer?infact=2&outfact=2&act=place&tlevel=-&tvar=-&tmeth=i&mlat=&mlon=&msym=redpin&mlabel=Peninsula+Marina&murl=&lat=37.5044022&lon=-122.2129211&wid=0.090&ht=0.033&conf=mapnew.con&map.x=178&map.y=211">37N29.55' 122W15.98'</a>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/wt/1997/11/27/musing-on-a-boating-life.html"><h3 class="contrast">Musing on a Boating Life</h3></a>
+          <br><span class="smaller">November 27, 1997</span>  <br/>
+          <div>    <p>Home port, Peninsula Marina, Redwood City, US<br>
+      <a href="http://tiger.census.gov/cgi-bin/mapsurfer?infact=2&outfact=2&act=place&tlevel=-&tvar=-&tmeth=i&mlat=&mlon=&msym=redpin&mlabel=Peninsula+Marina&murl=&lat=37.5044022&lon=-122.2129211&wid=0.090&ht=0.033&conf=mapnew.con&map.x=178&map.y=211">37N29.55' 122W15.98'</a>
+
+</div> 
+        </li>
+          
+        <li class="listing">
+          <hr class="slender">
+          <a href="/1995/10/15/top-10-tools-for-lonely-sys-admins.html"><h3 class="contrast">Top 10 Tools for Lonely Sys Admins</h3></a>
+          <br><span class="smaller">October 15, 1995</span>  <br/>
+          <div><P><I>Reprinted from ;login: v20,n5, October 1995.</I></P>
+
+</div> 
+        </li>
+    
   </ul>
+    </article>
+    <span class="print-footer">blog - Ken Mayer</span>
+    <footer>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:hate@spam.net"><span class="icon-mail"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook"></span></a>
+      </li>
+    
+      <li>
+        <a href="/feed"><span class="icon-feed"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2016 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+  </body>
+</html>

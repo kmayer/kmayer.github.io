@@ -1,31 +1,589 @@
----
-layout: null
-nav_exclude: true
----
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>{{ site.title | xml_escape }}</title>
-    <description>{{ site.description | xml_escape }}</description>
-    <link>{{ site.url }}{{ site.baseurl }}/</link>
-    <atom:link href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml"/>
-    <pubDate>{{ site.time | date_to_rfc822 }}</pubDate>
-    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
-    <generator>Jekyll v{{ jekyll.version }}</generator>
-    {% for post in site.posts limit:10 %}
+    <title>Ken Mayer</title>
+    <description>Ramblings about technology, traveling, sailing, family, entrepeneurship. Mostly ramblings.
+</description>
+    <link>http://blog.bitwrangler.com/</link>
+    <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 27 Mar 2016 21:53:11 -0700</pubDate>
+    <lastBuildDate>Sun, 27 Mar 2016 21:53:11 -0700</lastBuildDate>
+    <generator>Jekyll v3.0.3</generator>
+    
       <item>
-        <title>{{ post.title | xml_escape }}</title>
-        <description>{{ post.content | xml_escape }}</description>
-        <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-        <link>{{ post.url | prepend: site.baseurl | prepend: site.url }}</link>
-        <guid isPermaLink="true">{{ post.url | prepend: site.baseurl | prepend: site.url }}</guid>
-        {% for tag in post.tags %}
-        <category>{{ tag | xml_escape }}</category>
-        {% endfor %}
-        {% for cat in post.categories %}
-        <category>{{ cat | xml_escape }}</category>
-        {% endfor %}
+        <title>The Syntax Error That Killed Our Build for a Week.</title>
+        <description>&lt;p&gt;Back in the day when I wrote in C and we used X11 with Motif, I was creating a new module based on an existing one, so I just copied and pasted the file from one xterm to another:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;cm&quot;&gt;/* ... */&lt;/span&gt;
+   &lt;span class=&quot;n&quot;&gt;event_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;L&lt;/span&gt;
+ &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;cm&quot;&gt;/* ... */&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;When I tried to compile it, &lt;em&gt;BOOM&lt;/em&gt;. It complained of a syntax error at the form-feed (that’s what the &lt;code class=&quot;highlighter-rouge&quot;&gt;^L&lt;/code&gt; is, ASCII 0xc), which, back in the old days, told the line printer to eject the (gasp) paper page, and start a new one.&lt;/p&gt;
+
+&lt;p&gt;Nowadays, ASCII calls this character “New Page”, but no matter what you call it, it’s whitespace. Compilers don’t even see them. The lexer should have removed it. But there it was, breaking our build, day after day, after day.&lt;/p&gt;
+
+&lt;p&gt;Finally my CTO figured it out. (I’m sorry, Jeff. Obviously, I still bear the scars of this.)&lt;/p&gt;
+
+&lt;p&gt;When I copied the file from one xterm to another, it didn’t copy ASCII 0xc, instead it copied the rendered escape characters, &lt;code class=&quot;highlighter-rouge&quot;&gt;^&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;L&lt;/code&gt; (0x5e 0x4c), which of course, is not parseable.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 12 Dec 2015 14:02:10 -0800</pubDate>
+        <link>http://blog.bitwrangler.com/2015/12/12/the-syntax-error-that-killed-our-build-for-a-week.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2015/12/12/the-syntax-error-that-killed-our-build-for-a-week.html</guid>
+        
+        
       </item>
-    {% endfor %}
+    
+      <item>
+        <title>Zero Downtime Migrations</title>
+        <description>&lt;p&gt;For any sufficiently large application, you want to minimize interruptions to service while deploying new code. This is especially challenging for migrations on Heroku and other Platforms-as-a-Service, where you have a Catch-22 problem; you want to run your migrations, &lt;em&gt;first&lt;/em&gt;, but you can’t run them until you’ve deployed the migrations to production. Usually, at this point, your new migration-dependent features are in the deploy, too. So when your application restarts, and the migration hasn’t run, yet, your poor application will trip some exceptions, and perhaps, create problems to your users. Of course, you can put the app into maintenance mode, but that creates more downtime for your users.&lt;/p&gt;
+
+&lt;p&gt;The technique described here&lt;label for=&quot;goals&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;goals&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;We try &lt;em&gt;very&lt;/em&gt; hard to make migrations non-destructive so there’s no rollback required. The alternative is much more complicated. This also assumes that all QA tests are complete and the next task on your checklist is to deploy to production. &lt;/span&gt; will allow you to gather your migrations into a separate, deployable, commit, that you can run &lt;em&gt;before&lt;/em&gt; you deploy your features, thus minimizing downtime.&lt;/p&gt;
+
+&lt;h2 id=&quot;the-recipe&quot;&gt;The Recipe&lt;/h2&gt;
+
+&lt;h3 id=&quot;on-a-clean-working-copy-of-your-code&quot;&gt;0. On a clean, working copy of your code&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;create-a-patch-file-of-all-migrations-added-since-your-last-production-deploy&quot;&gt;1. Create a patch file of all migrations, added since your last production deploy&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git fetch production
+ git diff production/master... -- &lt;span class=&quot;s1&quot;&gt;&#39;db/migrate/&#39;&lt;/span&gt; &amp;gt; patch0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;production&lt;/code&gt; [git] remote is on Heroku. It can be named anything, but we call it that.&lt;/p&gt;
+
+&lt;h3 id=&quot;check-out-a-branch-starting-at-productionmasters-head&quot;&gt;2. Check out a branch, starting at &lt;em&gt;production/master&lt;/em&gt;’s head&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git checkout production/master -b pre-deploy-migrations
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;reset-your-development-database-to-current-state-of-the-production-database&quot;&gt;3. Reset your development database to current state of the production database&lt;/h3&gt;
+
+&lt;p&gt;&lt;label for=&quot;warning&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;warning&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;em&gt;WARNING&lt;/em&gt; &lt;/span&gt;This will delete &lt;em&gt;all&lt;/em&gt; of your data in your development environment. But that should not be a problem, right? If it is, you have a problem with your development environment.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; rake db:reset
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This also assumes that you’ve been diligent, &lt;em&gt;OCD-diligent&lt;/em&gt;, about keeping your &lt;code class=&quot;highlighter-rouge&quot;&gt;schema.rb&lt;/code&gt; file synchronized with production.&lt;/p&gt;
+
+&lt;h3 id=&quot;apply-the-patch-file&quot;&gt;4. Apply the patch file&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;patch -p1 &amp;lt; patch0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;run-your-migrations&quot;&gt;5. Run your migrations&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake db:migrate
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;add-and-commit-your-changes&quot;&gt;6. Add and commit your changes&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git add db/migrate/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
+ git add db/schema.rb
+ git commit -m &lt;span class=&quot;s2&quot;&gt;&quot;pre-deploy migrations only&quot;&lt;/span&gt;
+ git status &lt;span class=&quot;c&quot;&gt;# =&amp;gt; should be &quot;reasonably&quot; empty&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;re-run-your-test-suite-to-make-sure-nothing-asplodes&quot;&gt;7. Re-run your test suite to make sure nothing ‘asplodes&lt;/h3&gt;
+
+&lt;p&gt;What happens if your tests &lt;em&gt;do&lt;/em&gt; break? &lt;strong&gt;You might have a destructive migration!&lt;/strong&gt; For example, I recently changed a table from single to polymorphic ownership. Instead of adding the columns, &lt;code class=&quot;highlighter-rouge&quot;&gt;owner_id&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;owner_type&lt;/code&gt;, I renamed &lt;code class=&quot;highlighter-rouge&quot;&gt;organization_id&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;owner_id&lt;/code&gt;. A whole bunch of tests broke. If you continue with these steps, your app will crash when you run the migrations. See Appendix A for work-arounds.&lt;/p&gt;
+
+&lt;h3 id=&quot;compare-your-commit-against-master&quot;&gt;8. Compare your commit against master&lt;/h3&gt;
+
+&lt;p&gt;Make sure that nothing snuck in by accident. Conceptually, &lt;code class=&quot;highlighter-rouge&quot;&gt;schema.rb&lt;/code&gt; will represent the state of the database after the migrations have been run, and should exactly match the schema that we want to have for our new feature.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git diff head..origin/master -- &lt;span class=&quot;s1&quot;&gt;&#39;db/migrate/&#39;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# =&amp;gt; This should return zero changes!&lt;/span&gt;
+ git diff head..origin/master -- &lt;span class=&quot;s1&quot;&gt;&#39;db/schema.rb&#39;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# =&amp;gt; This should return zero changes!&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There &lt;strong&gt;might&lt;/strong&gt; be differences that are okay. You’ll have to do a manual code review to be sure.&lt;/p&gt;
+
+&lt;h3 id=&quot;push-just-this-commit-into-production&quot;&gt;9. Push &lt;strong&gt;just&lt;/strong&gt; this commit into production&lt;/h3&gt;
+
+&lt;p&gt;You can do it by pushing the branch, or merging the commit into your deploy / mainline, rebase it &lt;em&gt;ahead&lt;/em&gt; of your other commits, then push just that sha. We use the &lt;code class=&quot;highlighter-rouge&quot;&gt;heroku_san&lt;/code&gt; gem, so, for us, it is a simple shell command (while still on this branch).&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake production deploy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;run-your-migrations-on-your-production-instance&quot;&gt;10. Run your migrations on your production instance&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;heroku run:detached rake db:migrate -r production
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Is this a long running migration? Don’t want Heroku to hang up before your done? What’s this &lt;a href=&quot;https://devcenter.heroku.com/articles/one-off-dynos#running-tasks-in-background&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;run:detached&lt;/code&gt;&lt;/a&gt;?&lt;/p&gt;
+
+&lt;h3 id=&quot;merge-the-branch-into-master&quot;&gt;11. Merge the branch into master&lt;/h3&gt;
+
+&lt;p&gt;It should be a no-op since the code is already there. This is optional, but it keeps git happy for the next deploy.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout master
+ git merge -m &lt;span class=&quot;s2&quot;&gt;&quot;Merge branch &#39;pre-deploy-migrations&#39;&quot;&lt;/span&gt; pre-deploy-migrations 
+ git push origin master
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;you-are-ready-to-deploy-to-production&quot;&gt;12. You are ready to deploy to production&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake production deploy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;clean-up&quot;&gt;13. Clean up&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git branch -D pre-deploy-migrations
+ rm patch0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;bask-in-the-glow-of-your-mastery&quot;&gt;14. Bask in the glow of your mastery!&lt;/h3&gt;
+
+&lt;hr class=&quot;slender&quot; /&gt;
+
+&lt;h2 id=&quot;appendix-a-how-to-handle-deprecated-columns&quot;&gt;Appendix A: How to Handle Deprecated Columns&lt;/h2&gt;
+
+&lt;p&gt;Don’t remove them! That would break your existing production code and any rollbacks become infinitely more difficult. Many practitioners &lt;em&gt;never&lt;/em&gt; remove old columns, but I think that’s bad too. Code costs. Maintaining these extra columns, over time, will cost you time and money. Here’s a way to “soft” remove columns until you are &lt;em&gt;sure&lt;/em&gt; that you won’t need them again. I schedule a chore a few iterations in the future with the task of doing the actual removal.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;YourModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# TODO: https://www.pivotaltracker.com/story/show/...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;columns&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;_column_name_&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+ &lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;appendix-b-copy-data-to-new-columns&quot;&gt;Appendix B: Copy Data to New Columns&lt;/h2&gt;
+
+&lt;p&gt;Making copies to a new column is safe (and “disks” are “cheap”), although it does open a window where your data will be inconsistent. In your migrations, make SQL calls to copy a column from the old to the new. There is a down side to this, especially on very large tables. You want tall, narrow tables for efficiency and performance. This does neither. So plan accordingly.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;YourMigration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;add_column&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:_table_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:_new_column_name_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:string&lt;/span&gt;
+
+    &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;execute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;SQL&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+      UPDATE _table_name_ SET _new_column_name_ = _old_column_name_;
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;    SQL&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;If you are using MySQL, you might need the help of the Large Hadron Migrator to keep your site up and running while you copy over the data.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 15 Aug 2015 19:35:44 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2015/08/15/zero-downtime-migrations.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2015/08/15/zero-downtime-migrations.html</guid>
+        
+        <category>rails</category>
+        
+        <category>database</category>
+        
+        <category>deploy</category>
+        
+        <category>heroku</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Unintended consequences (and a disaster averted)</title>
+        <description>&lt;p&gt;I want to tell you a scary-as-shit story, mostly so that my friends that have &lt;a href=&quot;http://en.wikipedia.org/wiki/Concealed_carry&quot;&gt;CCW&lt;/a&gt; permits might read it and not get killed by good intentions, because I love you all.&lt;/p&gt;
+
+&lt;p&gt;One morning, I was waiting for the San Francisco-bound &lt;a href=&quot;http://bart.gov&quot;&gt;BART&lt;/a&gt;, as usual. The crowd kept getting thicker and the train was late. There were grumpy rumblings all around. Finally a train rounds the bend, beeps its whistle, and … continues through the station without stopping.&lt;/p&gt;
+
+&lt;p&gt;What. The. Fuck. And then, even more waiting.&lt;/p&gt;
+
+&lt;p&gt;Suddenly, I see several things, pretty much simultaneously, that my brain had trouble processing at the time: The crowd, in a wave starts stepping back from the edge of the platform, revealing two BART police officers, weapons drawn, waving people back. On the opposite platform, another officer is shouldering a rifle pointed in my general direction. And, &lt;em&gt;then&lt;/em&gt;, behind me, an older guy in a green sweatshirt hits the deck, spread-eagled, face down and shouts at the top of his lungs,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I HAVE A PERMIT!&lt;br /&gt;
+I.&lt;br /&gt;
+HAVE.&lt;br /&gt;
+A.&lt;br /&gt;
+PERMIT!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The police approach, frisk the man, remove a revolver from a belt clip, and then politely help him to his feet. There’s a brief check of credentials and a collective sigh of relief that this is not some nut-job ready to rain hell and bullets on a morning commute. I overhear the conversation while the next train rolls up to the platform and starts boarding; apparently an observant citizen saw the revolver tucked into the small of the man’s back and called 911. A bad fashion choice could have cost someone’s life that morning, if any number of things did not go perfectly right.&lt;/p&gt;
+
+&lt;p&gt;I like guns. I’ve used them for sport (target practice), nothing more. I’d be willing to hunt with them (as long as we eat or share what we kill and not let it go to waste). Carrying a concealed weapon scares the shit out of me.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 06 Jan 2015 19:45:33 -0800</pubDate>
+        <link>http://blog.bitwrangler.com/2015/01/06/unintended-consequences-and-a-disaster-averted.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2015/01/06/unintended-consequences-and-a-disaster-averted.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Timecop time and database time</title>
+        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/travisjeffery/timecop&quot;&gt;Timecop&lt;/a&gt; is a great addition to your testing toolbox, but if you’ve ever tried to use Timecop to interact with a database, and then got the most mysterious of existential errors:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;expected: Sun, 08 Jun 2014 19:18:22 UTC +00:00
+     got: Sun, 08 Jun 2014 19:18:22 UTC +00:00
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I feel your pain.&lt;/p&gt;
+
+&lt;p&gt;The trouble comes from the fact that Timecop is freezing time at the resolution of the native Time class, which on my Mac OS X machine is microseconds (aka “usec”), but the database, in this case MySQL only records time to the second. RSpec is trying to be helpful with its matchers by calling &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;code&amp;gt;&lt;/code&gt;#to_s`, but that hides the significant, sub-second difference.&lt;/p&gt;
+
+&lt;p&gt;Here’s a quick little monkey patch that I added to my spec support:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Timecop&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;database_compatible_time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;usec: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This uses a Rails helper to reset the microsecond portion of the time object. So, instead of&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;now&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;Timecop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;freeze&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;I do this:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Timecop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;database_compatible_time&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;Timecop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;freeze&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+&lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;And no more head scratching. It’s sort of database specific, so your mileage may vary.&lt;/p&gt;
+
+</description>
+        <pubDate>Sun, 08 Jun 2014 12:36:35 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2014/06/08/timecop-time-and-database-time.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2014/06/08/timecop-time-and-database-time.html</guid>
+        
+        <category>rails</category>
+        
+        <category>testing</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>The slow road</title>
+        <description>&lt;p&gt;Once a week, we run a query on our production system that takes a very long time to complete. Invariably, it times out because the default settings on Heroku are (quite reasonably) for web / API interactions; anything longer than 30 seconds is too long and the connection should be closed to let other requests through. How do you get around this, then? You could set up your &lt;code class=&quot;highlighter-rouge&quot;&gt;database.yml&lt;/code&gt; file so that you connect to your production database from a developer workstation. This is actually quite useful, but opens up a hellacious security hole. Let’s not get started about the consequences of accidentally running &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:drop:all&lt;/code&gt;! Moreover, you want your system to be automated as much as possible, and that means running your tasks on a Heroku instance. Fortunately, with a little hackery, you can modify the connection timeout settings within your application. Do this carefully, and make sure that it can not leak into your running web application dynos.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;raw_connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;query_options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tap&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;opts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;opts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:read_timeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+&lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;connection_pool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;with_connection&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# ... long running database queries go here ...&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;These settings are database specific, so read the documentation / source. This connection is using the &lt;code class=&quot;highlighter-rouge&quot;&gt;mysql2&lt;/code&gt; adapter.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 01 Jun 2014 08:00:37 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2014/06/01/the-slow-road.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2014/06/01/the-slow-road.html</guid>
+        
+        <category>database</category>
+        
+        <category>heroku</category>
+        
+        <category>rails</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>When you need a rabbit, spec it</title>
+        <description>&lt;p&gt;On my current project, we&#39;re using RabbitMQ. It&#39;s a bit of infrastructure that has to be present, and if it isn&#39;t, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let&#39;s write a test that asserts that we have the requisite infrastructure in place.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bunny&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bunny/exceptions&quot;&lt;/span&gt;
+
+&lt;span class=&quot;n&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;RabbitMQ&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;is running&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;rabbitmq_is_available&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;be_true&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;rabbitmq_is_available&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;begin&lt;/span&gt;
+      &lt;span class=&quot;no&quot;&gt;Bunny&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;... amqp configuration uri ...&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;rescue&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Bunny&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;TCPConnectionFailed&lt;/span&gt;
+      &lt;span class=&quot;kp&quot;&gt;false&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Run this test and you will know whether the underlying RabbitMQ infrastructure is running.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 07 Feb 2014 17:03:06 -0800</pubDate>
+        <link>http://blog.bitwrangler.com/2014/02/07/when-you-need-a-rabbit-spec-it.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2014/02/07/when-you-need-a-rabbit-spec-it.html</guid>
+        
+        <category>agile</category>
+        
+        <category>devops</category>
+        
+        <category>testing</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Speed up your integration tests with a jig</title>
+        <description>&lt;p&gt;If you&#39;ve written enough integration tests (with Capybara &lt;em&gt;et al.&lt;/em&gt;), you must have noticed how much time your tests spend just logging into your web app. Even if it takes 1 second each time, it starts to add up. Here&#39;s a solution that I&#39;ve written several times, now. I create a test &quot;jig&quot; that allows me to authenticate into my application with a single &lt;code&gt;visit&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AuthenticationJigController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Devise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;SessionsController&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;User&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;find_by_email!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;params&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;set_flash_message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:notice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:signed_in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;is_flashing_format?&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sign_in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resource_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;block_given?&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;redirect_to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;root_url&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;This is a simple override of the normal Devise session controller. Next I add a route that is &lt;strong&gt;only&lt;/strong&gt; present in a development or testing environment. &lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;c1&quot;&gt;# config/routes.rb&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;devise_scope&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:user&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# DO NOT REMOVE THE if .. end FROM THIS ROUTE&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# IT WILL OPEN A HUGE, GAPING MAW OF A SECURITY HOLE&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# FOR REALZ, NOT EVEN KIDDKING. OKAY?&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;development?&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;test?&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/users/auth&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;authentication_jig#create&quot;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;There, that&#39;s about it. Now, whenever you need to authenticate to your system, say in a Capybara test, you can replace your multi-line login steps with a single &lt;code&gt;visit &quot;/users/auth?email=user@example.com&quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;And you will be authenticated!&lt;/p&gt;
+
+&lt;p&gt;I also use this during development to log in as different test users by creating bookmarks in my browser.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 07 Feb 2014 16:53:48 -0800</pubDate>
+        <link>http://blog.bitwrangler.com/2014/02/07/speed-up-your-integration-tests-with-a-jig.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2014/02/07/speed-up-your-integration-tests-with-a-jig.html</guid>
+        
+        <category>agile</category>
+        
+        <category>ruby</category>
+        
+        <category>testing</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Stop thinking like an employee</title>
+        <description>&lt;p&gt;A few weeks ago, some of the managers got together for drinks after work. I started to reminisce about an old employer who had, what I thought, was an incredibly unique and reasonable way to handle the “vacation liability” problem. The old firm was a consulting firm, mostly military contracts, in the DC area. We were paid for every hour we billed, and we accrued vacation hours for every hour we were paid. It created an environment where the top performers could rack up so much vacation that they could not use it all. Many companies handle this with the familiar “use it or lose it” policy, which caps the accrued vacation hours to some limit. Instead, the firm let vacation accrue forever, with one modification: When you got a raise, your vacation hours were reduced by exactly the same percentage.&lt;/p&gt;
+
+&lt;p&gt;The singular response from my peers was, “That’s so unfair, you mean they took away your vacation time?”&lt;/p&gt;
+
+&lt;p&gt;sigh.&lt;/p&gt;
+
+&lt;p&gt;I’m not surprised when my reports respond this way, they are not thinking, yet, about the larger concerns of the company. On the other hand, here is how senior management, especially finance, sees accrued vacation: A liability that grows worse with each passing raise. Let me do some quick math to illustrate:&lt;/p&gt;
+
+&lt;p&gt;Let’s say that you are in charge of 100 workers, each of whom receive 100 hours (2.5 weeks) of vacation each year. Let’s also assume that in this mythical company, everyone is paid them same $100K per year. That works out to $50/hour and $500,000/year in payroll costs. Let’s also assume that 10% of your workforce is so dedicated that they don’t take any vacation at all. Just because they haven’t taken the time off, doesn’t mean that they won’t. We want our workers to have a balanced life and come back tanned and refreshed to take on the next big project. Still, there’s that 10%. Your business has a $50,000 liability on its books to cover the eventual expense, or on that sad day when the employee leaves the company and you have to write a check for all of that accrued time. Then, on January 1, everyone gets a 10% raise. It was a good year! Except your accountant is now unhappy. Your 1,000 hours of vacation liability has also grown in value by 10% to $55K. Another year rolls by and another 10% of your workforce doesn’t take vacation. This happens a lot more often than you might think, and instead of staying at 10%, what happens is that there is &lt;strong&gt;always&lt;/strong&gt; about 10% of unclaimed vacation each year. At the end of year 2, your liability is now 2,000 hours ($110K). It was a good year, everyone gets another 10%, and accounting grabs another $11K to cover the added liability. Even with attrition and payouts, this liability is going to keep growing.&lt;/p&gt;
+
+&lt;p&gt;Do you see the problem, now. That is why we have to put some sort of cap on the &lt;em&gt;value&lt;/em&gt; of the vacation liability. We can’t hand out &lt;strong&gt;hours&lt;/strong&gt; when you leave, so there is this ever growing pile of cash that must be kept around, that can’t be put to better use. Just in case. I had a coworker, who after 25 years of service had accumulated months and months of vacation. When he retired, his vacation hours were paid out at this current salary rate, not the one when he earned those hours.&lt;/p&gt;
+
+&lt;p&gt;Do you still think that this arrangement is unfair? Or that it takes hours away from the hands of the hardworking individual contributors? Which would you rather have, an arbitrary cap the just stops earning vacation, or an arrangement where the business is protected from giving away extra cash just as an employee is leaving.&lt;/p&gt;
+
+&lt;p&gt;Good. Now you’re starting to think like a business owner. Now you know that we’re not evil because vacation is limited to 80 hours per year, with a 160 hour cap. It’s because we don’t want the company to go broke if a senior staff member decides to retire.&lt;/p&gt;
+</description>
+        <pubDate>Tue, 05 Nov 2013 08:45:06 -0800</pubDate>
+        <link>http://blog.bitwrangler.com/2013/11/05/stop-thinking-like-an-employee.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2013/11/05/stop-thinking-like-an-employee.html</guid>
+        
+        <category>management</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Why Pivotal Labs</title>
+        <description>&lt;p&gt;It is a time-honored tradition for Pivots to blog about their first few months at Pivotal. A typical day at Pivotal is &lt;em&gt;strong&lt;/em&gt; work. It’s different from any previous job. It’s exhausting. After six weeks or so, however, the Pivots find their rhythm. I’m not going to write any more about that. I’ll include some links, below, so you can read them for yourself. I’m here to write about the two-years-later; When most developers are itching to move on to the next big thing. I’m still happily learning new stuff every day.&lt;/p&gt;
+
+&lt;h2 id=&quot;making-better-developers-one-at-a-time&quot;&gt;Making Better Developers, One at A Time&lt;/h2&gt;
+
+&lt;h3 id=&quot;but-first-some-true-stories&quot;&gt;But first… some true stories&lt;/h3&gt;
+
+&lt;p&gt;I was a dot.com’er in the 90’s. I was on a planned sabbatical when the dot.bomb hit and lots of people got laid off. I became a SCUBA instructor in Hawai’i; I couldn’t get any tech work and I just happened to be in Hawai’i at the time. It is the hardest job I’ve ever had. Nothing else comes close. Yes, I got to dive in near-tropical waters (Hawai’i isn’t &lt;em&gt;technically&lt;/em&gt; in the tropics, did you know that?), but I also had to haul 2,000 pounds of gear up and down slippery steps, comfort the deathly sea-sick on the calmest of days, wash dive gear reeking of urine, and smile, even when the rain is pouring, the water is pea-soup, and the tips are scarce. All for an AGI of $18K in my best year. A walk in the park it ain’t, and yet there were other rewards.&lt;/p&gt;
+
+&lt;p&gt;I have certified hundreds of divers. Industry-wide, only a very small percentage become lifetime divers. Most finish the basic course and never dive again. If I dwelt on the number of divers who didn’t continue, I would be quite depressed, but I don’t. I look back on all the ones who are still in it and I smile. I take deep satisfaction in all the lives I changed during those years. That’s why I did it. No paycheck compared with seeing someone’s eyes get &lt;em&gt;this&lt;/em&gt; big at their first sight of a sea turtle, up close. If I could have survived without an income, I would have done it anyway just for the joy of it. I told my friends I was making better divers, who in turn became better human beings.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;At Pivotal, I’m making better developers, one pairing session at a time.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&quot;when-paul-vixie-put-msn-on-the-rtbl&quot;&gt;When Paul Vixie put MSN on the RTBL&lt;/h3&gt;
+
+&lt;p&gt;Paul Vixie and I crossed paths a few times in the late 90’s, when I was a sysadm (predating devops). Paul Vixie and Dave Rand created &lt;a href=&quot;http://en.wikipedia.org/wiki/Mail_Abuse_Prevention_System&quot;&gt;MAPS&lt;/a&gt; to combat spammers. Among other things, a lot of mail servers, open source and otherwise, had open-relay turned on by default, making trouble all over; any mail client, anywhere, could connect to port 25 and the mail server would blindly forward it on to its destination, even outside of the domain.&lt;/p&gt;
+
+&lt;p&gt;In early 1998, MAPS received complaints about msn.com. Following protocol and after a &lt;em&gt;lot&lt;/em&gt; of calls from MAPS and silence from MSN, msn.com was placed on the RTBL. Suddenly, thousands of customers were faced with mysterious error messages about SPAM and their e-mail was not delivered. You can search for the event; you’ll see a lot vitriol against Paul and MAPS over the incident. I remember Paul recounting how, in a tense meeting in Redmond, when the MSN management (finally) admitted that yes, there was a problem but they had a plan (already in place) to fix the problem, Paul opened up his laptop and took msn.com of the RTBL right then and there. The MSN management was shocked. For Paul, it was obvious.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I don’t hate spam, I just want to make better sysadmins.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;pivotal-labs-mission&quot;&gt;Pivotal Lab’s Mission&lt;/h2&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;To transform the way the world builds software&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Heady stuff. But how do we do it? We engage with clients, build product and show them, by doing, that our methods really &lt;em&gt;are&lt;/em&gt; better. We don’t lecture, we don’t offer certifications, there’s no Pivotal University. We “do.” Does every client leave transformed? No, not really, but like my divers, all of them have been affected, and some &lt;em&gt;are&lt;/em&gt; transformed. They go on to do great things after the engagement is over. (And, no matter what else, every one has built something valuable along the way.) Like Paul, we’re not haters. We want to make better developers.&lt;/p&gt;
+
+&lt;p&gt;After 30 years, I’ve worked at more than a few jobs; I’ve been a dishwasher, a sysadmin, and a SCUBA instructor, my .emacs file dates back to 1982. Even so, working at Pivotal is still the best job I’ve ever had.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 26 May 2013 15:11:57 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2013/05/26/why-pivotal-labs.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2013/05/26/why-pivotal-labs.html</guid>
+        
+        <category>Paul Vixie</category>
+        
+        <category>Pivotal</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Sencha Touch BDD - Part 5 - Controller Testing</title>
+        <description>&lt;p&gt;&lt;a href=&quot;/2013/05/10/sencha-touch-bdd-part-4-phantomjs.html&quot;&gt;Part 4&lt;/a&gt; Introduced PhantomJS as an easy and faster alternative to headful Jasmine testing. &lt;a href=&quot;/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html&quot;&gt;Part 3&lt;/a&gt; added &lt;a href=&quot;https://github.com/pivotal/jasmine-ajax/tree/2_0&quot;&gt;jasmine-ajax&lt;/a&gt; so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without depending on a back-end server. In &lt;a href=&quot;/2013/04/26/sencha-touch-bdd-part-2.html&quot;&gt;Part 2&lt;/a&gt; I showed you how to unit test Sencha model classes in Jasmine. In &lt;a href=&quot;/2013/04/17/sencha-touch-bdd-part-1.html&quot;&gt;Part 1&lt;/a&gt; I showed you how to set up your Sencha Touch development environment to use the &lt;a href=&quot;http://jasmine.github.io&quot;&gt;Jasmine&lt;/a&gt; JavaScript test framework.&lt;/p&gt;
+
+&lt;h3 id=&quot;its-a-control-thing-but-i-will-let-you-understand&quot;&gt;It’s a control thing, but I will let you understand&lt;/h3&gt;
+
+&lt;p&gt;Sencha Touch controllers usually live within the context of a single application object. Normally, this is handled for you when you invoke &lt;code class=&quot;highlighter-rouge&quot;&gt;Ext.Application()&lt;/code&gt; in your app.js file. It creates a singleton object for you in the namespace of your application. For example, if you configured your application’s name to be ‘SenchaBdd’, then the application will be available as the &lt;code class=&quot;highlighter-rouge&quot;&gt;.app&lt;/code&gt; attribute of the global SenchaBdd object, that is, &lt;code class=&quot;highlighter-rouge&quot;&gt;SenchaBdd.app&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Unit testing should not have a running application, however. The point is that we are testing classes in &lt;em&gt;isolation&lt;/em&gt;. There’s nothing isolated about an integrated, running, Javascript application. There is a relatively simple solution, however; You need to create you own “test” application object that you can then pass as a configuration option when you create controllers under test.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;spec&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;javascripts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;MyControllerSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;js&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;describe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd.controller.MyController&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;beforeEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Ext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Ext.app.Application&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Ext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd.controller.MyController&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+        &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;launch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+    &lt;span class=&quot;nx&quot;&gt;afterEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;destroy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You may want to refactor the application creation and tear-down into a spec helper, to DRY out your tests.&lt;/p&gt;
+
+&lt;p&gt;##Test behaviors, not events&lt;/p&gt;
+
+&lt;p&gt;It’s tempting to write a Jasmine test that tries to trigger an event in the DOM, then follow the event handling through the application. This is the road to hell. If you find yourself trying to simulate an event, please stop. That is what integration tests are better at doing. Controllers are classes like any other, and you should test methods in the same way. For example, let’s drive out a behavior where, when a user taps on the ‘Buy’ button our application sends a request to the back-end.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;describe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd.controller.MyController&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;beforeEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Ext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;Ext.app.Application&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Ext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd.controller.MyController&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;launch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;afterEach&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;destroy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;it&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;#newOrder&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;order&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newOrder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$className&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toEqual&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd.model.MyModel&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;phantom&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toBeTruthy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;describe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;#onBuy&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;it&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;calls save on the order&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;myOrder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Ext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd.model.MyModel&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;spyOn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;myOrder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;save&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+      &lt;span class=&quot;nx&quot;&gt;spyOn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;newOrder&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;andCallFake&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;myOrder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+
+      &lt;span class=&quot;nx&quot;&gt;controller&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;onBuy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+      &lt;span class=&quot;nx&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;myOrder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toHaveBeenCalled&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;You might notice that I neither ‘tap’, nor do I test for a ‘POST’ ajax call. The former is better tested through integration tests. The latter is better tested in the model. All the controller need do assert that the model was saved. We trust external classes to function (because they’re tested, too, right?) Testing the &lt;code class=&quot;highlighter-rouge&quot;&gt;#save&lt;/code&gt; method on the model follows the same process as testing stores, as I outlined in &lt;a href=&quot;/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html&quot;&gt;Part 3&lt;/a&gt;. Another thing to note is that, under test, this controller does not have any views associated with it; Ext.ComponentQuery calls will return empty (undefined) results. This is to be expected in an isolated test, but may make for some head scratching when you first encounter it. If you must test something in the DOM, you should be writing an integration test anyway.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;Ext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;define&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd.controller.MyController&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;extend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;   &lt;span class=&quot;s1&quot;&gt;&#39;Ext.app.Controller&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;views&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;MyView&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;refs&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;buyButton&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;myview #buyButton&#39;&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;control&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;buyButton&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;tap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;onBuy&#39;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;newOrder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Ext&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;SenchaBdd.model.MyModel&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;onBuy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;    &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;newOrder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;save&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As a personal preference, and make it easier to test and refactor, I have a #newOrder method that delegates to the model to create a new instance.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 18 May 2013 14:59:04 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2013/05/18/sencha-touch-bdd-part-5-controller-testing.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2013/05/18/sencha-touch-bdd-part-5-controller-testing.html</guid>
+        
+        <category>bdd</category>
+        
+        <category>jasmine</category>
+        
+        <category>javascript</category>
+        
+        <category>mobile</category>
+        
+        <category>sencha</category>
+        
+        <category>Sencha Touch</category>
+        
+        <category>testing</category>
+        
+        
+      </item>
+    
   </channel>
 </rss>

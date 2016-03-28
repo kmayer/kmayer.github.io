@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sencha Touch BDD - Part 3 - Testing Views and Mocking Stores</title>
+  <meta name="description" content="InPart 1 I showed you how to set up your Sencha Touch development environment to use theJasmine JavaScript test framework. InPart 2 I showed you to unit test...">
+
+
+  <link rel="stylesheet" href="/css/tufte.css">	
+  
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="canonical" href="http://blog.bitwrangler.com/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Sencha touch bdd - part 3 - testing views and mocking stores</h1>
+<p class="subtitle">May 5, 2013</p>
+
+
+<p>In<br />
+<a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the<br />
+<a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework. In<br />
+<a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you to unit test Sencha model classes in Jasmine.</p>
+
+<p>###I don’t normally test views, but when I do</p>
+
+<p>There’s an old MVC mantra: “Fat models, skinny controllers and stupid views.” We don’t want complex logic in our views; that makes them hard to maintain. We don’t want any business logic in our controllers, either. That’s why we have models. Views should be so simple that they don’t require tests. There is a gray area with Sencha, however, where we found testing to be useful in our design process. It has to do with how views interact with stores.</p>
+
+<p>Stores are essentially collections of models. They also encapsulate the persistence layer logic, separate from the business logic of the model. DataViews are a special class of Views in Sencha Touch that will consume a collection to generate a list-type view via a template.</p>
+
+<p>Here are two goals for testing views and stores:</p>
+
+<ul>
+  <li>Does the view consume the right fields from the store, without hitting the back-end for data?</li>
+  <li>Does the store organize the data from the back-end, i.e. create the interface that is used by the view? Again, without hitting the back-end for data.</li>
+</ul>
+
+<p>###Small steps and iterate</p>
+
+<p>Let’s define a very simple view via tests, we’ll make it work using an in-line store, then we’ll refactor the store into its own class. Next, we’ll refactor the storage class to use a remote back-end.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">);</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="s2">"has a list of colors"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">renderTo</span><span class="p">:</span> <span class="s1">'jasmine_content'</span><span class="p">,</span>
+      <span class="na">store</span><span class="p">:</span>    <span class="p">{</span>
+        <span class="na">fields</span><span class="p">:</span> <span class="p">[</span><span class="s1">'color'</span><span class="p">],</span>
+        <span class="na">data</span><span class="p">:</span>   <span class="p">[</span>
+          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">},</span>
+          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
+          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">});</span>
+
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">Ext</span><span class="p">.</span><span class="nx">DomQuery</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'.favorite-color'</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span>
+    <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s1">', '</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'red, green, blue'</span><span class="p">);</span>
+
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Sencha does not come bundled with jQuery, so if you were expecting a DOM query like, $(“.favorite-color”), you might be surprised by the expectation. Ext has its own flavor of querying the DOM, using Ext.DomQuery.select.</p>
+
+<p>Try implementing the view on your own to make the test pass. It should look remarkably similar to this:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.dataview.DataView'</span><span class="p">,</span>
+  <span class="na">xtype</span><span class="p">:</span>  <span class="s1">'myview'</span><span class="p">,</span>
+  <span class="na">config</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">itemTpl</span><span class="p">:</span> <span class="s1">'&lt;div class="favorite-color"&gt;{color}&lt;/div&gt;'</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>In your application, you probably won’t hardwire a store into the view. In fact, you will probably embed this little view inside a larger container, like so (this adds another tab to the sample app):</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/app/view/Main.js
+</span><span class="gi">+++ b/app/view/Main.js
+</span><span class="gu">@@ -10,6 +10,11 @@ Ext.define('SenchaBdd.view.Main', {
+</span>
+         items: [
+<span class="gi">+            {
++              title: 'Favorites',
++              iconCls: 'star',
++              xtype: 'myview',
++              store: 'mystore',
++              styleHtmlContent: true
++            },
+</span>             {
+                 title: 'Welcome',
+                 iconCls: 'home',
+</code></pre>
+</div>
+
+<p>Let’s create a store so our view will show us something:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Store'</span><span class="p">,</span>
+  <span class="na">config</span><span class="p">:</span>    <span class="p">{</span>
+    <span class="na">storeId</span><span class="p">:</span> <span class="s1">'mystore'</span><span class="p">,</span>
+    <span class="na">fields</span><span class="p">:</span> <span class="p">[</span><span class="s1">'color'</span><span class="p">],</span>
+    <span class="na">data</span><span class="p">:</span>   <span class="p">[</span>
+      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">},</span>
+      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
+      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>In order to see this view, we’ll need to add it to our app.js file:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/app.js
+</span><span class="gi">+++ b/app.js
+</span><span class="gu">@@ -31,7 +31,11 @@ Ext.application({
+</span>     ],
+
+     views: [
+<span class="gd">-        'Main'
+</span><span class="gi">+        'Main', 'MyView'
+</span>     ],
+
+<span class="gi">+    stores: [
++            'MyStore'
++    ],
+</span>
+     icon: {
+</code></pre>
+</div>
+
+<p>Now, let’s go back and refactor our test so it uses MyStore instead of one that was hard-wired.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/view/MyViewSpec.js
+</span><span class="gi">+++ b/spec/javascripts/view/MyViewSpec.js
+</span><span class="gu">@@ -2,17 +2,16 @@ Ext.require('SenchaBdd.view.MyView');
+</span>
+ describe('SenchaBdd.view.MyView', function () {
+   it("has a list of colors", function () {
+<span class="gi">+    var store = Ext.create('SenchaBdd.store.MyStore', {
++      data:     [
++        {color: 'red'},
++        {color: 'green'},
++        {color: 'blue'}
++      ]
++    });
+</span>     var view = Ext.create('SenchaBdd.view.MyView', {
+       renderTo: 'jasmine_content',
+<span class="gd">-      store:    {
+-        fields: ['color'],
+-        data:   [
+-          {color: 'red'},
+-          {color: 'green'},
+-          {color: 'blue'}
+-        ]
+-      }
+-
+</span><span class="gi">+      store:    store
+</span>     });
+     expect(Ext.DomQuery.select('.favorite-color').map(function (el) {
+       return el.textContent
+</code></pre>
+</div>
+
+<p>All of our tests should remain green, but we’ve removed the “fake” store from our test.</p>
+
+<p>###Let’s get dynamic</p>
+
+<p>Static data stores are boring. The fun starts when you start talking to a back-end API. Let’s say that we have a server that responds to an end point of ‘/colors.json’ with a list of favorite colors. We can even “fake” it by placing a file in the appropriate place. Even so, we don’t want our tests to make network calls to the back-end. That’s not appropriate for unit testing. We’ll use Jasmine’s AJAX mocking helper,<br />
+<a href="https://github.com/pivotal/jasmine-ajax/tree/2_0">jasmine-ajax</a>. At the time of this writing, the 2.0 branch had not been merged into the main line, and we need the 2.0 branch in order to work with Ext.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nb">cd </span>spec/javascripts/helpers
+curl -O <span class="s1">'https://raw.github.com/pivotal/jasmine-ajax/2_0/lib/mock-ajax.js'</span>
+git add ./mock-ajax.js
+</code></pre>
+</div>
+
+<p>And we’ll create our first store spec in<br />
+<code class="highlighter-rouge">spec/javascripts/store/MyStoreSpec.js</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">store</span><span class="p">;</span>
+  <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">jasmine</span><span class="p">.</span><span class="nx">Ajax</span><span class="p">.</span><span class="nx">useMock</span><span class="p">();</span>
+    <span class="nx">clearAjaxRequests</span><span class="p">();</span>
+    <span class="nx">store</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">)</span>
+  <span class="p">});</span>
+
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'calls out to the proper url'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">store</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">mostRecentAjaxRequest</span><span class="p">();</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'/colors.json'</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Notice that I call<br />
+<code class="highlighter-rouge">jasmine.Ajax.useMock()</code> and<br />
+<code class="highlighter-rouge">clearAjaxRequests()</code> in the set up block. This is because I want to wait until the very last moment to turn on ajax mocking. The Ext class loader might still be trying to load a class (via xhr), and the mocker will prevent that from happening. I also clear all previous requests (in case there were any left over, to prevent test polution).</p>
+
+<p>When you run Jasmine, you’ll get a test failure, “TypeError: Cannot read property ‘url’ of null” because we haven’t set up the proxy in the store, yet. Let’s do that.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">store</span><span class="o">/</span><span class="nx">MyStore</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Store'</span><span class="p">,</span>
+  <span class="na">config</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">autoLoad</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">storeId</span><span class="p">:</span>  <span class="s1">'mystore'</span><span class="p">,</span>
+    <span class="na">fields</span><span class="p">:</span>   <span class="p">[</span><span class="s1">'color'</span><span class="p">],</span>
+    <span class="na">proxy</span><span class="p">:</span>    <span class="p">{</span>
+      <span class="na">type</span><span class="p">:</span>       <span class="s1">'ajax'</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">:</span>        <span class="s1">'/colors.json'</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Now, when you run the test suite, you’ll get a<br />
+<em>different</em> error! This is because the default settings for the ajax proxy enables caching, paging, etc. Things we don’t need, so we have to turn them off:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>    <span class="nx">proxy</span><span class="err">:</span>   <span class="p">{</span>
+      <span class="nl">type</span><span class="p">:</span>       <span class="s1">'ajax'</span><span class="p">,</span>
+      <span class="nx">url</span><span class="err">:</span>        <span class="s1">'/colors.json'</span><span class="p">,</span>
+      <span class="nx">noCache</span><span class="err">:</span>    <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">pageParam</span><span class="err">:</span>  <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">startParam</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nx">limitParam</span><span class="err">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>Now our api test is green! You can even test this in the application by dropping a file, ‘colors.json’ into the public directory.</p>
+
+<p>Let’s add one more test to finish things off.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="nx">it</span><span class="p">(</span><span class="s1">'populates the collection'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">store</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
+    <span class="kd">var</span> <span class="nx">mockedRequest</span> <span class="o">=</span> <span class="nx">mostRecentAjaxRequest</span><span class="p">();</span>
+
+    <span class="nx">mockedRequest</span><span class="p">.</span><span class="nx">response</span><span class="p">({</span>
+      <span class="na">status</span><span class="p">:</span>       <span class="mi">200</span><span class="p">,</span>
+      <span class="na">responseText</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">});</span>
+
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getCount</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'red'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'green'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
+  <span class="p">});</span>
+</code></pre>
+</div>
+
+<p>Every mocked ajax request has a<br />
+<code class="highlighter-rouge">response()</code> method that you can use to inject your own response, synchronously, to your tests. This confirms that MyStore properly parses and arranges the received data so that it can be presented by the view.</p>
+
+<p>###Validate your mocks</p>
+
+<p>We now have 2 tests that depend on a back-end to respond in a specified way. How do we keep these tests from drifting out of sync? Since we’ve mocked the store in our view test, we might never know if the back-end API changes!</p>
+
+<p>You can wrap Jasmine expectation in functions so that they are reusable. Then we can mix this matcher into our view test to confirm that the store we use there is the same.</p>
+
+<p>Let’s add this function to our<br />
+SpecHelper.js file:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">myStoreDataIsValid</span><span class="p">(</span><span class="nx">store</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getCount</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'red'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'green'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>And we’ll replace our existing tests with a single line:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  <span class="nx">myStoreDataIsValid</span><span class="p">(</span><span class="nx">store</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>We’ll also modify the MyViewSpec.js:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/view/MyViewSpec.js
+</span><span class="gi">+++ b/spec/javascripts/view/MyViewSpec.js
+</span><span class="gu">@@ -9,6 +9,7 @@ describe('SenchaBdd.view.MyView', function () {
+</span>         {color: 'blue'}
+       ]
+     });
+<span class="gi">+    myStoreDataIsValid(store);
+</span>     var view = Ext.create('SenchaBdd.view.MyView', {
+       renderTo: 'jasmine_content',
+       store:    store
+</code></pre>
+</div>
+
+<p>Similarly, we can refactor our colors array into var:<br />
+```diff<br />
+— a/spec/javascripts/helpers/SpecHelper.js<br />
++++ b/spec/javascripts/helpers/SpecHelper.js<br />
+@@ -16,6 +16,15 @@ afterEach(function () {<br />
+     domEl.setAttribute(‘style’, ‘display:none;’);<br />
+ });</p>
+
+<p>+var colorsJSON;<br />
++beforeEach(function() {<br />
++  colorsJSON = [<br />
++    {color: ‘red’},<br />
++    {color: ‘green’},<br />
++    {color: ‘blue’}<br />
++  ];<br />
++});<br />
+```</p>
+
+<p>And then use <code class="highlighter-rouge">colorsJSON</code> in our tests.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/store/MyStoreSpec.js
+</span><span class="gi">+++ b/spec/javascripts/store/MyStoreSpec.js
+</span><span class="gu">@@ -18,11 +18,7 @@ describe('SenchaBdd.store.MyStore', function () {
+</span>
+     request.response({
+       status:       200,
+<span class="gd">-      responseText: [
+-        {color: 'red'},
+-        {color: 'green'},
+-        {color: 'blue'}
+-      ]
+</span><span class="gi">+      responseText: colorsJSON
+</span>     });
+     myStoreDataIsValid(store);
+   });
+</code></pre>
+</div>
+
+<p>and</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/view/MyViewSpec.js
+</span><span class="gi">+++ b/spec/javascripts/view/MyViewSpec.js
+</span><span class="gu">@@ -3,12 +3,9 @@ Ext.require('SenchaBdd.view.MyView');
+</span> describe('SenchaBdd.view.MyView', function () {
+   it("has a list of colors", function () {
+     var store = Ext.create('SenchaBdd.store.MyStore', {
+<span class="gd">-      data:     [
+-        {color: 'red'},
+-        {color: 'green'},
+-        {color: 'blue'}
+-      ]
+</span><span class="gi">+      data:     colorsJSON
+</span>     });
+<span class="gi">+    myStoreDataIsValid(store);
+</span>     var view = Ext.create('SenchaBdd.view.MyView', {
+       renderTo: 'jasmine_content',
+       store:    store
+</code></pre>
+</div>
+
+<h3 id="what-weve-managed-so-far">What we’ve managed, so far</h3>
+
+<p>The toy app is coming along. We’ve test driven a DataView that consumes a back-end API. We’ve added the mock-ajax library so we can unit tests our stores in isolation. We’ve even seen a few techniques for keeping our mocks from getting out of sync (although, if you’ve been paying attention, I’ve still left a gaping hole, that needs to be plugged).</p>
+
+
+
+    </article>
+    <span class="print-footer">Sencha Touch BDD - Part 3 - Testing Views and Mocking Stores - May 5, 2013 - Ken Mayer</span>
+    <footer>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:hate@spam.net"><span class="icon-mail"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook"></span></a>
+      </li>
+    
+      <li>
+        <a href="/feed"><span class="icon-feed"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2016 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+  </body>
+</html>
