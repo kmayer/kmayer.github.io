@@ -53,9 +53,9 @@
 <p class="subtitle">May 5, 2013</p>
 
 
-<p>In<br />
-<a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the<br />
-<a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework. In<br />
+<p>In
+<a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the
+<a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework. In
 <a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you to unit test Sencha model classes in Jasmine.</p>
 
 <p>###I don’t normally test views, but when I do</p>
@@ -208,7 +208,7 @@
 
 <p>###Let’s get dynamic</p>
 
-<p>Static data stores are boring. The fun starts when you start talking to a back-end API. Let’s say that we have a server that responds to an end point of ‘/colors.json’ with a list of favorite colors. We can even “fake” it by placing a file in the appropriate place. Even so, we don’t want our tests to make network calls to the back-end. That’s not appropriate for unit testing. We’ll use Jasmine’s AJAX mocking helper,<br />
+<p>Static data stores are boring. The fun starts when you start talking to a back-end API. Let’s say that we have a server that responds to an end point of ‘/colors.json’ with a list of favorite colors. We can even “fake” it by placing a file in the appropriate place. Even so, we don’t want our tests to make network calls to the back-end. That’s not appropriate for unit testing. We’ll use Jasmine’s AJAX mocking helper,
 <a href="https://github.com/pivotal/jasmine-ajax/tree/2_0">jasmine-ajax</a>. At the time of this writing, the 2.0 branch had not been merged into the main line, and we need the 2.0 branch in order to work with Ext.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nb">cd </span>spec/javascripts/helpers
@@ -217,7 +217,7 @@ git add ./mock-ajax.js
 </code></pre>
 </div>
 
-<p>And we’ll create our first store spec in<br />
+<p>And we’ll create our first store spec in
 <code class="highlighter-rouge">spec/javascripts/store/MyStoreSpec.js</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
@@ -237,8 +237,8 @@ git add ./mock-ajax.js
 </code></pre>
 </div>
 
-<p>Notice that I call<br />
-<code class="highlighter-rouge">jasmine.Ajax.useMock()</code> and<br />
+<p>Notice that I call
+<code class="highlighter-rouge">jasmine.Ajax.useMock()</code> and
 <code class="highlighter-rouge">clearAjaxRequests()</code> in the set up block. This is because I want to wait until the very last moment to turn on ajax mocking. The Ext class loader might still be trying to load a class (via xhr), and the mocker will prevent that from happening. I also clear all previous requests (in case there were any left over, to prevent test polution).</p>
 
 <p>When you run Jasmine, you’ll get a test failure, “TypeError: Cannot read property ‘url’ of null” because we haven’t set up the proxy in the store, yet. Let’s do that.</p>
@@ -259,7 +259,7 @@ git add ./mock-ajax.js
 </code></pre>
 </div>
 
-<p>Now, when you run the test suite, you’ll get a<br />
+<p>Now, when you run the test suite, you’ll get a
 <em>different</em> error! This is because the default settings for the ajax proxy enables caching, paging, etc. Things we don’t need, so we have to turn them off:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>    <span class="nx">proxy</span><span class="err">:</span>   <span class="p">{</span>
@@ -298,7 +298,7 @@ git add ./mock-ajax.js
 </code></pre>
 </div>
 
-<p>Every mocked ajax request has a<br />
+<p>Every mocked ajax request has a
 <code class="highlighter-rouge">response()</code> method that you can use to inject your own response, synchronously, to your tests. This confirms that MyStore properly parses and arranges the received data so that it can be presented by the view.</p>
 
 <p>###Validate your mocks</p>
@@ -307,7 +307,7 @@ git add ./mock-ajax.js
 
 <p>You can wrap Jasmine expectation in functions so that they are reusable. Then we can mix this matcher into our view test to confirm that the store we use there is the same.</p>
 
-<p>Let’s add this function to our<br />
+<p>Let’s add this function to our
 SpecHelper.js file:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">myStoreDataIsValid</span><span class="p">(</span><span class="nx">store</span><span class="p">)</span> <span class="p">{</span>
@@ -340,22 +340,22 @@ SpecHelper.js file:</p>
 </code></pre>
 </div>
 
-<p>Similarly, we can refactor our colors array into var:<br />
-```diff<br />
-— a/spec/javascripts/helpers/SpecHelper.js<br />
-+++ b/spec/javascripts/helpers/SpecHelper.js<br />
-@@ -16,6 +16,15 @@ afterEach(function () {<br />
-     domEl.setAttribute(‘style’, ‘display:none;’);<br />
+<p>Similarly, we can refactor our colors array into var:
+```diff
+— a/spec/javascripts/helpers/SpecHelper.js
++++ b/spec/javascripts/helpers/SpecHelper.js
+@@ -16,6 +16,15 @@ afterEach(function () {
+     domEl.setAttribute(‘style’, ‘display:none;’);
  });</p>
 
-<p>+var colorsJSON;<br />
-+beforeEach(function() {<br />
-+  colorsJSON = [<br />
-+    {color: ‘red’},<br />
-+    {color: ‘green’},<br />
-+    {color: ‘blue’}<br />
-+  ];<br />
-+});<br />
+<p>+var colorsJSON;
++beforeEach(function() {
++  colorsJSON = [
++    {color: ‘red’},
++    {color: ‘green’},
++    {color: ‘blue’}
++  ];
++});
 ```</p>
 
 <p>And then use <code class="highlighter-rouge">colorsJSON</code> in our tests.</p>
