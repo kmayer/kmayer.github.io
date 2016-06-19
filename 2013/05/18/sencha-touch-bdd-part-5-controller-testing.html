@@ -61,7 +61,7 @@
 
 <p>Unit testing should not have a running application, however. The point is that we are testing classes in <em>isolation</em>. There’s nothing isolated about an integrated, running, Javascript application. There is a relatively simple solution, however; You need to create you own “test” application object that you can then pass as a configuration option when you create controllers under test.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">controller</span><span class="o">/</span><span class="nx">MyControllerSpec</span><span class="p">.</span><span class="nx">js</span>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">controller</span><span class="o">/</span><span class="nx">MyControllerSpec</span><span class="p">.</span><span class="nx">js</span>
 <span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.controller.MyController'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">controller</span><span class="p">,</span> <span class="nx">app</span><span class="p">;</span>
     <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
@@ -80,7 +80,7 @@
 
 <p>It’s tempting to write a Jasmine test that tries to trigger an event in the DOM, then follow the event handling through the application. This is the road to hell. If you find yourself trying to simulate an event, please stop. That is what integration tests are better at doing. Controllers are classes like any other, and you should test methods in the same way. For example, let’s drive out a behavior where, when a user taps on the ‘Buy’ button our application sends a request to the back-end.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.controller.MyController'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.controller.MyController'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">controller</span><span class="p">,</span> <span class="nx">app</span><span class="p">;</span>
   <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
     <span class="nx">app</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'Ext.app.Application'</span><span class="p">,</span> <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s1">'SenchaBdd'</span><span class="p">});</span>
@@ -117,7 +117,7 @@
 
 <p>You might notice that I neither ‘tap’, nor do I test for a ‘POST’ ajax call. The former is better tested through integration tests. The latter is better tested in the model. All the controller need do assert that the model was saved. We trust external classes to function (because they’re tested, too, right?) Testing the <code class="highlighter-rouge">#save</code> method on the model follows the same process as testing stores, as I outlined in <a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">Part 3</a>. Another thing to note is that, under test, this controller does not have any views associated with it; Ext.ComponentQuery calls will return empty (undefined) results. This is to be expected in an isolated test, but may make for some head scratching when you first encounter it. If you must test something in the DOM, you should be writing an integration test anyway.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.controller.MyController'</span><span class="p">,</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.controller.MyController'</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">extend</span><span class="p">:</span>   <span class="s1">'Ext.app.Controller'</span><span class="p">,</span>
   <span class="na">config</span><span class="p">:</span>   <span class="p">{</span>
     <span class="na">views</span><span class="p">:</span>   <span class="p">[</span><span class="s1">'MyView'</span><span class="p">],</span>

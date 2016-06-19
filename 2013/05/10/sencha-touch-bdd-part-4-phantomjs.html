@@ -65,7 +65,7 @@
 
 <h4 id="add-jasmine-phantom-to-your-codegemfilecode">0. Add ‘jasmine-phantom’ to your <code>Gemfile</code></h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gh">index e6b5daf..612fb25 100644
+<div class="language-diff highlighter-rouge"><pre class="highlight"><code><span class="gh">index e6b5daf..612fb25 100644
 </span><span class="gd">--- a/Gemfile
 </span><span class="gi">+++ b/Gemfile
 </span><span class="gu">@@ -2,3 +2,4 @@ source "https://rubygems.org"
@@ -78,7 +78,7 @@
 
 <p>and modify your <code>Rakefile</code> to load the PhantomJS tasks:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/Rakefile
+<div class="language-diff highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/Rakefile
 </span><span class="gi">+++ b/Rakefile
 </span><span class="gu">@@ -2,6 +2,7 @@
 </span> begin
@@ -94,7 +94,7 @@
 
 <p>Now, when you run <code>rake -T</code> from the command line, you’ll see a new target:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>rake -T jasmine
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>rake -T jasmine
 rake jasmine             <span class="c"># Run specs via server</span>
 rake jasmine:ci          <span class="c"># Run continuous integration tests</span>
 rake jasmine:phantom:ci  <span class="c"># Run jasmine specs using phantomjs and report the results</span>
@@ -105,7 +105,7 @@ rake jasmine:phantom:ci  <span class="c"># Run jasmine specs using phantomjs and
 
 <p>Running it will the phantom:ci target will start the Jasmine continuous integration tests in PhantomJS instead of Firefox.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>rake jasmine:phantom:ci 2&gt;1 /dev/null
+<div class="language-sh highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>rake jasmine:phantom:ci 2&gt;1 /dev/null
 <span class="o">[</span>2013-05-06 20:28:15] INFO  WEBrick 1.3.1
 <span class="o">[</span>2013-05-06 20:28:15] INFO  ruby 1.9.3 <span class="o">(</span>2012-11-10<span class="o">)</span> <span class="o">[</span>x86_64-darwin12.2.0]
 <span class="o">[</span>2013-05-06 20:28:15] INFO  WEBrick::HTTPServer#start: <span class="nv">pid</span><span class="o">=</span>17061 <span class="nv">port</span><span class="o">=</span>60080
