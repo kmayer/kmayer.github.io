@@ -6,8 +6,8 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 25 Jul 2016 08:34:07 -0700</pubDate>
-    <lastBuildDate>Mon, 25 Jul 2016 08:34:07 -0700</lastBuildDate>
+    <pubDate>Mon, 25 Jul 2016 11:46:37 -0700</pubDate>
+    <lastBuildDate>Mon, 25 Jul 2016 11:46:37 -0700</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -44,13 +44,13 @@
 
 &lt;h3 id=&quot;a-bug-is-a-defect-introduced-during-the-delivery-of-a-feature&quot;&gt;A “bug” is a defect introduced during the delivery of a feature&lt;/h3&gt;
 
-&lt;p&gt;Bugs are a drag on velocity.&lt;label for=&quot;velocity&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;velocity&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;See my earlier article on velocity: &lt;a href=&quot;/2013/02/19/its-the-volatility-that-will-kill-you.html&quot;&gt;It’s the velocity that will kill you&lt;/a&gt; &lt;/span&gt; It slows down our ability to deliver feature stories. There’s really no such thing as zero-defect software and achieving becomes asymptotically expensive. So we want a process where we minimize bugs for a reasonable expense. That’s why we have tests, continuous integration tests, code quality metrics, quality assurance, multiple staged servers. That’s also why we don’t maintain a JIRA installation; it costs more to maintain than we got in reducing our defect rate.&lt;/p&gt;
+&lt;p&gt;Bugs are a drag on velocity.&lt;label for=&quot;velocity&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;velocity&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;See my earlier article on velocity: &lt;a href=&quot;/2013/02/19/its-the-volatility-that-will-kill-you.html&quot;&gt;It’s the velocity that will kill you&lt;/a&gt; &lt;/span&gt; It slows down our ability to deliver feature stories. There’s really no such thing as zero-defect software and achieving that becomes asymptotically expensive. So we want a process where we minimize bugs for a reasonable expense. That’s why we have tests, continuous integration testing, code quality metrics, quality assurance and multiple staged servers, to name a few. That’s also why we don’t maintain a JIRA installation; it costs more to maintain than we got in reducing our defect rate.&lt;/p&gt;
 
 &lt;p&gt;Not all bugs are equal. We prioritize them by business value, too. We can measure value in terms of loss of customers, reduced adoption rate, or even a hit to our brand value. Some bugs are more expensive to fix than others, too. This is one of the pain points of using Pivotal Tracker; there’s no direct way to indicate the &lt;em&gt;cost&lt;/em&gt; of &lt;em&gt;fixing&lt;/em&gt; the bug. In this respect, in the eyes of Tracker, all bugs are equal. I’ve found this not to be true in real life. Some bugs are easy to fix, or easy to fix &lt;em&gt;right now&lt;/em&gt; while we still have &lt;em&gt;context&lt;/em&gt; to fix the bug. Bugs to fix in the backlog are in roughly the priority to be fixed, but there’s usually a lot more wiggle room than in feature stories.&lt;/p&gt;
 
 &lt;h3 id=&quot;a-release-is-a-time-constraint&quot;&gt;A “release” is a time constraint&lt;/h3&gt;
 
-&lt;p&gt;Tracker doesn’t set many deadlines because most deadlines are bogus. Well, arbitrary. Okay, bullshit. That’s because when they are imposed from above, or don’t reflect any business realities, or don’t adjust to the changing landscape of our business. And things change, fast. That’s what “agile” means, right? This is not to say that “agile” is an excuse not to deliver on time, either. We want to be &lt;em&gt;realistic&lt;/em&gt; about our deliveries. Hence we have “releases.” They &lt;em&gt;can&lt;/em&gt; answer two important questions:&lt;/p&gt;
+&lt;p&gt;Tracker doesn’t set many deadlines because most deadlines are bogus. Well, arbitrary. Okay, bullshit. That’s because when they are imposed from above, or don’t reflect any business realities, or don’t adjust to the changing landscape of our business, we’re not maximizing value. And things change, fast. That’s what “agile” means, right? This is not to say that “agile” is an excuse not to deliver on time, either. We want to be &lt;em&gt;realistic&lt;/em&gt; about our deliveries. Hence we have “releases.” They &lt;em&gt;can&lt;/em&gt; answer two important questions:&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;We have an “epic” that must be delivered by an externally imposed date. Will we make it, with confidence?&lt;/li&gt;
