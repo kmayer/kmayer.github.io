@@ -6,8 +6,8 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 25 Jul 2016 11:46:37 -0700</pubDate>
-    <lastBuildDate>Mon, 25 Jul 2016 11:46:37 -0700</lastBuildDate>
+    <pubDate>Tue, 26 Jul 2016 11:12:59 -0700</pubDate>
+    <lastBuildDate>Tue, 26 Jul 2016 11:12:59 -0700</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -40,7 +40,7 @@
   &lt;p&gt;“What would be stupid not to do in the next 90 days.”&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;During planning sessions you may hear me ask the stakeholders, “What’s the business value of this story, in rough dollars?” If I all I get in reply is hemming and hawing, I will politely but firmly push back; This story is not ready, or not really &lt;em&gt;that&lt;/em&gt; high a priority. There’s an old definition of “urgency,” something that is time critical, but you can have &lt;em&gt;unimportant&lt;/em&gt; urgencies. Those stories are not the most important ones to complete. You, as engineers, should know what the quantifiable business value is for a story, and you should ask if you don’t know.&lt;label for=&quot;research-stories&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;research-stories&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;Sometimes, we won’t be able to estimate a story’s cost without some research, perhaps some spiking. I’ll break that out into a separate story whose sole output is an estimated cost of the feature. &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;During planning sessions you may hear me ask the stakeholders, “What’s the business value of this story, in rough dollars?” If all I get in reply is hemming and hawing, I will politely but firmly push back; This story is not ready, or not really &lt;em&gt;that&lt;/em&gt; high a priority. There’s an old definition of “urgency,” something that is time critical, but you can have &lt;em&gt;unimportant&lt;/em&gt; urgencies. Those stories are not the most important ones to complete. You, as engineers, should know what the quantifiable business value is for a story, and you should ask if you don’t know.&lt;label for=&quot;research-stories&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;research-stories&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;Sometimes, we won’t be able to estimate a story’s cost without some research, perhaps some spiking. I’ll break that out into a separate story whose sole output is an estimated cost of the feature. &lt;/span&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;a-bug-is-a-defect-introduced-during-the-delivery-of-a-feature&quot;&gt;A “bug” is a defect introduced during the delivery of a feature&lt;/h3&gt;
 
