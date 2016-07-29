@@ -6,12 +6,12 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 26 Jul 2016 11:12:59 -0700</pubDate>
-    <lastBuildDate>Tue, 26 Jul 2016 11:12:59 -0700</lastBuildDate>
+    <pubDate>Thu, 28 Jul 2016 18:20:04 -0700</pubDate>
+    <lastBuildDate>Thu, 28 Jul 2016 18:20:04 -0700</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
-        <title>Guidelines for Pivotal Tracker</title>
+        <title>Guidelines for Using Pivotal Tracker</title>
         <description>&lt;p&gt;I am often asked about the meaning of things in Pivotal Tracker, such as “What’s the difference between a bug and a chore?” Or, “How can I tell the difference between a bug and a feature?” Another oldie but a goodie is, “What story should I pick from the backlog?” Here are my biased answers.&lt;/p&gt;
 
 &lt;p&gt;But first:&lt;/p&gt;
@@ -44,7 +44,7 @@
 
 &lt;h3 id=&quot;a-bug-is-a-defect-introduced-during-the-delivery-of-a-feature&quot;&gt;A “bug” is a defect introduced during the delivery of a feature&lt;/h3&gt;
 
-&lt;p&gt;Bugs are a drag on velocity.&lt;label for=&quot;velocity&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;velocity&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;See my earlier article on velocity: &lt;a href=&quot;/2013/02/19/its-the-volatility-that-will-kill-you.html&quot;&gt;It’s the velocity that will kill you&lt;/a&gt; &lt;/span&gt; It slows down our ability to deliver feature stories. There’s really no such thing as zero-defect software and achieving that becomes asymptotically expensive. So we want a process where we minimize bugs for a reasonable expense. That’s why we have tests, continuous integration testing, code quality metrics, quality assurance and multiple staged servers, to name a few. That’s also why we don’t maintain a JIRA installation; it costs more to maintain than we got in reducing our defect rate.&lt;/p&gt;
+&lt;p&gt;Bugs are a drag on velocity.&lt;label for=&quot;velocity&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;velocity&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;See my earlier article on velocity: “&lt;a href=&quot;/2013/02/19/its-the-volatility-that-will-kill-you.html&quot;&gt;It’s the Velocity that Will Kill You&lt;/a&gt;” &lt;/span&gt; It slows down our ability to deliver feature stories. There’s really no such thing as zero-defect software and achieving that becomes asymptotically expensive. So we want a process where we minimize bugs for a reasonable expense. That’s why we have tests, continuous integration testing, code quality metrics, quality assurance and multiple staged servers, to name a few. That’s also why we don’t maintain a JIRA installation; it costs more to maintain than we got in reducing our defect rate.&lt;/p&gt;
 
 &lt;p&gt;Not all bugs are equal. We prioritize them by business value, too. We can measure value in terms of loss of customers, reduced adoption rate, or even a hit to our brand value. Some bugs are more expensive to fix than others, too. This is one of the pain points of using Pivotal Tracker; there’s no direct way to indicate the &lt;em&gt;cost&lt;/em&gt; of &lt;em&gt;fixing&lt;/em&gt; the bug. In this respect, in the eyes of Tracker, all bugs are equal. I’ve found this not to be true in real life. Some bugs are easy to fix, or easy to fix &lt;em&gt;right now&lt;/em&gt; while we still have &lt;em&gt;context&lt;/em&gt; to fix the bug. Bugs to fix in the backlog are in roughly the priority to be fixed, but there’s usually a lot more wiggle room than in feature stories.&lt;/p&gt;
 
@@ -77,7 +77,7 @@
 
 &lt;h3 id=&quot;start--started&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(START) =&amp;gt; [Started]&lt;/code&gt;&lt;/h3&gt;
 
-&lt;p&gt;Pressing the (Start) button commits you to see the story through delivery and acceptance. You are empowered to choose any solution path that, in your professional judgement, is the most cost effective (in terms of time, resources and maintainability). You are also shielded from working on any other story until the current story is completed (or reasonably blocked).&lt;label for=&quot;scheduling&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;scheduling&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;Let’s say that you’ve finished merging and are waiting for CI to deploy to staging for QA. It’s a good time to take a break and celebrate, but if you want to kill off a few Zendesk tickets while you’re waiting, go for it. Just don’t lose track of the main story. &lt;/span&gt; I have read ample research that shows that context switching costs &lt;em&gt;more&lt;/em&gt; than just doing one thing, well.&lt;/p&gt;
+&lt;p&gt;Pressing the (Start) button commits you to see the story through delivery and acceptance. You are empowered to choose any solution path that, in your professional judgement, is the most cost effective (in terms of time, resources and maintainability). You are also shielded from working on any other story until the current story is completed (or reasonably blocked).&lt;label for=&quot;scheduling&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;scheduling&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;Let’s say that you’ve finished merging and are waiting for CI to deploy to staging for QA. It’s a good time to take a break and celebrate, but if you want to kill off a few Zendesk tickets while you’re waiting, go for it. Just don’t lose track of the main story. &lt;/span&gt; There’s ample research that shows that context switching costs &lt;em&gt;more&lt;/em&gt; than just doing one thing, well.&lt;label for=&quot;context-switching&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;context-switching&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;&lt;a href=&quot;https://www.psychologytoday.com/blog/brain-wise/201209/the-true-cost-multi-tasking&quot;&gt;The True Cost of Multi Tasking&lt;/a&gt;, “Psychology Today”, September 18, 2012 &lt;/span&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Blocked!&lt;/span&gt;&lt;/p&gt;
 
