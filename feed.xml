@@ -6,9 +6,9 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 29 Jul 2016 16:58:19 -0700</pubDate>
-    <lastBuildDate>Fri, 29 Jul 2016 16:58:19 -0700</lastBuildDate>
-    <generator>Jekyll v3.1.6</generator>
+    <pubDate>Mon, 05 Sep 2016 14:25:47 -0700</pubDate>
+    <lastBuildDate>Mon, 05 Sep 2016 14:25:47 -0700</lastBuildDate>
+    <generator>Jekyll v3.2.1</generator>
     
       <item>
         <title>Guidelines for Using Pivotal Tracker</title>
@@ -65,7 +65,7 @@
 
 &lt;p&gt;Chores are closely related to bugs, in that they don’t have points, so they are also a drag on velocity. Consider them “the cost of doing business.” Where they differ is that chores do not arise as a defect when delivering a feature. They are usually internal engineering work, such as setting up new servers, or renewing an SSL certificate. We also use them as an &lt;em&gt;ad hoc&lt;/em&gt; to-do list, e.g. when we need to provision new users for a client. Those requests &lt;em&gt;could&lt;/em&gt; be seen as help desk tickets&lt;label for=&quot;help-desk&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;help-desk&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;I need to write a whole other post about help desk operations. &lt;/span&gt;, and I may change my mind on this, but for now we’re just going with the flow.&lt;/p&gt;
 
-&lt;p&gt;One thing that I am adamantly opposed to are &lt;em&gt;chores to address technical debt&lt;/em&gt;. Stories like “code reviews” or “large refactoring.” They are part of our normal story workflow and &lt;em&gt;not&lt;/em&gt; an after-thought. If a big refactor is necessary for a story, then so be it. Add that cost to the complexity of the story.&lt;/p&gt;
+&lt;p&gt;One thing that I am adamantly opposed to are &lt;em&gt;chores to address technical debt&lt;/em&gt;. Stories like “code reviews” or “large refactoring.” They are part of our normal story workflow and &lt;em&gt;not&lt;/em&gt; an after-thought. If a big refactor is necessary for a story, then so be it. Add that cost to the complexity of the story.&lt;label for=&quot;refactoring-not-a-story&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;refactoring-not-a-story&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;See, &lt;a href=&quot;http://ronjeffries.com/xprog/articles/refactoring-not-on-the-backlog/&quot;&gt;“Refactoring – Not on the backlog!”&lt;/a&gt; &lt;/span&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;what-should-i-do-next&quot;&gt;What Should I Do Next?&lt;/h2&gt;
 
@@ -167,7 +167,7 @@
 &lt;h3 id=&quot;create-a-patch-file-of-all-migrations-added-since-your-last-production-deploy&quot;&gt;1. Create a patch file of all migrations, added since your last production deploy&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git fetch production
- git diff production/master... -- &lt;span class=&quot;s1&quot;&gt;&#39;db/migrate/&#39;&lt;/span&gt; &amp;gt; patch0
+ git diff production/master... -- &lt;span class=&quot;s1&quot;&gt;'db/migrate/'&lt;/span&gt; &amp;gt; patch0
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -218,8 +218,8 @@
 
 &lt;p&gt;Make sure that nothing snuck in by accident. Conceptually, &lt;code class=&quot;highlighter-rouge&quot;&gt;schema.rb&lt;/code&gt; will represent the state of the database after the migrations have been run, and should exactly match the schema that we want to have for our new feature.&lt;/p&gt;
 
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git diff head..origin/master -- &lt;span class=&quot;s1&quot;&gt;&#39;db/migrate/&#39;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# =&amp;gt; This should return zero changes!&lt;/span&gt;
- git diff head..origin/master -- &lt;span class=&quot;s1&quot;&gt;&#39;db/schema.rb&#39;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# =&amp;gt; This should return zero changes!&lt;/span&gt;
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git diff head..origin/master -- &lt;span class=&quot;s1&quot;&gt;'db/migrate/'&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# =&amp;gt; This should return zero changes!&lt;/span&gt;
+ git diff head..origin/master -- &lt;span class=&quot;s1&quot;&gt;'db/schema.rb'&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# =&amp;gt; This should return zero changes!&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
@@ -246,7 +246,7 @@
 &lt;p&gt;It should be a no-op since the code is already there. This is optional, but it keeps git happy for the next deploy.&lt;/p&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout master
- git merge -m &lt;span class=&quot;s2&quot;&gt;&quot;Merge branch &#39;pre-deploy-migrations&#39;&quot;&lt;/span&gt; pre-deploy-migrations 
+ git merge -m &lt;span class=&quot;s2&quot;&gt;&quot;Merge branch 'pre-deploy-migrations'&quot;&lt;/span&gt; pre-deploy-migrations 
  git push origin master
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -431,7 +431,7 @@ PERMIT!&lt;/p&gt;
     
       <item>
         <title>When you need a rabbit, spec it</title>
-        <description>&lt;p&gt;On my current project, we&#39;re using RabbitMQ. It&#39;s a bit of infrastructure that has to be present, and if it isn&#39;t, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let&#39;s write a test that asserts that we have the requisite infrastructure in place.&lt;/p&gt;
+        <description>&lt;p&gt;On my current project, we're using RabbitMQ. It's a bit of infrastructure that has to be present, and if it isn't, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let's write a test that asserts that we have the requisite infrastructure in place.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bunny&quot;&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bunny/exceptions&quot;&lt;/span&gt;
@@ -468,7 +468,7 @@ PERMIT!&lt;/p&gt;
     
       <item>
         <title>Speed up your integration tests with a jig</title>
-        <description>&lt;p&gt;If you&#39;ve written enough integration tests (with Capybara &lt;em&gt;et al.&lt;/em&gt;), you must have noticed how much time your tests spend just logging into your web app. Even if it takes 1 second each time, it starts to add up. Here&#39;s a solution that I&#39;ve written several times, now. I create a test &quot;jig&quot; that allows me to authenticate into my application with a single &lt;code&gt;visit&lt;/code&gt;.&lt;/p&gt;
+        <description>&lt;p&gt;If you've written enough integration tests (with Capybara &lt;em&gt;et al.&lt;/em&gt;), you must have noticed how much time your tests spend just logging into your web app. Even if it takes 1 second each time, it starts to add up. Here's a solution that I've written several times, now. I create a test &quot;jig&quot; that allows me to authenticate into my application with a single &lt;code&gt;visit&lt;/code&gt;.&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AuthenticationJigController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Devise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;SessionsController&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;
@@ -492,7 +492,7 @@ PERMIT!&lt;/p&gt;
     &lt;span class=&quot;n&quot;&gt;get&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/users/auth&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;authentication_jig#create&quot;&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;There, that&#39;s about it. Now, whenever you need to authenticate to your system, say in a Capybara test, you can replace your multi-line login steps with a single &lt;code&gt;visit &quot;/users/auth?email=user@example.com&quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;There, that's about it. Now, whenever you need to authenticate to your system, say in a Capybara test, you can replace your multi-line login steps with a single &lt;code&gt;visit &quot;/users/auth?email=user@example.com&quot;&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;And you will be authenticated!&lt;/p&gt;
 
