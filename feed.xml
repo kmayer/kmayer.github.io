@@ -6,9 +6,79 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 22 Sep 2016 09:54:37 -0700</pubDate>
-    <lastBuildDate>Thu, 22 Sep 2016 09:54:37 -0700</lastBuildDate>
+    <pubDate>Tue, 04 Oct 2016 14:32:18 -0700</pubDate>
+    <lastBuildDate>Tue, 04 Oct 2016 14:32:18 -0700</lastBuildDate>
     <generator>Jekyll v3.2.1</generator>
+    
+      <item>
+        <title>Digital Preservation Lasts Until the Heat Death of the Universe or Five Years</title>
+        <description>&lt;p&gt;(Whichever comes first)&lt;/p&gt;
+
+&lt;p&gt;Here are my notes and references from my lightning talk. The slides for the talk itself can be found on &lt;a href=&quot;https://dl.dropboxusercontent.com/u/759959/Digital%20Preservation.key&quot;&gt;DropBox&lt;/a&gt;. Warning this is about &lt;em&gt;~150MB&lt;/em&gt;!&lt;/p&gt;
+
+&lt;p&gt;Here’s the article that inspired this talk, &lt;a href=&quot;http://www.clir.org/pubs/archives/ensuring.pdf&quot;&gt;Ensuring the Longevity of Digital Information&lt;/a&gt;, written by Jeff Rothenberg waaay back in 1995 for &lt;a href=&quot;http://www.scientificamerican.com/article/ensuring-the-longevity-of-digital-d/&quot;&gt;Scientific American&lt;/a&gt;.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The year is 2045, and my grandchildren (as yet unborn) are exploring the attic of my house (as yet unbought). They find a letter dated 1995 and a CD-ROM (compact disk). The letter claims that the disk contains a document that provides the key to obtaining my fortune (as yet unearned). My grandchildren are understandably excited, but they have never seen a CD before—except in old movies—and even if they can somehow find a suitable disk drive, how will they run the software necessary to interpret the information on the disk? How can they read my obsolete digital document?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If you want to read more by Mr. Rothenberg about digital longevity, he has a &lt;a href=&quot;http://www.panix.com/~jeffr/Prof/digilong.html&quot;&gt;web page for it&lt;/a&gt;. And here, at the &lt;a href=&quot;http://www.clir.org/pubs/reports/rothenberg/contents.html&quot;&gt;Council on Library and Information Resources&lt;/a&gt;. If video is more your thing, on YouTube: &lt;a href=&quot;https://www.youtube.com/watch?v=2Idbur1qR8I&quot;&gt;How Far We’ve Come&lt;/a&gt;. Just so you know that there are other views, and other voices, &lt;a href=&quot;http://blog.dshr.org/2013/02/rothenberg-still-wrong.html&quot;&gt;Rothenberg &lt;em&gt;still&lt;/em&gt; Wrong&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&quot;references&quot;&gt;References&lt;/h1&gt;
+
+&lt;p&gt;On the scale of our data collections.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://what-if.xkcd.com/63/&quot;&gt;Google’s Datacenters on Punch Cards&lt;/a&gt;, “what if?” ca 2013&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Lost data.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://blogs.wsj.com/law/2014/08/26/thousands-of-electronic-case-files-lost-in-transition/&quot;&gt;“Thousands of Electronic Case Files Lost in Transition”&lt;/a&gt;, Wall Street Journal, August 26, 2014.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://haveibeenpwned.com&quot;&gt;have i been pwned?&lt;/a&gt;, which I check every time I hear of yet another breach.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Legacy systems.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.gao.gov/assets/680/677436.pdf&quot;&gt;Federal Agencies Need to Address Aging Legacy Systems&lt;/a&gt;, GAO Report, GAO-16-468, May 2016.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.cnn.com/2016/05/26/us/pentagon-floppy-disks-nuclear/&quot;&gt;The U.S. is still using floppy disks to run its nuclear program&lt;/a&gt;, CNN, May 26, 2016.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Digital preservation&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://fortune.com/2016/06/22/google-link-supreme-court-citation/&quot;&gt;Google Link in Supreme Court Case Shows Struggle on Citation&lt;/a&gt;, Fortune, June 22, 2016.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.supremecourt.gov/opinions/15pdf/14-1373_83i7.pdf&quot;&gt;Utah v. Strieff&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://perma.cc&quot;&gt;https://perma.cc&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://digital.lib.umd.edu&quot;&gt;Digital Collections at the University of Maryland&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://archive.org&quot;&gt;The Wayback Machine&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://jsonapi.org&quot;&gt;{json:api}&lt;/a&gt;, “If you’ve ever argued with your team about the way your JSON responses should be formatted, JSON API can be your anti-bikeshedding tool.”&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=IRGz-tNBeXM&quot;&gt;IBM TS4500 Tape Libray Robots&lt;/a&gt;. I, for one, welcome our benevolent robot overlords.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.cambus.net/emulators-written-in-javascript/&quot;&gt;Emulators written in JavaScript&lt;/a&gt;. JavaScript has become the “Rosetta Stone” of all other digital systems. So, we might be able to emulate ancient hardware, after all. We’re ready to go back to the moon: &lt;a href=&quot;http://svtsim.com/moonjs/agc.html&quot;&gt;Apollo Guidance System&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;OMG&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://sploid.gizmodo.com/this-old-ass-commodore-64-is-still-being-used-to-run-an-1787196319&quot;&gt;This Old-Ass Commodore 64 Is Still Being Used to Run an Auto Shop in Poland&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.theverge.com/2016/5/3/11576032/mclaren-f1-compaq-laptop-maintenance&quot;&gt;McLaren needs a 20-year-old Compaq laptop to maintain its F1 supercar&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All the feels&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.flickr.com/photos/projectapolloarchive/&quot;&gt;Project Apollo&lt;/a&gt; - Glorious scans of the original Hasselblad images.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.linkedin.com/in/kate-dohe-076a103&quot;&gt;Kate Dohe&lt;/a&gt;, “punk-ass book jockey.” For more on knitting, wine and bicycles, sometimes all at once, see &lt;a href=&quot;https://www.facebook.com/katedohe&quot;&gt;Facebook&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Tue, 04 Oct 2016 00:00:00 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2016/10/04/digital-preservation.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2016/10/04/digital-preservation.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Anatomy of an Apology</title>
@@ -556,33 +626,6 @@ PERMIT!&lt;/p&gt;
         <category>ruby</category>
         
         <category>testing</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Stop thinking like an employee</title>
-        <description>&lt;p&gt;A few weeks ago, some of the managers got together for drinks after work. I started to reminisce about an old employer who had, what I thought, was an incredibly unique and reasonable way to handle the “vacation liability” problem. The old firm was a consulting firm, mostly military contracts, in the DC area. We were paid for every hour we billed, and we accrued vacation hours for every hour we were paid. It created an environment where the top performers could rack up so much vacation that they could not use it all. Many companies handle this with the familiar “use it or lose it” policy, which caps the accrued vacation hours to some limit. Instead, the firm let vacation accrue forever, with one modification: When you got a raise, your vacation hours were reduced by exactly the same percentage.&lt;/p&gt;
-
-&lt;p&gt;The singular response from my peers was, “That’s so unfair, you mean they took away your vacation time?”&lt;/p&gt;
-
-&lt;p&gt;sigh.&lt;/p&gt;
-
-&lt;p&gt;I’m not surprised when my reports respond this way, they are not thinking, yet, about the larger concerns of the company. On the other hand, here is how senior management, especially finance, sees accrued vacation: A liability that grows worse with each passing raise. Let me do some quick math to illustrate:&lt;/p&gt;
-
-&lt;p&gt;Let’s say that you are in charge of 100 workers, each of whom receive 100 hours (2.5 weeks) of vacation each year. Let’s also assume that in this mythical company, everyone is paid them same $100K per year. That works out to $50/hour and $500,000/year in payroll costs. Let’s also assume that 10% of your workforce is so dedicated that they don’t take any vacation at all. Just because they haven’t taken the time off, doesn’t mean that they won’t. We want our workers to have a balanced life and come back tanned and refreshed to take on the next big project. Still, there’s that 10%. Your business has a $50,000 liability on its books to cover the eventual expense, or on that sad day when the employee leaves the company and you have to write a check for all of that accrued time. Then, on January 1, everyone gets a 10% raise. It was a good year! Except your accountant is now unhappy. Your 1,000 hours of vacation liability has also grown in value by 10% to $55K. Another year rolls by and another 10% of your workforce doesn’t take vacation. This happens a lot more often than you might think, and instead of staying at 10%, what happens is that there is &lt;strong&gt;always&lt;/strong&gt; about 10% of unclaimed vacation each year. At the end of year 2, your liability is now 2,000 hours ($110K). It was a good year, everyone gets another 10%, and accounting grabs another $11K to cover the added liability. Even with attrition and payouts, this liability is going to keep growing.&lt;/p&gt;
-
-&lt;p&gt;Do you see the problem, now. That is why we have to put some sort of cap on the &lt;em&gt;value&lt;/em&gt; of the vacation liability. We can’t hand out &lt;strong&gt;hours&lt;/strong&gt; when you leave, so there is this ever growing pile of cash that must be kept around, that can’t be put to better use. Just in case. I had a coworker, who after 25 years of service had accumulated months and months of vacation. When he retired, his vacation hours were paid out at this current salary rate, not the one when he earned those hours.&lt;/p&gt;
-
-&lt;p&gt;Do you still think that this arrangement is unfair? Or that it takes hours away from the hands of the hardworking individual contributors? Which would you rather have, an arbitrary cap the just stops earning vacation, or an arrangement where the business is protected from giving away extra cash just as an employee is leaving.&lt;/p&gt;
-
-&lt;p&gt;Good. Now you’re starting to think like a business owner. Now you know that we’re not evil because vacation is limited to 80 hours per year, with a 160 hour cap. It’s because we don’t want the company to go broke if a senior staff member decides to retire.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 05 Nov 2013 08:45:06 -0800</pubDate>
-        <link>http://blog.bitwrangler.com/2013/11/05/stop-thinking-like-an-employee.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2013/11/05/stop-thinking-like-an-employee.html</guid>
-        
-        <category>management</category>
         
         
       </item>
