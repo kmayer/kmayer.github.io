@@ -54,6 +54,7 @@
 
 
 <p>On my current project, we needed to prove that an action cache was working as expected. Alas, the blogosphere had either out-of-date or unhelpful information. So, after many experiments, we came up with an RSpec test that does what we want. It seems ugly to me, and I hope there's a better way. The names have been changed to protect the guilty. Any resemblances to actual classes and methods are purely coincidental.</p>
+
 <p>We needed to confirm that a certain action was cached. This action is <code>preview</code> in the brands controller. Using the usual Rails url helpers, we construct some fixture data.</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="no">BrandsController</span> <span class="k">do</span>
@@ -125,7 +126,7 @@ has an interesting performance enhancement; it doesn't actually set up the actio
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">it</span> <span class="s2">"should action cache #preview"</span> <span class="k">do</span>
   <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">clear</span>
-  <span class="no">BrandsController</span><span class="p">.</span><span class="nf">caches_action</span> <span class="ss">:preview</span> <span class="c1"># must be recapitulated to get around load time weirdfullness</span>
+  <span class="no">BrandsController</span><span class="p">.</span><span class="nf">caches_action</span> <span class="ss">:preview</span> <span class="c1"># must be recapitulated to get around load time weirdfullness</span>
 
   <span class="n">get</span> <span class="ss">:preview</span><span class="p">,</span> <span class="ss">:brand_id</span> <span class="o">=&gt;</span> <span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span>
 
@@ -156,7 +157,7 @@ has an interesting performance enhancement; it doesn't actually set up the actio
 <p>Awesome sauce! Now our tests are red and I'm ready to implement the sweeper</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BrandSweeper</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Caching</span><span class="o">::</span><span class="no">Sweeper</span>
-  <span class="n">observe</span> <span class="no">Brand</span> <span class="c1"># Observers will introspect on the class, but Sweepers don't</span>
+  <span class="n">observe</span> <span class="no">Brand</span> <span class="c1"># Observers will introspect on the class, but Sweepers don't</span>
 
   <span class="k">def</span> <span class="nf">after_update</span><span class="p">(</span><span class="n">brand</span><span class="p">)</span>
     <span class="n">expire_action</span> <span class="ss">:controller</span> <span class="o">=&gt;</span> <span class="s2">"brand"</span><span class="p">,</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:preview</span><span class="p">,</span> <span class="ss">:brand_id</span> <span class="o">=&gt;</span> <span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span>

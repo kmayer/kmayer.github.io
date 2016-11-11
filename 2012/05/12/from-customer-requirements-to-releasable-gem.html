@@ -54,6 +54,7 @@
 
 
 <p>One of the many pleasures of working at Pivotal Labs is that we are encouraged to release some of our work as open source. Often during the course of our engagements, we write code that might have wide-spread use. Due to the nature of our contracts, we can not unilaterally release such code. Those rights belong to the client. And rightly so. So, it is an even greater pleasure when one of our clients believes in "giving back" to the community, as well. </p>
+
 <p>One such example is this modest gem, <code>attribute_access_controllable</code> which allows you to set read-only access at the <em>attribute</em> level, on a per-instance basis. For example, let's say that you have a model <code>Person</code> with an attribute <code>birthday</code>, which, for security purposes, cannot be changed once this attribute is set (except, perhaps, by an administrator with extraordinary privileges). Any future attempts to change this attribute will result in a validation error.</p>
 <p>e.g.</p>
 
@@ -98,27 +99,27 @@
 
 
 <p>In order to get to something "releasable" we needed a few more things, which we put on our To-Do list:</p>
-<h4>To do</h4>
+<h3>To do</h3>
 <ol>
 <li>MIT License</li>
 <li>A gem specification</li>
 <li>Basic documentation in a README file</li>
 </ol>
 <p>The list got longer as we fleshed out both the documentation and the integration tests, as you'll see in a moment, but first, let's talk about</p>
-<h3>Getting the legal issues resolved</h3>
+<h2>Getting the legal issues resolved</h2>
 <p>Pivotal's open sourcing policy is straightforward and simple to execute; We don't touch it. We write code for our clients, it's their code to do with as they please. My particular client liked the work we did for them and thought it would make a great open source gem. The Director of Engineering signed off on the idea and I paired with him to create the github repository during a lunch break. The first commit was tiny, just a basic directory structure and the existing code. I don't think the tests passed because they lacked a proper RSpec infrastructure.</p>
-<h3>Creating the gem</h3>
+<h2>Creating the gem</h2>
 
 <figure class="highlight"><pre><code class="language-sh" data-lang="sh">bundler gem DIRECTORY</code></pre></figure>
 
 
 <p>is your best friend. It set up the layout for us, including an MIT License and a gem specification. It had a boilerplate README, too.</p>
 
-<h3>Writing the documentation for the code you wished you had</h3>
+<h2>Writing the documentation for the code you wished you had</h2>
 
 <p>Next, we wrote a draft of the README file which documented what we knew: You needed a migration to create a column called <code>:read_only_attributes</code> and you needed to include the module into the class. Then we started thinking about the pain points of using our code as is. Wouldn't it be nice if we could create the migration automatically? Rails generators do that sort of thing, how hard could it be? (Famous last words...) It became clear that we needed to test drive out some new features of the <em>gem</em> that supported the actual <em>module</em>.</p>
 
-<h4>To do</h4>
+<h3>To do</h3>
 
 <ol>
 <li><strike>MIT License</strike></li>
@@ -127,7 +128,7 @@
 <li>Integration test</li>
 </ol>
 
-<h3>I am not a big cucumber fan, but...</h3>
+<h2>I am not a big cucumber fan, but...</h2>
 
 <p>Really, I'm not. I used to write Cucumber features all the time, but nowadays, I use a combination of RSpec and Capybara to get most of my day-to-day integration testing done. There is, however, one sweet spot for Cucumber that I'm finding more and more useful; A very high-level document that describes essential features in a way that a reader will say, "Ahhh, so <em>that</em> is how it is supposed to work!" Here's a copy of the spec I wrote:</p>
 
@@ -143,7 +144,7 @@
 
 
 <p>You probably won't find any web-steps out there to handle these lines. I use <a href="https://github.com/cucumber/aruba">Aruba</a> to handle the dirty work of executing shell commands in a safe sandbox-y way. The <a href="https://github.com/halogenguides/Attribute-Access-Controllable/blob/master/features/step_definitions/steps.rb">step definition file</a> hides most of the ugliness. Even so, most readers could figure out what to do, by hand, for each step.</p>
-<h4>To do</h4>
+<h3>To do</h3>
 <ol>
 <li><strike>MIT License</strike></li>
 <li><strike>A gem specification</strike></li>
@@ -151,7 +152,7 @@
 <li><strike>Integration test</strike></li>
 <li>Generator</li>
 </ol>
-<h3>Big generators</h3>
+<h2>Big generators</h2>
 <p>This gem was my first attempt at writing a generator, so it was awkward. I still don't understand <a href="https://github.com/wycats/thor">Thor</a> properly. Fortunately, I happened upon <a href="https://github.com/alexrothenberg/ammeter">Ammeter</a>, which helped me write out test specs for the generator. If you've got good specs, then you can sometimes stumble along until you learn enough to get it right. Alex Rothenberg's original <a href="http://www.alexrothenberg.com/2011/10/10/ammeter-the-way-to-write-specs-for-your-rails-generators.html">blog post</a> about the gem was quite informative, as were the test cases from the <a href="https://github.com/plataformatec/devise/tree/master/test/generators">Devise</a> gem.</p>
 <p>I have to admit; constructing the generator was more complex than the original module! There are more "moving parts;" templates, usage files, specs, in addition to the generator itself. So there is a certain amount of overhead that might overwhelm the original content. On the other hand, I learned quite a bit, and the gem is far more useful.</p>
 
@@ -212,7 +213,7 @@
   <span class="k">end</span></code></pre></figure>
 
 
-<h4>To do</h4>
+<h3>To do</h3>
 <ol>
 <li><strike>MIT License</strike></li>
 <li><strike>A gem specification</strike></li>
@@ -233,7 +234,7 @@
 <span class="k">end</span></code></pre></figure>
 
 
-<h4>To do</h4>
+<h3>To do</h3>
 <ol>
 <li><strike>MIT License</strike></li>
 <li><strike>A gem specification</strike></li>
@@ -257,7 +258,7 @@
 <li>Module tests</li>
 </ul>
 <p>I encourage everyone to release as much of their work as possible because it raises the state of the art for us all. There are limits, of course, but that still affords lots of wiggle room. Small gems like <code>attribute_access_controllable</code> won't change the world, but they ease the pain of staying DRY and we all get to learn a little something.</p>
-<h3>Thanks</h3>
+<h2>Thanks</h2>
 <p>To Social Chorus for choosing to open source this code. And to Pivotal Labs for encouraging a better way to do software engineering.</p>
 
 

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>method_missing hazardous to your module?</title>
-  <meta name="description" content="We built an(other) object factory module for our current project and it looks a lot like all the others:After a while, we noticed that the create methods wer...">
+  <meta name="description" content="We built an(other) object factory module for our current project and it looks a lot like all the others: After a while, we noticed that the create methods we...">
 
 
   <link rel="stylesheet" href="/css/tufte.css">	
@@ -53,9 +53,8 @@
 <p class="subtitle">February 22, 2013</p>
 
 
-<p>We built an(other) object factory module for our current project and it looks a lot like all the others:</p>
-<p><!--more--></p>
-<p>After a while, we noticed that the <code>create</code> methods were all exactly the same. Time for dynamic refactoring!</p>
+<p>We built an(other) object factory module for our current project and it looks a lot like all the others: After a while, we noticed that the <code>create</code> methods were all exactly the same. Time for some dynamic refactoring!</p>
+
 <p>Unfortunately, this leads to rather bizarre error messages during testing:</p>
 <pre>Failures:
 

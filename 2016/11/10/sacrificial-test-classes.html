@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sacrificial Test Classes</title>
+  <meta name="description" content="Today I learned that there’s a difference between a throw-away class and a sacrificial class. When writing rspec tests, you want the latter; otherwise you mi...">
+
+
+  <link rel="stylesheet" href="/css/tufte.css">	
+  
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="canonical" href="http://blog.bitwrangler.com/2016/11/10/sacrificial-test-classes.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Sacrificial test classes</h1>
+<p class="subtitle">November 10, 2016</p>
+
+
+<p>Today I learned that there’s a difference between a throw-away class and a sacrificial class. When writing rspec tests, you want the latter; otherwise you might create some very hard-to-debug test pollution.</p>
+
+<p>Until today, I would create a throw-away test class in my rspec tests, especially when unit testing a module:</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">MyModule</span> <span class="k">do</span>
+  <span class="k">class</span> <span class="nc">MyTestClass</span>
+    <span class="kp">include</span> <span class="no">MyModule</span>
+    <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+  <span class="nf">end</span>
+  
+  <span class="n">it</span> <span class="s1">'tests something'</span> <span class="k">do</span>
+    <span class="n">subject</span> <span class="o">=</span> <span class="no">MyTestClass</span><span class="p">.</span><span class="nf">new</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">subject</span><span class="p">).</span><span class="nf">to</span> <span class="n">do_something</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>It turns out that this is a <em>terrible</em> thing to do because it will pollute your global name space with <code class="highlighter-rouge">MyTestClass</code>. In my naïve understanding of rspec, I thought that things created <em>inside</em> the rspec block would be scoped to that block. This is very much the case when writing tests in <code class="highlighter-rouge">MiniTest</code>; you are just creating classes and methods, so a little private class can’t <em>leak</em> out of your test examples. Not so when writing rspec tests. There’s a GitHub issue about it that gives some good explanations about the hows and why: <a href="https://github.com/rspec/rspec-core/issues/2181">https://github.com/rspec/rspec-core/issues/2181</a></p>
+
+<p>Here’s another, simpler, example:</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code>
+<span class="ss">irb: </span><span class="k">class</span> <span class="nc">Foo1</span>
+<span class="o">&gt;&gt;</span> <span class="no">BAR</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="o">&gt;&gt;</span> <span class="k">end</span>
+<span class="o">===&gt;</span> <span class="mi">5</span>
+<span class="ss">irb: </span><span class="no">Foo1</span><span class="o">::</span><span class="no">BAR</span>
+<span class="o">===&gt;</span> <span class="mi">5</span>
+<span class="ss">irb: </span><span class="no">BAR</span>
+<span class="no">NameError</span><span class="p">:</span> <span class="n">uninitialized</span> <span class="n">constant</span> <span class="no">BAR</span>
+<span class="ss">irb: </span><span class="no">Foo2</span> <span class="o">=</span> <span class="no">Class</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+     <span class="p">\</span><span class="o">-+</span> <span class="no">BAR</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="o">&gt;&gt;</span> <span class="k">end</span>
+<span class="o">===&gt;</span> <span class="no">Foo2</span>
+<span class="ss">irb: </span><span class="no">BAR</span>
+<span class="o">===&gt;</span> <span class="mi">5</span>
+<span class="ss">irb: </span><span class="no">Foo2</span><span class="o">::</span><span class="no">BAR</span>
+<span class="p">(</span><span class="n">irb</span><span class="p">):</span><span class="mi">9</span><span class="p">:</span> <span class="ss">warning: </span><span class="n">toplevel</span> <span class="n">constant</span> <span class="no">BAR</span> <span class="n">referenced</span> <span class="n">by</span> <span class="no">Foo2</span><span class="o">::</span><span class="no">BAR</span>
+<span class="o">===&gt;</span> <span class="mi">5</span>
+</code></pre>
+</div>
+
+<p>Yikes! <code class="highlighter-rouge">Foo1</code> and <code class="highlighter-rouge">Foo2</code> are roughly similar class, but <code class="highlighter-rouge">BAR</code> is scoped to <code class="highlighter-rouge">Foo1</code>, as in, <code class="highlighter-rouge">Foo1::BAR</code>, but <code class="highlighter-rouge">Foo2</code> created a top level constant named <code class="highlighter-rouge">BAR</code>. You can see how this might make your tests break. <a href="https://github.com/myronmarston">Myron Marston</a> explained in the issue:</p>
+
+<blockquote>
+  <p>While not ideal, it’s known, expected behavior. In Ruby, when you define a constant in a block, it uses the module scoping of whatever is outside the block as the constant namespace. … This is simply how Ruby works and there’s nothing RSpec can do about this. (And since it’s how ruby works, I’m not sure that we should try to do anything different.)</p>
+</blockquote>
+
+<p>So, what should we do, if these throw-away classes are not so temporary? My example gives a hint: Create a “sacrificial class,” instead, using a <code class="highlighter-rouge">let</code> variable instead, since those variables <em>are</em> scoped to the example group.</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">MyModule</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:my_test_class</span><span class="p">)</span> <span class="p">{</span>
+    <span class="no">Class</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
+      <span class="kp">include</span> <span class="no">MyModule</span>
+      <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
+    <span class="nf">end</span>
+  <span class="p">}</span>
+
+  <span class="n">it</span> <span class="s1">'tests something'</span> <span class="k">do</span>
+    <span class="n">subject</span> <span class="o">=</span> <span class="n">my_test_class</span><span class="p">.</span><span class="nf">new</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">subject</span><span class="p">).</span><span class="nf">to</span> <span class="n">do_something</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>There, all better. No more test pollution.</p>
+
+
+
+    </article>
+    <span class="print-footer">Sacrificial Test Classes - November 10, 2016 - Ken Mayer</span>
+    <footer>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:hate@spam.net"><span class="icon-mail"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook"></span></a>
+      </li>
+    
+      <li>
+        <a href="/feed"><span class="icon-feed"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2016 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+  </body>
+</html>

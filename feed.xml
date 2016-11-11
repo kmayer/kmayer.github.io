@@ -6,9 +6,87 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 27 Oct 2016 15:10:05 -0700</pubDate>
-    <lastBuildDate>Thu, 27 Oct 2016 15:10:05 -0700</lastBuildDate>
-    <generator>Jekyll v3.2.1</generator>
+    <pubDate>Thu, 10 Nov 2016 22:03:35 -0800</pubDate>
+    <lastBuildDate>Thu, 10 Nov 2016 22:03:35 -0800</lastBuildDate>
+    <generator>Jekyll v3.3.0</generator>
+    
+      <item>
+        <title>Sacrificial Test Classes</title>
+        <description>&lt;p&gt;Today I learned that there’s a difference between a throw-away class and a sacrificial class. When writing rspec tests, you want the latter; otherwise you might create some very hard-to-debug test pollution.&lt;/p&gt;
+
+&lt;p&gt;Until today, I would create a throw-away test class in my rspec tests, especially when unit testing a module:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyTestClass&lt;/span&gt;
+    &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+  &lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+  
+  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'tests something'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyTestClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;do_something&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;It turns out that this is a &lt;em&gt;terrible&lt;/em&gt; thing to do because it will pollute your global name space with &lt;code class=&quot;highlighter-rouge&quot;&gt;MyTestClass&lt;/code&gt;. In my naïve understanding of rspec, I thought that things created &lt;em&gt;inside&lt;/em&gt; the rspec block would be scoped to that block. This is very much the case when writing tests in &lt;code class=&quot;highlighter-rouge&quot;&gt;MiniTest&lt;/code&gt;; you are just creating classes and methods, so a little private class can’t &lt;em&gt;leak&lt;/em&gt; out of your test examples. Not so when writing rspec tests. There’s a GitHub issue about it that gives some good explanations about the hows and why: &lt;a href=&quot;https://github.com/rspec/rspec-core/issues/2181&quot;&gt;https://github.com/rspec/rspec-core/issues/2181&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s another, simpler, example:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Foo1&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Foo1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt;
+&lt;span class=&quot;no&quot;&gt;NameError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;uninitialized&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;constant&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Foo2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+     &lt;span class=&quot;p&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-+&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Foo2&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Foo2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;irb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;warning: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toplevel&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;constant&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;referenced&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Foo2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Yikes! &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo1&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo2&lt;/code&gt; are roughly similar class, but &lt;code class=&quot;highlighter-rouge&quot;&gt;BAR&lt;/code&gt; is scoped to &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo1&lt;/code&gt;, as in, &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo1::BAR&lt;/code&gt;, but &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo2&lt;/code&gt; created a top level constant named &lt;code class=&quot;highlighter-rouge&quot;&gt;BAR&lt;/code&gt;. You can see how this might make your tests break. &lt;a href=&quot;https://github.com/myronmarston&quot;&gt;Myron Marston&lt;/a&gt; explained in the issue:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;While not ideal, it’s known, expected behavior. In Ruby, when you define a constant in a block, it uses the module scoping of whatever is outside the block as the constant namespace. … This is simply how Ruby works and there’s nothing RSpec can do about this. (And since it’s how ruby works, I’m not sure that we should try to do anything different.)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;So, what should we do, if these throw-away classes are not so temporary? My example gives a hint: Create a “sacrificial class,” instead, using a &lt;code class=&quot;highlighter-rouge&quot;&gt;let&lt;/code&gt; variable instead, since those variables &lt;em&gt;are&lt;/em&gt; scoped to the example group.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;let&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:my_test_class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;no&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+      &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'tests something'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;my_test_class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;do_something&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;There, all better. No more test pollution.&lt;/p&gt;
+</description>
+        <pubDate>Thu, 10 Nov 2016 00:00:00 -0800</pubDate>
+        <link>http://blog.bitwrangler.com/2016/11/10/sacrificial-test-classes.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2016/11/10/sacrificial-test-classes.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Memory Leak Whack-a-Mole</title>
@@ -759,43 +837,6 @@ PERMIT!&lt;/p&gt;
         <category>heroku</category>
         
         <category>rails</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>When you need a rabbit, spec it</title>
-        <description>&lt;p&gt;On my current project, we're using RabbitMQ. It's a bit of infrastructure that has to be present, and if it isn't, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let's write a test that asserts that we have the requisite infrastructure in place.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bunny&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bunny/exceptions&quot;&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;RabbitMQ&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;is running&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;rabbitmq_is_available&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;should&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;be_true&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;rabbitmq_is_available&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;begin&lt;/span&gt;
-      &lt;span class=&quot;no&quot;&gt;Bunny&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;... amqp configuration uri ...&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;rescue&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Bunny&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;TCPConnectionFailed&lt;/span&gt;
-      &lt;span class=&quot;kp&quot;&gt;false&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Run this test and you will know whether the underlying RabbitMQ infrastructure is running.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 07 Feb 2014 17:03:06 -0800</pubDate>
-        <link>http://blog.bitwrangler.com/2014/02/07/when-you-need-a-rabbit-spec-it.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2014/02/07/when-you-need-a-rabbit-spec-it.html</guid>
-        
-        <category>agile</category>
-        
-        <category>devops</category>
-        
-        <category>testing</category>
         
         
       </item>
