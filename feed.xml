@@ -6,9 +6,112 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 12 Nov 2016 07:32:51 -0800</pubDate>
-    <lastBuildDate>Sat, 12 Nov 2016 07:32:51 -0800</lastBuildDate>
-    <generator>Jekyll v3.3.0</generator>
+    <pubDate>Wed, 30 Nov 2016 21:23:59 -0800</pubDate>
+    <lastBuildDate>Wed, 30 Nov 2016 21:23:59 -0800</lastBuildDate>
+    <generator>Jekyll v3.3.1</generator>
+    
+      <item>
+        <title>Performant Large-Scale Postgres Migrations</title>
+        <description>&lt;p&gt;Recently I tried to add a column to one of our very big tables, and as you might expect from the title of this blog, it took so long that I aborted it after an hour. Can you spot the problem?&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddInfoColumnToCaseDocketReport&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;add_column&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:case_docket_reports&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jsonb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;default: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'{}'&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Not all migrations are created equal.&lt;/span&gt;  Adding a column to Postgres &lt;em&gt;without&lt;/em&gt; a default value is very fast because only the catalog tables get written. &lt;em&gt;With&lt;/em&gt; a default value, however, it can get very, very, s-l-o-w, because it has to make a copy of every row and reindex.&lt;/p&gt;
+
+&lt;h2 id=&quot;add-columns-without-default-values&quot;&gt;=&amp;gt; Add columns without default values&lt;/h2&gt;
+
+&lt;p&gt;Adding a default value to an &lt;em&gt;existing&lt;/em&gt; column is also remarkably fast, as it also does not change any existing rows. So, if we break this migration into 2 steps, it will be very, very, fast:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddInfoColumnToCaseDocketReport&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;add_column&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:case_docket_reports&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jsonb&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;change_column&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:case_docket_reports&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jsonb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;default: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'{}'&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;add-default-values-to-existing-columns&quot;&gt;=&amp;gt; Add default values to existing columns&lt;/h2&gt;
+
+&lt;p&gt;Of course, now your table has columns filled with NULL values, which may or may not be a bad thing in your application. Let’s assume for the moment that it is a bad thing. How do we update all of those rows? The naive approach in Rails is to iterate over each object, assigning the new value:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;CaseDocketReport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;info: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;find_each&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;batch_size: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;docket_report&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;docket_report&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;info: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{})&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This is also very slow because you have to drag each row from Postgres, over the “wire” and into Rails, create the associated objects and then write each change out in an isolated transaction. There is an alternative that is very fast: Rails exposes the SQL &lt;code class=&quot;highlighter-rouge&quot;&gt;UPDATE&lt;/code&gt; via the &lt;code class=&quot;highlighter-rouge&quot;&gt;#update_all&lt;/code&gt; method. This is very, very fast:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;CaseDocketReport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;info: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;limit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10_000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;update_all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;info: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{})&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;This little snippet, in one SQL command, will update 10,000 rows at a time!&lt;/p&gt;
+
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;UPDATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{}'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;case_docket_reports&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;IS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;do-as-much-work-inside-postgres-not-in-rails&quot;&gt;=&amp;gt; Do as much work inside Postgres, not in Rails&lt;/h2&gt;
+
+&lt;p&gt;As I’ve written &lt;a href=&quot;/2015/08/15/zero-downtime-migrations.html&quot;&gt;before&lt;/a&gt;, plan and deploy your migrations so that they can run independently of your production code. That way, you can deploy &lt;em&gt;just&lt;/em&gt; your migrations, and run them in production without affecting your application, or incurring downtime.&lt;/p&gt;
+
+&lt;p&gt;&lt;label for=&quot;1&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;1&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Can Rails do this? As of Rails 4, &lt;a href=&quot;https://github.com/rails/rails/commit/2d33796457b139a58539c890624591c97354d334&quot;&gt;yes&lt;/a&gt;! &lt;/span&gt;Another problem area are indexes, because creating one would normally block writes. By adding the index &lt;code class=&quot;highlighter-rouge&quot;&gt;CONCURRENTLY&lt;/code&gt;, we can avoid this. Because Rails runs migrations inside a transaction and concurrent indexes &lt;a href=&quot;https://www.postgresql.org/docs/9.4/static/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY&quot;&gt;must be added outside one&lt;/a&gt;, we add &lt;code class=&quot;highlighter-rouge&quot;&gt;disable_ddl_transaction!&lt;/code&gt; to the migration.&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddIndexToAsksActive&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;disable_ddl_transaction!&lt;/span&gt;
+
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;add_index&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:asks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:active&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;algorithm: :concurrently&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;add-indexes-concurrently&quot;&gt;=&amp;gt; Add indexes CONCURRENTLY&lt;/h2&gt;
+
+&lt;p&gt;Another trouble spot is changing the type of a column. Again, as I mentioned in &lt;a href=&quot;/2015/08/15/zero-downtime-migrations.html&quot;&gt;Zero Downtime Migrations&lt;/a&gt;, the solution is: “Don’t!” Instead, add a new column with a new name. When you’ve completed your upgrades, and, at your leisure, you can &lt;code class=&quot;highlighter-rouge&quot;&gt;DROP&lt;/code&gt; the column. Here’s an interesting side-tip, you can “hide” the old column from your code so you don’t accidentally use it:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;columns&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# TODO: Remove after completing migration&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'ecf_username'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;#...&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;dont-change-columns-add-new-ones-then-drop-the-old-ones&quot;&gt;=&amp;gt; Don’t change columns, add new ones, then drop the old ones&lt;/h2&gt;
+
+&lt;p&gt;You can also run into trouble in the most delightfully insidious way by running an innocuous-looking query that accidentally starts locking big chunks of your db. A good example that has bitten everyone at least once is running a back-office analytics query that does an enormous n-way join. Solution: have a read-only replica and query to that!&lt;/p&gt;
+
+&lt;h2 id=&quot;run-big-queries-against-a-read-only-replica&quot;&gt;=&amp;gt; Run big queries against a read-only replica&lt;/h2&gt;
+
+&lt;p&gt;My last recommendation is this: Hire a really excellent DBA or outsource the whole DB platform. There are endless numbers of knobs and settings and configuration values that you might or might not get right. As your system grows to the point of being “interesting,” you’re going to need that expertise. Or, you can take advantage of PaaS companies who make it their core competency. You get a “slice” of an expert DBA. In addition, they probably know how to scale your database up (and down) better than you ever will, since they do it all the time, and you only need to do it once in awhile. Of course, if you’re lucky, you’ll have those problems that are good to have, and you can move things in-house.&lt;/p&gt;
+</description>
+        <pubDate>Wed, 30 Nov 2016 00:00:00 -0800</pubDate>
+        <link>http://blog.bitwrangler.com/2016/11/30/performant-postgres-migrations.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2016/11/30/performant-postgres-migrations.html</guid>
+        
+        <category>rails</category>
+        
+        <category>postgres</category>
+        
+        <category>scale</category>
+        
+        
+      </item>
     
       <item>
         <title>Sacrificial Test Classes</title>
@@ -808,35 +911,6 @@ PERMIT!&lt;/p&gt;
         <category>rails</category>
         
         <category>testing</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>The slow road</title>
-        <description>&lt;p&gt;Once a week, we run a query on our production system that takes a very long time to complete. Invariably, it times out because the default settings on Heroku are (quite reasonably) for web / API interactions; anything longer than 30 seconds is too long and the connection should be closed to let other requests through. How do you get around this, then? You could set up your &lt;code class=&quot;highlighter-rouge&quot;&gt;database.yml&lt;/code&gt; file so that you connect to your production database from a developer workstation. This is actually quite useful, but opens up a hellacious security hole. Let’s not get started about the consequences of accidentally running &lt;code class=&quot;highlighter-rouge&quot;&gt;rake db:drop:all&lt;/code&gt;! Moreover, you want your system to be automated as much as possible, and that means running your tasks on a Heroku instance. Fortunately, with a little hackery, you can modify the connection timeout settings within your application. Do this carefully, and make sure that it can not leak into your running web application dynos.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;raw_connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;query_options&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;tap&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;opts&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;opts&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:read_timeout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;600&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;connection_pool&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;with_connection&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;# ... long running database queries go here ...&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;These settings are database specific, so read the documentation / source. This connection is using the &lt;code class=&quot;highlighter-rouge&quot;&gt;mysql2&lt;/code&gt; adapter.&lt;/p&gt;
-</description>
-        <pubDate>Sun, 01 Jun 2014 08:00:37 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2014/06/01/the-slow-road.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2014/06/01/the-slow-road.html</guid>
-        
-        <category>database</category>
-        
-        <category>heroku</category>
-        
-        <category>rails</category>
         
         
       </item>
