@@ -7,27 +7,27 @@
 /* The README.md will show you how to set up your site along with other goodies
 /*****************************************************************************/
 @font-face {
-  font-family: ETBembo;
-  src: url("../fonts/et-bembo/et-bembo-roman-line-figures/et-bembo-roman-line-figures.eot");
-  src: url("../fonts/et-bembo/et-bembo-roman-line-figures/et-bembo-roman-line-figures.eot?#iefix") format("embedded-opentype"), url("../fonts/et-bembo/et-bembo-roman-line-figures/et-bembo-roman-line-figures.woff") format("woff"), url("../fonts/et-bembo/et-bembo-roman-line-figures/et-bembo-roman-line-figures.ttf") format("truetype"), url("../fonts/et-bembo/et-bembo-roman-line-figures/et-bembo-roman-line-figures.svg#etbemboromanosf") format("svg");
+  font-family: ETbook;
+  src: url("../fonts/et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot");
+  src: url("../fonts/et-book/et-book-roman-line-figures/et-book-roman-line-figures.eot?#iefix") format("embedded-opentype"), url("../fonts/et-book/et-book-roman-line-figures/et-book-roman-line-figures.woff") format("woff"), url("../fonts/et-book/et-book-roman-line-figures/et-book-roman-line-figures.ttf") format("truetype"), url("../fonts/et-book/et-book-roman-line-figures/et-book-roman-line-figures.svg#etbemboromanosf") format("svg");
   font-weight: normal;
   font-style: normal; }
 @font-face {
-  font-family: ETBembo;
-  src: url("../fonts/et-bembo/et-bembo-display-italic-old-style-figures/et-bembo-display-italic-old-style-figures.eot");
-  src: url("../fonts/et-bembo/et-bembo-display-italic-old-style-figures/et-bembo-display-italic-old-style-figures.eot?#iefix") format("embedded-opentype"), url("../fonts/et-bembo/et-bembo-display-italic-old-style-figures/et-bembo-display-italic-old-style-figures.woff") format("woff"), url("../fonts/et-bembo/et-bembo-display-italic-old-style-figures/et-bembo-display-italic-old-style-figures.ttf") format("truetype"), url("../fonts/et-bembo/et-bembo-display-italic-old-style-figures/et-bembo-display-italic-old-style-figures.svg#etbemboromanosf") format("svg");
+  font-family: ETbook;
+  src: url("../fonts/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot");
+  src: url("../fonts/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot?#iefix") format("embedded-opentype"), url("../fonts/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.woff") format("woff"), url("../fonts/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.ttf") format("truetype"), url("../fonts/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.svg#etbemboromanosf") format("svg");
   font-weight: normal;
   font-style: italic; }
 @font-face {
-  font-family: ETBembo;
-  src: url("../fonts/et-bembo/et-bembo-bold-line-figures/et-bembo-bold-line-figures.eot");
-  src: url("../fonts/et-bembo/et-bembo-bold-line-figures/et-bembo-bold-line-figures.eot?#iefix") format("embedded-opentype"), url("../fonts/et-bembo/et-bembo-bold-line-figures/et-bembo-bold-line-figures.woff") format("woff"), url("../fonts/et-bembo/et-bembo-bold-line-figures/et-bembo-bold-line-figures.ttf") format("truetype"), url("../fonts/et-bembo/et-bembo-bold-line-figures/et-bembo-bold-line-figures.svg#etbemboromanosf") format("svg");
+  font-family: ETbook;
+  src: url("../fonts/et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot");
+  src: url("../fonts/et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot?#iefix") format("embedded-opentype"), url("../fonts/et-book/et-book-bold-line-figures/et-book-bold-line-figures.woff") format("woff"), url("../fonts/et-book/et-book-bold-line-figures/et-book-bold-line-figures.ttf") format("truetype"), url("../fonts/et-book/et-book-bold-line-figures/et-book-bold-line-figures.svg#etbemboromanosf") format("svg");
   font-weight: bold;
   font-style: normal; }
 @font-face {
-  font-family: ETBemboRomanOldStyle;
-  src: url("../fonts/et-bembo/et-bembo-roman-old-style-figures/et-bembo-roman-old-style-figures.eot");
-  src: url("../fonts/et-bembo/et-bembo-roman-old-style-figures/et-bembo-roman-old-style-figures.eot?#iefix") format("embedded-opentype"), url("../fonts/et-bembo/et-bembo-roman-old-style-figures/et-bembo-roman-old-style-figures.woff") format("woff"), url("../fonts/et-bembo/et-bembo-roman-old-style-figures/et-bembo-roman-old-style-figures.ttf") format("truetype"), url("../fonts/et-bembo/et-bembo-roman-old-style-figures/et-bembo-roman-old-style-figures.svg#etbemboromanosf") format("svg");
+  font-family: ETbookRomanOldStyle;
+  src: url("../fonts/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot");
+  src: url("../fonts/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot?#iefix") format("embedded-opentype"), url("../fonts/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.woff") format("woff"), url("../fonts/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.ttf") format("truetype"), url("../fonts/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.svg#etbemboromanosf") format("svg");
   font-weight: normal;
   font-style: normal; }
 /* This file contains all the constants for colors and font styles */
@@ -369,7 +369,7 @@ section {
   padding-top: 1rem;
   padding-bottom: 1rem; }
 
-ul {
+ul, ol {
   width: 45%;
   -webkit-padding-start: 5%;
   -webkit-padding-end: 5%;
@@ -645,55 +645,11 @@ hr.slender {
 @media screen {
   .print-footer {
     display: none; } }
-@media print {
-  *,
-  *:before,
-  *:after {
-    background: transparent !important;
-    color: #000 !important;
-    box-shadow: none !important;
-    text-shadow: none !important; }
-
-  @page {
-    margin: 0.75in 0.5in 0.75in 0.5in;
-    orphans: 4;
-    widows: 2; }
-  body {
-    font-size: 12pt; }
-
-  html body span.print-footer {
-    font-family: "Gill Sans", "Gill Sans MT", "Lato", Calibri, sans-serif;
-    font-size: 9pt;
-    margin-top: 22.4pt;
-    padding-top: 4pt;
-    border-top: 1px solid #000; }
-
-  thead {
-    display: table-header-group; }
-
-  tr,
-  img {
-    page-break-inside: avoid; }
-
-  img {
-    max-width: 100% !important; }
-
-  p,
-  h2,
-  h3 {
-    orphans: 4;
-    widows: 4; }
-
-  article h2, article h2 h3, article h3, article h3 h4, article h4, article h4 h5 {
-    page-break-after: avoid; }
-
-  body header, body footer {
-    display: none; } }
 /* --- Icomoon icon fonts CSS --*/
 @font-face {
   font-family: 'icomoon';
-  src: url("../fonts/icomoon.eot?rgwlb8");
-  src: url("../fonts/icomoon.eot?#iefixrgwlb8") format("embedded-opentype"), url("../fonts/icomoon.woff?rgwlb8") format("woff"), url("../fonts/icomoon.ttf?rgwlb8") format("truetype"), url("../fonts/icomoon.svg?rgwlb8#icomoon") format("svg");
+  src: url("../fonts/icomoon.eot?alssxe");
+  src: url("../fonts/icomoon.eot?alssxe#iefix") format("embedded-opentype"), url("../fonts/icomoon.woff?alssxe") format("woff"), url("../fonts/icomoon.ttf?alssxe") format("truetype"), url("../fonts/icomoon.svg?alssxe#icomoon") format("svg");
   font-weight: normal;
   font-style: normal; }
 [class^="icon-"], [class*=" icon-"] {
@@ -709,52 +665,64 @@ hr.slender {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }
 
-.icon-pencil:before {
-  content: "\e600"; }
+.icon-pencil2:before {
+  content: "\e906"; }
 
-.icon-film:before {
-  content: "\e60f"; }
+.icon-play:before {
+  content: "\e912"; }
 
 .icon-calendar:before {
-  content: "\e601"; }
-
-.icon-link:before {
-  content: "\e602"; }
-
-.icon-info:before {
-  content: "\e603"; }
-
-.icon-cancel-circle:before {
-  content: "\e604"; }
-
-.icon-checkmark-circle:before {
-  content: "\e605"; }
-
-.icon-spam:before {
-  content: "\e606"; }
-
-.icon-mail:before {
-  content: "\e607"; }
-
-.icon-googleplus:before {
-  content: "\e608"; }
-
-.icon-facebook:before {
-  content: "\e609"; }
-
-.icon-twitter:before {
-  content: "\e60a"; }
-
-.icon-feed:before {
-  content: "\e60b"; }
-
-.icon-flickr:before {
-  content: "\e60c"; }
-
-.icon-github:before {
-  content: "\e60d"; }
+  content: "\e953"; }
 
 .icon-box-add:before {
-  content: "\e60e"; }
+  content: "\e95e"; }
+
+.icon-link:before {
+  content: "\e9cb"; }
+
+.icon-notification:before {
+  content: "\ea08"; }
+
+.icon-info:before {
+  content: "\ea0c"; }
+
+.icon-cancel-circle:before {
+  content: "\ea0d"; }
+
+.icon-checkbox-checked:before {
+  content: "\ea52"; }
+
+.icon-share2:before {
+  content: "\ea82"; }
+
+.icon-mail3:before {
+  content: "\ea85"; }
+
+.icon-google-plus2:before {
+  content: "\ea8c"; }
+
+.icon-facebook2:before {
+  content: "\ea91"; }
+
+.icon-twitter:before {
+  content: "\ea96"; }
+
+.icon-rss2:before {
+  content: "\ea9c"; }
+
+.icon-flickr3:before {
+  content: "\eaa5"; }
+
+.icon-github:before {
+  content: "\eab0"; }
+
+.icon-tumblr2:before {
+  content: "\eaba"; }
+
+.icon-skype:before {
+  content: "\eac5"; }
+
+.icon-linkedin:before {
+  content: "\eac9"; }
 
 /*-- End of Icomoon icon font section --*/

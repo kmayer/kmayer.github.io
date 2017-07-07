@@ -8,22 +8,18 @@
   <title>Sencha Touch BDD - Part 4 - PhantomJS</title>
   <meta name="description" content="Part 3 added jasmine-ajax so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without d...">
 
-
-  <link rel="stylesheet" href="/css/tufte.css">	
-  
-
   <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
   
     <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
   
+  
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
 
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css">
+  <link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2013/05/10/sencha-touch-bdd-part-4-phantomjs.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
-
   
 </head>
 
@@ -47,13 +43,18 @@
 	    
   	
 		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
   	
 	</nav>
 </header>
     <article class="group">
-      <h1>Sencha touch bdd - part 4 - phantomjs</h1>
+      <h1>Sencha Touch BDD - Part 4 - PhantomJS</h1>
 <p class="subtitle">May 10, 2013</p>
-
 
 <p><a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">Part 3</a> added <code class="highlighter-rouge">jasmine-ajax</code> so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without depending on a back-end server. In <a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you how to unit test Sencha model classes in Jasmine. In <a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework.</p>
 
@@ -65,7 +66,7 @@
 
 <h3 id="do-the-install-dance">Do the install dance</h3>
 
-<h4 id="add-jasmine-phantom-to-your-codegemfilecode">0. Add ‘jasmine-phantom’ to your <code>Gemfile</code></h4>
+<h4 id="0-add-jasmine-phantom-to-your-gemfile">0. Add ‘jasmine-phantom’ to your <code>Gemfile</code></h4>
 
 <div class="language-diff highlighter-rouge"><pre class="highlight"><code><span class="gh">index e6b5daf..612fb25 100644
 </span><span class="gd">--- a/Gemfile
@@ -124,7 +125,7 @@ Waiting <span class="k">for </span>jasmine server on 60080...
     <footer>
   <hr class="slender">
   <ul class="footer-links">
-    <li><a href="mailto:hate@spam.net"><span class="icon-mail"></span></a></li>    
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
     
       <li>
         <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
@@ -139,18 +140,15 @@ Waiting <span class="k">for </span>jasmine server on 60080...
       </li>
     
       <li>
-        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook"></span></a>
-      </li>
-    
-      <li>
-        <a href="/feed"><span class="icon-feed"></span></a>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
       </li>
       
   </ul>
 <div class="credits">
-<span>&copy; 1995-2016 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
 <span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
 </div>  
 </footer>
+
   </body>
 </html>

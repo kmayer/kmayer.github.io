@@ -8,22 +8,18 @@
   <title>Memory Leak Whack-a-Mole</title>
   <meta name="description" content="⊕https://www.flickr.com/photos/tpapi/2765541278Memory leaks happen. They shouldn’t, but you just can’t squash enough of them. Or the leak is so slow that it ...">
 
-
-  <link rel="stylesheet" href="/css/tufte.css">	
-  
-
   <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
   
     <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
   
+  
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
 
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css">
+  <link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2016/10/27/memory-leak-whack-a-mole.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
-
   
 </head>
 
@@ -47,13 +43,18 @@
 	    
   	
 		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
   	
 	</nav>
 </header>
     <article class="group">
-      <h1>Memory leak whack-a-mole</h1>
+      <h1>Memory Leak Whack-a-Mole</h1>
 <p class="subtitle">October 27, 2016</p>
-
 
 <p><label for="whack-a-mole" class="margin-toggle">⊕</label><input type="checkbox" id="whack-a-mole" class="margin-toggle" /><span class="marginnote"><img class="fullwidth" src="/assets/whack-a-mole.jpg" /><br /><a href="https://www.flickr.com/photos/tpapi/2765541278">https://www.flickr.com/photos/tpapi/2765541278</a></span>Memory leaks happen. They shouldn’t, but you just can’t squash enough of them. Or the leak is so slow that it takes hours to manifest. The trouble with memory leaks is that they are permanent for the life of a process. Once a process has expanded its <a href="http://stackoverflow.com/questions/7880784/what-is-rss-and-vsz-in-linux-memory-management">VSZ</a>, there’s no way in Unix to shrink it. So your process starts to bloat, eventually your servers <a href="http://www.folkstalk.com/2011/11/swapping-and-paging-in-unix.html">page</a> and <a href="https://en.wikipedia.org/wiki/Thrashing_(computer_science)">thrash</a>. Performance tanks. Then your pager starts going off and there goes your beauty sleep.</p>
 
@@ -256,7 +257,7 @@
     <footer>
   <hr class="slender">
   <ul class="footer-links">
-    <li><a href="mailto:hate@spam.net"><span class="icon-mail"></span></a></li>    
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
     
       <li>
         <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
@@ -271,18 +272,15 @@
       </li>
     
       <li>
-        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook"></span></a>
-      </li>
-    
-      <li>
-        <a href="/feed"><span class="icon-feed"></span></a>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
       </li>
       
   </ul>
 <div class="credits">
-<span>&copy; 1995-2016 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
 <span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
 </div>  
 </footer>
+
   </body>
 </html>

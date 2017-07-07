@@ -6,9 +6,78 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 30 Nov 2016 21:23:59 -0800</pubDate>
-    <lastBuildDate>Wed, 30 Nov 2016 21:23:59 -0800</lastBuildDate>
-    <generator>Jekyll v3.3.1</generator>
+    <pubDate>Fri, 07 Jul 2017 12:50:56 -0700</pubDate>
+    <lastBuildDate>Fri, 07 Jul 2017 12:50:56 -0700</lastBuildDate>
+    <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>To be the Dumbest Person in the Room</title>
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;I want to work with intelligent, opinionated people who can make the world a little better. Then iterate.&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;label for=&quot;jaguar-priest&quot; class=&quot;margin-toggle&quot;&gt;⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;jaguar-priest&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;img class=&quot;fullwidth&quot; src=&quot;/assets/jaguar-priest.jpg&quot; /&gt;&lt;br /&gt;WANTED: Jaguar Priest&lt;br /&gt;1. To impersonate and invoke the deity&lt;br /&gt;2. To offer food and drink to the idols&lt;br /&gt;3. To effect the drawing of the pebbles and regulate the calendar&lt;br /&gt;4. To read weather and other omens in the clouds&lt;br /&gt;5. To study the night sky and interpret the appearance of the celestial bodies&lt;br /&gt;6. To determine the lucky and unlucky days for various mundane activities by the casting of lots&lt;br /&gt;7. To perform the numerous rituals of the cup, plate, etc.&lt;br /&gt;8. To work miracles&lt;br /&gt;9. To concoct medicinal herbs into ceremonial drinks&lt;br /&gt;10. To predict the future&lt;br /&gt;11. To announce the times for various agricultural and other activities&lt;br /&gt;12. To insure adequate rainfall&lt;br /&gt;13. To avert or bring to a timely end famine, drought, epidemics, plagues of ants and locusts, earthquakes&lt;br /&gt;14. To distribute food to the hungry in time of need&lt;br /&gt;15. To cut the honey from the hives&lt;br /&gt;16. To determine the compensation to be placed on the crossroad altars&lt;br /&gt;17. To read from the sacred scriptures the future road of the katun [calendar round]&lt;br /&gt;18. To design and supervise the carving of stelae [stone monuments], the manufacture of word and clay idols, and the construction of temples&lt;br /&gt;19. To construct tables of eclipses and heliacal risings of planets [such as are found in the Dresden Codex]&lt;br /&gt;–Makemson, M.W. &lt;em&gt;The Book of the Jaguar Priest&lt;/em&gt;, a translation of the Book of Chilam Balam of Tizimin, with commentary. Henry Schuman, New York, 1951, p. 141.&lt;/span&gt; Hi,&lt;/p&gt;
+
+&lt;p&gt;I’m Ken, the CTO of &lt;a href=&quot;https://www.pacerpro.com&quot;&gt;PacerPro&lt;/a&gt;. If you’re looking for a software developer job, then you’ve come to the right place; read on, my friend. If you’re not looking, yet, now, or never, but you know of someone who might be interested in this, please pass this on to them. You never know how things work out.&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;What is PacerPro and why should I care?&lt;/span&gt;  PacerPro searches for, and collects documents from, PACER.gov&lt;label for=&quot;pacer&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;pacer&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/PACER_(law)&quot;&gt;PACER&lt;/a&gt; (acronym for Public Access to Court Electronic Records) is an electronic public access service of United States federal court documents. &lt;/span&gt;, then distributes them to our clients. We strive to have the most accurate, up-to-date, and complete set of “facts on the ground.” The company has been in business since 2012, we have paying customers, many of them in the &lt;a href=&quot;http://www.americanlawyer.com/id=1202784597030/The-2017-Am-Law-100?slreturn=20170607151359&quot;&gt;Am Law 100&lt;/a&gt;. I’ve been involved with PacerPro since 2013, when I was anchoring the project at Pivotal Labs. Gavin McGrane is a very straightforward CEO, no drama. He believes in his vision and knows the business because he (and his family) are lawyers. The company has an interesting, albeit work-a-day, future. I believe that PacerPro solves a terrible productivity problem with US Courts system.&lt;/p&gt;
+
+&lt;p&gt;Our mission is to make PACER documents more accessible, with less friction and lower costs. If you’ve heard of &lt;a href=&quot;https://arstechnica.com/tech-policy/2013/02/the-inside-story-of-aaron-swartzs-campaign-to-liberate-court-filings/2/&quot;&gt;Aaron Swartz&lt;/a&gt;’s efforts or the &lt;a href=&quot;https://free.law/recap/&quot;&gt;RECAP&lt;/a&gt; project, we’re in a similar space, except that we’re trying to do it in a way that is financially self-sustaining (in the long run, anyway, that’s the plan). Most of the documents from PACER are behind a “paywall,” even though they are public records, but once they are downloaded from PACER, we can give them away without charge. The other big product that we’re building is an analytics platform that sips off of this data stream to give law firms a tactical advantage in their marketplace.&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;I’m looking for my next “senior” engineer&lt;/span&gt;  (in reality I’d like to hire a &lt;em&gt;pair&lt;/em&gt;, but, you know, budget). PacerPro was founded by practicing lawyers. They know their stuff. I probably have the fewest degrees than anyone else in the company. What am I looking for? You understand our business, or, if you don’t, you have a genuine curiosity and ability to learn it. You are able to have conversations with our customers and stake holders. You know how to research a problem. You know when to ask for help. You can think beyond the current story and consider ROI. You have hands-on experience with our technology stack and methodologies. I hear that “full stack” has become a dirty word, but we all do pretty much everything around here. Expect to handle Zendesk tickets from lawyers about one day out of the week. I’m not expecting you to be an &lt;em&gt;expert&lt;/em&gt; in &lt;em&gt;everything&lt;/em&gt;, but competence or the ability to spin up without too much inertia is a requirement. You are an eternal student and teacher. You want to bring us all to the next level, as do we for you. If you’ve worked with me before, you’ll know what you’re getting into; I haven’t changed my style very much over the years. If you don’t know what it’s like to work with me, here’s the broad brush sketch:&lt;/p&gt;
+
+&lt;p&gt;We are an Agile shop in a mostly XP style; we have a daily stand-up (and evening round-up), pair-programming is our default stance; we need a good reason &lt;em&gt;not&lt;/em&gt; to pair. Test-Driven-Development is how we grow code. We do code reviews on pull requests. Our backlog is in Pivotal Tracker, groomed by myself and the product manager, &lt;a href=&quot;https://www.linkedin.com/in/arthurlaw&quot;&gt;Arthur&lt;/a&gt;. We have automated continuous integration tests. We have continuous code quality testing. We can deploy at any time with one command line: &lt;code class=&quot;highlighter-rouge&quot;&gt;rake production deploy&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;label for=&quot;circle-ci&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;circle-ci&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;build status: &lt;/code&gt; &lt;img src=&quot;https://circleci.com/gh/PacerPRO/pacerpro.svg?style=svg&amp;amp;circle-token=93ac702dd0156840542e67321eb3beb271033577&quot; alt=&quot;Circle CI&quot; /&gt; &lt;/span&gt;&lt;label for=&quot;code-climate&quot; class=&quot;margin-toggle&quot;&gt;⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;code-climate&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;img class=&quot;fullwidth&quot; src=&quot;https://codeclimate.com/repos/51b7726089af7e17e90010a4/badges/cce4bf6507763c1d3a7d/gpa.svg&quot; /&gt;&lt;br /&gt;&lt;/span&gt;&lt;label for=&quot;test-coverage&quot; class=&quot;margin-toggle&quot;&gt;⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;test-coverage&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;img class=&quot;fullwidth&quot; src=&quot;https://codeclimate.com/repos/51b7726089af7e17e90010a4/badges/cce4bf6507763c1d3a7d/coverage.svg&quot; /&gt;&lt;br /&gt;&lt;/span&gt;A big chunk of our code is navigating the PACER system without a human operator, i.e. HTML screen scraping. We’re building an &lt;a href=&quot;https://app.swaggerhub.com/apis/PacerPro/pacer-pro&quot;&gt;API&lt;/a&gt; for our clients to use to integrate with their internal systems that are often client-confidential. We want to build NLP/deep/machine learning that will identify documents as they pass through our platform so that our clients can act on them in a timely manner. We want to expand our search capabilities into our PDF repository.&lt;/p&gt;
+
+&lt;p&gt;&lt;label for=&quot;status&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;status&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;a href=&quot;http://status.pacerpro.com&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;site status&lt;/code&gt;&lt;/a&gt; &lt;/span&gt;Our operations are hosted by Heroku. We run into scaling issues now and then, which is a good thing. We’re pretty good at handling them, too, which is another good thing. Our Postgresql database has grown to about 200GB, over 1.8 million documents on S3, 500-750 web rpms at peak. We send out 500,000 transactional emails per month. Our web server is written in Ruby on Rails 4.2.x, with a smidgen of Node Express. Our front end is mostly written in ReactJS 0.14.x, our newer code uses Redux, with a bunch of legacy Backbone code. Yep, we got ourselves some technical debt. We know where it is (mostly) and how to fix it, given time and eyeballs. That’s where you’d help out.&lt;/p&gt;
+
+&lt;p&gt;PacerPro is a small, distributed team. There is no physical office (at the time of this writing; we have tentative plans, fall 2017, to establish a space near the CalTrain station at 4th &amp;amp; King). If you need something to be productive, we’ll reimburse you for it. Because we pair a lot, we have to work during a common, scheduled, time slot, 9:30-5:30, Pacific Time. I’ll do my best to accommodate some time shifting. Since pairing is as intense as it is productive, we work a reasonable work day. After hours and weekends are the very rare exception, only when it can’t be avoided.&lt;/p&gt;
+
+&lt;p&gt;Interested? Reach out to me.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 07 Jul 2017 00:00:00 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2017/07/07/engineer.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2017/07/07/engineer.html</guid>
+        
+        <category>agile</category>
+        
+        <category>tdd</category>
+        
+        <category>pairing</category>
+        
+        <category>jobs</category>
+        
+        <category>rubyonrails</category>
+        
+        <category>reactjs</category>
+        
+        <category>heroku</category>
+        
+        <category>circleci</category>
+        
+        <category>codeclimate</category>
+        
+        <category>cloud</category>
+        
+        <category>javascript</category>
+        
+        <category>testing</category>
+        
+        <category>postgresql</category>
+        
+        <category>redis</category>
+        
+        <category>aws</category>
+        
+        <category>s3</category>
+        
+        <category>legal</category>
+        
+        <category>pacer</category>
+        
+        <category>opendata</category>
+        
+        
+      </item>
     
       <item>
         <title>Performant Large-Scale Postgres Migrations</title>
@@ -24,7 +93,7 @@
 
 &lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Not all migrations are created equal.&lt;/span&gt;  Adding a column to Postgres &lt;em&gt;without&lt;/em&gt; a default value is very fast because only the catalog tables get written. &lt;em&gt;With&lt;/em&gt; a default value, however, it can get very, very, s-l-o-w, because it has to make a copy of every row and reindex.&lt;/p&gt;
 
-&lt;h2 id=&quot;add-columns-without-default-values&quot;&gt;=&amp;gt; Add columns without default values&lt;/h2&gt;
+&lt;h2 id=&quot;-add-columns-without-default-values&quot;&gt;=&amp;gt; Add columns without default values&lt;/h2&gt;
 
 &lt;p&gt;Adding a default value to an &lt;em&gt;existing&lt;/em&gt; column is also remarkably fast, as it also does not change any existing rows. So, if we break this migration into 2 steps, it will be very, very, fast:&lt;/p&gt;
 
@@ -37,7 +106,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&quot;add-default-values-to-existing-columns&quot;&gt;=&amp;gt; Add default values to existing columns&lt;/h2&gt;
+&lt;h2 id=&quot;-add-default-values-to-existing-columns&quot;&gt;=&amp;gt; Add default values to existing columns&lt;/h2&gt;
 
 &lt;p&gt;Of course, now your table has columns filled with NULL values, which may or may not be a bad thing in your application. Let’s assume for the moment that it is a bad thing. How do we update all of those rows? The naive approach in Rails is to iterate over each object, assigning the new value:&lt;/p&gt;
 
@@ -62,7 +131,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&quot;do-as-much-work-inside-postgres-not-in-rails&quot;&gt;=&amp;gt; Do as much work inside Postgres, not in Rails&lt;/h2&gt;
+&lt;h2 id=&quot;-do-as-much-work-inside-postgres-not-in-rails&quot;&gt;=&amp;gt; Do as much work inside Postgres, not in Rails&lt;/h2&gt;
 
 &lt;p&gt;As I’ve written &lt;a href=&quot;/2015/08/15/zero-downtime-migrations.html&quot;&gt;before&lt;/a&gt;, plan and deploy your migrations so that they can run independently of your production code. That way, you can deploy &lt;em&gt;just&lt;/em&gt; your migrations, and run them in production without affecting your application, or incurring downtime.&lt;/p&gt;
 
@@ -78,7 +147,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&quot;add-indexes-concurrently&quot;&gt;=&amp;gt; Add indexes CONCURRENTLY&lt;/h2&gt;
+&lt;h2 id=&quot;-add-indexes-concurrently&quot;&gt;=&amp;gt; Add indexes CONCURRENTLY&lt;/h2&gt;
 
 &lt;p&gt;Another trouble spot is changing the type of a column. Again, as I mentioned in &lt;a href=&quot;/2015/08/15/zero-downtime-migrations.html&quot;&gt;Zero Downtime Migrations&lt;/a&gt;, the solution is: “Don’t!” Instead, add a new column with a new name. When you’ve completed your upgrades, and, at your leisure, you can &lt;code class=&quot;highlighter-rouge&quot;&gt;DROP&lt;/code&gt; the column. Here’s an interesting side-tip, you can “hide” the old column from your code so you don’t accidentally use it:&lt;/p&gt;
 
@@ -92,11 +161,11 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&quot;dont-change-columns-add-new-ones-then-drop-the-old-ones&quot;&gt;=&amp;gt; Don’t change columns, add new ones, then drop the old ones&lt;/h2&gt;
+&lt;h2 id=&quot;-dont-change-columns-add-new-ones-then-drop-the-old-ones&quot;&gt;=&amp;gt; Don’t change columns, add new ones, then drop the old ones&lt;/h2&gt;
 
 &lt;p&gt;You can also run into trouble in the most delightfully insidious way by running an innocuous-looking query that accidentally starts locking big chunks of your db. A good example that has bitten everyone at least once is running a back-office analytics query that does an enormous n-way join. Solution: have a read-only replica and query to that!&lt;/p&gt;
 
-&lt;h2 id=&quot;run-big-queries-against-a-read-only-replica&quot;&gt;=&amp;gt; Run big queries against a read-only replica&lt;/h2&gt;
+&lt;h2 id=&quot;-run-big-queries-against-a-read-only-replica&quot;&gt;=&amp;gt; Run big queries against a read-only replica&lt;/h2&gt;
 
 &lt;p&gt;My last recommendation is this: Hire a really excellent DBA or outsource the whole DB platform. There are endless numbers of knobs and settings and configuration values that you might or might not get right. As your system grows to the point of being “interesting,” you’re going to need that expertise. Or, you can take advantage of PaaS companies who make it their core competency. You get a “slice” of an expert DBA. In addition, they probably know how to scale your database up (and down) better than you ever will, since they do it all the time, and you only need to do it once in awhile. Of course, if you’re lucky, you’ll have those problems that are good to have, and you can move things in-house.&lt;/p&gt;
 </description>
@@ -484,35 +553,35 @@
 
 &lt;figure&gt;&lt;figcaption&gt;E-mail from me to my user base&lt;/figcaption&gt;&lt;img src=&quot;/assets/Screen_Shot_2016-09-22_at_9_00_06_AM.png&quot; /&gt;&lt;/figure&gt;
 
-&lt;h2 id=&quot;write-the-tldr&quot;&gt;1. Write the tl;dr&lt;/h2&gt;
+&lt;h2 id=&quot;1-write-the-tldr&quot;&gt;1. Write the tl;dr&lt;/h2&gt;
 
 &lt;p&gt;You don’t have to get into specifics; assess the impact to them. Don’t bother with “I’m sorry,” just stick to the facts, m’am.&lt;/p&gt;
 
-&lt;h2 id=&quot;whats-this-about&quot;&gt;2. What’s this about&lt;/h2&gt;
+&lt;h2 id=&quot;2-whats-this-about&quot;&gt;2. What’s this about&lt;/h2&gt;
 
 &lt;p&gt;Okay, now go into detail about what changed. In this case, we completely removed a feature. I described what the feature was, where it was located in our application and &lt;em&gt;why&lt;/em&gt; it existed in the first place.&lt;/p&gt;
 
-&lt;h2 id=&quot;why-we-had-to-make-the-change&quot;&gt;3. Why we had to make the change&lt;/h2&gt;
+&lt;h2 id=&quot;3-why-we-had-to-make-the-change&quot;&gt;3. Why we had to make the change&lt;/h2&gt;
 
 &lt;p&gt;Keep it simple. My users are attorneys, associates, librarians and paralegals. They are smart people, but not very technical.&lt;/p&gt;
 
-&lt;h2 id=&quot;why-now&quot;&gt;4. Why &lt;em&gt;now&lt;/em&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;4-why-now&quot;&gt;4. Why &lt;em&gt;now&lt;/em&gt;&lt;/h2&gt;
 
 &lt;p&gt;This feature has been in production for months. We knew about the risk, but we decided it was an acceptable one. Until two days ago. Normally, if we have a feature that we plan to remove, we’ll make time for the transition, warn the users in advance, and ease them out of it gracefully. This week was not normal. &lt;em&gt;That&lt;/em&gt; is what we fucked up. We knew this was a potential problem, but did not properly assess the risks.&lt;/p&gt;
 
-&lt;h2 id=&quot;impact-to-the-reader&quot;&gt;5. Impact to the &lt;em&gt;reader&lt;/em&gt;&lt;/h2&gt;
+&lt;h2 id=&quot;5-impact-to-the-reader&quot;&gt;5. Impact to the &lt;em&gt;reader&lt;/em&gt;&lt;/h2&gt;
 
 &lt;p&gt;Tell them how it hurts. It’s the most important thing that our dear reader needs to know, after all.&lt;label for=&quot;one&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;one&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;After reading the letter, with hindsight, I would have moved this up to the second paragraph. &lt;/span&gt;&lt;/p&gt;
 
-&lt;h2 id=&quot;remedial-actions-on-our-part&quot;&gt;6. Remedial actions on our part&lt;/h2&gt;
+&lt;h2 id=&quot;6-remedial-actions-on-our-part&quot;&gt;6. Remedial actions on our part&lt;/h2&gt;
 
 &lt;p&gt;What we’re doing to make up for the failure.&lt;/p&gt;
 
-&lt;h2 id=&quot;recognize-the-value-of-the-reader&quot;&gt;7. Recognize the value of the reader&lt;/h2&gt;
+&lt;h2 id=&quot;7-recognize-the-value-of-the-reader&quot;&gt;7. Recognize the value of the reader&lt;/h2&gt;
 
 &lt;p&gt;I appreciate my clients. Not only because they put bread on my table, but because, without them, I wouldn’t have a product to build. Loyal customers give me honest feedback, which makes PacerPro all that much better in the next iteration.&lt;/p&gt;
 
-&lt;h2 id=&quot;make-it-personal&quot;&gt;8. Make it personal&lt;/h2&gt;
+&lt;h2 id=&quot;8-make-it-personal&quot;&gt;8. Make it personal&lt;/h2&gt;
 
 &lt;p&gt;I gave them my e-mail, my phone number (which I will personally answer). And I said “Thank you.”&lt;/p&gt;
 </description>
@@ -673,13 +742,13 @@
 
 &lt;h2 id=&quot;the-recipe&quot;&gt;The Recipe&lt;/h2&gt;
 
-&lt;h3 id=&quot;on-a-clean-working-copy-of-your-code&quot;&gt;0. On a clean, working copy of your code&lt;/h3&gt;
+&lt;h3 id=&quot;0-on-a-clean-working-copy-of-your-code&quot;&gt;0. On a clean, working copy of your code&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout master
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;create-a-patch-file-of-all-migrations-added-since-your-last-production-deploy&quot;&gt;1. Create a patch file of all migrations, added since your last production deploy&lt;/h3&gt;
+&lt;h3 id=&quot;1-create-a-patch-file-of-all-migrations-added-since-your-last-production-deploy&quot;&gt;1. Create a patch file of all migrations, added since your last production deploy&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git fetch production
  git diff production/master... -- &lt;span class=&quot;s1&quot;&gt;'db/migrate/'&lt;/span&gt; &amp;gt; patch0
@@ -688,13 +757,13 @@
 
 &lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;production&lt;/code&gt; [git] remote is on Heroku. It can be named anything, but we call it that.&lt;/p&gt;
 
-&lt;h3 id=&quot;check-out-a-branch-starting-at-productionmasters-head&quot;&gt;2. Check out a branch, starting at &lt;em&gt;production/master&lt;/em&gt;’s head&lt;/h3&gt;
+&lt;h3 id=&quot;2-check-out-a-branch-starting-at-productionmasters-head&quot;&gt;2. Check out a branch, starting at &lt;em&gt;production/master&lt;/em&gt;’s head&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git checkout production/master -b pre-deploy-migrations
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;reset-your-development-database-to-current-state-of-the-production-database&quot;&gt;3. Reset your development database to current state of the production database&lt;/h3&gt;
+&lt;h3 id=&quot;3-reset-your-development-database-to-current-state-of-the-production-database&quot;&gt;3. Reset your development database to current state of the production database&lt;/h3&gt;
 
 &lt;p&gt;&lt;label for=&quot;warning&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;warning&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;em&gt;WARNING&lt;/em&gt; &lt;/span&gt;This will delete &lt;em&gt;all&lt;/em&gt; of your data in your development environment. But that should not be a problem, right? If it is, you have a problem with your development environment.&lt;/p&gt;
 
@@ -704,19 +773,19 @@
 
 &lt;p&gt;This also assumes that you’ve been diligent, &lt;em&gt;OCD-diligent&lt;/em&gt;, about keeping your &lt;code class=&quot;highlighter-rouge&quot;&gt;schema.rb&lt;/code&gt; file synchronized with production.&lt;/p&gt;
 
-&lt;h3 id=&quot;apply-the-patch-file&quot;&gt;4. Apply the patch file&lt;/h3&gt;
+&lt;h3 id=&quot;4-apply-the-patch-file&quot;&gt;4. Apply the patch file&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;patch -p1 &amp;lt; patch0
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;run-your-migrations&quot;&gt;5. Run your migrations&lt;/h3&gt;
+&lt;h3 id=&quot;5-run-your-migrations&quot;&gt;5. Run your migrations&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake db:migrate
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;add-and-commit-your-changes&quot;&gt;6. Add and commit your changes&lt;/h3&gt;
+&lt;h3 id=&quot;6-add-and-commit-your-changes&quot;&gt;6. Add and commit your changes&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git add db/migrate/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
  git add db/schema.rb
@@ -725,11 +794,11 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;re-run-your-test-suite-to-make-sure-nothing-asplodes&quot;&gt;7. Re-run your test suite to make sure nothing ‘asplodes&lt;/h3&gt;
+&lt;h3 id=&quot;7-re-run-your-test-suite-to-make-sure-nothing-asplodes&quot;&gt;7. Re-run your test suite to make sure nothing ‘asplodes&lt;/h3&gt;
 
 &lt;p&gt;What happens if your tests &lt;em&gt;do&lt;/em&gt; break? &lt;strong&gt;You might have a destructive migration!&lt;/strong&gt; For example, I recently changed a table from single to polymorphic ownership. Instead of adding the columns, &lt;code class=&quot;highlighter-rouge&quot;&gt;owner_id&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;owner_type&lt;/code&gt;, I renamed &lt;code class=&quot;highlighter-rouge&quot;&gt;organization_id&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;owner_id&lt;/code&gt;. A whole bunch of tests broke. If you continue with these steps, your app will crash when you run the migrations. See Appendix A for some work-arounds.&lt;/p&gt;
 
-&lt;h3 id=&quot;compare-your-commit-against-master&quot;&gt;8. Compare your commit against master&lt;/h3&gt;
+&lt;h3 id=&quot;8-compare-your-commit-against-master&quot;&gt;8. Compare your commit against master&lt;/h3&gt;
 
 &lt;p&gt;Make sure that nothing snuck in by accident. Conceptually, &lt;code class=&quot;highlighter-rouge&quot;&gt;schema.rb&lt;/code&gt; will represent the state of the database after the migrations have been run, and should exactly match the schema that we want to have for our new feature.&lt;/p&gt;
 
@@ -740,7 +809,7 @@
 
 &lt;p&gt;There &lt;strong&gt;might&lt;/strong&gt; be differences that are okay. You’ll have to do a manual code review to be sure.&lt;/p&gt;
 
-&lt;h3 id=&quot;push-just-this-commit-into-production&quot;&gt;9. Push &lt;strong&gt;just&lt;/strong&gt; this commit into production&lt;/h3&gt;
+&lt;h3 id=&quot;9-push-just-this-commit-into-production&quot;&gt;9. Push &lt;strong&gt;just&lt;/strong&gt; this commit into production&lt;/h3&gt;
 
 &lt;p&gt;You can do it by pushing the branch, or merging the commit into your deploy / mainline, rebase it &lt;em&gt;ahead&lt;/em&gt; of your other commits, then push just that sha. We use the &lt;code class=&quot;highlighter-rouge&quot;&gt;heroku_san&lt;/code&gt; gem, so, for us, it is a simple shell command (while still on this branch).&lt;/p&gt;
 
@@ -748,7 +817,7 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;run-your-migrations-on-your-production-instance&quot;&gt;10. Run your migrations on your production instance&lt;/h3&gt;
+&lt;h3 id=&quot;10-run-your-migrations-on-your-production-instance&quot;&gt;10. Run your migrations on your production instance&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;heroku run:detached rake db:migrate -r production
 &lt;/code&gt;&lt;/pre&gt;
@@ -756,7 +825,7 @@
 
 &lt;p&gt;Is this a long running migration? Don’t want Heroku to hang up before your done? What’s this &lt;a href=&quot;https://devcenter.heroku.com/articles/one-off-dynos#running-tasks-in-background&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;run:detached&lt;/code&gt;&lt;/a&gt;?&lt;/p&gt;
 
-&lt;h3 id=&quot;merge-the-branch-into-master&quot;&gt;11. Merge the branch into master&lt;/h3&gt;
+&lt;h3 id=&quot;11-merge-the-branch-into-master&quot;&gt;11. Merge the branch into master&lt;/h3&gt;
 
 &lt;p&gt;It should be a no-op since the code is already there. This is optional, but it keeps git happy for the next deploy.&lt;/p&gt;
 
@@ -766,20 +835,20 @@
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;you-are-ready-to-deploy-to-production&quot;&gt;12. You are ready to deploy to production&lt;/h3&gt;
+&lt;h3 id=&quot;12-you-are-ready-to-deploy-to-production&quot;&gt;12. You are ready to deploy to production&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake production deploy
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;clean-up&quot;&gt;13. Clean up&lt;/h3&gt;
+&lt;h3 id=&quot;13-clean-up&quot;&gt;13. Clean up&lt;/h3&gt;
 
 &lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git branch -D pre-deploy-migrations
  rm patch0
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;bask-in-the-glow-of-your-mastery&quot;&gt;14. Bask in the glow of your mastery!&lt;/h3&gt;
+&lt;h3 id=&quot;14-bask-in-the-glow-of-your-mastery&quot;&gt;14. Bask in the glow of your mastery!&lt;/h3&gt;
 
 &lt;hr class=&quot;slender&quot; /&gt;
 
@@ -854,63 +923,6 @@ PERMIT!&lt;/p&gt;
         <pubDate>Tue, 06 Jan 2015 19:45:33 -0800</pubDate>
         <link>http://blog.bitwrangler.com/2015/01/06/unintended-consequences-and-a-disaster-averted.html</link>
         <guid isPermaLink="true">http://blog.bitwrangler.com/2015/01/06/unintended-consequences-and-a-disaster-averted.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Timecop time and database time</title>
-        <description>&lt;p&gt;&lt;a href=&quot;https://github.com/travisjeffery/timecop&quot;&gt;Timecop&lt;/a&gt; is a great addition to your testing toolbox, but if you’ve ever tried to use Timecop to interact with a database, and then got the most mysterious of existential errors:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;expected: Sun, 08 Jun 2014 19:18:22 UTC +00:00
-      got: Sun, 08 Jun 2014 19:18:22 UTC +00:00
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;I feel your pain.&lt;/p&gt;
-
-&lt;p&gt;The trouble comes from the fact that Timecop is freezing time at the resolution of the native Time class, which on my Mac OS X machine is microseconds (aka “usec”), but the database, in this case MySQL only records time to the second. RSpec is trying to be helpful with its matchers by calling &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;code&amp;gt;&lt;/code&gt;#to_s`, but that hides the significant, sub-second difference.&lt;/p&gt;
-
-&lt;p&gt;Here’s a quick little monkey patch that I added to my spec support:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Timecop&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;database_compatible_time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;usec: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This uses a Rails helper to reset the microsecond portion of the time object. So, instead of&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Time&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;zone&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;now&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;Timecop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;freeze&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-&lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;I do this:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Timecop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;database_compatible_time&lt;/span&gt;
-
-&lt;span class=&quot;no&quot;&gt;Timecop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;freeze&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;now&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-&lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;And no more head scratching. It’s sort of database specific, so your mileage may vary.&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 08 Jun 2014 12:36:35 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2014/06/08/timecop-time-and-database-time.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2014/06/08/timecop-time-and-database-time.html</guid>
-        
-        <category>rails</category>
-        
-        <category>testing</category>
         
         
       </item>

@@ -8,22 +8,18 @@
   <title>Sencha Touch BDD - Part 3 - Testing Views and Mocking Stores</title>
   <meta name="description" content="In Part 1 I showed you how to set up your Sencha Touch development environment to use the Jasmine JavaScript test framework. In Part 2 I showed you to unit t...">
 
-
-  <link rel="stylesheet" href="/css/tufte.css">	
-  
-
   <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
   
     <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
   
+  
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
-    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-  
 
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css">
+  <link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
-
   
 </head>
 
@@ -47,13 +43,18 @@
 	    
   	
 		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
   	
 	</nav>
 </header>
     <article class="group">
-      <h1>Sencha touch bdd - part 3 - testing views and mocking stores</h1>
+      <h1>Sencha Touch BDD - Part 3 - Testing Views and Mocking Stores</h1>
 <p class="subtitle">May 5, 2013</p>
-
 
 <p>In <a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework. In <a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you to unit test Sencha model classes in Jasmine. In this part, we’ll test “views” and show how to mock data stores.</p>
 
@@ -336,23 +337,23 @@ SpecHelper.js file:</p>
 </code></pre>
 </div>
 
-<p>Similarly, we can refactor our colors array into var:
-```diff
-— a/spec/javascripts/helpers/SpecHelper.js
-+++ b/spec/javascripts/helpers/SpecHelper.js
-@@ -16,6 +16,15 @@ afterEach(function () {
-     domEl.setAttribute(‘style’, ‘display:none;’);
- });</p>
+<p>Similarly, we can refactor our colors array into var:</p>
+<div class="language-diff highlighter-rouge"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/helpers/SpecHelper.js
+</span><span class="gi">+++ b/spec/javascripts/helpers/SpecHelper.js
+</span><span class="gu">@@ -16,6 +16,15 @@ afterEach(function () {
+</span>     domEl.setAttribute('style', 'display:none;');
+ });
 
-<p>+var colorsJSON;
+<span class="gi">+var colorsJSON;
 +beforeEach(function() {
 +  colorsJSON = [
-+    {color: ‘red’},
-+    {color: ‘green’},
-+    {color: ‘blue’}
++    {color: 'red'},
++    {color: 'green'},
++    {color: 'blue'}
 +  ];
 +});
-```</p>
+</span></code></pre>
+</div>
 
 <p>And then use <code class="highlighter-rouge">colorsJSON</code> in our tests.</p>
 
@@ -407,7 +408,7 @@ SpecHelper.js file:</p>
     <footer>
   <hr class="slender">
   <ul class="footer-links">
-    <li><a href="mailto:hate@spam.net"><span class="icon-mail"></span></a></li>    
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
     
       <li>
         <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
@@ -422,18 +423,15 @@ SpecHelper.js file:</p>
       </li>
     
       <li>
-        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook"></span></a>
-      </li>
-    
-      <li>
-        <a href="/feed"><span class="icon-feed"></span></a>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
       </li>
       
   </ul>
 <div class="credits">
-<span>&copy; 1995-2016 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
 <span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
 </div>  
 </footer>
+
   </body>
 </html>
