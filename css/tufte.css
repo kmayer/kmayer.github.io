@@ -226,7 +226,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   padding-left: 12.5%;
-  font-family: et-bembo, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+  font-family: ETbook, Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
   background-color: #fffff8;
   color: #111;
   max-width: 1400px;
@@ -424,7 +424,7 @@ blockquote .sidenote, blockquote .marginnote {
 
 .sidenote-number:after, .sidenote:before {
   content: counter(sidenote-counter) " ";
-  font-family: et-bembo-roman-old-style;
+  font-family: ETbookRomanOldStyle;
   color: #a00000;
   position: relative;
   vertical-align: baseline; }
