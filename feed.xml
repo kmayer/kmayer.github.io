@@ -6,9 +6,42 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 07 Jul 2017 13:55:59 -0700</pubDate>
-    <lastBuildDate>Fri, 07 Jul 2017 13:55:59 -0700</lastBuildDate>
+    <pubDate>Sat, 08 Jul 2017 11:25:13 -0700</pubDate>
+    <lastBuildDate>Sat, 08 Jul 2017 11:25:13 -0700</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
+    
+      <item>
+        <title>Do Not Push to Red Builds</title>
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;There's a pattern to disasters: When you examine the post mortems, its not just one failure, but a cascade of multiple failures that overwhelm the system's safety features. Pushing to a red build risks piling one failure upon another.&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;One of our goals is to maintain an environment where we can deploy from &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt; at any time. The logical conclusion of this goal is &lt;em&gt;continuous deployment&lt;/em&gt;, but we’ll save that for another day. For now, let’s examine testing and why &lt;label for=&quot;red-build&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;red-build&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;A &lt;em&gt;red build&lt;/em&gt; is when we push to our source repository, which kicks off a continous integration run, the “&lt;em&gt;build&lt;/em&gt;,” which fails for one reason or another. In a perfect world, we would be able to build everything at our desktop, but as our projects grow, we break up our builds into smaller, isolated, pieces, to keep things fast. &lt;/span&gt;pushing to a red build is an anti-pattern.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://www.google.com/search?q=red+green+refactor&amp;amp;oq=re&amp;amp;aqs=chrome.0.69i59j69i60l3j69i57j0.911j0j7&amp;amp;sourceid=chrome&amp;amp;ie=UTF-8&quot;&gt;Red-Green-Refactor&lt;/a&gt; is a fundamental tenet of our development methodology. It provides us with constant feedback. It warns us when things go wrong. Green tests give us a place of safey from which we can explore without fear. Like all things, it is a &lt;em&gt;fractal&lt;/em&gt; concept. &lt;span class=&quot;newthought&quot;&gt;A broken build is a red unit test, writ large.&lt;/span&gt;  Without a green build, we can not deploy. Without a green build, we can not know if the next change we make is “good.” When we push a build to the repository, we are signalling to our team that we’re making progress toward our goal, but a red build says the opposite. When you push to a red build, unless you’re pushing the fix, of course, we can’t know whether your new code is making things better or worse.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Cowboy Bob pushes a seemingly innocuous change to master and goes to lunch. The build goes red. Agile Alice, not noticing the red build, merges her branch to master (tests were green on the branch), too. Now, the build is still red, but some of Alice’s tests are going red, now, too. Alice starts scratching her head and wonders how things could go so terribly wrong. Meanwhile, there’s a problem on production and DevOps Dan creates a production hotfix and deploys that.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;figure&gt;&lt;figcaption&gt;Stormy Skies, http://archive.boston.com/bigpicture/2010/07/stormy_skies.html&lt;/figcaption&gt;&lt;img src=&quot;/assets/95D17118-BBCA-4400-B0BE-8C345361493E.jpg&quot; /&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;When the build goes red, your &lt;em&gt;first&lt;/em&gt; priority is to fix it.&lt;/span&gt;  All other tasks are secondary. This gets you back on track.&lt;/p&gt;
+
+&lt;p&gt;In theory there is no difference between theory and practice. In practice there is. You will, at some time or another, have to use some judgement. An intermittently failing build is a code smell, but you might not be able to fix it. You’ll have to choose which is more valuable given the risk.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 08 Jul 2017 00:00:00 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2017/07/08/do-not-push-to-red-builds.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2017/07/08/do-not-push-to-red-builds.html</guid>
+        
+        <category>agile</category>
+        
+        <category>xp</category>
+        
+        <category>mantras</category>
+        
+        <category>testing</category>
+        
+        
+      </item>
     
       <item>
         <title>To be the Dumbest Person in the Room</title>
@@ -894,35 +927,6 @@
         <category>deploy</category>
         
         <category>heroku</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Unintended consequences (and a disaster averted)</title>
-        <description>&lt;p&gt;I want to tell you a scary-as-shit story, mostly so that my friends that have &lt;a href=&quot;http://en.wikipedia.org/wiki/Concealed_carry&quot;&gt;CCW&lt;/a&gt; permits might read it and not get killed by good intentions, because I love you all.&lt;/p&gt;
-
-&lt;p&gt;One morning, I was waiting for the San Francisco-bound &lt;a href=&quot;http://bart.gov&quot;&gt;BART&lt;/a&gt;, as usual. The crowd kept getting thicker and the train was late. There were grumpy rumblings all around. Finally a train rounds the bend, beeps its whistle, and … continues through the station without stopping.&lt;/p&gt;
-
-&lt;p&gt;What. The. Fuck. And then, even more waiting.&lt;/p&gt;
-
-&lt;p&gt;Suddenly, I see several things, pretty much simultaneously, that my brain had trouble processing at the time: The crowd, in a wave starts stepping back from the edge of the platform, revealing two BART police officers, weapons drawn, waving people back. On the opposite platform, another officer is shouldering a rifle pointed in my general direction. And, &lt;em&gt;then&lt;/em&gt;, behind me, an older guy in a green sweatshirt hits the deck, spread-eagled, face down and shouts at the top of his lungs,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;I HAVE A PERMIT!
-I.
-HAVE.
-A.
-PERMIT!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The police approach, frisk the man, remove a revolver from a belt clip, and then politely help him to his feet. There’s a brief check of credentials and a collective sigh of relief that this is not some nut-job ready to rain hell and bullets on a morning commute. I overhear the conversation while the next train rolls up to the platform and starts boarding; apparently an observant citizen saw the revolver tucked into the small of the man’s back and called 911. A bad fashion choice could have cost someone’s life that morning, if any number of things did not go perfectly right.&lt;/p&gt;
-
-&lt;p&gt;I like guns. I’ve used them for sport (target practice), nothing more. I’d be willing to hunt with them (as long as we eat or share what we kill and not let it go to waste). Carrying a concealed weapon scares the shit out of me.&lt;/p&gt;
-</description>
-        <pubDate>Tue, 06 Jan 2015 19:45:33 -0800</pubDate>
-        <link>http://blog.bitwrangler.com/2015/01/06/unintended-consequences-and-a-disaster-averted.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2015/01/06/unintended-consequences-and-a-disaster-averted.html</guid>
         
         
       </item>
