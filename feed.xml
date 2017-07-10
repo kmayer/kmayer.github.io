@@ -6,8 +6,8 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 10 Jul 2017 11:31:33 -0700</pubDate>
-    <lastBuildDate>Mon, 10 Jul 2017 11:31:33 -0700</lastBuildDate>
+    <pubDate>Mon, 10 Jul 2017 12:09:53 -0700</pubDate>
+    <lastBuildDate>Mon, 10 Jul 2017 12:09:53 -0700</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
@@ -47,9 +47,7 @@
         <title>To be the Dumbest Person in the Room</title>
         <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;I want to work with intelligent, opinionated people who can make the world a little better. Then iterate.&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;Hi,&lt;/p&gt;
-
-&lt;p&gt;I’m Ken, the CTO of &lt;a href=&quot;https://www.pacerpro.com&quot;&gt;PacerPro&lt;/a&gt;. If you’re looking for a software developer job, then you’ve come to the right place; read on, my friend. If you’re not looking, yet, now, or never, but you know of someone who might be interested in this, please pass this on to them. You never know how things work out.&lt;/p&gt;
+&lt;p&gt;I’m the CTO of &lt;a href=&quot;https://www.pacerpro.com&quot;&gt;PacerPro&lt;/a&gt;. If you’re looking for a software developer job, then you’ve come to the right place; read on, my friend. If you’re not looking, yet, now, or never, but you know of someone who might be interested in this, please pass this on to them. You never know how things work out.&lt;/p&gt;
 
 &lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;What is PacerPro and why should I care?&lt;/span&gt;  PacerPro searches for, and collects documents from, PACER.gov&lt;label for=&quot;pacer&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;pacer&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/PACER_(law)&quot;&gt;PACER&lt;/a&gt; (acronym for Public Access to Court Electronic Records) is an electronic public access service of United States federal court documents. It looks like it was written using 1990’s era FrontPage. It has &lt;a href=&quot;https://free.law/2015/03/20/what-is-the-pacer-problem/&quot;&gt;lots of problems&lt;/a&gt;. &lt;/span&gt;, then distributes them to our clients. We strive to have the most accurate, up-to-date, and complete set of “facts on the ground.” The company has been in business since 2012, we have paying customers, many of them in the &lt;a href=&quot;http://www.americanlawyer.com/id=1202784597030/The-2017-Am-Law-100?slreturn=20170607151359&quot;&gt;Am Law 100&lt;/a&gt;. I’ve been involved with PacerPro since 2013 when I was anchoring the project at Pivotal Labs. &lt;a href=&quot;https://www.linkedin.com/in/gavin-mcgrane-a9baa82/&quot;&gt;Gavin McGrane&lt;/a&gt; is a very straightforward CEO, no drama. He believes in his vision and knows the business because he (and his family) are lawyers. The company has an interesting, albeit work-a-day, future. I believe that PacerPro solves a terrible productivity problem with US Courts system.&lt;/p&gt;
 
