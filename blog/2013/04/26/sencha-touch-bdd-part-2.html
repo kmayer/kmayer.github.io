@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sencha Touch BDD Part 2 -- Unit Testing Models</title>
+  <meta name="description" content="In Part 1 I showed you how to set up your Sencha Touch development environment to use the Jasmine JavaScript test framework. We’re going to take a bit of a b...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1499985945926335000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1499985945926335000" media="print">
+  <link rel="canonical" href="http://localhost:4000/2013/04/26/sencha-touch-bdd-part-2.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://localhost:4000/feed.xml" />
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Sencha Touch BDD Part 2 -- Unit Testing Models</h1>
+<p class="subtitle">April 26, 2013</p>
+
+<p>In <a href="/2013/04/17/sencha-touch-bdd-part-1.html" title="Sencha Touch BDD Part 1">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework. We’re going to take a bit of a breather from all the hard work we did last week. In this blog, I’m going to show you how to test simple models.</p>
+
+<h3 id="letshavesomefunshallwe">Let’s have some fun, shall we?</h3>
+
+<p>Test-Driven-Development starts with a test, of course. Let’s write one that just asserts that our model class <em>exists</em>:</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModelSpec</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="s1">'exists'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">$className</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>When we run our tests in the browser, Jasmine reports this:</p>
+
+<pre>
+  Error: [Ext.Loader] Failed loading synchronously via XHR: 'app/model/MyModel.js';
+  please verify that the file exists. XHR status code: 404
+</pre>
+
+<p>Which is just Ext’s very formal way of saying, &#8220;No such class exists&#8221; because we haven’t written it, yet.</p>
+
+<p>Let’s write one that makes the test pass:</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModel</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Model'</span>
+<span class="p">});</span></code></pre></figure>
+
+<p>We have proven that we can create a new class, and that it’s name is what we expect.</p>
+
+<h3 id="attributes">Attributes</h3>
+
+<p>Let’s assert that our model has some attributes:</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModelSpec</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">it</span><span class="p">(</span><span class="s1">'has data'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="s1">'Test'</span><span class="p">,</span>
+    <span class="na">email</span><span class="p">:</span> <span class="s1">'test@example.com'</span><span class="p">,</span>
+    <span class="na">favoriteColor</span><span class="p">:</span> <span class="s1">'blue'</span>
+  <span class="p">});</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'Test'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'test@example.com'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'favoriteColor'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
+<span class="p">});</span></code></pre></figure>
+
+
+<p>Which of course, fails, until we add some fields to our model:</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModel</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Model'</span><span class="p">,</span>
+  <span class="na">config</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">fields</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'name'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'string'</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'email'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'string'</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'favoriteColor'</span> <span class="p">}</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">});</span></code></pre></figure>
+
+<h3 id="defaultvalues">Default values</h3>
+
+<p>Let’s say that our model has some default values</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModelSpec</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">it</span><span class="p">(</span><span class="s1">'has default values'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">)</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'favoriteColor'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'yellow'</span><span class="p">);</span>
+<span class="p">})</span></code></pre></figure>
+
+
+<p>Reload the Jasmine runner in the browser and &#8230;</p>
+
+<pre>
+  SenchaBdd.model.MyModel has default values.
+  Expected undefined to equal 'yellow'.
+</pre>
+
+<p>Which is easily resolved by adding it to the class:</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModel</span><span class="p">.</span><span class="nx">js</span>
+<span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="s1">'favoriteColor'</span><span class="p">,</span> <span class="nx">defaultValue</span><span class="err">:</span> <span class="s1">'yellow'</span> <span class="p">}</span></code></pre></figure>
+
+<h3 id="validations">Validations</h3>
+<p>One last simple piece, let’s assert that email is a <em>required</em> field.</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModelSpec</span><span class="p">.</span><span class="nx">js</span>
+<span class="nx">it</span><span class="p">(</span><span class="s1">'requires an email address'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">errors</span> <span class="o">=</span> <span class="nx">model</span><span class="p">.</span><span class="nx">validate</span><span class="p">();</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">isValid</span><span class="p">()).</span><span class="nx">toBeFalsy</span><span class="p">();</span>
+
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">getByField</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getMessage</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'must be present'</span><span class="p">);</span>
+<span class="p">})</span></code></pre></figure>
+
+
+<p>The first expectation asserts that the model is not <em>valid</em> at all. It’s a gatekeeper test. The second test asserts that there’s validation error on the email field (and not some other field).</p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModel</span><span class="p">.</span><span class="nx">js</span>
+  <span class="nl">config</span><span class="p">:</span> <span class="p">{</span>
+    <span class="p">...</span>
+    <span class="nl">validations</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="na">field</span><span class="p">:</span> <span class="s1">'email'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'presence'</span> <span class="p">}</span>
+    <span class="p">]</span></code></pre></figure>
+
+<h2 id="roundup">Roundup</h2>
+
+<p>This is a pretty simple set of tests. If you are at all familiar with unit testing, you won’t find much new here. Testing for validations by inspecting on the Errors collection was a little tricky to suss out. Hopefully I’ve saved you a few frustrating moments digging through the source code. What’s also interesting, I think, is how the test report <em>reads</em>:</p>
+
+<pre>
+  SenchaBdd.model.MyModel
+    exists
+    has data
+    has default values
+    requires an email address
+</pre>
+
+<p>The test <em>itself</em> communicates something to the reader about the <em>intention</em> of the model. That’s a key concept to understand about TDD; the most important and expensive reader of the application is not the <em>browser</em>, it’s the <em>person</em> who reads and maintains it. It might be your successor or your team mate, or perhaps, yourself, six months from now, when you’ve forgotten everything about this particular patch of code.</p>
+
+
+
+    </article>
+    <span class="print-footer">Sencha Touch BDD Part 2 -- Unit Testing Models - April 26, 2013 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Sencha+Touch+BDD+Part+2+--+Unit+Testing+Models&body=http%3A%2F%2Flocalhost%3A4000%2F2013%2F04%2F26%2Fsencha-touch-bdd-part-2.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>

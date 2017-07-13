@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>The Syntax Error That Killed Our Build for a Week.</title>
+  <meta name="description" content="Back in the day when I wrote in C and we used X11 with Motif, I was creating a new module based on an existing one, so I just copied and pasted the file from...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1499985945926335000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1499985945926335000" media="print">
+  <link rel="canonical" href="http://localhost:4000/2015/12/12/the-syntax-error-that-killed-our-build-for-a-week.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://localhost:4000/feed.xml" />
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>The Syntax Error That Killed Our Build for a Week.</h1>
+<p class="subtitle">December 12, 2015</p>
+
+<p>Back in the day when I wrote in C and we used X11 with Motif, I was creating a new module based on an existing one, so I just copied and pasted the file from one xterm to another:</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+ <span class="cm">/* ... */</span>
+   <span class="n">event_loop</span><span class="p">();</span>
+ <span class="p">}</span>
+ <span class="o">^</span><span class="n">L</span>
+ <span class="kt">void</span> <span class="n">event_loop</span><span class="p">()</span> <span class="p">{</span>
+   <span class="cm">/* ... */</span>
+ <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>When I tried to compile it, <em>BOOM</em>. It complained of a syntax error at the form-feed (that’s what the <code class="highlighter-rouge">^L</code> is, ASCII 0xc), which, back in the old days, told the line printer to eject the (gasp) paper page, and start a new one.</p>
+
+<p>Nowadays, ASCII calls this character “New Page”, but no matter what you call it, it’s whitespace. Compilers don’t even see them. The lexer should have removed it. But there it was, breaking our build, day after day, after day.</p>
+
+<p>Finally my CTO figured it out. (I’m sorry, Jeff. Obviously, I still bear the scars of this.)</p>
+
+<p>When I copied the file from one xterm to another, it didn’t copy ASCII 0xc, instead it copied the rendered escape characters, <code class="highlighter-rouge">^</code> and <code class="highlighter-rouge">L</code> (0x5e 0x4c), which of course, is not parseable.</p>
+
+
+
+    </article>
+    <span class="print-footer">The Syntax Error That Killed Our Build for a Week. - December 12, 2015 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=The+Syntax+Error+That+Killed+Our+Build+for+a+Week.&body=http%3A%2F%2Flocalhost%3A4000%2F2015%2F12%2F12%2Fthe-syntax-error-that-killed-our-build-for-a-week.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>

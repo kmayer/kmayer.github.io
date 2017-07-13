@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>TDD Action Caching in Rails 3</title>
+  <meta name="description" content="On my current project, we needed to prove that an action cache was working as expected. Alas, the blogosphere had either out-of-date or unhelpful information...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1499985945926335000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1499985945926335000" media="print">
+  <link rel="canonical" href="http://localhost:4000/2012/03/28/tdd-action-caching-in-rails-3.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://localhost:4000/feed.xml" />
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>TDD Action Caching in Rails 3</h1>
+<p class="subtitle">March 28, 2012</p>
+
+<p>On my current project, we needed to prove that an action cache was working as expected. Alas, the blogosphere had either out-of-date or unhelpful information. So, after many experiments, we came up with an RSpec test that does what we want. It seems ugly to me, and I hope there's a better way. The names have been changed to protect the guilty. Any resemblances to actual classes and methods are purely coincidental.</p>
+
+<p>We needed to confirm that a certain action was cached. This action is <code>preview</code> in the brands controller. Using the usual Rails url helpers, we construct some fixture data.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">describe</span> <span class="no">BrandsController</span> <span class="k">do</span>
+  <span class="n">describe</span> <span class="s2">"caching"</span> <span class="k">do</span>
+    <span class="n">let</span><span class="p">(</span><span class="ss">:brand</span><span class="p">)</span> <span class="p">{</span> <span class="no">Factory</span><span class="p">.</span><span class="nf">create</span><span class="p">(</span><span class="ss">:brand</span><span class="p">)</span> <span class="p">}</span>
+    <span class="n">let</span><span class="p">(</span><span class="ss">:preview_cache_path</span><span class="p">)</span> <span class="p">{</span><span class="s1">'views/test.host'</span> <span class="o">+</span> <span class="n">preview_brand_path</span><span class="p">(</span><span class="n">brand</span><span class="p">)}</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Then we wrote our first test:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">it</span> <span class="s2">"should action cache #preview"</span> <span class="k">do</span>
+  <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">clear</span>
+  <span class="n">get</span> <span class="ss">:preview</span><span class="p">,</span> <span class="ss">:brand_id</span> <span class="o">=&gt;</span> <span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">preview_cache_path</span><span class="p">).</span><span class="nf">should</span> <span class="n">be_true</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This won't work at all, however; because, in the test environment, caching is turned off.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>cat config/environments/test.rb
+Activator::Application.configure <span class="k">do</span>
+...
+  config.action_controller.perform_caching <span class="o">=</span> <span class="nb">false</span></code></pre></figure>
+
+<p>So, we need an <code>around</code> block to temporarily turn caching on:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">around</span> <span class="k">do</span> <span class="o">|</span><span class="n">example</span><span class="o">|</span>
+  <span class="n">caching</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span><span class="p">,</span> <span class="kp">true</span>
+  <span class="n">example</span><span class="p">.</span><span class="nf">run</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="n">caching</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>That's great, but the default cache store is the <code>:null</code> store, which, as its name implies, does nothing.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">around</span> <span class="k">do</span> <span class="o">|</span><span class="n">example</span><span class="o">|</span>
+  <span class="n">caching</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span><span class="p">,</span> <span class="kp">true</span>
+  <span class="n">store</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">,</span> <span class="ss">:memory_store</span>
+  <span class="n">example</span><span class="p">.</span><span class="nf">run</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="o">=</span> <span class="n">store</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="n">caching</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Better. But our tests still won't run because while ActionController uses the <code>cache_store</code>, <code>Observers</code> and <code>Sweepers</code><br />
+use <code>Rails.cache</code> and <em>that</em> is only updated at boot time.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">around</span> <span class="k">do</span> <span class="o">|</span><span class="n">example</span><span class="o">|</span>
+  <span class="n">caching</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span><span class="p">,</span> <span class="kp">true</span>
+  <span class="n">store</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="o">=</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">,</span> <span class="ss">:memory_store</span>
+  <span class="n">silence_warnings</span> <span class="p">{</span> <span class="no">Object</span><span class="p">.</span><span class="nf">const_set</span> <span class="s2">"RAILS_CACHE"</span><span class="p">,</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="p">}</span>
+
+  <span class="n">example</span><span class="p">.</span><span class="nf">run</span>
+
+  <span class="n">silence_warnings</span> <span class="p">{</span> <span class="no">Object</span><span class="p">.</span><span class="nf">const_set</span> <span class="s2">"RAILS_CACHE"</span><span class="p">,</span> <span class="n">store</span> <span class="p">}</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span> <span class="o">=</span> <span class="n">store</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">perform_caching</span> <span class="o">=</span> <span class="n">caching</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>Did I mention that Rails.cache is an accessor for the global, <em>constant</em>, <code>RAILS_CACHE</code>. Ugh.</p>
+<p>So, now, we can implement our method</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BrandsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+<span class="n">caches_action</span> <span class="ss">:preview</span>
+  <span class="k">def</span> <span class="nf">preview</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>But <em>that</em> is <em>still</em> not enough. <a href="https://github.com/rails/rails/blob/b42fbd3ecbc3e2c55987e0ae6331443dfd68d5b4/actionpack/lib/action_controller/caching/actions.rb#L95"><code>caches_action</code></a><br />
+has an interesting performance enhancement; it doesn't actually set up the action caching unless <em>caching is enabled at class load time</em>. Since we're not turning caching on until <em>test</em> time, the <code>caches_action</code> method call in the controller class does <em>nothing</em>. We need to re-add it in our test spec.</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">it</span> <span class="s2">"should action cache #preview"</span> <span class="k">do</span>
+  <span class="no">Rails</span><span class="p">.</span><span class="nf">cache</span><span class="p">.</span><span class="nf">clear</span>
+  <span class="no">BrandsController</span><span class="p">.</span><span class="nf">caches_action</span> <span class="ss">:preview</span> <span class="c1"># must be recapitulated to get around load time weirdfullness</span>
+
+  <span class="n">get</span> <span class="ss">:preview</span><span class="p">,</span> <span class="ss">:brand_id</span> <span class="o">=&gt;</span> <span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span>
+
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">preview_cache_path</span><span class="p">).</span><span class="nf">should</span> <span class="n">be_true</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>This is ugly; it doesn't test very much (except the underlying caching module, and why bother testing the framework). At least it proves to ourselves that the action is cached and the cache key is what we expect.</p>
+<p>Now that we've got caching under control, let's check cache expiration (using a Sweeper).</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">it</span> <span class="s2">"should clear the cache on #update"</span> <span class="k">do</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="n">preview_cache_path</span><span class="p">,</span> <span class="s1">'CACHED ACTION'</span><span class="p">)</span>
+
+  <span class="n">put</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">id: </span><span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span><span class="p">,</span> <span class="ss">brand: </span><span class="p">{</span><span class="ss">one: </span><span class="s1">'attribute'</span><span class="p">,</span> <span class="ss">after: </span><span class="s1">'another'</span><span class="p">}</span>
+
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">Base</span><span class="p">.</span><span class="nf">cache_store</span><span class="p">.</span><span class="nf">exist?</span><span class="p">(</span><span class="n">sign_up_cache_path</span><span class="p">).</span><span class="nf">should</span> <span class="n">be_false</span>
+<span class="k">end</span></code></pre></figure>
+
+<p>First, I create a cached object, in this case, just the string 'CACHED ACTION' and then I invoke the action, and then, I hope, the cache will be expired.</p>
+<p>It doesn't really matter what happens in the <code>#update</code> method of the <code>BrandsController</code> as long as it updates a <code>Brand</code> object. A sweeper in Rails is a mix of Observer &amp; controller filters, so all you need to do is "declare" it in the controller</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BrandsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+<span class="n">caches_action</span> <span class="ss">:preview</span>
+<span class="n">cache_sweeper</span> <span class="ss">:brand_sweeper</span>
+<span class="k">def</span> <span class="nf">update</span>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+  <span class="vi">@brand</span><span class="p">.</span><span class="nf">save</span></code></pre></figure>
+
+<p>Awesome sauce! Now our tests are red and I'm ready to implement the sweeper</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">BrandSweeper</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">Caching</span><span class="o">::</span><span class="no">Sweeper</span>
+  <span class="n">observe</span> <span class="no">Brand</span> <span class="c1"># Observers will introspect on the class, but Sweepers don't</span>
+
+  <span class="k">def</span> <span class="nf">after_update</span><span class="p">(</span><span class="n">brand</span><span class="p">)</span>
+    <span class="n">expire_action</span> <span class="ss">:controller</span> <span class="o">=&gt;</span> <span class="s2">"brand"</span><span class="p">,</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:preview</span><span class="p">,</span> <span class="ss">:brand_id</span> <span class="o">=&gt;</span> <span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span>
+  <span class="k">end</span>
+  <span class="p">.</span><span class="nf">.</span><span class="o">.</span></code></pre></figure>
+
+<p>And voilà! We have greenness.</p>
+<p>So what have we learned from this? The Rails source is still your best friend when exploring a sticky problem. Caching is hard, and testing caching is even harder.</p>
+
+
+
+    </article>
+    <span class="print-footer">TDD Action Caching in Rails 3 - March 28, 2012 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=TDD+Action+Caching+in+Rails+3&body=http%3A%2F%2Flocalhost%3A4000%2F2012%2F03%2F28%2Ftdd-action-caching-in-rails-3.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Guidelines for Using Pivotal Tracker</title>
+  <meta name="description" content="I am often asked about the meaning of things in Pivotal Tracker, such as “What’s the difference between a bug and a chore?” Or, “How can I tell the differenc...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1499985945926335000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1499985945926335000" media="print">
+  <link rel="canonical" href="http://localhost:4000/2016/07/25/tracker-guidelines.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://localhost:4000/feed.xml" />
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Guidelines for Using Pivotal Tracker</h1>
+<p class="subtitle">July 25, 2016</p>
+
+<p>I am often asked about the meaning of things in Pivotal Tracker, such as “What’s the difference between a bug and a chore?” Or, “How can I tell the difference between a bug and a feature?” Another oldie but a goodie is, “What story should I pick from the backlog?” Here are my biased answers.</p>
+
+<p>But first:</p>
+
+<h2 id="a-groomed-backlog-is-no-substitute-for-good-judgement">A Groomed Backlog is No Substitute for Good Judgement</h2>
+
+<p>No matter what you might hope, there is no substitute for good judgement. You should always ask yourself, “What is in the best interest of PacerPro?” If you can’t answer that question, then stop, go find someone who <em>does</em> know before continuing. Great employees will not only do what’s expected of them, but also do what is best for the company.</p>
+
+<h2 id="tracker-stories-are-focused-on-delivering-business-value">Tracker Stories Are Focused on Delivering Business Value</h2>
+
+<p>Tracker has four and <em>only</em> four types of stories: <code class="highlighter-rouge">Feature</code>, <code class="highlighter-rouge">Bug</code>, <code class="highlighter-rouge">Chore</code> and <code class="highlighter-rouge">Release</code>.</p>
+
+<h3 id="a-feature-has-quantifiable-business-value">A “feature” has quantifiable business value</h3>
+
+<p>Here’s my formal definition:</p>
+
+<blockquote>
+  <p>“A <em>feature</em> is a story that was requested by the [client] stakeholder and has quantifiable business value.”</p>
+</blockquote>
+
+<p>There are some really important concepts to consider here. The story <em>must</em> come from a stakeholder, that is, someone who can make decisions based on <em>business priorities</em>. As a general rule, engineers should not request feature stories, not because they can’t, but because they don’t generally see the business side of things.<label for="business-value" class="margin-toggle sidenote-number"></label><input type="checkbox" id="business-value" class="margin-toggle" /><span class="sidenote">I don’t keep a lot of secrets. I’ll try to explain the back-story if I can. If everyone knows the business value and complexity of a story, then we can all help ensure that we’re maximizing business value for the company. </span> Let’s be honest, however, stakeholders rarely write <em>good</em> stories, so in general, stories will be written in partnership (pairing) with them. As CTO, I will often trade my engineering hat for a business hat and write feature stories. You may not see the hat switch, but it is there. Ask me, “Which hat are you wearing?” if you are unsure. On the other hand, if you can’t make a judgement based on business priorities, then you shouldn’t be writing stories, either.</p>
+
+<p>The other component of <em>feature</em> stories is that they have <em>quantifiable business value</em>. Stories cost time to deliver. Time that could be spent on other stories. We want to maximize the financial leverage of our work so that we deliver the most value for the least cost. There’s some local maxima at work here, and since our business landscape changes so quickly, we’re only hoping for something measurable in the 90 days after delivery. This is a nod to <a href="http://firstround.com/review/This-Product-Prioritization-System-Nabbed-Pandora-More-Than-70-Million-Active-Monthly-Users-with-Just-40-Engineers/">Pandora’s planning criterion</a>:</p>
+
+<blockquote>
+  <p>“What would be stupid not to do in the next 90 days.”</p>
+</blockquote>
+
+<p>During planning sessions you may hear me ask the stakeholders, “What’s the business value of this story, in rough dollars?” If all I get in reply is hemming and hawing, I will politely but firmly push back; This story is not ready, or not really <em>that</em> high a priority. There’s an old definition of “urgency,” something that is time critical, but you can have <em>unimportant</em> urgencies. Those stories are not the most important ones to complete. You, as engineers, should know what the quantifiable business value is for a story, and you should ask if you don’t know.<label for="research-stories" class="margin-toggle sidenote-number"></label><input type="checkbox" id="research-stories" class="margin-toggle" /><span class="sidenote">Sometimes, we won’t be able to estimate a story’s cost without some research, perhaps some spiking. I’ll break that out into a separate story whose sole output is an estimated cost of the feature. </span></p>
+
+<h3 id="a-bug-is-a-defect-introduced-during-the-delivery-of-a-feature">A “bug” is a defect introduced during the delivery of a feature</h3>
+
+<p>Bugs are a drag on velocity.<label for="velocity" class="margin-toggle sidenote-number"></label><input type="checkbox" id="velocity" class="margin-toggle" /><span class="sidenote">See my earlier article on velocity: “<a href="/2013/02/19/its-the-volatility-that-will-kill-you.html">It’s the Volatility that Will Kill You</a>” </span> It slows down our ability to deliver feature stories. There’s really no such thing as zero-defect software and achieving that becomes asymptotically expensive. So we want a process where we minimize bugs for a reasonable expense. That’s why we have tests, continuous integration testing, code quality metrics, quality assurance and multiple staged servers, to name a few. That’s also why we don’t maintain a JIRA installation; it costs more to maintain than we got in reducing our defect rate.</p>
+
+<p>Not all bugs are equal. We prioritize them by business value, too. We can measure value in terms of loss of customers, reduced adoption rate, or even a hit to our brand value. Some bugs are more expensive to fix than others, too. This is one of the pain points of using Pivotal Tracker; there’s no direct way to indicate the <em>cost</em> of <em>fixing</em> the bug. In this respect, in the eyes of Tracker, all bugs are equal. I’ve found this not to be true in real life. Some bugs are easy to fix, or easy to fix <em>right now</em> while we still have <em>context</em> to fix the bug. Bugs to fix in the backlog are in roughly the priority to be fixed, but there’s usually a lot more wiggle room than in feature stories.</p>
+
+<h3 id="a-release-is-a-time-constraint">A “release” is a time constraint</h3>
+
+<p>Tracker doesn’t set many deadlines because most deadlines are bogus. Well, arbitrary. Okay, bullshit. That’s because when they are imposed from above, or don’t reflect any business realities, or don’t adjust to the changing landscape of our business, we’re not maximizing value. And things change, fast. That’s what “agile” means, right? This is not to say that “agile” is an excuse not to deliver on time, either. We want to be <em>realistic</em> about our deliveries. Hence we have “releases.” They <em>can</em> answer two important questions:</p>
+
+<ul>
+  <li>We have an “epic” that must be delivered by an externally imposed date. Will we make it, with confidence?</li>
+  <li>How long will an “epic” take to complete? Is the overall cost worth it? Will it impact other commitments?</li>
+</ul>
+
+<p>There are <em>lots</em> of external events that are beyond our direct control: Trade shows, press release dates, legal contracts, holidays, even election day!</p>
+
+<p>Finally, and, least of all</p>
+
+<h3 id="chores-are-internal-stories-that-must-be-done-but-have-no-quantifiable-business-value">“Chores” are internal stories that must be done, but have no quantifiable business value</h3>
+
+<p>Chores are closely related to bugs, in that they don’t have points, so they are also a drag on velocity. Consider them “the cost of doing business.” Where they differ is that chores do not arise as a defect when delivering a feature. They are usually internal engineering work, such as setting up new servers, or renewing an SSL certificate. We also use them as an <em>ad hoc</em> to-do list, e.g. when we need to provision new users for a client. Those requests <em>could</em> be seen as help desk tickets<label for="help-desk" class="margin-toggle sidenote-number"></label><input type="checkbox" id="help-desk" class="margin-toggle" /><span class="sidenote">I need to write a whole other post about help desk operations. </span>, and I may change my mind on this, but for now we’re just going with the flow.</p>
+
+<p>One thing that I am adamantly opposed to are <em>chores to address technical debt</em>. Stories like “code reviews” or “large refactoring.” They are part of our normal story workflow and <em>not</em> an after-thought. If a big refactor is necessary for a story, then so be it. Add that cost to the complexity of the story.<label for="refactoring-not-a-story" class="margin-toggle sidenote-number"></label><input type="checkbox" id="refactoring-not-a-story" class="margin-toggle" /><span class="sidenote">See, <a href="http://ronjeffries.com/xprog/articles/refactoring-not-on-the-backlog/">“Refactoring – Not on the backlog!”</a> </span></p>
+
+<h2 id="what-should-i-do-next">What Should I Do Next?</h2>
+
+<blockquote>
+  <p>“The Most Important Thing”</p>
+</blockquote>
+
+<p>In theory always try to take the next <em>ready</em> story off the <em>top</em> of the <em>backlog</em>. In practice it is not always so simple. It goes back to judgement. Before you click the start button, review the story for readiness and business value. Ask yourself, “Self? Has the business landscape <em>changed</em> since the last time we looked at this story? Is it truly the <em>most important thing to do</em>?” You have the responsibility and authority to “pull the yellow cord<label for="kanban" class="margin-toggle sidenote-number"></label><input type="checkbox" id="kanban" class="margin-toggle" /><span class="sidenote">A kanban concept. When there is trouble on an assembly line, any worker is empowered to sound an alarm by pulling a bright yellow cord. Anyone available, including managers, rush to the trouble spot to correct the problem and keep the line running. Later, there would be a <em>post mortem</em> to prevent the problem from happening again. </span>.”</p>
+
+<h3 id="start--started"><code class="highlighter-rouge">(START) =&gt; [Started]</code></h3>
+
+<p>Pressing the (Start) button commits you to see the story through delivery and acceptance. You are empowered to choose any solution path that, in your professional judgement, is the most cost effective (in terms of time, resources and maintainability). You are also shielded from working on any other story until the current story is completed (or reasonably blocked).<label for="scheduling" class="margin-toggle sidenote-number"></label><input type="checkbox" id="scheduling" class="margin-toggle" /><span class="sidenote">Let’s say that you’ve finished merging and are waiting for CI to deploy to staging for QA. It’s a good time to take a break and celebrate, but if you want to kill off a few Zendesk tickets while you’re waiting, go for it. Just don’t lose track of the main story. </span> There’s ample research that shows that context switching costs <em>more</em> than just doing one thing, well.<label for="context-switching" class="margin-toggle sidenote-number"></label><input type="checkbox" id="context-switching" class="margin-toggle" /><span class="sidenote"><a href="https://www.psychologytoday.com/blog/brain-wise/201209/the-true-cost-multi-tasking">The True Cost of Multi Tasking</a>, “Psychology Today”, September 18, 2012 </span></p>
+
+<p><span class="newthought">Blocked!</span></p>
+
+<p>When a story gets blocked, you’re first priority is to unblock it. If that’s not possible, add the <code class="highlighter-rouge">blocked</code> tag to the story. Announce that you’re blocked on Slack#engineering. Set a time, at regular intervals, to check up on the blockage. Then, move on to the next story. Announce the blockage at the morning Stand-Up.</p>
+
+<h3 id="finish--finished"><code class="highlighter-rouge">(Finish) =&gt; [Finished]</code></h3>
+
+<p>Pressing the (Finish) button tells the team that development work is done and that a pull-request is pending on GitHub for review. You can start the pull-request at any time, not just at the end. There is a process pattern where you start the pull-request as soon as you create the story branch. I like it because I get early feedback from CircleCI and CodeClimate. YMMV. Announce the pull-request and <em>ask</em> for feedback. Review criteria will vary, but at a minimum, CI is green, the code adheres to the style-guide (via CodeClimate reports), QA testing on the local development system confirms that the story delivers, <em>in real life</em>, what was originally requested. This is also a good place to show the team the new functionality at the evening Round-Up.</p>
+
+<p><span class="newthought">Merge to master, final QA</span></p>
+
+<p>Once everything is “green,” merge to the master branch (our <em>production ready</em> branch). Re-test the feature on the staging server and run our QA “smoke tests.”<label for="smoke-tests" class="margin-toggle sidenote-number"></label><input type="checkbox" id="smoke-tests" class="margin-toggle" /><span class="sidenote">We have a small suite of integration tests that can run against a ‘live’ server; either staging or production. These tests assure us that we haven’t broken anything critical and that all services are running properly. </span> You are now ready to deploy to production at your next opportunity. In general, we believe in deploying early and often. Since our deployments <em>do</em> take the background job runner (<code class="highlighter-rouge">Sidekiq</code>) off-line, use your judgement about mid-day (10am Eastern to 6pm Pacific) deploys. Re-run the smoke tests against the production server.</p>
+
+<h3 id="deliver--delivered"><code class="highlighter-rouge">(Deliver) =&gt; [Delivered]</code></h3>
+
+<p>Pressing the (Deliver) button informs the team that the story is now live on production. The story requester is responsible for reviewing the feature and accepting or rejecting it. I expect 99% of the stories to be accepted. Rejecting a story at this point is a process fail: Did you include the requester and stakeholders while developing the feature? Did you ask for design and UX feedback? Did you test it so that you were at least 85% confident of success? Was the story truly “done?”</p>
+
+<h3 id="accept--done-or-reject--unstarted"><code class="highlighter-rouge">(Accept) =&gt; [Done]</code> or <code class="highlighter-rouge">(Reject) =&gt; [Unstarted]</code></h3>
+
+<p>Sometimes, we learn things once the feature is live. That’s okay and not an immediate cause for rejection. Rejection is an indication of a process fail, where we did not deliver the story as envisioned, where there was insufficient communication among the team members. Rejection will trigger a post-mortem and a topic for the next retrospective. On the other hand, if we learn something <em>new</em>, then create a new bug or feature story. Remember, “bugs are defects that were created during the delivery of a story.” If the story was delivered properly, but it’s not what’s best for the users, create a new feature story and place it appropriately in the backlog, according to its business value.</p>
+
+<h2 id="whats-in-the-backlog-and-the-icebox">What’s in the backlog and the icebox?</h2>
+
+<p>The backlog contains stories, prioritized according to release dates and value. While we strive to keep a backlog that will support 2-3 weeks of engineering effort, sometimes we fail. I encourage you to speak up about lingering stories that might become critical in the future. These stories are good to bring up during iteration planning.</p>
+
+<p>The icebox contains stories that have business value in the next 90 days. Everything else isn’t worth keeping. We have a lot of stories with “freezer burn” that I just delete from time to time. You can help by reviewing and tossing the ancient stories.</p>
+
+<h2 id="shaddup-already-and-lets-get-to-work">Shaddup already and let’s get to work!</h2>
+
+<p>This has been a much longer rant than I intended, but there’s lots of good stuff here. Many thanks to Rob Mee for his brown bag talk, years ago, that inspired the foundation (and of course, hiring me).</p>
+
+
+
+    </article>
+    <span class="print-footer">Guidelines for Using Pivotal Tracker - July 25, 2016 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Guidelines+for+Using+Pivotal+Tracker&body=http%3A%2F%2Flocalhost%3A4000%2F2016%2F07%2F25%2Ftracker-guidelines.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>

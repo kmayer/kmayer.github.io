@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Sencha Touch BDD Part 1</title>
+  <meta name="description" content="(tl;dr) A multi-part series of articles on how to test Sencha Touch applications. It uses Jasmine for unit testing and Siesta for integration testing.">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1499985945926335000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1499985945926335000" media="print">
+  <link rel="canonical" href="http://localhost:4000/2013/04/17/sencha-touch-bdd-part-1.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://localhost:4000/feed.xml" />
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Sencha Touch BDD Part 1</h1>
+<p class="subtitle">April 17, 2013</p>
+
+<p>(tl;dr) A multi-part series of articles on how to test Sencha Touch applications. It uses Jasmine for unit testing and Siesta for integration testing.</p>
+
+<h2 id="part1--gettingstarted">Part 1 &#8211; Getting Started</h2>
+
+<p>In this article you will learn how to set up an application to Jasmine tests in your</p>
+
+<h3 id="opinionatedisagoodthing">Opinionated is a good thing</h3>
+
+<p>In my not-so-humble professional opinion, every modern web framework should provide a testing infrastructure with each newly generated application. I’m not concerned if it isn’t my preferred testing package. As long as there’s <em>something</em>. Testing is not an option, and the framework authors probably (hopefully?) test, so why not offer a serving suggestion for new projects? The worst that can happen is that you, the developer, disagree with the choice of framework. There’s a little extra bootstrap cost to replace one framework with another. That’s far less expensive than every new developer discovering a way to test.</p>
+
+<p>Sencha Touch 2.1 has a generator built into its <code>sencha</code> command line tool, but it does not create a test structure as part of the template. This article is the first in a series of discoveries about how to test Sencha Touch applications. I am not claiming that this is the one true way to test. This is not necessarily the <em>best</em> way, either. It is, however, something that works. It installs easily on my development laptop. It gets you to your first passing test quickly. It saves you the cost of exploring all of the options and making these discoveries for yourself. You have plenty of other things to worry about.</p>
+
+<h3 id="butfirstyouneedawebserver">But first, you need a web server</h3>
+
+<p>Once you’ve installed Sencha Touch and Sencha Command (3.1.0.256 when I wrote this), and you’ve generated the template application, you’ll need to serve the pages locally. Most projects will have some sort of app server already running, but it’s not strictly necessary for testing. When I need to serve pages on my own, I prefer <a href="http://pow.cx">pow</a>. It is a zero-configuration server that can host as many applications as you please. I also like the <a href="http://rubygems.org/gems/powder">powder</a> ruby gem; it adds a nice command line interface to manage <code>pow</code>. If you are worried about adding a ruby dependency to your project, stop worrying. Sencha Touch uses the <a href="http://rubygems.org/gems/compass">compass</a> ruby gem to generate <code>css</code> files; so you already have a ruby dependency.</p>
+
+<p><code>pow</code> looks for a <a href="http://rack.github.io/">rack</a> app, but in my sample app, I don’t have one. <code>pow</code> also looks for a directory named <code>public</code> from which it will server static files. The simplest thing that works is to create a symlink named <code>public</code> that points to the root directory of the project.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Generate a new ST app</span>
+<span class="gp">$ </span><span class="nb">cd</span> &lt;touch toolkit directory&gt;
+<span class="gp">$ </span>sencha generate app senchaBdd ~/workspace/sencha-bdd
+
+<span class="c"># Set up pow/powder</span>
+<span class="gp">$ </span><span class="nb">cd</span> ~/workspace/sencha-bdd
+<span class="gp">$ </span>ln -s . public
+<span class="gp">$ </span>powder up
+<span class="gp">$ </span>powder link
+
+<span class="c"># Test the server</span>
+<span class="gp">$ </span>open http://sencha-bdd.dev</code></pre></figure>
+
+<p>If all goes well, you should be able to open the application in any web browser at <a href="http://sencha-bdd.dev">http://sencha-bdd.dev</a></p>
+
+<figure>
+<img src="/assets/Screen-Shot-2013-04-17-at-8.50.50-AM-263x300.png" alt="Running sample app" /></p>
+<figcaption>Running sample app</figcaption>
+</figure>
+
+<h3 id="installjasmine">Install Jasmine</h3>
+
+<p>Installing the stand-alone version of Jasmine <em>will work</em>, but it doesn’t scale to hundreds or thousands of specs. That’s why the Jasmine gem was created. I did some more research and found a way to test using the Jasmine gem.</p>
+
+<ol>
+<li>In the root directory of your project add <code>rake</code> and <code>jasmine</code> to your <code>Gemfile</code>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="err">$</span> <span class="n">cat</span> <span class="no">Gemfile</span>
+<span class="n">source</span> <span class="s2">"https://rubygems.org"</span>
+
+<span class="n">group</span> <span class="ss">:development</span> <span class="k">do</span>
+  <span class="n">gem</span> <span class="s1">'rake'</span>
+  <span class="n">gem</span> <span class="s1">'jasmine'</span>
+<span class="k">end</span></code></pre></figure>
+</li>
+<li>
+<p>Run <code>bundle install</code></p>
+</li>
+<li>
+<p>Run <code>jasmine init</code></p>
+</li>
+<li>Jasmine will install a basic set up, but there’s some cruft that you won’t need for a Sencha application.
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rm public/javascripts/Player.js
+rm public/javascripts/Song.js
+rm spec/javascripts/PlayerSpec.js</code></pre></figure>
+</li>
+<li>Edit the src_files entry in <code>spec/javascripts/support/jasmine.yml</code>:
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">src_files</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">touch/sencha-touch-all-debug.js</span>   <span class="c1"># Load Sencha library</span>
+    <span class="pi">-</span> <span class="s">spec/app.js</span>                   <span class="c1"># Load our spec Ext.Application</span>
+    <span class="pi">-</span> <span class="s">app/**/*.js</span>                   <span class="c1"># Load source files</span></code></pre></figure>
+</li>
+<li>Create this file in <code>spec/app.js</code>:
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">Ext</span><span class="p">.</span><span class="nx">Loader</span><span class="p">.</span><span class="nx">setConfig</span><span class="p">({</span>
+    <span class="na">enabled</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>                  <span class="c1">// Turn on Ext.Loader</span>
+    <span class="na">disableCaching</span><span class="p">:</span> <span class="kc">false</span>           <span class="c1">// Turn OFF cache BUSTING</span>
+<span class="p">});</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">Loader</span><span class="p">.</span><span class="nx">setPath</span><span class="p">({</span>
+    <span class="s1">'SenchaBdd'</span><span class="p">:</span> <span class="s1">'app'</span>              <span class="c1">// Set the path for all SenchaBdd.* classes</span>
+<span class="p">});</span>
+
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">application</span><span class="p">({</span>
+    <span class="na">name</span><span class="p">:</span> <span class="s1">'SenchaBdd'</span>               <span class="c1">// Create (but don't launch) an application</span>
+<span class="p">});</span></code></pre></figure>
+</li>
+<li>And this one in <code>spec/javascripts/helpers/SpecHelper.js</code>:
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">Ext</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s1">'Ext.data.Model'</span><span class="p">);</span>
+
+<span class="nx">afterEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">Ext</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">cache</span> <span class="o">=</span> <span class="p">{};</span>      <span class="c1">// Clear any cached models</span>
+<span class="p">});</span>
+
+<span class="kd">var</span> <span class="nx">domEl</span><span class="p">;</span>
+<span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>            <span class="c1">// Reset the div with a new one.</span>
+    <span class="nx">domEl</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'div'</span><span class="p">);</span>
+    <span class="nx">domEl</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'jasmine_content'</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">oldEl</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'jasmine_content'</span><span class="p">);</span>
+    <span class="nx">oldEl</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">replaceChild</span><span class="p">(</span><span class="nx">domEl</span><span class="p">,</span> <span class="nx">oldEl</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">afterEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>             <span class="c1">// Make the test runner look pretty</span>
+    <span class="nx">domEl</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'style'</span><span class="p">,</span> <span class="s1">'display:none;'</span><span class="p">);</span>
+<span class="p">});</span></code></pre></figure>
+</li>
+</ol>
+
+<p>So, what’s going on here? Sencha Touch applications need Ext.Loader to manage class loading. You also need an Ext.Application, especially for controller tests. The modifications to <code>jasmine.yml</code> set up the proper load order, and the jasmine gem will find all of the source files underneath the app/ directory. The <code>app.js</code> is a customized version of your normal <code>app.js</code> that sets up the class loader and global namespace configuration. You should replace &#8220;SenchaBdd&#8221; with the real name of your application. Two things are happening in <code>SpecHelper.js</code>: First, by default Ext.data.Model caches every model created by the application in a global in-memory array. If you don’t clear it between tests, you can be surprised by test pollution. The second part is to set up and clear a space in the test runner for inserting DOM elements, usually for some sort of view testing.</p>
+<h3 id="createadirectorystructurethatmatchesyourapplications">Create a directory structure that matches your application’s</h3>
+<p>Your application’s directory structure should look something like this:</p>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">├── app
+│   ├── controller
+│   ├── model
+│   ├── profile
+│   ├── store
+│   └── view</code></pre></figure>
+
+<p>Modify the spec directory so that it mirrors the <code>app/</code> directory:</p>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">├── spec
+│   ├── app.js
+│   └── javascripts
+│       ├── model
+│       ├── controller
+│       ├── view
+│       ├── store
+│       ├── profile</code></pre></figure>
+
+<h3 id="installjasmine">Install Jasmine</h3>
+
+<p>You can get the stand alone version from <a href="http://github.com/pivotal/jasmine">http://github.com/pivotal/jasmine</a>. Install it at the in the spec directory. I include the version number, so I can experiment with different versions, but that’s a matter of taste.</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">├── app
+│   ├── controller
+│   ├── model
+│   ├── profile
+│   ├── store
+│   └── view
+├── public -&gt; .
+├── resources/
+├── spec/
+│   ├── controller
+│   ├── jasmine-1.3.1
+│   ├── model
+│   ├── profile
+│   ├── store
+│   └── view
+└── touch</code></pre></figure>
+
+
+<p>In order to get Jasmine going, you need a special html file named, by convention, <code>SpecRunner</code>. Add it to spec/ as well. It looks like this:</p>
+
+<p>You will need to modify lines 18 and 22 with the name of your ST app (which can be found in <code>app.json</code> and <code>app.js</code>).</p>
+
+<h3 id="writeonepassingtest">Write one passing test</h3>
+
+<p>Create a file, <code>spec/javascripts/sanitySpec.js</code></p>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">describe</span><span class="p">(</span><span class="s2">"Sanity"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="s2">"succeeds"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="kc">true</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span></code></pre></figure>
+
+<p><strike><br />
+Now load the spec runner into a browser. In the case of this sample app, the url is <a href="">http://sencha-bdd.dev/spec/SpecRunner.html</a><br />
+</strike></p>
+<p>Now start the Jasmine spec server from the command line:</p>
+
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh">bundle <span class="nb">exec </span>rake jasmine</code></pre></figure>
+
+<p>And then open a browser window on <a href="http://localhost:8888">http://localhost:8888</a></p>
+
+<p>You should see the test results with one passing spec.</p>
+<figure>
+<img src="/assets/Screen-Shot-2013-04-24-at-8.20.21-PM-300x164.png" alt="1 Passing Jasmine Spec" /></p>
+<figcaption>1 Passing Jasmine Spec</figcaption>
+</figure>
+
+<p>If you don’t see this, open up the browser’s developer console to look for clues.</p>
+
+<h3 id="untilnexttime">Until next time</h3>
+
+<p>That’s it! You now have a complete JavaScript testing framework installed in your application. This is a good time to commit your changes. Celebrate in the glory of the green goodness. You’ve earned it.</p>
+<p>Next time, I’ll show you how to test a model class.</p>
+
+
+
+    </article>
+    <span class="print-footer">Sencha Touch BDD Part 1 - April 17, 2013 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Sencha+Touch+BDD+Part+1&body=http%3A%2F%2Flocalhost%3A4000%2F2013%2F04%2F17%2Fsencha-touch-bdd-part-1.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>

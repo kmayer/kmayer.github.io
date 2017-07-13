@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Crack Keys in Your Spare Time</title>
+  <meta name="description" content="Moore's  Law has had some unintended side effects: What to do with all that  raw power sitting next to, on top of, or behind your desktop  (or laptop or Mazd...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1499985945926335000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1499985945926335000" media="print">
+  <link rel="canonical" href="http://localhost:4000/2000/09/19/crack-keys-in-your-spare-time.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://localhost:4000/feed.xml" />
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Crack Keys in Your Spare Time</h1>
+<p class="subtitle">September 19, 2000</p>
+
+<p><a
+  href="http://www.intel.com/intel/museum/25anniv/hof/moore.htm">Moore's
+  Law</a> has had some unintended side effects: What to do with all that
+  raw <em>power</em> sitting next to, on top of, or behind your desktop
+  (or laptop or <a
+    href="http://www.chaos.org.uk/~altman/mp3mobile/">Mazda
+    Miata</a>). Most people fritter it away on silly things like
+  screen savers, those flying toasters from hell. There are, however, a few, but
+  growing number that are putting idle hardware into "productive" use.
+
+<p>Perhaps you've already heard of <a
+  href="http://setiathome.ssl.berkeley.edu/">SETI@home</a>: The search
+  for little green men (or at least their radio emissions) in the giant
+  haystack that is radio astronomy. Radio telescopes (such as the one at
+  <a href="http://www.naic.edu/">Arecibo Observatory</a>) scan the sky
+  and record vast amounts of undigested <a
+    href="http://setiathome.ssl.berkeley.edu/graphics.html">data</a>. You
+  replace your screen saver (on Wintel systems) or add a small daemon
+  (for unix) on your machine and the program does what computers are
+  best at: crunch numbers. Instead of flying toasters, you might see a
+  pretty graph or other statistics. If the program finds something
+  "interesting," (Gaussian spikes) it reports back to the main SETI@home
+  server. So far, none of the interesting spikes have turned out to be
+  anything other than naturally occurring phenomena. Oh well, the search continues.
+
+<p>Part of the alure for SETI@home is akin to winning the lottery:
+  being the first person to discover extraterrestrial intelligence (or
+  at least their version of I Love Lucy). The significance of this
+  project is that it harnesses, for little or no cost, an enormous
+  underutilized potential in computing power. Allow me to introduce to
+  you another project that is applying the same principles to other, more
+  down to earth, concerns.
+
+<p><a href="http://distributed.net/">distributed.net</a> was
+  originally established in 1997 to answer the <a
+    href="http://www.rsasecurity.com/rsalabs/challenges/">RSA Secret Key
+    Challenge</a>. The first key length was 56 bits long and was solved on
+  October 22, 1997. The next challenge has a 64 bit key. Since each
+  additional bit doubles the search space, the new key is 2^8 times
+  "harder" to crack. As of this writing (27 June 2000), 978 days into
+  the search, a little less than 27% of the keyspace has been checked.
+
+<p>Participating in the challenge is fairly simple. You need to go to
+  the <a
+    href="http://distributed.net/download/clients.html">distributed.net
+    client download site</a> to get the client for your personal
+  machine. Beware of imitations! Evil people could modify these clients
+  to be Trojan horses. Do not download from unauthorized sources! It
+  takes a few minute to configure and you're done. Later on, you can go
+  back to the distributed.net site, surf over to the statistics page and
+  see how well you're doing. Here's my <a
+    href="http://stats.distributed.net/rc5-64/psummary.php3?id=276175">stats
+    page</a>, in case you're interested. At some point you might be
+  wondering how much load does this add to your machine. Effectively
+  none: The process runs (on unix systems) at priority 19 which
+  translates into "if there's absolutely nothing else going on, run
+  this".
+
+<p>You might be wondering what good it is to crack a key that was
+  created more than 3 years ago. In one way, it should make you more
+  comfortable to engage in commerce on the Internet. Since key creation
+  and use is usually limited to a session of just a few minutes, the
+  odds of anyone breaking in using brute force are infinitesimally
+  small. On the other hand, you <em>should</em> worry about a government
+  (such as ours) that insists on crippling encryption technology to 56
+  bits or less.
+
+<p>I see some interesting applications of this technology in our
+  future. When even your kitchen appliances will have a general purpose
+  processor and a network connection, why not take advantage of it?
+  While cracking keys may have a certain entertainment value, what good
+  does it do for general society? There are many other number crunching
+  applications that could be aided by spreading the load out to a large
+  number of processors. At least one even has commercial value: Imagine
+  a Pixar@home screen saver that not only displays stills of the latest
+  digital creation, but also does a little bit of rendering for <a
+    href="http://www.pixar.com/">Pixar</a> on the side. This is a
+  marketing coup for the folks working in the Marin Headlands. You would
+  by dying go to the movie just so you can say, "I helped make this
+  movie!" Of course, Pixar would have to build in some safeguards so
+  lonely crackers couldn't insert bogus "chips" into the film (I can see
+  it already: "Rendered by Scr7pt K1ddy. K00l" -- bleh).  The Human
+  Genome project could take advantage of a massively parallel computing
+  system, although I'd hope they double (triple or more) check their
+  computations. Any task where you can slice up the problem into very
+  small chunks that <em>don't</em> need to communicate to each other
+  (only with the master server).
+
+<p>On the other hand, software developers are
+  renowned for writing code that pushes the envelope of computing
+  power. Unfortunately, advances in software technique do not follow
+  Moore's Law at all, in fact, if not for the hardware advances, process
+  speed would be about the same as it was 50 years ago (or probably
+  much, much worse). It may turn out that this power gap is a fleeting
+  thing and that hardware power will slow down its breakneck pace, but
+  experts believe that we won't run into those barriers until the 2030's
+  and by then processors will be a million times faster than today's
+  bleeding edge monsters.
+
+<p>A personal plea -- help a poor programmer with a dream
+
+<p>This year (2000), I'm taking off from working behind a desk to
+  explore the world in a <a href="http://bitwrangler.com/wt/">small
+    sailboat</a>. My expenses will be quite modest, about $18,000 per
+  year. But, at least for the first year, my income will be $0. Every
+  $1,000 is a month of time before I have to come back to the (un)real
+  world and earn some more cash for the cruising kitty. Here's how you
+  can help (and increase your odds, too):
+
+<p>
+  RSA Labs is offering a US$10,000 prize to the group that wins
+  this contest. The distribution of the cash will be as follows:
+<ul>
+  <li>$1000 to the winner
+  <li>$1000 to the winner's team - this would go to the winner
+    if he wasn't affiliated with a team
+  <li>$6000 to a non-profit organization, decided by vote
+  <li>$2000 to <a href="http://distributed.net/">distributed.net</a> for building the
+    network and supplying the code</li>
+</ul>
+</p>
+
+<p>All you have to do is join my team! How does this help you? There's
+  strength in numbers after all: the more keys generated by a single
+  entity increases the odds of finding the winning key. I'll share the
+  team winnings in the same way: half goes to the winning contributor
+  and the other half is divided equally among the members. I'll get to
+  keep the other $1,000 for promoting the team and expenses. If one of
+  my own systems generates the winning key, I'll fund a celebration with
+  the team's half of the proceeds (or whatever a majority of the team
+  would like to do with it).
+
+<p>Joining is simple, too. I'm not using the distributed.net team
+  aggregate, yet, because there are not enough people in my team to
+  support it. Instead, simply use the following <a
+    href="dnetc.ini.txt">config file</a> before running the dnetc client
+  for the first time. This
+  file isn't very special, it just uses my ID instead of you using your
+  own. If you want to make sure that client runs every time you reboot
+  your machine, you can install this <a href="dnetc.rc.txt">init
+    file</a> in your rc.d (init.d, whatever) directory and make it part of
+  your start up process.
+
+<p>So, download, configure and crunch away. Only another 1,000 days
+  left before the entire keyspace is exhausted!
+
+
+
+    </article>
+    <span class="print-footer">Crack Keys in Your Spare Time - September 19, 2000 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Crack+Keys+in+Your+Spare+Time&body=http%3A%2F%2Flocalhost%3A4000%2F2000%2F09%2F19%2Fcrack-keys-in-your-spare-time.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>

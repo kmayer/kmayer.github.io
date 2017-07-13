@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Do Not Push to Red Builds</title>
+  <meta name="description" content="There's a pattern to disasters: When you examine the post mortems, its not just one failure, but a cascade of multiple failures that overwhelm the system's s...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1499985945926335000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1499985945926335000" media="print">
+  <link rel="canonical" href="http://localhost:4000/2017/07/08/do-not-push-to-red-builds.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://localhost:4000/feed.xml" />
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Do Not Push to Red Builds</h1>
+<p class="subtitle">July 8, 2017</p>
+
+<p><code class="highlighter-rouge">There's a pattern to disasters: When you examine the post mortems, its not just one failure, but a cascade of multiple failures that overwhelm the system's safety features. Pushing to a red build risks piling one failure upon another.</code></p>
+
+<p>One of our goals is to maintain an environment where we can deploy from <code class="highlighter-rouge">master</code> at any time. The logical conclusion of this goal is <em>continuous deployment</em>, but we’ll save that for another day. For now, let’s examine testing and why <label for="red-build" class="margin-toggle"> ⊕</label><input type="checkbox" id="red-build" class="margin-toggle" /><span class="marginnote">A <em>red build</em> is when we push to our source repository, which kicks off a continous integration run, the “<em>build</em>,” which fails for one reason or another. In a perfect world, we would be able to build everything at our desktop, but as our projects grow, we break up our builds into smaller, isolated, pieces, to keep things fast. </span>pushing to a red build is an anti-pattern.</p>
+
+<p><a href="https://www.google.com/search?q=red+green+refactor&amp;oq=re&amp;aqs=chrome.0.69i59j69i60l3j69i57j0.911j0j7&amp;sourceid=chrome&amp;ie=UTF-8">Red-Green-Refactor</a> is a fundamental tenet of our development methodology. It provides us with constant feedback. It warns us when things go wrong. Green tests give us a place of safey from which we can explore without fear. Like all things, it is a <em>fractal</em> concept. <span class="newthought">A broken build is a red unit test, writ large.</span>  Without a green build, we can not deploy. Without a green build, we can not know if the next change we make is “good.” When we push a build to the repository, we are signalling to our team that we’re making progress toward our goal, but a red build says the opposite. When you push to a red build, unless you’re pushing the fix, of course, we can’t know whether your new code is making things better or worse.</p>
+
+<blockquote>
+  <p>Cowboy Bob pushes a seemingly innocuous change to master and goes to lunch. The build goes red. Agile Alice, not noticing the red build, merges her branch to master (tests were green on the branch), too. Now, the build is still red, but some of Alice’s tests are going red, now, too. Alice starts scratching her head and wonders how things could go so terribly wrong. Meanwhile, there’s a problem on production and DevOps Dan creates a production hotfix and deploys that.</p>
+</blockquote>
+
+<figure><figcaption>Stormy Skies, http://archive.boston.com/bigpicture/2010/07/stormy_skies.html</figcaption><img src="/assets/95D17118-BBCA-4400-B0BE-8C345361493E.jpg" /></figure>
+
+<p><span class="newthought">When the build goes red, your <em>first</em> priority is to fix it.</span>  All other tasks are secondary. This gets you back on track.</p>
+
+<p>In theory there is no difference between theory and practice. In practice there is. You will, at some time or another, have to use some judgement. An intermittently failing build is a code smell, but you might not be able to fix it. You’ll have to choose which is more valuable given the risk.</p>
+
+
+
+    </article>
+    <span class="print-footer">Do Not Push to Red Builds - July 8, 2017 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Do+Not+Push+to+Red+Builds&body=http%3A%2F%2Flocalhost%3A4000%2F2017%2F07%2F08%2Fdo-not-push-to-red-builds.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Using CVS for Web Server Farms</title>
+  <meta name="description" content="Let's assume that you've adopted the techniques described in Using CVS for Web Development  (or [Dreilinger]) and you  are  the Release Master. Now imagine t...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1499985945926335000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1499985945926335000" media="print">
+  <link rel="canonical" href="http://localhost:4000/2000/09/19/using-cvs-for-web-server-farms.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://localhost:4000/feed.xml" />
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Using CVS for Web Server Farms</h1>
+<p class="subtitle">September 19, 2000</p>
+
+<p>Let's assume that you've adopted the techniques described in <a
+  href="http://www.arsdigita.com/asj/cvs">Using CVS for Web Development</a>
+  (or <a href="http://durak.org/cvswebsites/">[Dreilinger]</a>) and you
+  <em>are</em>
+  the Release Master. Now imagine that instead of one web server you have a
+  web server farm of 10 or 100. How do you prevent chaos and carpal tunnel
+  syndrome from keeping you chained at your desk for days on end? Does this
+  look familiar:
+
+<ol>
+  <li>Log onto the web server
+  <li>Use CVS to checkout a new release, into a separate directory
+    from the currently running production code
+  <li><em>Quickly</em> update your data model and switch directories
+  <li>Restart the server
+  <li>Check that the new server is running okay
+  <li>Log out of the web server
+  <li>Go to step 1 until you run out of servers
+</ol>
+
+Does this look like an algorithm to you, too?
+
+<h3>The way out of the madness</h3>
+
+<p>Part of the problem of scripting a process like this is that there
+  is a certain amount of uncertainty about what responses might be
+  returned by the various tools necessary to accomplish the task. You
+  don't want to blindly continue, because that might bring your site
+  down. Enter a new tool to your quiver: <a
+    href="http://expect.nist.gov/">Expect</a>. It is a tool for automating
+  interactive applications. Part of the Expect release is a sample
+  script, <cite>passmass</cite>, which demonstrates how to change a user
+  password on multiple systems (that are not using NIS or Kerberos, of
+  course). With just a few modifications, a new script was born, <a
+    href="cvsmass.txt">cvsmass</a><a href="/cgi-bin/man.cgi?cvsmass">(1)</a> which performs (almost)
+  all of the tasks listed above.
+
+<p><code>cvsmass</code> knows how to log onto remote machines in various
+  ways (telnet, rlogin, slogin, ssh). It will ask you for the remote
+  password, if it is needed, and then reuse it for each subsequent
+  server (this assumes that you use the same password on each
+  system). Once the shell session is started, it will change into a
+  directory (e.g. <code>/webroot</code>) and then run any program
+  that you specify (<code>cvs update</code> by default).
+
+<p>You'll also need a couple of utility shell scripts: <a
+  href="cvs-pull-snapshot.txt">cvs-pull-snapshot</a> which pulls a
+  release from the CVS repository and <a
+    href="switchrel.txt">switchrel</a> which will switch a release
+  directory on the production server. I am making the assumption that
+  you have a symbolic link, which is the name used in your server config
+  files and that it points to a date-stamped directory. These scripts are
+  heavily customized for my site, so you must modify them to suit your
+  needs.
+
+<p>Once the tools are installed, here's the general process:
+
+<ol>
+  <li>I'll assume that the Release Master has created a branch in the
+    CVS repository. We usually call ours
+    <code>Snapshot-<i>yyyy-mm-dd</i></code>.
+  <li>Run <code>cvsmass</code> to pull the snapshot onto each server:
+<pre>
+cvsmass -dir . -program 'cvs-pull-snapshot.sh <i>yyyy-mm-dd</i>' webserv1 webserv2 ...
+</pre>
+    <p>The utility script extracts the release into a directory with a
+      date extension (<i>yyyy-mm-dd</i>) so it won't conflict with the
+      running release. The date is also part of the CVS tag, so the
+      two are related. Depending on how many servers need to be
+      updated, this can take anywhere from minutes to hours, but so
+      what? You can do this well before the cutover is scheduled.
+  <li>Now that the new release is available on each of the servers,
+    you must go to each of the server, switch a few symbolic links
+    and restart the servers.
+      <pre>
+cd /web
+switchrel <i>yyyy-mm-dd</i>
+<i>restart the server (usually kill `cat nspid`)</i>
+</pre>
+    I've considered scripting this part, too, but I'm too chicken to
+    trust even my own tools. If switchrel fails, I want to be able
+    go back and fix it before restarting the web server. In
+    addition, our restart requires root privileges, which we grant
+    by using <code>sudo</code>.
+  <li>Check the server logs to make sure everything is okay, move to
+    the next server and go back to step 3.
+</ol>
+
+<h3>Exceptions and variations</h3>
+
+<h4>ssh magic</h4>
+<p>In order to use CVS on production machines, you
+  need to communicate with the CVS repository server. There
+  may be no direct (unfirewalled) connection between the production
+  network and the development network. Rightly so. What is required
+  is a "RemoteForward" connection using ssh. This creates a local
+  port binding on the remote machine that tunnels back to the local
+  machine, and opens a connection to another service. <!--Here comes the
+    cheesy ASCII diagram:-->
+<blockquote>
+<pre>
+[dev(ssh)]      ==&gt; [webservN(sshd)]
+[dev:2401(cvs)] &lt;== [webservN:2401(sshd, RemoteForward tunnel)]
+</pre>
+</blockquote>
+On the production systems, it appears that there's a local
+connection to a CVS server, in reality it is a tunnel back to the
+development network via ssh. You can do this on the command line
+by adding <code>-o&nbsp;'RemoteForward=2401&nbsp;dev:2401'</code> or you
+can add it to your .ssh/config file, as I have:
+<blockquote>
+<pre>
+Host = webserv*
+RemoteForward = 2401 dev:2401
+</pre>
+</blockquote>
+The only <i>caveat</i> to this is that if you want to open a
+<em>second</em> shell to a webserv, you need to override the
+RemoteForward (because there can only ever be one process that
+binds to a particular port, in this case 2401). Add
+<code>-o&nbsp;ClearAllForwardings=yes</code> to the ssh command line for second
+and subsequent connections. You'll know that you that you've
+forgotten to do this if you get an error message like:
+<code>bind:&nbsp;Address&nbsp;already&nbsp;in&nbsp;use</code>
+
+<h4>Updates that don't require a full release</h4>
+
+<p><b>Scenario 1</b>: Your service is up an running just fine, and
+  you need to make a minor change to half a dozen files. Do you make a
+  whole new release? If not, how do you get the changes propagated out
+  to all of the servers? The answer is simply run <code>cvs
+    update</code> on all of your servers. If the changes don't change any
+  function definitions or initializations, you can get away without
+  restarting the servers at all.
+
+<ol>
+  <li>Your team makes the changes in the directories served by your
+    stage server. They should be checked out using the same CVS tag
+    as the one you used to make the original release. Once the
+    changes are tested and QA'd, check them into the repository
+    (either manually or a nightly cron job).
+  <li>Run <code>cvsmass</code>, but this time the program to run will
+    be <code>cvs update</code>.
+      <pre>
+cvsmass -dir www -program 'cvs -q up' webserv1 webserv2 ...
+</pre>
+</ol>
+
+<p><b>Scenario 2</b>: You're running a service that has numerous
+  co-brand arrangements. One of your customers has a legal requirement
+  to be ever so slightly different that the rest of your site. It isn't
+  worth creating a whole new body of code for it, so how do you keep
+  track while still updating the site so it is in sync with the rest of
+  the world.
+
+<p>It should be no surprise that I've had to deal with this problem
+  first hand. We had to comment out one line of HTML code on one group
+  of servers. It was a rush job, so we made all of the changes on the
+  live production system. Here's what we did:
+
+<ol>
+  <li>Edited the offending code
+  <li>Ran <code>cvs diff -u &gt; patchfile</code>
+  <li>Saved <i>patchfile</i> in a common spot (we have a few
+    directories NFS mounted for utilities and such).
+  <li>Ran <code>cvsmass</code> to run the <code>patch</code> program
+    on each of the servers
+      <pre>
+cvsmass -dir www/bus -program 'patch -b &lt; $HOME/patchfile' webserv4 webserv5 ...
+</pre>
+</ol>
+
+<p>An interesting note is that when we do minor updates, as in
+  Scenario 1, the patch we made does not disappear. CVS is smart enough
+  to apply incremental changes without wiping out any local
+  modifications (it uses the same code as patch internally). On the
+  other hand, we have a large note to remind ourselves to re-apply this
+  patch every time we roll out a new release into new directories.
+
+<h3>Some advantages and things that could be done better</h3>
+
+<p>It never fails that about 2 hours before I'm scheduled to switch to
+  a new release, a developer comes running in with a last minute fix or
+  modification. In the bad old days, I'd have to re-roll a tar ball and
+  scp it to every server in the farm (and in those days there were fewer
+  servers in the farm to begin with). Now, it's a no brainer. I just
+  check the changes in (it did take a good month of nagging before the
+  HTML folks got the idea that they had to make changes in the staging
+  area), and run an update script that calls cvsmass with the
+  appropriate arguments.
+
+<p>Rollbacks (in case the sh*t really hits the fan) are just the same
+  as a release: call switchrel with the previous release date, restart
+  the servers, lather rinse repeat.
+
+<p>It would be nice if I had also written a script that does the
+  switching and restarting, but, at least in my current situation, it
+  pays to go slow. We are using Cisco LocalDirector to load balance the
+  traffic. If a site goes down (during a restart) it is taken out of the
+  load balance pool for a few minutes. That is just about enough time
+  for me to move (logout, login, cd, start a 'tail&nbsp;-f') from one server
+  to the next, so we never have more than one server offline at a time,
+  and we never really go "off the air."
+
+<p>My only one, true regret is that the name 'cvsmass' is a little
+  inappropriate since CVS is not integral to its function, but I can't come
+  up with a better name in any fewer characters.
+
+<hr>
+<h3>References</h3>
+<ul>
+  <li><a href="http://durak.org/cvswebsites/">CVS Version Control for Web
+    Site Projects</a>, Sean Dreilinger
+  <li><a href="http://www.arsdigita.com/asj/cvs">Using CVS for Web
+    Development</a>, Philip Greenspun.
+</ul>
+
+<h3>Reference material and source code</h3>
+<ul>
+  <li><a href="http://expect.nist.gov/">Expect</a>
+  <li><a href="http://www.ssh.org/">Secure Shell</a> (ssh)
+  <li><a href="http://www.cyclic.com/CVS/">Concurrent Versions System</a>
+    (cvs)
+    <p>
+  <li><a href="cvsmass.txt">cvsmass</a> script and <a
+    href="cvsmass.1.txt">man page</a>
+  <li><a href="cvs-pull-snapshot.txt">cvs-pull-snapshot</a> script
+  <li><a href="switchrel.txt">switchrel</a> script
+</ul>
+
+
+
+    </article>
+    <span class="print-footer">Using CVS for Web Server Farms - September 19, 2000 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Using+CVS+for+Web+Server+Farms&body=http%3A%2F%2Flocalhost%3A4000%2F2000%2F09%2F19%2Fusing-cvs-for-web-server-farms.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>
