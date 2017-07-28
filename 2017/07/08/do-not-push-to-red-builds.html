@@ -16,8 +16,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1500663322343164000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1500663322343164000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1501264943145157000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1501264943145157000" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2017/07/08/do-not-push-to-red-builds.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
   
@@ -75,7 +75,7 @@
 <p><a href="https://www.google.com/search?q=red+green+refactor&amp;oq=re&amp;aqs=chrome.0.69i59j69i60l3j69i57j0.911j0j7&amp;sourceid=chrome&amp;ie=UTF-8">Red-Green-Refactor</a> is a fundamental tenet of our development methodology. It provides us with constant feedback. It warns us when things go wrong. Green tests give us a place of safey from which we can explore without fear. Like all things, it is a <em>fractal</em> concept. <span class="newthought">A broken build is a red unit test, writ large.</span>  Without a green build, we can not deploy. Without a green build, we can not know if the next change we make is “good.” When we push a build to the repository, we are signalling to our team that we’re making progress toward our goal, but a red build says the opposite. When you push to a red build, unless you’re pushing the fix, of course, we can’t know whether your new code is making things better or worse.</p>
 
 <blockquote>
-  <p>Cowboy Bob pushes a seemingly innocuous change to master and goes to lunch. The build goes red. Agile Alice, not noticing the red build, merges her branch to master (tests were green on the branch), too. Now, the build is still red, but some of Alice’s tests are going red, now, too. Alice starts scratching her head and wonders how things could go so terribly wrong. Meanwhile, there’s a problem on production and DevOps Dan creates a production hotfix and deploys that.</p>
+  <p>Cowboy Bobbi pushes a seemingly innocuous change to master and goes to lunch. The build goes red. Agile Alli, not noticing the red build, merges her branch to master (tests were green on the branch), too. Now, the build is still red, but some of Alice’s tests are going red, now, too. Alice starts scratching her head and wonders how things could go so terribly wrong. Meanwhile, there’s a problem on production and DevOps Danni creates a production hot-fix and deploys that.</p>
 </blockquote>
 
 <figure><figcaption>Stormy Skies, http://archive.boston.com/bigpicture/2010/07/stormy_skies.html</figcaption><img src="/assets/95D17118-BBCA-4400-B0BE-8C345361493E.jpg" /></figure>
@@ -83,6 +83,10 @@
 <p><span class="newthought">When the build goes red, your <em>first</em> priority is to fix it.</span>  All other tasks are secondary. This gets you back on track.</p>
 
 <p>In theory there is no difference between theory and practice. In practice there is. You will, at some time or another, have to use some judgement. An intermittently failing build is a code smell, but you might not be able to fix it. You’ll have to choose which is more valuable given the risk.</p>
+
+<h2 id="references">References</h2>
+
+<p><a href="http://web.mit.edu/2.75/resources/random/How%20Complex%20Systems%20Fail.pdf">How Complex Systesms Fail</a></p>
 
 
 
