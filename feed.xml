@@ -6,9 +6,38 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 28 Jul 2017 11:02:23 -0700</pubDate>
-    <lastBuildDate>Fri, 28 Jul 2017 11:02:23 -0700</lastBuildDate>
+    <pubDate>Sun, 30 Jul 2017 13:05:29 -0700</pubDate>
+    <lastBuildDate>Sun, 30 Jul 2017 13:05:29 -0700</lastBuildDate>
     <generator>Jekyll v3.4.5</generator>
+    
+      <item>
+        <title>Our Hiring Process</title>
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Here's how the engineering hiring process works at PacerPro.&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;You apply for the position.&lt;/span&gt;  We expect a clearly worded cover letter that addresses my “pain points.” Read Liz Ryan’s &lt;a href=&quot;https://www.forbes.com/sites/lizryan/2015/03/01/how-to-write-your-first-pain-letter/&quot;&gt;excellent article&lt;/a&gt; on how to write one. Your attached resume is in a common document format that we can read without proprietary software or translation. Both items should concretely address the requirements posted in the job description.&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;We’ll respond.&lt;/span&gt;  One way or another, we try to acknowledge the receipt of your application as soon as we get it. If we have questions, we might you send you a follow-up email or two.&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;We’ll schedule a one-hour video conference screening.&lt;/span&gt;  We’ll talk about your qualifications, why you are interested in the job, and why you are qualified to do it. We’ll give you a demo of the product and what we’re trying to do. This is our first impression of us for you and you for us; the goal is to see if there’s enough team/interpersonal fit to proceed.&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;We’ll schedule a one-hour pairing session.&lt;/span&gt;  We’ll develop code in Ruby (not Ruby on Rails), on a simple class that does a well-known function. We’ll use Test-Driven-Development and Pair-Programming. If you don’t love programming in this style, you should probably apply somewhere else. This is a core part of our development methodology and is not negotiable. I’ll provide the IDE and set up, all you have to do is “show up.” There’s not much magic here, so don’t freak out, you’ll get feedback along the way.&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;The penultimate step is an all day, in-house pairing session on real stories.&lt;/span&gt;  When auditioning for a part, directors don’t ask actors how they would act; they &lt;em&gt;audition&lt;/em&gt;. Sports players don’t talk about how they react to a situation; they &lt;em&gt;try out&lt;/em&gt;. We’re going to sit you with our engineers and work on real, production deliverable code. In a perfect world, you’ll see your code go live.&lt;label for=&quot;unpaid&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;unpaid&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;You will not be monetarily compensated. I acknowledge that this is somewhat controversial, but I think that this way, we both have some skin in the game. &lt;/span&gt; We’ll fly you to San Francisco (our nominal home base), and run a pairing session in the morning and another in the afternoon. We’ll take a long break for lunch so you can reset, and be social with us. Yes, this is a remote position, but humans are much better at reading other humans in-person. We need as much data as possible to decide. I guarantee that by the end of the day, you’ll be worn out. If it is a good tired, then we’ll all know that we’ve probably got a good fit.&lt;/p&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;We make an offer in less than 48 hours.&lt;/span&gt;  No nail biting. We won’t leave you twisting in the breeze waiting for “someone better to come along.” Then it’s the usual negotiating, accepting, scheduling, etc. Your orientation and “indoctrination” will be pairing, in-person, with the rest of the team for 4-6 weeks at a location to be determined and mutually accepted. Once we’ve got a good feel for each other, you can return to wherever home happens to be, and we’ll start remote pairing.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 30 Jul 2017 00:00:00 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2017/07/30/hiring-process.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2017/07/30/hiring-process.html</guid>
+        
+        <category>job</category>
+        
+        <category>interviews</category>
+        
+        <category>management</category>
+        
+        
+      </item>
     
       <item>
         <title>Do Not Push to Red Builds</title>
@@ -772,170 +801,6 @@
         <pubDate>Sat, 12 Dec 2015 14:02:10 -0800</pubDate>
         <link>http://blog.bitwrangler.com/2015/12/12/the-syntax-error-that-killed-our-build-for-a-week.html</link>
         <guid isPermaLink="true">http://blog.bitwrangler.com/2015/12/12/the-syntax-error-that-killed-our-build-for-a-week.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Zero Downtime Migrations</title>
-        <description>&lt;p&gt;For any sufficiently large application, you want to minimize interruptions to service while deploying new code. This is especially challenging for migrations on Heroku and other Platforms-as-a-Service, where you have a Catch-22 problem; you want to run your migrations, &lt;em&gt;first&lt;/em&gt;, but you can’t run them until you’ve deployed the migrations to production. Usually, at this point, your new migration-dependent features are in the deploy, too. So when your application restarts, and the migration hasn’t run, yet, your poor application will trip some exceptions, and perhaps, create problems for your users. Of course, you could put the app into maintenance mode, but that creates more downtime for your users.&lt;/p&gt;
-
-&lt;p&gt;The technique described here&lt;label for=&quot;goals&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;goals&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;We try &lt;em&gt;very&lt;/em&gt; hard to make migrations non-destructive so there’s no rollback required. The alternative is much more complicated. This also assumes that all QA tests are complete and the next task on your checklist is to deploy to production. &lt;/span&gt; will allow you to gather your migrations into a separate, deployable, commit, that you can run &lt;em&gt;before&lt;/em&gt; you deploy your features, thus minimizing downtime.&lt;/p&gt;
-
-&lt;h2 id=&quot;the-recipe&quot;&gt;The Recipe&lt;/h2&gt;
-
-&lt;h3 id=&quot;0-on-a-clean-working-copy-of-your-code&quot;&gt;0. On a clean, working copy of your code&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout master
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;1-create-a-patch-file-of-all-migrations-added-since-your-last-production-deploy&quot;&gt;1. Create a patch file of all migrations, added since your last production deploy&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git fetch production
- git diff production/master... -- &lt;span class=&quot;s1&quot;&gt;'db/migrate/'&lt;/span&gt; &amp;gt; patch0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;The &lt;code class=&quot;highlighter-rouge&quot;&gt;production&lt;/code&gt; [git] remote is on Heroku. It can be named anything, but we call it that.&lt;/p&gt;
-
-&lt;h3 id=&quot;2-check-out-a-branch-starting-at-productionmasters-head&quot;&gt;2. Check out a branch, starting at &lt;em&gt;production/master&lt;/em&gt;’s head&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; git checkout production/master -b pre-deploy-migrations
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;3-reset-your-development-database-to-current-state-of-the-production-database&quot;&gt;3. Reset your development database to current state of the production database&lt;/h3&gt;
-
-&lt;p&gt;&lt;label for=&quot;warning&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;warning&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;em&gt;WARNING&lt;/em&gt; &lt;/span&gt;This will delete &lt;em&gt;all&lt;/em&gt; of your data in your development environment. But that should not be a problem, right? If it is, you have a problem with your development environment.&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; rake db:reset
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;This also assumes that you’ve been diligent, &lt;em&gt;OCD-diligent&lt;/em&gt;, about keeping your &lt;code class=&quot;highlighter-rouge&quot;&gt;schema.rb&lt;/code&gt; file synchronized with production.&lt;/p&gt;
-
-&lt;h3 id=&quot;4-apply-the-patch-file&quot;&gt;4. Apply the patch file&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;patch -p1 &amp;lt; patch0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;5-run-your-migrations&quot;&gt;5. Run your migrations&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake db:migrate
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;6-add-and-commit-your-changes&quot;&gt;6. Add and commit your changes&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git add db/migrate/&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;
- git add db/schema.rb
- git commit -m &lt;span class=&quot;s2&quot;&gt;&quot;pre-deploy migrations only&quot;&lt;/span&gt;
- git status &lt;span class=&quot;c&quot;&gt;# =&amp;gt; should be &quot;reasonably&quot; empty&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;7-re-run-your-test-suite-to-make-sure-nothing-asplodes&quot;&gt;7. Re-run your test suite to make sure nothing ‘asplodes&lt;/h3&gt;
-
-&lt;p&gt;What happens if your tests &lt;em&gt;do&lt;/em&gt; break? &lt;strong&gt;You might have a destructive migration!&lt;/strong&gt; For example, I recently changed a table from single to polymorphic ownership. Instead of adding the columns, &lt;code class=&quot;highlighter-rouge&quot;&gt;owner_id&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;owner_type&lt;/code&gt;, I renamed &lt;code class=&quot;highlighter-rouge&quot;&gt;organization_id&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;owner_id&lt;/code&gt;. A whole bunch of tests broke. If you continue with these steps, your app will crash when you run the migrations. See Appendix A for some work-arounds.&lt;/p&gt;
-
-&lt;h3 id=&quot;8-compare-your-commit-against-master&quot;&gt;8. Compare your commit against master&lt;/h3&gt;
-
-&lt;p&gt;Make sure that nothing snuck in by accident. Conceptually, &lt;code class=&quot;highlighter-rouge&quot;&gt;schema.rb&lt;/code&gt; will represent the state of the database after the migrations have been run, and should exactly match the schema that we want to have for our new feature.&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git diff head..origin/master -- &lt;span class=&quot;s1&quot;&gt;'db/migrate/'&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# =&amp;gt; This should return zero changes!&lt;/span&gt;
- git diff head..origin/master -- &lt;span class=&quot;s1&quot;&gt;'db/schema.rb'&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;# =&amp;gt; This should return zero changes!&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;There &lt;strong&gt;might&lt;/strong&gt; be differences that are okay. You’ll have to do a manual code review to be sure.&lt;/p&gt;
-
-&lt;h3 id=&quot;9-push-just-this-commit-into-production&quot;&gt;9. Push &lt;strong&gt;just&lt;/strong&gt; this commit into production&lt;/h3&gt;
-
-&lt;p&gt;You can do it by pushing the branch, or merging the commit into your deploy / mainline, rebase it &lt;em&gt;ahead&lt;/em&gt; of your other commits, then push just that sha. We use the &lt;code class=&quot;highlighter-rouge&quot;&gt;heroku_san&lt;/code&gt; gem, so, for us, it is a simple shell command (while still on this branch).&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake production deploy
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;10-run-your-migrations-on-your-production-instance&quot;&gt;10. Run your migrations on your production instance&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;heroku run:detached rake db:migrate -r production
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;Is this a long running migration? Don’t want Heroku to hang up before your done? What’s this &lt;a href=&quot;https://devcenter.heroku.com/articles/one-off-dynos#running-tasks-in-background&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;run:detached&lt;/code&gt;&lt;/a&gt;?&lt;/p&gt;
-
-&lt;h3 id=&quot;11-merge-the-branch-into-master&quot;&gt;11. Merge the branch into master&lt;/h3&gt;
-
-&lt;p&gt;It should be a no-op since the code is already there. This is optional, but it keeps git happy for the next deploy.&lt;/p&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git checkout master
- git merge -m &lt;span class=&quot;s2&quot;&gt;&quot;Merge branch 'pre-deploy-migrations'&quot;&lt;/span&gt; pre-deploy-migrations 
- git push origin master
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;12-you-are-ready-to-deploy-to-production&quot;&gt;12. You are ready to deploy to production&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;rake production deploy
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;13-clean-up&quot;&gt;13. Clean up&lt;/h3&gt;
-
-&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git branch -D pre-deploy-migrations
- rm patch0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;14-bask-in-the-glow-of-your-mastery&quot;&gt;14. Bask in the glow of your mastery!&lt;/h3&gt;
-
-&lt;hr class=&quot;slender&quot; /&gt;
-
-&lt;h2 id=&quot;appendix-a-how-to-handle-deprecated-columns&quot;&gt;Appendix A: How to Handle Deprecated Columns&lt;/h2&gt;
-
-&lt;p&gt;Don’t remove them! That would break your existing production code and any rollbacks become infinitely more difficult. Many practitioners &lt;em&gt;never&lt;/em&gt; remove old columns, but I think that’s bad too. Code costs. Maintaining these extra columns, over time, will cost you time and money. Here’s a way to “soft” remove columns until you are &lt;em&gt;sure&lt;/em&gt; that you won’t need them again. I schedule a chore a few iterations in the future with the task of doing the actual removal.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;YourModel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;# TODO: https://www.pivotaltracker.com/story/show/...&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;columns&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;_column_name_&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
- &lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;appendix-b-copy-data-to-new-columns&quot;&gt;Appendix B: Copy Data to New Columns&lt;/h2&gt;
-
-&lt;p&gt;Making copies to a new column is safe (and “disks” are “cheap”), although it does open a window where your data will be inconsistent. In your migrations, make SQL calls to copy a column from the old to the new. There is a down side to this, especially on very large tables. You want tall, narrow tables for efficiency and performance. This does neither. So plan accordingly.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;YourMigration&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;add_column&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:_table_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:_new_column_name_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:string&lt;/span&gt;
-
-    &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;connection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;execute&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;-&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;SQL&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
-      UPDATE _table_name_ SET _new_column_name_ = _old_column_name_;
-&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;    SQL&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;If you are using MySQL, you might need the help of the Large Hadron Migrator to keep your site up and running while you copy over the data.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 15 Aug 2015 19:35:44 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2015/08/15/zero-downtime-migrations.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2015/08/15/zero-downtime-migrations.html</guid>
-        
-        <category>rails</category>
-        
-        <category>database</category>
-        
-        <category>deploy</category>
-        
-        <category>heroku</category>
         
         
       </item>
