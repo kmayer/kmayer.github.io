@@ -6,44 +6,47 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 11 Mar 2018 20:10:56 -0700</pubDate>
-    <lastBuildDate>Sun, 11 Mar 2018 20:10:56 -0700</lastBuildDate>
+    <pubDate>Sun, 11 Mar 2018 20:45:14 -0700</pubDate>
+    <lastBuildDate>Sun, 11 Mar 2018 20:45:14 -0700</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
         <title>Using Ruby Enumerators for Resumable Iterators </title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Here's a power technique: You can use Ruby Enumerators to create &quot;resumable&quot; iterators when I'm extracting data from our application in a console.&lt;/code&gt;&lt;/p&gt;
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Here's a power technique: You can use Ruby Enumerators to create &quot;resumable&quot; iterators when you're extracting data from the application console.&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;In the past, I’d do something like this:&lt;/p&gt;
+&lt;p&gt;In the past, When I had to some one-off analysis of some production data, I’d do something like this:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;big_collection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;big_collection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;and invariably something would ‘asplode inside&lt;/p&gt;
+&lt;p&gt;Invariably something would ‘asplode&lt;/p&gt;
 
 &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;OMG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Raised&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;which I would dutifully fix, then I’d have to start all over again.&lt;/p&gt;
+&lt;p&gt;Which I would dutifully fix, then I’d have to start. all. over. again.&lt;/p&gt;
 
-&lt;p&gt;…however…&lt;/p&gt;
+&lt;p&gt;however&lt;/p&gt;
 
-&lt;p&gt;If we unwrap it, just a little bit:&lt;/p&gt;
+&lt;p&gt;&lt;label for=&quot;enumerators&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;enumerators&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;I won’t go into the sublime complexities of Enumerables and Enumerators. Others have said it much better than I can. This &lt;em&gt;unwrapping&lt;/em&gt; is exactly what happens when you pass a block to the enumerator returned by &lt;code class=&quot;highlighter-rouge&quot;&gt;each&lt;/code&gt;. &lt;/span&gt;If we unwrap it just a little bit using an &lt;a href=&quot;https://ruby-doc.org/core/Enumerator.html&quot;&gt;enumerator&lt;/a&gt; instead of calling &lt;code class=&quot;highlighter-rouge&quot;&gt;each&lt;/code&gt;:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;big_collection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;big_collection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt;
 &lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;next&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Then (when) an exception is raised, I can “simply” handle it on the console, or edit the method, or say “lets just skip it, bad data!”&lt;/p&gt;
+&lt;p&gt;Then (when) an exception is raised, I can “simply” handle it on the console, or edit the method, or say “lets just skip it, bad data, &lt;code class=&quot;highlighter-rouge&quot;&gt;next&lt;/code&gt;!”&lt;/p&gt;
 
-&lt;p&gt;Resuming from where we left off is simply recapitulation of the loop:&lt;/p&gt;
+&lt;p&gt;Resuming from where we left off is a simple recapitulation of the loop:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;next&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
@@ -51,7 +54,7 @@
 
 &lt;p&gt;and we can carry on with the rest of the data!&lt;/p&gt;
 
-&lt;p&gt;Even moar better: &lt;code class=&quot;highlighter-rouge&quot;&gt;loop do ... end&lt;/code&gt; has some extra Ruby magic sprinkles in it: It rescues &lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt; for you! (cf. ruby-doc.org/core/StopIteration) so that when the enumerator does come to its timely end, there’s no exception raised.&lt;/p&gt;
+&lt;p&gt;&lt;label for=&quot;stop-iteration&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;stop-iteration&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;When an enumerator gets to the end of its iterations, it raises the &lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt; exception. That’s how &lt;code class=&quot;highlighter-rouge&quot;&gt;each&lt;/code&gt; with a block is implemented. &lt;/span&gt;Even moar better: &lt;code class=&quot;highlighter-rouge&quot;&gt;loop do...end&lt;/code&gt; has some extra Ruby magic sprinkles in it: It rescues &lt;a href=&quot;https://ruby-doc.org/core/StopIteration.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt;&lt;/a&gt; for you so that when the enumerator does come to its timely end, there’s no exception raised.&lt;/p&gt;
 </description>
         <pubDate>Sun, 11 Mar 2018 00:00:00 -0800</pubDate>
         <link>http://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</link>
@@ -64,7 +67,7 @@
     
       <item>
         <title>On Call Duty</title>
-        <description>&lt;p&gt;Recently, there was a flurry of tweets about on-call and SRE duty schedules. It triggered a memory of a conversation at a manager meeting about a new product offering:&lt;/p&gt;
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Recently, there was a flurry of tweets about on-call and SRE duty schedules. It triggered a memory of a conversation at a manager meeting about a new product offering:&lt;/code&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;Manager 1: On call duty? We can’t ask our developers! They work 9 to 6, Monday through Friday. That’s it. &lt;label for=&quot;note-1&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;note-1&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Remember when it was 9-5, hmm? &lt;/span&gt;&lt;/p&gt;
