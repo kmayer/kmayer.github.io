@@ -6,8 +6,8 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 11 Mar 2018 20:06:27 -0700</pubDate>
-    <lastBuildDate>Sun, 11 Mar 2018 20:06:27 -0700</lastBuildDate>
+    <pubDate>Sun, 11 Mar 2018 20:10:56 -0700</pubDate>
+    <lastBuildDate>Sun, 11 Mar 2018 20:10:56 -0700</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -82,9 +82,9 @@
   &lt;p&gt;Me: You seem to misunderstand the role of a senior developer and yours as manager.&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;A feature (or any other chunk of code) is never really “done” until the code is erased from production. All of must support it, somehow. Bugs happen. Customers call. We are paid for working systems. Clicking “Deliver” and “Accept” is not the end of our responsibility.&lt;/p&gt;
+&lt;p&gt;A feature (or any other chunk of code) is never really “done” until the code is erased from production. All of us must support it, somehow. Bugs happen. Customers call. We are paid for working systems. Clicking “Deliver” and “Accept” is not the end of our responsibility.&lt;/p&gt;
 
-&lt;p&gt;As a manager, it is your job to express the importance of production code to your staff. They are not royalty, or privileged spoiled generation whatever. In fact, when I’ve have conversations with my directs, most have been remarkably pragmatic and supportive when they are informed about the value of on-call duty.&lt;/p&gt;
+&lt;p&gt;As a manager, it is your job to express the importance of production code to your staff. They are not royalty nor privileged-spoiled-generation whatever. In fact, when I’ve have conversations with my directs, most have been remarkably pragmatic and supportive when they are informed about the value of on-call duty.&lt;/p&gt;
 
 &lt;p&gt;More importantly, if you give your staff the trust and respect that comes with, “there is no dev/ops divide, there is only the product and the success our organization,” then they will come up with their own solutions to the problem: What to do when things go pear shaped.&lt;/p&gt;
 
@@ -111,7 +111,7 @@
 
 &lt;p&gt;There Lots of creative ways to make it work. Run retrospectives to make it better. Finally, if a staff member absolutely can’t be present off-hours because life happens and the original job description did not include off-hours duty, &lt;em&gt;don’t&lt;/em&gt; penalize them. It’s not their fault that your business plan &lt;em&gt;failed&lt;/em&gt; to predict one of the most obvious needs of a 24x7 operation.&lt;/p&gt;
 
-&lt;p&gt;I’ve been on-call 24x7x365 minus vacation, in daily, weekly and monthly rotations, and not at all. I’ve been so tired that I missed the call and the boss had to call my wife to wake me up. It’s doesn’t happen too often, and I’ve accepted the responsibility as part of the job. I mostly enjoy it, because I get to talk to real customers and hear about their pain points. I get a better sense of what’s important to them than any 3-hour death-by-powerpoint could ever give me. The customers also see that there are real, compassionate human beings supporting them and their work. Because that’s the real thing: We build stuff to help &lt;em&gt;other&lt;/em&gt; people solve problems. Think about that the next time you drag out your luser hashtag.&lt;/p&gt;
+&lt;p&gt;I’ve been on-call 24x7x365 minus vacation, in daily, weekly and monthly rotations, and not at all. I’ve been so tired that I missed the call and the boss had to call my wife to wake me up. It doesn’t happen too often, and I’ve accepted the responsibility as part of the job. I mostly enjoy it because I get to talk to real customers and hear about their pain points. I get a better sense of what’s important to them than any 3-hour death-by-powerpoint could ever give me. The customers also see that there are real, compassionate, human beings supporting them and their work. Because that’s the real thing: We build stuff to help &lt;em&gt;other&lt;/em&gt; people solve problems. Think about that the next time you drag out your luser hashtag.&lt;/p&gt;
 </description>
         <pubDate>Sun, 11 Mar 2018 00:00:00 -0800</pubDate>
         <link>http://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html</link>
