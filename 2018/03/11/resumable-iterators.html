@@ -16,8 +16,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1520823168503064000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1520823168503064000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1520823828834968000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1520823828834968000" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2018/03/11/resumable-iterators.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
   
@@ -99,10 +99,10 @@
 
 <p>Resuming from where we left off is simply recapitulation of the loop:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>loop do
-  thingy = enum.next
-  complex_expensive_computation_on(thingy)
-end
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kp">loop</span> <span class="k">do</span>
+  <span class="n">thingy</span> <span class="o">=</span> <span class="n">enum</span><span class="p">.</span><span class="nf">next</span>
+  <span class="n">complex_expensive_computation_on</span><span class="p">(</span><span class="n">thingy</span><span class="p">)</span>
+<span class="k">end</span>
 </code></pre></div></div>
 
 <p>and we can carry on with the rest of the data!</p>

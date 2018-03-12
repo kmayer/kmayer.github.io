@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>On Call Duty</title>
+  <meta name="description" content="Recently, there was a flurry of tweets about on-call and SRE duty schedules. It triggered a memory of a conversation at a manager meeting about a new product...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1520823828834968000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1520823828834968000" media="print">
+  <link rel="canonical" href="http://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-87257465-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>On Call Duty</h1>
+<p class="subtitle">March 11, 2018</p>
+
+<p>Recently, there was a flurry of tweets about on-call and SRE duty schedules. It triggered a memory of a conversation at a manager meeting about a new product offering:</p>
+
+<blockquote>
+  <p>Manager 1: On call duty? We can’t ask our developers! They work 9 to 6, Monday through Friday. That’s it. <label for="note-1" class="margin-toggle"> ⊕</label><input type="checkbox" id="note-1" class="margin-toggle" /><span class="marginnote">Remember when it was 9-5, hmm? </span></p>
+</blockquote>
+
+<blockquote>
+  <p>Me: Our servers run 24x7x365</p>
+</blockquote>
+
+<blockquote>
+  <p>Manager 2: The developers are our most precious resource! We can’t piss them off. They’ll quit!</p>
+</blockquote>
+
+<blockquote>
+  <p>Me: You seem to misunderstand the role of a senior developer and yours as manager.</p>
+</blockquote>
+
+<p>A feature (or any other chunk of code) is never really “done” until the code is erased from production. All of must support it, somehow. Bugs happen. Customers call. We are paid for working systems. Clicking “Deliver” and “Accept” is not the end of our responsibility.</p>
+
+<p>As a manager, it is your job to express the importance of production code to your staff. They are not royalty, or privileged spoiled generation whatever. In fact, when I’ve have conversations with my directs, most have been remarkably pragmatic and supportive when they are informed about the value of on-call duty.</p>
+
+<p>More importantly, if you give your staff the trust and respect that comes with, “there is no dev/ops divide, there is only the product and the success our organization,” then they will come up with their own solutions to the problem: What to do when things go pear shaped.</p>
+
+<ul>
+  <li>Support tiers</li>
+  <li>Run books</li>
+  <li>Reasonable response time windows</li>
+  <li>QC tests</li>
+  <li>Production smoke tests</li>
+  <li>Production health checks.</li>
+</ul>
+
+<p>Let’s face it, most applications are <em>not</em> mission / life critical – and those that are, they <em>require</em> live monitoring and response teams, right? We must also recognize that off-hours duty can be a burden. Young children, elder care, other commitments compete for our time. We don’t own a staffer’s entire 24 hour day, so make accomodations! On-call is not the same as watch-standing. You don’t have to be awake for duty time, just reachable on short notice.</p>
+
+<ul>
+  <li>Flex time</li>
+  <li>Eily traded slots</li>
+  <li>Bonuses or extra vacation</li>
+  <li>Customized pre configured laptops with mondo cell data plan &amp; up-to-date dev environment</li>
+  <li>A phone</li>
+  <li>An on-duty bag</li>
+  <li>Trick up the laptop with games, maybe</li>
+</ul>
+
+<p>There Lots of creative ways to make it work. Run retrospectives to make it better. Finally, if a staff member absolutely can’t be present off-hours because life happens and the original job description did not include off-hours duty, <em>don’t</em> penalize them. It’s not their fault that your business plan <em>failed</em> to predict one of the most obvious needs of a 24x7 operation.</p>
+
+<p>I’ve been on-call 24x7x365 minus vacation, in daily, weekly and monthly rotations, and not at all. I’ve been so tired that I missed the call and the boss had to call my wife to wake me up. It’s doesn’t happen too often, and I’ve accepted the responsibility as part of the job. I mostly enjoy it, because I get to talk to real customers and hear about their pain points. I get a better sense of what’s important to them than any 3-hour death-by-powerpoint could ever give me. The customers also see that there are real, compassionate human beings supporting them and their work. Because that’s the real thing: We build stuff to help <em>other</em> people solve problems. Think about that the next time you drag out your luser hashtag.</p>
+
+
+
+    </article>
+    <span class="print-footer">On Call Duty - March 11, 2018 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=On+Call+Duty&body=http%3A%2F%2Fblog.bitwrangler.com%2F2018%2F03%2F11%2Fon-call-op-ed.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2018 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>

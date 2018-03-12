@@ -6,8 +6,8 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 11 Mar 2018 19:52:48 -0700</pubDate>
-    <lastBuildDate>Sun, 11 Mar 2018 19:52:48 -0700</lastBuildDate>
+    <pubDate>Sun, 11 Mar 2018 20:03:48 -0700</pubDate>
+    <lastBuildDate>Sun, 11 Mar 2018 20:03:48 -0700</lastBuildDate>
     <generator>Jekyll v3.6.2</generator>
     
       <item>
@@ -43,10 +43,10 @@
 
 &lt;p&gt;Resuming from where we left off is simply recapitulation of the loop:&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;loop do
-  thingy = enum.next
-  complex_expensive_computation_on(thingy)
-end
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;next&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;and we can carry on with the rest of the data!&lt;/p&gt;
@@ -58,6 +58,70 @@ end
         <guid isPermaLink="true">http://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</guid>
         
         <category>ruby</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>On Call Duty</title>
+        <description>&lt;p&gt;Recently, there was a flurry of tweets about on-call and SRE duty schedules. It triggered a memory of a conversation at a manager meeting about a new product offering:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Manager 1: On call duty? We can’t ask our developers! They work 9 to 6, Monday through Friday. That’s it. &lt;label for=&quot;note-1&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;note-1&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Remember when it was 9-5, hmm? &lt;/span&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Me: Our servers run 24x7x365&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Manager 2: The developers are our most precious resource! We can’t piss them off. They’ll quit!&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Me: You seem to misunderstand the role of a senior developer and yours as manager.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;A feature (or any other chunk of code) is never really “done” until the code is erased from production. All of must support it, somehow. Bugs happen. Customers call. We are paid for working systems. Clicking “Deliver” and “Accept” is not the end of our responsibility.&lt;/p&gt;
+
+&lt;p&gt;As a manager, it is your job to express the importance of production code to your staff. They are not royalty, or privileged spoiled generation whatever. In fact, when I’ve have conversations with my directs, most have been remarkably pragmatic and supportive when they are informed about the value of on-call duty.&lt;/p&gt;
+
+&lt;p&gt;More importantly, if you give your staff the trust and respect that comes with, “there is no dev/ops divide, there is only the product and the success our organization,” then they will come up with their own solutions to the problem: What to do when things go pear shaped.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Support tiers&lt;/li&gt;
+  &lt;li&gt;Run books&lt;/li&gt;
+  &lt;li&gt;Reasonable response time windows&lt;/li&gt;
+  &lt;li&gt;QC tests&lt;/li&gt;
+  &lt;li&gt;Production smoke tests&lt;/li&gt;
+  &lt;li&gt;Production health checks.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Let’s face it, most applications are &lt;em&gt;not&lt;/em&gt; mission / life critical – and those that are, they &lt;em&gt;require&lt;/em&gt; live monitoring and response teams, right? We must also recognize that off-hours duty can be a burden. Young children, elder care, other commitments compete for our time. We don’t own a staffer’s entire 24 hour day, so make accomodations! On-call is not the same as watch-standing. You don’t have to be awake for duty time, just reachable on short notice.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Flex time&lt;/li&gt;
+  &lt;li&gt;Eily traded slots&lt;/li&gt;
+  &lt;li&gt;Bonuses or extra vacation&lt;/li&gt;
+  &lt;li&gt;Customized pre configured laptops with mondo cell data plan &amp;amp; up-to-date dev environment&lt;/li&gt;
+  &lt;li&gt;A phone&lt;/li&gt;
+  &lt;li&gt;An on-duty bag&lt;/li&gt;
+  &lt;li&gt;Trick up the laptop with games, maybe&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;There Lots of creative ways to make it work. Run retrospectives to make it better. Finally, if a staff member absolutely can’t be present off-hours because life happens and the original job description did not include off-hours duty, &lt;em&gt;don’t&lt;/em&gt; penalize them. It’s not their fault that your business plan &lt;em&gt;failed&lt;/em&gt; to predict one of the most obvious needs of a 24x7 operation.&lt;/p&gt;
+
+&lt;p&gt;I’ve been on-call 24x7x365 minus vacation, in daily, weekly and monthly rotations, and not at all. I’ve been so tired that I missed the call and the boss had to call my wife to wake me up. It’s doesn’t happen too often, and I’ve accepted the responsibility as part of the job. I mostly enjoy it, because I get to talk to real customers and hear about their pain points. I get a better sense of what’s important to them than any 3-hour death-by-powerpoint could ever give me. The customers also see that there are real, compassionate human beings supporting them and their work. Because that’s the real thing: We build stuff to help &lt;em&gt;other&lt;/em&gt; people solve problems. Think about that the next time you drag out your luser hashtag.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 11 Mar 2018 00:00:00 -0800</pubDate>
+        <link>http://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html</guid>
+        
+        <category>sysadm</category>
+        
+        <category>devops</category>
+        
+        <category>management</category>
         
         
       </item>
@@ -695,116 +759,6 @@ end
         <guid isPermaLink="true">http://blog.bitwrangler.com/2016/09/22/anatomy-of-an-apology.html</guid>
         
         <category>management</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Guidelines for Using Pivotal Tracker</title>
-        <description>&lt;p&gt;I am often asked about the meaning of things in Pivotal Tracker, such as “What’s the difference between a bug and a chore?” Or, “How can I tell the difference between a bug and a feature?” Another oldie but a goodie is, “What story should I pick from the backlog?” Here are my biased answers.&lt;/p&gt;
-
-&lt;p&gt;But first:&lt;/p&gt;
-
-&lt;h2 id=&quot;a-groomed-backlog-is-no-substitute-for-good-judgement&quot;&gt;A Groomed Backlog is No Substitute for Good Judgement&lt;/h2&gt;
-
-&lt;p&gt;No matter what you might hope, there is no substitute for good judgement. You should always ask yourself, “What is in the best interest of PacerPro?” If you can’t answer that question, then stop, go find someone who &lt;em&gt;does&lt;/em&gt; know before continuing. Great employees will not only do what’s expected of them, but also do what is best for the company.&lt;/p&gt;
-
-&lt;h2 id=&quot;tracker-stories-are-focused-on-delivering-business-value&quot;&gt;Tracker Stories Are Focused on Delivering Business Value&lt;/h2&gt;
-
-&lt;p&gt;Tracker has four and &lt;em&gt;only&lt;/em&gt; four types of stories: &lt;code class=&quot;highlighter-rouge&quot;&gt;Feature&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Bug&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;Chore&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Release&lt;/code&gt;.&lt;/p&gt;
-
-&lt;h3 id=&quot;a-feature-has-quantifiable-business-value&quot;&gt;A “feature” has quantifiable business value&lt;/h3&gt;
-
-&lt;p&gt;Here’s my formal definition:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;“A &lt;em&gt;feature&lt;/em&gt; is a story that was requested by the [client] stakeholder and has quantifiable business value.”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;There are some really important concepts to consider here. The story &lt;em&gt;must&lt;/em&gt; come from a stakeholder, that is, someone who can make decisions based on &lt;em&gt;business priorities&lt;/em&gt;. As a general rule, engineers should not request feature stories, not because they can’t, but because they don’t generally see the business side of things.&lt;label for=&quot;business-value&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;business-value&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;I don’t keep a lot of secrets. I’ll try to explain the back-story if I can. If everyone knows the business value and complexity of a story, then we can all help ensure that we’re maximizing business value for the company. &lt;/span&gt; Let’s be honest, however, stakeholders rarely write &lt;em&gt;good&lt;/em&gt; stories, so in general, stories will be written in partnership (pairing) with them. As CTO, I will often trade my engineering hat for a business hat and write feature stories. You may not see the hat switch, but it is there. Ask me, “Which hat are you wearing?” if you are unsure. On the other hand, if you can’t make a judgement based on business priorities, then you shouldn’t be writing stories, either.&lt;/p&gt;
-
-&lt;p&gt;The other component of &lt;em&gt;feature&lt;/em&gt; stories is that they have &lt;em&gt;quantifiable business value&lt;/em&gt;. Stories cost time to deliver. Time that could be spent on other stories. We want to maximize the financial leverage of our work so that we deliver the most value for the least cost. There’s some local maxima at work here, and since our business landscape changes so quickly, we’re only hoping for something measurable in the 90 days after delivery. This is a nod to &lt;a href=&quot;http://firstround.com/review/This-Product-Prioritization-System-Nabbed-Pandora-More-Than-70-Million-Active-Monthly-Users-with-Just-40-Engineers/&quot;&gt;Pandora’s planning criterion&lt;/a&gt;:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;“What would be stupid not to do in the next 90 days.”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;During planning sessions you may hear me ask the stakeholders, “What’s the business value of this story, in rough dollars?” If all I get in reply is hemming and hawing, I will politely but firmly push back; This story is not ready, or not really &lt;em&gt;that&lt;/em&gt; high a priority. There’s an old definition of “urgency,” something that is time critical, but you can have &lt;em&gt;unimportant&lt;/em&gt; urgencies. Those stories are not the most important ones to complete. You, as engineers, should know what the quantifiable business value is for a story, and you should ask if you don’t know.&lt;label for=&quot;research-stories&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;research-stories&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;Sometimes, we won’t be able to estimate a story’s cost without some research, perhaps some spiking. I’ll break that out into a separate story whose sole output is an estimated cost of the feature. &lt;/span&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;a-bug-is-a-defect-introduced-during-the-delivery-of-a-feature&quot;&gt;A “bug” is a defect introduced during the delivery of a feature&lt;/h3&gt;
-
-&lt;p&gt;Bugs are a drag on velocity.&lt;label for=&quot;velocity&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;velocity&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;See my earlier article on velocity: “&lt;a href=&quot;/2013/02/19/its-the-volatility-that-will-kill-you.html&quot;&gt;It’s the Volatility that Will Kill You&lt;/a&gt;” &lt;/span&gt; It slows down our ability to deliver feature stories. There’s really no such thing as zero-defect software and achieving that becomes asymptotically expensive. So we want a process where we minimize bugs for a reasonable expense. That’s why we have tests, continuous integration testing, code quality metrics, quality assurance and multiple staged servers, to name a few. That’s also why we don’t maintain a JIRA installation; it costs more to maintain than we got in reducing our defect rate.&lt;/p&gt;
-
-&lt;p&gt;Not all bugs are equal. We prioritize them by business value, too. We can measure value in terms of loss of customers, reduced adoption rate, or even a hit to our brand value. Some bugs are more expensive to fix than others, too. This is one of the pain points of using Pivotal Tracker; there’s no direct way to indicate the &lt;em&gt;cost&lt;/em&gt; of &lt;em&gt;fixing&lt;/em&gt; the bug. In this respect, in the eyes of Tracker, all bugs are equal. I’ve found this not to be true in real life. Some bugs are easy to fix, or easy to fix &lt;em&gt;right now&lt;/em&gt; while we still have &lt;em&gt;context&lt;/em&gt; to fix the bug. Bugs to fix in the backlog are in roughly the priority to be fixed, but there’s usually a lot more wiggle room than in feature stories.&lt;/p&gt;
-
-&lt;h3 id=&quot;a-release-is-a-time-constraint&quot;&gt;A “release” is a time constraint&lt;/h3&gt;
-
-&lt;p&gt;Tracker doesn’t set many deadlines because most deadlines are bogus. Well, arbitrary. Okay, bullshit. That’s because when they are imposed from above, or don’t reflect any business realities, or don’t adjust to the changing landscape of our business, we’re not maximizing value. And things change, fast. That’s what “agile” means, right? This is not to say that “agile” is an excuse not to deliver on time, either. We want to be &lt;em&gt;realistic&lt;/em&gt; about our deliveries. Hence we have “releases.” They &lt;em&gt;can&lt;/em&gt; answer two important questions:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;We have an “epic” that must be delivered by an externally imposed date. Will we make it, with confidence?&lt;/li&gt;
-  &lt;li&gt;How long will an “epic” take to complete? Is the overall cost worth it? Will it impact other commitments?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There are &lt;em&gt;lots&lt;/em&gt; of external events that are beyond our direct control: Trade shows, press release dates, legal contracts, holidays, even election day!&lt;/p&gt;
-
-&lt;p&gt;Finally, and, least of all&lt;/p&gt;
-
-&lt;h3 id=&quot;chores-are-internal-stories-that-must-be-done-but-have-no-quantifiable-business-value&quot;&gt;“Chores” are internal stories that must be done, but have no quantifiable business value&lt;/h3&gt;
-
-&lt;p&gt;Chores are closely related to bugs, in that they don’t have points, so they are also a drag on velocity. Consider them “the cost of doing business.” Where they differ is that chores do not arise as a defect when delivering a feature. They are usually internal engineering work, such as setting up new servers, or renewing an SSL certificate. We also use them as an &lt;em&gt;ad hoc&lt;/em&gt; to-do list, e.g. when we need to provision new users for a client. Those requests &lt;em&gt;could&lt;/em&gt; be seen as help desk tickets&lt;label for=&quot;help-desk&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;help-desk&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;I need to write a whole other post about help desk operations. &lt;/span&gt;, and I may change my mind on this, but for now we’re just going with the flow.&lt;/p&gt;
-
-&lt;p&gt;One thing that I am adamantly opposed to are &lt;em&gt;chores to address technical debt&lt;/em&gt;. Stories like “code reviews” or “large refactoring.” They are part of our normal story workflow and &lt;em&gt;not&lt;/em&gt; an after-thought. If a big refactor is necessary for a story, then so be it. Add that cost to the complexity of the story.&lt;label for=&quot;refactoring-not-a-story&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;refactoring-not-a-story&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;See, &lt;a href=&quot;http://ronjeffries.com/xprog/articles/refactoring-not-on-the-backlog/&quot;&gt;“Refactoring – Not on the backlog!”&lt;/a&gt; &lt;/span&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;what-should-i-do-next&quot;&gt;What Should I Do Next?&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;“The Most Important Thing”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;In theory always try to take the next &lt;em&gt;ready&lt;/em&gt; story off the &lt;em&gt;top&lt;/em&gt; of the &lt;em&gt;backlog&lt;/em&gt;. In practice it is not always so simple. It goes back to judgement. Before you click the start button, review the story for readiness and business value. Ask yourself, “Self? Has the business landscape &lt;em&gt;changed&lt;/em&gt; since the last time we looked at this story? Is it truly the &lt;em&gt;most important thing to do&lt;/em&gt;?” You have the responsibility and authority to “pull the yellow cord&lt;label for=&quot;kanban&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;kanban&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;A kanban concept. When there is trouble on an assembly line, any worker is empowered to sound an alarm by pulling a bright yellow cord. Anyone available, including managers, rush to the trouble spot to correct the problem and keep the line running. Later, there would be a &lt;em&gt;post mortem&lt;/em&gt; to prevent the problem from happening again. &lt;/span&gt;.”&lt;/p&gt;
-
-&lt;h3 id=&quot;start--started&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(START) =&amp;gt; [Started]&lt;/code&gt;&lt;/h3&gt;
-
-&lt;p&gt;Pressing the (Start) button commits you to see the story through delivery and acceptance. You are empowered to choose any solution path that, in your professional judgement, is the most cost effective (in terms of time, resources and maintainability). You are also shielded from working on any other story until the current story is completed (or reasonably blocked).&lt;label for=&quot;scheduling&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;scheduling&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;Let’s say that you’ve finished merging and are waiting for CI to deploy to staging for QA. It’s a good time to take a break and celebrate, but if you want to kill off a few Zendesk tickets while you’re waiting, go for it. Just don’t lose track of the main story. &lt;/span&gt; There’s ample research that shows that context switching costs &lt;em&gt;more&lt;/em&gt; than just doing one thing, well.&lt;label for=&quot;context-switching&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;context-switching&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;&lt;a href=&quot;https://www.psychologytoday.com/blog/brain-wise/201209/the-true-cost-multi-tasking&quot;&gt;The True Cost of Multi Tasking&lt;/a&gt;, “Psychology Today”, September 18, 2012 &lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Blocked!&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;When a story gets blocked, you’re first priority is to unblock it. If that’s not possible, add the &lt;code class=&quot;highlighter-rouge&quot;&gt;blocked&lt;/code&gt; tag to the story. Announce that you’re blocked on Slack#engineering. Set a time, at regular intervals, to check up on the blockage. Then, move on to the next story. Announce the blockage at the morning Stand-Up.&lt;/p&gt;
-
-&lt;h3 id=&quot;finish--finished&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(Finish) =&amp;gt; [Finished]&lt;/code&gt;&lt;/h3&gt;
-
-&lt;p&gt;Pressing the (Finish) button tells the team that development work is done and that a pull-request is pending on GitHub for review. You can start the pull-request at any time, not just at the end. There is a process pattern where you start the pull-request as soon as you create the story branch. I like it because I get early feedback from CircleCI and CodeClimate. YMMV. Announce the pull-request and &lt;em&gt;ask&lt;/em&gt; for feedback. Review criteria will vary, but at a minimum, CI is green, the code adheres to the style-guide (via CodeClimate reports), QA testing on the local development system confirms that the story delivers, &lt;em&gt;in real life&lt;/em&gt;, what was originally requested. This is also a good place to show the team the new functionality at the evening Round-Up.&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Merge to master, final QA&lt;/span&gt;&lt;/p&gt;
-
-&lt;p&gt;Once everything is “green,” merge to the master branch (our &lt;em&gt;production ready&lt;/em&gt; branch). Re-test the feature on the staging server and run our QA “smoke tests.”&lt;label for=&quot;smoke-tests&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;smoke-tests&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;We have a small suite of integration tests that can run against a ‘live’ server; either staging or production. These tests assure us that we haven’t broken anything critical and that all services are running properly. &lt;/span&gt; You are now ready to deploy to production at your next opportunity. In general, we believe in deploying early and often. Since our deployments &lt;em&gt;do&lt;/em&gt; take the background job runner (&lt;code class=&quot;highlighter-rouge&quot;&gt;Sidekiq&lt;/code&gt;) off-line, use your judgement about mid-day (10am Eastern to 6pm Pacific) deploys. Re-run the smoke tests against the production server.&lt;/p&gt;
-
-&lt;h3 id=&quot;deliver--delivered&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(Deliver) =&amp;gt; [Delivered]&lt;/code&gt;&lt;/h3&gt;
-
-&lt;p&gt;Pressing the (Deliver) button informs the team that the story is now live on production. The story requester is responsible for reviewing the feature and accepting or rejecting it. I expect 99% of the stories to be accepted. Rejecting a story at this point is a process fail: Did you include the requester and stakeholders while developing the feature? Did you ask for design and UX feedback? Did you test it so that you were at least 85% confident of success? Was the story truly “done?”&lt;/p&gt;
-
-&lt;h3 id=&quot;accept--done-or-reject--unstarted&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;(Accept) =&amp;gt; [Done]&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;(Reject) =&amp;gt; [Unstarted]&lt;/code&gt;&lt;/h3&gt;
-
-&lt;p&gt;Sometimes, we learn things once the feature is live. That’s okay and not an immediate cause for rejection. Rejection is an indication of a process fail, where we did not deliver the story as envisioned, where there was insufficient communication among the team members. Rejection will trigger a post-mortem and a topic for the next retrospective. On the other hand, if we learn something &lt;em&gt;new&lt;/em&gt;, then create a new bug or feature story. Remember, “bugs are defects that were created during the delivery of a story.” If the story was delivered properly, but it’s not what’s best for the users, create a new feature story and place it appropriately in the backlog, according to its business value.&lt;/p&gt;
-
-&lt;h2 id=&quot;whats-in-the-backlog-and-the-icebox&quot;&gt;What’s in the backlog and the icebox?&lt;/h2&gt;
-
-&lt;p&gt;The backlog contains stories, prioritized according to release dates and value. While we strive to keep a backlog that will support 2-3 weeks of engineering effort, sometimes we fail. I encourage you to speak up about lingering stories that might become critical in the future. These stories are good to bring up during iteration planning.&lt;/p&gt;
-
-&lt;p&gt;The icebox contains stories that have business value in the next 90 days. Everything else isn’t worth keeping. We have a lot of stories with “freezer burn” that I just delete from time to time. You can help by reviewing and tossing the ancient stories.&lt;/p&gt;
-
-&lt;h2 id=&quot;shaddup-already-and-lets-get-to-work&quot;&gt;Shaddup already and let’s get to work!&lt;/h2&gt;
-
-&lt;p&gt;This has been a much longer rant than I intended, but there’s lots of good stuff here. Many thanks to Rob Mee for his brown bag talk, years ago, that inspired the foundation (and of course, hiring me).&lt;/p&gt;
-</description>
-        <pubDate>Mon, 25 Jul 2016 00:00:00 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2016/07/25/tracker-guidelines.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2016/07/25/tracker-guidelines.html</guid>
-        
-        <category>management</category>
-        
-        <category>agile</category>
         
         
       </item>
