@@ -16,8 +16,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1502051521334421000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1502051521334421000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1520823168503064000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1520823168503064000" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2013/04/17/sencha-touch-bdd-part-1.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
   
@@ -87,17 +87,17 @@
 <p><code>pow</code> looks for a <a href="http://rack.github.io/">rack</a> app, but in my sample app, I don’t have one. <code>pow</code> also looks for a directory named <code>public</code> from which it will server static files. The simplest thing that works is to create a symlink named <code>public</code> that points to the root directory of the project.</p>
 
 <figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Generate a new ST app</span>
-<span class="gp">$ </span><span class="nb">cd</span> &lt;touch toolkit directory&gt;
-<span class="gp">$ </span>sencha generate app senchaBdd ~/workspace/sencha-bdd
+<span class="nv">$ </span><span class="nb">cd</span> &lt;touch toolkit directory&gt;
+<span class="nv">$ </span>sencha generate app senchaBdd ~/workspace/sencha-bdd
 
 <span class="c"># Set up pow/powder</span>
-<span class="gp">$ </span><span class="nb">cd</span> ~/workspace/sencha-bdd
-<span class="gp">$ </span>ln -s . public
-<span class="gp">$ </span>powder up
-<span class="gp">$ </span>powder link
+<span class="nv">$ </span><span class="nb">cd</span> ~/workspace/sencha-bdd
+<span class="nv">$ </span>ln <span class="nt">-s</span> <span class="nb">.</span> public
+<span class="nv">$ </span>powder up
+<span class="nv">$ </span>powder link
 
 <span class="c"># Test the server</span>
-<span class="gp">$ </span>open http://sencha-bdd.dev</code></pre></figure>
+<span class="nv">$ </span>open http://sencha-bdd.dev</code></pre></figure>
 
 <p>If all goes well, you should be able to open the application in any web browser at <a href="http://sencha-bdd.dev">http://sencha-bdd.dev</a></p>
 
@@ -132,7 +132,7 @@ rm public/javascripts/Song.js
 rm spec/javascripts/PlayerSpec.js</code></pre></figure>
 </li>
 <li>Edit the src_files entry in <code>spec/javascripts/support/jasmine.yml</code>:
-<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="s">src_files</span><span class="pi">:</span>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">src_files</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">touch/sencha-touch-all-debug.js</span>   <span class="c1"># Load Sencha library</span>
     <span class="pi">-</span> <span class="s">spec/app.js</span>                   <span class="c1"># Load our spec Ext.Application</span>
     <span class="pi">-</span> <span class="s">app/**/*.js</span>                   <span class="c1"># Load source files</span></code></pre></figure>
@@ -202,7 +202,7 @@ rm spec/javascripts/PlayerSpec.js</code></pre></figure>
 │   ├── profile
 │   ├── store
 │   └── view
-├── public -&gt; .
+├── public -&gt; <span class="nb">.</span>
 ├── resources/
 ├── spec/
 │   ├── controller
@@ -280,7 +280,7 @@ Now load the spec runner into a browser. In the case of this sample app, the url
       
   </ul>
 <div class="credits">
-<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>&copy; 1995-2018 &nbsp;&nbsp;KEN MAYER</span></br> <br>
 <span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
 </div>  
 </footer>

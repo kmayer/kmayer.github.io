@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Using Ruby Enumerators for Resumable Iterators </title>
+  <meta name="description" content="Here's a power technique: You can use Ruby Enumerators to create "resumable" iterators when I'm extracting data from our application in a console.">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1520823168503064000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1520823168503064000" media="print">
+  <link rel="canonical" href="http://blog.bitwrangler.com/2018/03/11/resumable-iterators.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-87257465-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Using Ruby Enumerators for Resumable Iterators </h1>
+<p class="subtitle">March 11, 2018</p>
+
+<p><code class="highlighter-rouge">Here's a power technique: You can use Ruby Enumerators to create "resumable" iterators when I'm extracting data from our application in a console.</code></p>
+
+<p>In the past, I’d do something like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">big_collection</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">thingy</span><span class="o">|</span>
+  <span class="n">complex_expensive_computation_on</span><span class="p">(</span><span class="n">thingy</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>and invariably something would ‘asplode inside</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">OMG</span><span class="o">!</span> <span class="no">Exception</span> <span class="no">Raised</span><span class="p">:</span> <span class="o">...</span> <span class="n">complex_expensive_computation_on</span><span class="p">()</span> <span class="o">...</span>
+</code></pre></div></div>
+
+<p>which I would dutifully fix, then I’d have to start all over again.</p>
+
+<p>…however…</p>
+
+<p>If we unwrap it, just a little bit:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">enum</span> <span class="o">=</span> <span class="n">big_collection</span><span class="p">.</span><span class="nf">each</span>
+<span class="kp">loop</span> <span class="k">do</span>
+  <span class="n">thingy</span> <span class="o">=</span> <span class="n">enum</span><span class="p">.</span><span class="nf">next</span>
+  <span class="n">complex_expensive_computation_on</span><span class="p">(</span><span class="n">thingy</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Then (when) an exception is raised, I can “simply” handle it on the console, or edit the method, or say “lets just skip it, bad data!”</p>
+
+<p>Resuming from where we left off is simply recapitulation of the loop:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>loop do
+  thingy = enum.next
+  complex_expensive_computation_on(thingy)
+end
+</code></pre></div></div>
+
+<p>and we can carry on with the rest of the data!</p>
+
+<p>Even moar better: <code class="highlighter-rouge">loop do ... end</code> has some extra Ruby magic sprinkles in it: It rescues <code class="highlighter-rouge">StopIteration</code> for you! (cf. ruby-doc.org/core/StopIteration) so that when the enumerator does come to its timely end, there’s no exception raised.</p>
+
+
+
+    </article>
+    <span class="print-footer">Using Ruby Enumerators for Resumable Iterators  - March 11, 2018 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Using+Ruby+Enumerators+for+Resumable+Iterators+&body=http%3A%2F%2Fblog.bitwrangler.com%2F2018%2F03%2F11%2Fresumable-iterators.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2018 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>

@@ -16,8 +16,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1502051521334421000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1502051521334421000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1520823168503064000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1520823168503064000" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2016/11/10/sacrificial-test-classes.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
   
@@ -72,25 +72,24 @@
 
 <p>Until today, I would create a throw-away test class in my rspec tests, especially when unit testing a module:</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">MyModule</span> <span class="k">do</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">MyModule</span> <span class="k">do</span>
   <span class="k">class</span> <span class="nc">MyTestClass</span>
     <span class="kp">include</span> <span class="no">MyModule</span>
-    <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-  <span class="nf">end</span>
+    <span class="o">...</span>
+  <span class="k">end</span>
   
   <span class="n">it</span> <span class="s1">'tests something'</span> <span class="k">do</span>
     <span class="n">subject</span> <span class="o">=</span> <span class="no">MyTestClass</span><span class="p">.</span><span class="nf">new</span>
     <span class="n">expect</span><span class="p">(</span><span class="n">subject</span><span class="p">).</span><span class="nf">to</span> <span class="n">do_something</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>It turns out that this is a <em>terrible</em> thing to do because it will pollute your global name space with <code class="highlighter-rouge">MyTestClass</code>. In my naïve understanding of rspec, I thought that things created <em>inside</em> the rspec block would be scoped to that block. This is very much the case when writing tests in <code class="highlighter-rouge">MiniTest</code>; you are just creating classes and methods, so a little private class can’t <em>leak</em> out of your test examples. Not so when writing rspec tests. There’s a GitHub issue about it that gives some good explanations about the hows and why: <a href="https://github.com/rspec/rspec-core/issues/2181">https://github.com/rspec/rspec-core/issues/2181</a></p>
 
 <p>Here’s another, simpler, example:</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="ss">irb: </span><span class="k">class</span> <span class="nc">Foo1</span>
 <span class="o">&gt;&gt;</span> <span class="no">BAR</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="o">&gt;&gt;</span> <span class="k">end</span>
@@ -108,8 +107,7 @@
 <span class="ss">irb: </span><span class="no">Foo2</span><span class="o">::</span><span class="no">BAR</span>
 <span class="p">(</span><span class="n">irb</span><span class="p">):</span><span class="mi">9</span><span class="p">:</span> <span class="ss">warning: </span><span class="n">toplevel</span> <span class="n">constant</span> <span class="no">BAR</span> <span class="n">referenced</span> <span class="n">by</span> <span class="no">Foo2</span><span class="o">::</span><span class="no">BAR</span>
 <span class="o">===&gt;</span> <span class="mi">5</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>Yikes! <code class="highlighter-rouge">Foo1</code> and <code class="highlighter-rouge">Foo2</code> are roughly similar class, but <code class="highlighter-rouge">BAR</code> is scoped to <code class="highlighter-rouge">Foo1</code>, as in, <code class="highlighter-rouge">Foo1::BAR</code>, but <code class="highlighter-rouge">Foo2</code> created a top level constant named <code class="highlighter-rouge">BAR</code>. You can see how this might make your tests break. <a href="https://github.com/myronmarston">Myron Marston</a> explained in the issue:</p>
 
@@ -119,12 +117,12 @@
 
 <p>So, what should we do, if these throw-away classes are not so temporary? My example gives a hint: Create a “sacrificial class,” instead, using a <code class="highlighter-rouge">let</code> variable instead, since those variables <em>are</em> scoped to the example group.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">MyModule</span> <span class="k">do</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">MyModule</span> <span class="k">do</span>
   <span class="n">let</span><span class="p">(</span><span class="ss">:my_test_class</span><span class="p">)</span> <span class="p">{</span>
     <span class="no">Class</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span>
       <span class="kp">include</span> <span class="no">MyModule</span>
-      <span class="p">.</span><span class="nf">.</span><span class="p">.</span>
-    <span class="nf">end</span>
+      <span class="o">...</span>
+    <span class="k">end</span>
   <span class="p">}</span>
 
   <span class="n">it</span> <span class="s1">'tests something'</span> <span class="k">do</span>
@@ -132,8 +130,7 @@
     <span class="n">expect</span><span class="p">(</span><span class="n">subject</span><span class="p">).</span><span class="nf">to</span> <span class="n">do_something</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>There, all better. No more test pollution.</p>
 
@@ -167,7 +164,7 @@
       
   </ul>
 <div class="credits">
-<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>&copy; 1995-2018 &nbsp;&nbsp;KEN MAYER</span></br> <br>
 <span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
 </div>  
 </footer>

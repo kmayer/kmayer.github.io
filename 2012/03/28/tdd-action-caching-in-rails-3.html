@@ -16,8 +16,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1502051521334421000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1502051521334421000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1520823168503064000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1520823168503064000" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2012/03/28/tdd-action-caching-in-rails-3.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
   
@@ -89,7 +89,7 @@
 
 <p>This won't work at all, however; because, in the test environment, caching is turned off.</p>
 
-<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="gp">$ </span>cat config/environments/test.rb
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nv">$ </span><span class="nb">cat </span>config/environments/test.rb
 Activator::Application.configure <span class="k">do</span>
 ...
   config.action_controller.perform_caching <span class="o">=</span> <span class="nb">false</span></code></pre></figure>
@@ -166,7 +166,7 @@ has an interesting performance enhancement; it doesn't actually set up the actio
 <span class="n">caches_action</span> <span class="ss">:preview</span>
 <span class="n">cache_sweeper</span> <span class="ss">:brand_sweeper</span>
 <span class="k">def</span> <span class="nf">update</span>
-  <span class="p">.</span><span class="nf">.</span><span class="o">.</span>
+  <span class="o">...</span>
   <span class="vi">@brand</span><span class="p">.</span><span class="nf">save</span></code></pre></figure>
 
 <p>Awesome sauce! Now our tests are red and I'm ready to implement the sweeper</p>
@@ -177,7 +177,7 @@ has an interesting performance enhancement; it doesn't actually set up the actio
   <span class="k">def</span> <span class="nf">after_update</span><span class="p">(</span><span class="n">brand</span><span class="p">)</span>
     <span class="n">expire_action</span> <span class="ss">:controller</span> <span class="o">=&gt;</span> <span class="s2">"brand"</span><span class="p">,</span> <span class="ss">:action</span> <span class="o">=&gt;</span> <span class="ss">:preview</span><span class="p">,</span> <span class="ss">:brand_id</span> <span class="o">=&gt;</span> <span class="n">brand</span><span class="p">.</span><span class="nf">to_param</span>
   <span class="k">end</span>
-  <span class="p">.</span><span class="nf">.</span><span class="o">.</span></code></pre></figure>
+  <span class="o">...</span></code></pre></figure>
 
 <p>And voilà! We have greenness.</p>
 <p>So what have we learned from this? The Rails source is still your best friend when exploring a sticky problem. Caching is hard, and testing caching is even harder.</p>
@@ -212,7 +212,7 @@ has an interesting performance enhancement; it doesn't actually set up the actio
       
   </ul>
 <div class="credits">
-<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>&copy; 1995-2018 &nbsp;&nbsp;KEN MAYER</span></br> <br>
 <span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
 </div>  
 </footer>

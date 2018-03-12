@@ -6,9 +6,61 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 06 Aug 2017 13:32:01 -0700</pubDate>
-    <lastBuildDate>Sun, 06 Aug 2017 13:32:01 -0700</lastBuildDate>
-    <generator>Jekyll v3.4.5</generator>
+    <pubDate>Sun, 11 Mar 2018 19:52:48 -0700</pubDate>
+    <lastBuildDate>Sun, 11 Mar 2018 19:52:48 -0700</lastBuildDate>
+    <generator>Jekyll v3.6.2</generator>
+    
+      <item>
+        <title>Using Ruby Enumerators for Resumable Iterators </title>
+        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Here's a power technique: You can use Ruby Enumerators to create &quot;resumable&quot; iterators when I'm extracting data from our application in a console.&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;In the past, I’d do something like this:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;big_collection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;and invariably something would ‘asplode inside&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;OMG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Raised&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;which I would dutifully fix, then I’d have to start all over again.&lt;/p&gt;
+
+&lt;p&gt;…however…&lt;/p&gt;
+
+&lt;p&gt;If we unwrap it, just a little bit:&lt;/p&gt;
+
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;big_collection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt;
+&lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;next&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Then (when) an exception is raised, I can “simply” handle it on the console, or edit the method, or say “lets just skip it, bad data!”&lt;/p&gt;
+
+&lt;p&gt;Resuming from where we left off is simply recapitulation of the loop:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;loop do
+  thingy = enum.next
+  complex_expensive_computation_on(thingy)
+end
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;and we can carry on with the rest of the data!&lt;/p&gt;
+
+&lt;p&gt;Even moar better: &lt;code class=&quot;highlighter-rouge&quot;&gt;loop do ... end&lt;/code&gt; has some extra Ruby magic sprinkles in it: It rescues &lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt; for you! (cf. ruby-doc.org/core/StopIteration) so that when the enumerator does come to its timely end, there’s no exception raised.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 11 Mar 2018 00:00:00 -0800</pubDate>
+        <link>http://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</guid>
+        
+        <category>ruby</category>
+        
+        
+      </item>
     
       <item>
         <title>Our Hiring Process</title>
@@ -84,9 +136,10 @@
 
 &lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;What is PacerPro and why should I care?&lt;/span&gt;  PacerPro solves a terrible productivity problem with the US Courts system. PacerPro searches for, and collects documents from, PACER.gov&lt;label for=&quot;pacer&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;pacer&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/PACER_(law)&quot;&gt;PACER&lt;/a&gt; (acronym for Public Access to Court Electronic Records) is an electronic public access service of United States federal court documents. It looks like it was written using 1990s era FrontPage. It has &lt;a href=&quot;https://free.law/2015/03/20/what-is-the-pacer-problem/&quot;&gt;lots of problems&lt;/a&gt;. Most of the documents from PACER are behind a “paywall,” even though they are public records, but once they are downloaded from PACER, we can distribute them without charge. &lt;/span&gt;, then distributes them to our clients. We strive to have the most accurate, up-to-date, and complete set of “facts on the ground.” The company has been in business since 2012; we have paying customers, many of them in the &lt;a href=&quot;http://www.americanlawyer.com/id=1202784597030/The-2017-Am-Law-100?slreturn=20170607151359&quot;&gt;Am Law 100&lt;/a&gt;. &lt;a href=&quot;https://www.linkedin.com/in/gavin-mcgrane-a9baa82/&quot;&gt;Gavin McGrane&lt;/a&gt; is a very straightforward CEO, no drama.&lt;label for=&quot;my-start&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;my-start&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;I’ve been involved with PacerPro since 2013 when I was anchoring the project at Pivotal Labs. &lt;/span&gt; He knows the business because he (and his family) are lawyers. The company has an interesting, albeit work-a-day, future. Our mission is to make PACER documents more accessible, with less friction and lower costs. If you’ve heard of &lt;a href=&quot;https://arstechnica.com/tech-policy/2013/02/the-inside-story-of-aaron-swartzs-campaign-to-liberate-court-filings/2/&quot;&gt;Aaron Swartz&lt;/a&gt;’s efforts or the &lt;a href=&quot;https://free.law/recap/&quot;&gt;RECAP&lt;/a&gt; project, we’re in a similar space, except that we’re trying to do it in a way that is financially profitable (in the long run, anyway, that’s the plan).&lt;/p&gt;
 
-&lt;p&gt;&lt;label for=&quot;jaguar-priest&quot; class=&quot;margin-toggle&quot;&gt;⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;jaguar-priest&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;img class=&quot;fullwidth&quot; src=&quot;/assets/jaguar-priest.jpg&quot; /&gt;&lt;br /&gt;WANTED: Jaguar Priest&lt;br /&gt;To impersonate and invoke the deity&lt;br /&gt;To offer food and drink to the idols&lt;br /&gt;To effect the drawing of the pebbles and regulate the calendar&lt;br /&gt;To read weather and other omens in the clouds&lt;br /&gt;To study the night sky and interpret the appearance of the celestial bodies&lt;br /&gt;To determine the lucky and unlucky days for various mundane activities by the casting of lots&lt;br /&gt;To perform the numerous rituals of the cup, plate, etc.&lt;br /&gt;To work miracles&lt;br /&gt;To concoct medicinal herbs into ceremonial drinks&lt;br /&gt;To predict the future&lt;br /&gt;To announce the times for various agricultural and other activities&lt;br /&gt;To insure adequate rainfall&lt;br /&gt;To avert or bring to a timely end famine, drought, epidemics, plagues of ants and locusts, earthquakes&lt;br /&gt;To distribute food to the hungry in time of need&lt;br /&gt;To cut the honey from the hives&lt;br /&gt;To determine the compensation to be placed on the crossroad altars&lt;br /&gt;To read from the sacred scriptures the future road of the katun [calendar round]&lt;br /&gt;To design and supervise the carving of stelae [stone monuments], the manufacture of word and clay idols, and the construction of temples&lt;br /&gt;To construct tables of eclipses and heliacal risings of planets [such as are found in the Dresden Codex]&lt;br /&gt;–Makemson, M.W. &lt;em&gt;The Book of the Jaguar Priest&lt;/em&gt;, a translation of the Book of Chilam Balam of Tizimin, with commentary. Henry Schuman, New York, 1951, p. 141.&lt;/span&gt;I’m looking for my next “senior” engineer. (I’d like to hire a &lt;em&gt;pair&lt;/em&gt;, but, you know, budget.) &lt;span class=&quot;newthought&quot;&gt;What makes for an interesting candidate?&lt;/span&gt;  It’s not a degree or &lt;em&gt;n&lt;/em&gt; years of experience. PacerPro’s founders are practicing lawyers. They know their stuff. I probably have the fewest number of degrees compared to everyone else in the company. I’m looking at the following qualities:&lt;/p&gt;
+&lt;p&gt;&lt;label for=&quot;jaguar-priest&quot; class=&quot;margin-toggle&quot;&gt;⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;jaguar-priest&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;img class=&quot;fullwidth&quot; src=&quot;/assets/jaguar-priest.jpg&quot; /&gt;&lt;br /&gt;WANTED: Jaguar Priest&lt;br /&gt;To impersonate and invoke the deity&lt;br /&gt;To offer food and drink to the idols&lt;br /&gt;To effect the drawing of the pebbles and regulate the calendar&lt;br /&gt;To read weather and other omens in the clouds&lt;br /&gt;To study the night sky and interpret the appearance of the celestial bodies&lt;br /&gt;To determine the lucky and unlucky days for various mundane activities by the casting of lots&lt;br /&gt;To perform the numerous rituals of the cup, plate, etc.&lt;br /&gt;To work miracles&lt;br /&gt;To concoct medicinal herbs into ceremonial drinks&lt;br /&gt;To predict the future&lt;br /&gt;To announce the times for various agricultural and other activities&lt;br /&gt;To insure adequate rainfall&lt;br /&gt;To avert or bring to a timely end famine, drought, epidemics, plagues of ants and locusts, earthquakes&lt;br /&gt;To distribute food to the hungry in time of need&lt;br /&gt;To cut the honey from the hives&lt;br /&gt;To determine the compensation to be placed on the crossroad altars&lt;br /&gt;To read from the sacred scriptures the future road of the katun [calendar round]&lt;br /&gt;To design and supervise the carving of stelae [stone monuments], the manufacture of word and clay idols, and the construction of temples&lt;br /&gt;To construct tables of eclipses and heliacal risings of planets [such as are found in the Dresden Codex]&lt;br /&gt;–Makemson, M.W. &lt;em&gt;The Book of the Jaguar Priest&lt;/em&gt;, a translation of the Book of Chilam Balam of Tizimin, with commentary. Henry Schuman, New York, 1951, p. 141.&lt;/span&gt;I’m looking for my next “senior” engineer. (I’d like to hire a &lt;em&gt;pair&lt;/em&gt;, but, you know, budget.) &lt;span class=&quot;newthought&quot;&gt;What makes for an interesting candidate?&lt;/span&gt;  It’s not a degree or &lt;em&gt;n&lt;/em&gt; years of experience. PacerPro’s founders are practicing lawyers. They know their stuff. I probably have the fewest number of degrees compared to everyone else in the company. When I talk about “senior,” I’m looking for someone who can &lt;em&gt;lead&lt;/em&gt; when it comes to pairing and test-driving (if you don’t know what these are, you’re not what I’m looking for).&lt;/p&gt;
 
 &lt;ul&gt;
+  &lt;li&gt;You want to work using our methodologies. We are an Agile shop in a mostly XP style; we have a daily stand-up (and evening round-up), pair-programming is our default stance; we need a good reason &lt;em&gt;not&lt;/em&gt; to pair. Test-Driven-Development is how we grow code. Clear, understandable code is more valuable than clever tricks. We do code reviews on pull requests. We pass the &lt;a href=&quot;https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/&quot;&gt;“Joel Test.”&lt;/a&gt;&lt;/li&gt;
   &lt;li&gt;You understand our business, or, if you don’t, you have a genuine curiosity and ability to learn it. You can have conversations with our customers and stakeholders.&lt;/li&gt;
   &lt;li&gt;You know how to research a problem. You know when to ask for help.&lt;/li&gt;
   &lt;li&gt;You are an eternal student and teacher. You want to bring us all to the next level, as do we for you. I’m not expecting you to be an &lt;em&gt;expert&lt;/em&gt; in &lt;em&gt;everything&lt;/em&gt;, but competence or the ability to spin up without too much inertia is a requirement.&lt;/li&gt;
@@ -94,7 +147,6 @@
   &lt;li&gt;You’ve shipped a &lt;em&gt;real&lt;/em&gt; product before that you can show me.&lt;/li&gt;
   &lt;li&gt;You have &lt;em&gt;hands-on&lt;/em&gt; experience with our technology stack. I hear that “full stack” has become a dirty word, but we all do pretty much everything around here. Our web server is written in Ruby on Rails 4.2.x, with a smidgen of Node Express. Our front end is mostly written in ReactJS 0.14, our newer code uses Redux, with a bunch of legacy Backbone code. Yep, we got ourselves some technical debt. We know where it is (mostly) and how to fix it, given time and eyeballs.&lt;/li&gt;
   &lt;li&gt;Expect to handle Zendesk tickets from lawyers about one day out of the week.&lt;/li&gt;
-  &lt;li&gt;You want to work using our methodologies. We are an Agile shop in a mostly XP style; we have a daily stand-up (and evening round-up), pair-programming is our default stance; we need a good reason &lt;em&gt;not&lt;/em&gt; to pair. Test-Driven-Development is how we grow code. Clear, understandable code is more valuable than clever tricks. We do code reviews on pull requests. We pass the &lt;a href=&quot;https://www.joelonsoftware.com/2000/08/09/the-joel-test-12-steps-to-better-code/&quot;&gt;“Joel Test.”&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;&lt;label for=&quot;circle-ci&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;circle-ci&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;build status: &lt;/code&gt; &lt;img src=&quot;https://circleci.com/gh/PacerPRO/pacerpro.svg?style=svg&amp;amp;circle-token=93ac702dd0156840542e67321eb3beb271033577&quot; alt=&quot;Circle CI&quot; /&gt; &lt;/span&gt;&lt;label for=&quot;code-climate&quot; class=&quot;margin-toggle&quot;&gt;⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;code-climate&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;img class=&quot;fullwidth&quot; src=&quot;https://codeclimate.com/repos/51b7726089af7e17e90010a4/badges/cce4bf6507763c1d3a7d/gpa.svg&quot; /&gt;&lt;br /&gt;&lt;/span&gt;&lt;label for=&quot;test-coverage&quot; class=&quot;margin-toggle&quot;&gt;⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;test-coverage&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;img class=&quot;fullwidth&quot; src=&quot;https://codeclimate.com/repos/51b7726089af7e17e90010a4/badges/cce4bf6507763c1d3a7d/coverage.svg&quot; /&gt;&lt;br /&gt;&lt;/span&gt;We’re not even close to huge, but we’re not a small project any more, either. &lt;label for=&quot;status&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;status&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;a href=&quot;http://status.pacerpro.com&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;site status&lt;/code&gt;&lt;/a&gt; &lt;/span&gt;We run into scaling issues now and then, which is a good thing. We’re pretty good at handling them, too, which is another good thing. Our PostgreSQL database has grown to about 200GB; the S3 store has approximately 2 million documents; and, at peak, we get 500-750 requests per minute. We send out 500,000 transactional emails per month.&lt;/p&gt;
@@ -154,13 +206,12 @@
         <title>Performant Large-Scale Postgres Migrations</title>
         <description>&lt;p&gt;Recently I tried to add a column to one of our very big tables, and as you might expect from the title of this blog, it took so long that I aborted it after an hour. Can you spot the problem?&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddInfoColumnToCaseDocketReport&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddInfoColumnToCaseDocketReport&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;add_column&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:case_docket_reports&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jsonb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;default: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'{}'&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Not all migrations are created equal.&lt;/span&gt;  Adding a column to Postgres &lt;em&gt;without&lt;/em&gt; a default value is very fast because only the catalog tables get written. &lt;em&gt;With&lt;/em&gt; a default value, however, it can get very, very, s-l-o-w, because it has to make a copy of every row and reindex.&lt;/p&gt;
 
@@ -168,39 +219,35 @@
 
 &lt;p&gt;Adding a default value to an &lt;em&gt;existing&lt;/em&gt; column is also remarkably fast, as it also does not change any existing rows. So, if we break this migration into 2 steps, it will be very, very, fast:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddInfoColumnToCaseDocketReport&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddInfoColumnToCaseDocketReport&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;add_column&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:case_docket_reports&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jsonb&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;change_column&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:case_docket_reports&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:info&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jsonb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;default: &lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'{}'&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;-add-default-values-to-existing-columns&quot;&gt;=&amp;gt; Add default values to existing columns&lt;/h2&gt;
 
 &lt;p&gt;Of course, now your table has columns filled with NULL values, which may or may not be a bad thing in your application. Let’s assume for the moment that it is a bad thing. How do we update all of those rows? The naive approach in Rails is to iterate over each object, assigning the new value:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;CaseDocketReport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;info: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;find_each&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;batch_size: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;docket_report&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;CaseDocketReport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;info: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;find_each&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;batch_size: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;docket_report&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;docket_report&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;update&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;info: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{})&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;This is also very slow because you have to drag each row from Postgres, over the “wire” and into Rails, create the associated objects and then write each change out in an isolated transaction. There is an alternative that is very fast: Rails exposes the SQL &lt;code class=&quot;highlighter-rouge&quot;&gt;UPDATE&lt;/code&gt; via the &lt;code class=&quot;highlighter-rouge&quot;&gt;#update_all&lt;/code&gt; method. This is very, very fast:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;CaseDocketReport&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;where&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;info: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;limit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10_000&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;update_all&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;info: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{})&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;break&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;results&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;This little snippet, in one SQL command, will update 10,000 rows at a time!&lt;/p&gt;
 
-&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;UPDATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{}'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;case_docket_reports&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;IS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-sql highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;UPDATE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'{}'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;FROM&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;&quot;case_docket_reports&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;WHERE&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;info&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;IS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;NULL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;-do-as-much-work-inside-postgres-not-in-rails&quot;&gt;=&amp;gt; Do as much work inside Postgres, not in Rails&lt;/h2&gt;
 
@@ -208,29 +255,27 @@
 
 &lt;p&gt;&lt;label for=&quot;1&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;1&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Can Rails do this? As of Rails 4, &lt;a href=&quot;https://github.com/rails/rails/commit/2d33796457b139a58539c890624591c97354d334&quot;&gt;yes&lt;/a&gt;! &lt;/span&gt;Another problem area are indexes, because creating one would normally block writes. By adding the index &lt;code class=&quot;highlighter-rouge&quot;&gt;CONCURRENTLY&lt;/code&gt;, we can avoid this. Because Rails runs migrations inside a transaction and concurrent indexes &lt;a href=&quot;https://www.postgresql.org/docs/9.4/static/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY&quot;&gt;must be added outside one&lt;/a&gt;, we add &lt;code class=&quot;highlighter-rouge&quot;&gt;disable_ddl_transaction!&lt;/code&gt; to the migration.&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddIndexToAsksActive&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;AddIndexToAsksActive&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Migration&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;disable_ddl_transaction!&lt;/span&gt;
 
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;change&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;add_index&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:asks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:active&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;algorithm: :concurrently&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;-add-indexes-concurrently&quot;&gt;=&amp;gt; Add indexes CONCURRENTLY&lt;/h2&gt;
 
 &lt;p&gt;Another trouble spot is changing the type of a column. Again, as I mentioned in &lt;a href=&quot;/2015/08/15/zero-downtime-migrations.html&quot;&gt;Zero Downtime Migrations&lt;/a&gt;, the solution is: “Don’t!” Instead, add a new column with a new name. When you’ve completed your upgrades, and, at your leisure, you can &lt;code class=&quot;highlighter-rouge&quot;&gt;DROP&lt;/code&gt; the column. Here’s an interesting side-tip, you can “hide” the old column from your code so you don’t accidentally use it:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;User&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;columns&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# TODO: Remove after completing migration&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reject&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'ecf_username'&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 
   &lt;span class=&quot;c1&quot;&gt;#...&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;-dont-change-columns-add-new-ones-then-drop-the-old-ones&quot;&gt;=&amp;gt; Don’t change columns, add new ones, then drop the old ones&lt;/h2&gt;
 
@@ -259,25 +304,24 @@
 
 &lt;p&gt;Until today, I would create a throw-away test class in my rspec tests, especially when unit testing a module:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;MyTestClass&lt;/span&gt;
     &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-  &lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
   
   &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'tests something'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyTestClass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;do_something&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;It turns out that this is a &lt;em&gt;terrible&lt;/em&gt; thing to do because it will pollute your global name space with &lt;code class=&quot;highlighter-rouge&quot;&gt;MyTestClass&lt;/code&gt;. In my naïve understanding of rspec, I thought that things created &lt;em&gt;inside&lt;/em&gt; the rspec block would be scoped to that block. This is very much the case when writing tests in &lt;code class=&quot;highlighter-rouge&quot;&gt;MiniTest&lt;/code&gt;; you are just creating classes and methods, so a little private class can’t &lt;em&gt;leak&lt;/em&gt; out of your test examples. Not so when writing rspec tests. There’s a GitHub issue about it that gives some good explanations about the hows and why: &lt;a href=&quot;https://github.com/rspec/rspec-core/issues/2181&quot;&gt;https://github.com/rspec/rspec-core/issues/2181&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Here’s another, simpler, example:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Foo1&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
@@ -295,8 +339,7 @@
 &lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Foo2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;irb&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;warning: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toplevel&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;constant&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;referenced&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Foo2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;BAR&lt;/span&gt;
 &lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Yikes! &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo1&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo2&lt;/code&gt; are roughly similar class, but &lt;code class=&quot;highlighter-rouge&quot;&gt;BAR&lt;/code&gt; is scoped to &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo1&lt;/code&gt;, as in, &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo1::BAR&lt;/code&gt;, but &lt;code class=&quot;highlighter-rouge&quot;&gt;Foo2&lt;/code&gt; created a top level constant named &lt;code class=&quot;highlighter-rouge&quot;&gt;BAR&lt;/code&gt;. You can see how this might make your tests break. &lt;a href=&quot;https://github.com/myronmarston&quot;&gt;Myron Marston&lt;/a&gt; explained in the issue:&lt;/p&gt;
 
@@ -306,12 +349,12 @@
 
 &lt;p&gt;So, what should we do, if these throw-away classes are not so temporary? My example gives a hint: Create a “sacrificial class,” instead, using a &lt;code class=&quot;highlighter-rouge&quot;&gt;let&lt;/code&gt; variable instead, since those variables &lt;em&gt;are&lt;/em&gt; scoped to the example group.&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;let&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:my_test_class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;no&quot;&gt;Class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
       &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;MyModule&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
   &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
   &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'tests something'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
@@ -319,8 +362,7 @@
     &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;do_something&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;There, all better. No more test pollution.&lt;/p&gt;
 </description>
@@ -355,7 +397,7 @@
 
 &lt;p&gt;&lt;label for=&quot;logentries-auth&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;logentries-auth&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;LogentriesAuth&lt;/code&gt; is a special helper class to confirm that the message is authentic. We wouldn’t want some nefarious third party injecting messages into our system and restarting our servers over and over again, would we? A gist of it is available here, under the MIT license. &lt;a href=&quot;https://gist.github.com/kmayer/f7e5a6ebb9414bb97b1cdd586aced18a&quot;&gt;https://gist.github.com/kmayer/f7e5a…&lt;/a&gt; &lt;/span&gt;&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LogentriesAlertsController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;skip_before_action&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:verify_authenticity_token&lt;/span&gt;
 
@@ -368,15 +410,14 @@
     &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:ok&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Once we’ve parsed the message and determined that we can act on it, we need to send a message, in this first case, to &lt;a href=&quot;http://puma.io/&quot;&gt;Puma&lt;/a&gt;. We’ll leverage a well known and commonly used service, &lt;a href=&quot;http://redis.io/&quot;&gt;Redis&lt;/a&gt;, as a general delivery post office; we’ll write a key/value pair and Puma will check for the key &lt;code class=&quot;highlighter-rouge&quot;&gt;puma::stop::#{hostname}&lt;/code&gt; (where hostname looks like “&lt;code class=&quot;highlighter-rouge&quot;&gt;web.5&lt;/code&gt;”). If the key is present, it will start the orderly shutdown process.&lt;/p&gt;
 
 &lt;p&gt;&lt;label for=&quot;private&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;private&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;For brevity, I’ve omitted the &lt;code class=&quot;highlighter-rouge&quot;&gt;private&lt;/code&gt; helper methods used in the controller. A complete gist is available here: &lt;a href=&quot;https://gist.github.com/kmayer/abed3364ccd6906c2751a1dc51b604a8&quot;&gt;https://gist.github.com/kmayer/abed3…&lt;/a&gt; &lt;/span&gt;&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-  &lt;span class=&quot;nf&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;create&lt;/span&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:unprocessable_entity&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;unless&lt;/span&gt;
       &lt;span class=&quot;no&quot;&gt;LogentriesAuth&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;authorized?&lt;/span&gt;
 
@@ -393,15 +434,14 @@
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
   
   &lt;span class=&quot;kp&quot;&gt;private&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;signal-the-application-to-stop-accepting-new-work&quot;&gt;Signal the application to stop accepting new work&lt;/h2&gt;
 
 &lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;&lt;a href=&quot;http://puma.io&quot;&gt;Puma&lt;/a&gt;&lt;/span&gt;  version 3 has a new feature that allows you to add &lt;a href=&quot;https://github.com/puma/puma#plugins&quot;&gt;custom plugins&lt;/a&gt;. With it, you can use Puma’s API to signal itself to stop; it will handle the rest of the clean up on its own. This  custom plugin checks Redis for the “message” set by our controller. Puma background threads are lightweight enough that they won’t impact performance.&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'puma/plugin'&lt;/span&gt;
 &lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'redis'&lt;/span&gt;
 
@@ -429,14 +469,12 @@
     &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Okay, all of the pieces are in place so we can do some integration tests. Let’s inject a log entry that looks close enough to match our regular expressions to trigger the alert.&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'heroku web.1 - - Error R14 (Memory quota exceeded)'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'heroku web.1 - - Error R14 (Memory quota exceeded)'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;If all goes well, you should see the message hit your log, then sometime later, a &lt;code class=&quot;highlighter-rouge&quot;&gt;POST&lt;/code&gt; on the &lt;code class=&quot;highlighter-rouge&quot;&gt;LogentriesAlertsController&lt;/code&gt;, then a key/value pair inserted into Redis and finally, your Puma instance quitting. Your PaaS will spawn a new replacement with a clean, fresh serving of memory.&lt;/p&gt;
 
@@ -444,7 +482,7 @@
 
 &lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;&lt;a href=&quot;https://github.com/mperham/sidekiq&quot;&gt;Sidekiq&lt;/a&gt;&lt;/span&gt;  is a little trickier; It has an &lt;a href=&quot;https://github.com/mperham/sidekiq/wiki/API#processes&quot;&gt;API&lt;/a&gt; for going quiet, which will complete all in-flight work, and won’t pull any new jobs off the queue; it has &lt;code class=&quot;highlighter-rouge&quot;&gt;#stop!&lt;/code&gt; which will signal the main process to exit. But there’s no API call that says, “go quiet, then quit.” That’s okay, it’s easy enough to build a little class to wrap the Sidekiq process control API:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SidekiqControl&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pattern&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
     &lt;span class=&quot;vi&quot;&gt;@pattern&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pattern&lt;/span&gt;
@@ -478,42 +516,38 @@
   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;signal-the-process-to-exit&quot;&gt;Signal the Process to Exit&lt;/h2&gt;
 
 &lt;p&gt;Also, unlike Puma, there isn’t a similar plugin architecture for running arbitrary background threads. So we’ll build a little &lt;code class=&quot;highlighter-rouge&quot;&gt;rake&lt;/code&gt; task:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'sidekiq:stop'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:pattern&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'environment'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_task&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;sq_ctl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;SidekiqControl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:pattern&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
   &lt;span class=&quot;n&quot;&gt;sq_ctl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;stop&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;and now, let’s modify the controller:&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;LogentriesAlertsController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ApplicationController&lt;/span&gt;
   &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;create&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;what&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/R1[45]/&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;what&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/R1[45]/&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt;
          &lt;span class=&quot;n&quot;&gt;who&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=~&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/sidekiq\.\d+/&lt;/span&gt;
        &lt;span class=&quot;nb&quot;&gt;system&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bundle exec rake sidekiq:stop[&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;who&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;] &amp;amp;&quot;&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;
-  &lt;span class=&quot;nf&quot;&gt;end&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Again, we can do a quick integration test by injecting another log entry.&lt;/p&gt;
 
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'heroku sidekiq.1 - - Error R14 (Memory quota exceeded)'&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;Rails&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'heroku sidekiq.1 - - Error R14 (Memory quota exceeded)'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;ken-thats-a-lot-of-work-is-it-worth-it&quot;&gt;Ken, that’s a lot of work! Is it worth it?&lt;/h2&gt;
 
@@ -771,36 +805,6 @@
         <category>management</category>
         
         <category>agile</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>The Syntax Error That Killed Our Build for a Week.</title>
-        <description>&lt;p&gt;Back in the day when I wrote in C and we used X11 with Motif, I was creating a new module based on an existing one, so I just copied and pasted the file from one xterm to another:&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
- &lt;span class=&quot;cm&quot;&gt;/* ... */&lt;/span&gt;
-   &lt;span class=&quot;n&quot;&gt;event_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
- &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
- &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;L&lt;/span&gt;
- &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;event_loop&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-   &lt;span class=&quot;cm&quot;&gt;/* ... */&lt;/span&gt;
- &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;When I tried to compile it, &lt;em&gt;BOOM&lt;/em&gt;. It complained of a syntax error at the form-feed (that’s what the &lt;code class=&quot;highlighter-rouge&quot;&gt;^L&lt;/code&gt; is, ASCII 0xc), which, back in the old days, told the line printer to eject the (gasp) paper page, and start a new one.&lt;/p&gt;
-
-&lt;p&gt;Nowadays, ASCII calls this character “New Page”, but no matter what you call it, it’s whitespace. Compilers don’t even see them. The lexer should have removed it. But there it was, breaking our build, day after day, after day.&lt;/p&gt;
-
-&lt;p&gt;Finally my CTO figured it out. (I’m sorry, Jeff. Obviously, I still bear the scars of this.)&lt;/p&gt;
-
-&lt;p&gt;When I copied the file from one xterm to another, it didn’t copy ASCII 0xc, instead it copied the rendered escape characters, &lt;code class=&quot;highlighter-rouge&quot;&gt;^&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;L&lt;/code&gt; (0x5e 0x4c), which of course, is not parseable.&lt;/p&gt;
-</description>
-        <pubDate>Sat, 12 Dec 2015 14:02:10 -0800</pubDate>
-        <link>http://blog.bitwrangler.com/2015/12/12/the-syntax-error-that-killed-our-build-for-a-week.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2015/12/12/the-syntax-error-that-killed-our-build-for-a-week.html</guid>
         
         
       </item>

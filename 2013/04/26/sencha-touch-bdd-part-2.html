@@ -16,8 +16,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1502051521334421000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1502051521334421000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1520823168503064000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1520823168503064000" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2013/04/26/sencha-touch-bdd-part-2.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
   
@@ -111,9 +111,9 @@
     <span class="na">email</span><span class="p">:</span> <span class="s1">'test@example.com'</span><span class="p">,</span>
     <span class="na">favoriteColor</span><span class="p">:</span> <span class="s1">'blue'</span>
   <span class="p">});</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'Test'</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'test@example.com'</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'favoriteColor'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'Test'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'test@example.com'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'favoriteColor'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
 <span class="p">});</span></code></pre></figure>
 
 
@@ -138,7 +138,7 @@
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModelSpec</span><span class="p">.</span><span class="nx">js</span>
 <span class="nx">it</span><span class="p">(</span><span class="s1">'has default values'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">)</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">'favoriteColor'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'yellow'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'favoriteColor'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'yellow'</span><span class="p">);</span>
 <span class="p">})</span></code></pre></figure>
 
 
@@ -152,7 +152,7 @@
 <p>Which is easily resolved by adding it to the class:</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModel</span><span class="p">.</span><span class="nx">js</span>
-<span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="s1">'favoriteColor'</span><span class="p">,</span> <span class="nx">defaultValue</span><span class="err">:</span> <span class="s1">'yellow'</span> <span class="p">}</span></code></pre></figure>
+<span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="s1">'favoriteColor'</span><span class="p">,</span> <span class="nx">defaultValue</span><span class="p">:</span> <span class="s1">'yellow'</span> <span class="p">}</span></code></pre></figure>
 
 <h3 id="validations">Validations</h3>
 <p>One last simple piece, let’s assert that email is a <em>required</em> field.</p>
@@ -170,9 +170,9 @@
 <p>The first expectation asserts that the model is not <em>valid</em> at all. It’s a gatekeeper test. The second test asserts that there’s validation error on the email field (and not some other field).</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModel</span><span class="p">.</span><span class="nx">js</span>
-  <span class="nl">config</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nx">config</span><span class="p">:</span> <span class="p">{</span>
     <span class="p">...</span>
-    <span class="nl">validations</span><span class="p">:</span> <span class="p">[</span>
+    <span class="nx">validations</span><span class="p">:</span> <span class="p">[</span>
       <span class="p">{</span> <span class="na">field</span><span class="p">:</span> <span class="s1">'email'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'presence'</span> <span class="p">}</span>
     <span class="p">]</span></code></pre></figure>
 
@@ -220,7 +220,7 @@
       
   </ul>
 <div class="credits">
-<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>&copy; 1995-2018 &nbsp;&nbsp;KEN MAYER</span></br> <br>
 <span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
 </div>  
 </footer>

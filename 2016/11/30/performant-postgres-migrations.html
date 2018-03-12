@@ -16,8 +16,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1502051521334421000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1502051521334421000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1520823168503064000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1520823168503064000" media="print">
   <link rel="canonical" href="http://blog.bitwrangler.com/2016/11/30/performant-postgres-migrations.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
   
@@ -70,13 +70,12 @@
 
 <p>Recently I tried to add a column to one of our very big tables, and as you might expect from the title of this blog, it took so long that I aborted it after an hour. Can you spot the problem?</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AddInfoColumnToCaseDocketReport</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AddInfoColumnToCaseDocketReport</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
   <span class="k">def</span> <span class="nf">change</span>
     <span class="n">add_column</span> <span class="ss">:case_docket_reports</span><span class="p">,</span> <span class="ss">:info</span><span class="p">,</span> <span class="ss">:jsonb</span><span class="p">,</span> <span class="ss">default: </span><span class="s1">'{}'</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><span class="newthought">Not all migrations are created equal.</span>  Adding a column to Postgres <em>without</em> a default value is very fast because only the catalog tables get written. <em>With</em> a default value, however, it can get very, very, s-l-o-w, because it has to make a copy of every row and reindex.</p>
 
@@ -84,39 +83,35 @@
 
 <p>Adding a default value to an <em>existing</em> column is also remarkably fast, as it also does not change any existing rows. So, if we break this migration into 2 steps, it will be very, very, fast:</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AddInfoColumnToCaseDocketReport</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AddInfoColumnToCaseDocketReport</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
   <span class="k">def</span> <span class="nf">change</span>
     <span class="n">add_column</span> <span class="ss">:case_docket_reports</span><span class="p">,</span> <span class="ss">:info</span><span class="p">,</span> <span class="ss">:jsonb</span>
     <span class="n">change_column</span> <span class="ss">:case_docket_reports</span><span class="p">,</span> <span class="ss">:info</span><span class="p">,</span> <span class="ss">:jsonb</span><span class="p">,</span> <span class="ss">default: </span><span class="s1">'{}'</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="-add-default-values-to-existing-columns">=&gt; Add default values to existing columns</h2>
 
 <p>Of course, now your table has columns filled with NULL values, which may or may not be a bad thing in your application. Let’s assume for the moment that it is a bad thing. How do we update all of those rows? The naive approach in Rails is to iterate over each object, assigning the new value:</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="no">CaseDocketReport</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">info: </span><span class="kp">nil</span><span class="p">).</span><span class="nf">find_each</span><span class="p">(</span><span class="ss">batch_size: </span><span class="mi">100</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">docket_report</span><span class="o">|</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">CaseDocketReport</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">info: </span><span class="kp">nil</span><span class="p">).</span><span class="nf">find_each</span><span class="p">(</span><span class="ss">batch_size: </span><span class="mi">100</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">docket_report</span><span class="o">|</span>
   <span class="n">docket_report</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">info: </span><span class="p">{})</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This is also very slow because you have to drag each row from Postgres, over the “wire” and into Rails, create the associated objects and then write each change out in an isolated transaction. There is an alternative that is very fast: Rails exposes the SQL <code class="highlighter-rouge">UPDATE</code> via the <code class="highlighter-rouge">#update_all</code> method. This is very, very fast:</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="kp">loop</span> <span class="k">do</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kp">loop</span> <span class="k">do</span>
   <span class="n">results</span> <span class="o">=</span> <span class="no">CaseDocketReport</span><span class="p">.</span><span class="nf">where</span><span class="p">(</span><span class="ss">info: </span><span class="kp">nil</span><span class="p">).</span><span class="nf">limit</span><span class="p">(</span><span class="mi">10_000</span><span class="p">).</span><span class="nf">update_all</span><span class="p">(</span><span class="ss">info: </span><span class="p">{})</span>
   <span class="k">break</span> <span class="k">if</span> <span class="n">results</span> <span class="o">==</span> <span class="mi">0</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>This little snippet, in one SQL command, will update 10,000 rows at a time!</p>
 
-<div class="language-sql highlighter-rouge"><pre class="highlight"><code><span class="k">UPDATE</span> <span class="n">info</span> <span class="o">=</span> <span class="s1">'{}'</span> <span class="k">FROM</span> <span class="nv">"case_docket_reports"</span> <span class="k">WHERE</span> <span class="n">info</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">;</span>
-</code></pre>
-</div>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">UPDATE</span> <span class="n">info</span> <span class="o">=</span> <span class="s1">'{}'</span> <span class="k">FROM</span> <span class="nv">"case_docket_reports"</span> <span class="k">WHERE</span> <span class="n">info</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h2 id="-do-as-much-work-inside-postgres-not-in-rails">=&gt; Do as much work inside Postgres, not in Rails</h2>
 
@@ -124,29 +119,27 @@
 
 <p><label for="1" class="margin-toggle"> ⊕</label><input type="checkbox" id="1" class="margin-toggle" /><span class="marginnote">Can Rails do this? As of Rails 4, <a href="https://github.com/rails/rails/commit/2d33796457b139a58539c890624591c97354d334">yes</a>! </span>Another problem area are indexes, because creating one would normally block writes. By adding the index <code class="highlighter-rouge">CONCURRENTLY</code>, we can avoid this. Because Rails runs migrations inside a transaction and concurrent indexes <a href="https://www.postgresql.org/docs/9.4/static/sql-createindex.html#SQL-CREATEINDEX-CONCURRENTLY">must be added outside one</a>, we add <code class="highlighter-rouge">disable_ddl_transaction!</code> to the migration.</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AddIndexToAsksActive</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">AddIndexToAsksActive</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
   <span class="n">disable_ddl_transaction!</span>
 
   <span class="k">def</span> <span class="nf">change</span>
     <span class="n">add_index</span> <span class="ss">:asks</span><span class="p">,</span> <span class="ss">:active</span><span class="p">,</span> <span class="ss">algorithm: :concurrently</span>
   <span class="k">end</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="-add-indexes-concurrently">=&gt; Add indexes CONCURRENTLY</h2>
 
 <p>Another trouble spot is changing the type of a column. Again, as I mentioned in <a href="/2015/08/15/zero-downtime-migrations.html">Zero Downtime Migrations</a>, the solution is: “Don’t!” Instead, add a new column with a new name. When you’ve completed your upgrades, and, at your leisure, you can <code class="highlighter-rouge">DROP</code> the column. Here’s an interesting side-tip, you can “hide” the old column from your code so you don’t accidentally use it:</p>
 
-<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
   <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">columns</span> <span class="c1"># TODO: Remove after completing migration</span>
     <span class="k">super</span><span class="p">.</span><span class="nf">reject</span> <span class="p">{</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span> <span class="n">c</span><span class="p">.</span><span class="nf">name</span> <span class="o">==</span> <span class="s1">'ecf_username'</span> <span class="p">}</span>
   <span class="k">end</span>
 
   <span class="c1">#...</span>
 <span class="k">end</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="-dont-change-columns-add-new-ones-then-drop-the-old-ones">=&gt; Don’t change columns, add new ones, then drop the old ones</h2>
 
@@ -186,7 +179,7 @@
       
   </ul>
 <div class="credits">
-<span>&copy; 1995-2017 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>&copy; 1995-2018 &nbsp;&nbsp;KEN MAYER</span></br> <br>
 <span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
 </div>  
 </footer>
