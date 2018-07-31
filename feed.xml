@@ -6,9 +6,61 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 11 Mar 2018 20:47:20 -0700</pubDate>
-    <lastBuildDate>Sun, 11 Mar 2018 20:47:20 -0700</lastBuildDate>
-    <generator>Jekyll v3.6.2</generator>
+    <pubDate>Mon, 30 Jul 2018 23:49:01 -0700</pubDate>
+    <lastBuildDate>Mon, 30 Jul 2018 23:49:01 -0700</lastBuildDate>
+    <generator>Jekyll v3.7.3</generator>
+    
+      <item>
+        <title>Our CTO Sleeps Well At Night</title>
+        <description>&lt;p&gt;I am PacerPro’s chief technical officer, which means that I get the first phone call at 3 am when things go pear-shaped. Fortunately, I don’t get many of those calls: I’ve built a development team and process that delivers reliability as a core feature.&lt;/p&gt;
+
+&lt;h2 id=&quot;no-one-gives-a-damn-about-where-the-electrons-come-from-until-the-lights-go-out&quot;&gt;No one gives a damn about where the electrons come from until the lights go out.&lt;/h2&gt;
+
+&lt;p&gt;The number one core value of PacerPro, from the very beginning, has always been rock solid reliability. “You only get your customer’s trust once,” says Gavin McGrane, CEO, “and if you lose that, you’ll never get it back.” So we’ve built our product with reliability as a primary design constraint. That’s a very, very tough requirement. Most startups (as we were, way back in 2011) write their code with duct tape and bubble gum, we take the opposite tack, writing our code using a “Test Driven Development” (TDD) methodology–which means that we write the tests first, even before we write the first line of production code. We run a lot of tests, thousands of them. We run our test suites dozens of times a day, sometimes hundreds. We only ship code to production when all of our tests pass with flying colors.&lt;/p&gt;
+
+&lt;p&gt;I’ve been working in the software development industry since 1985. Back then, in the bad old days, production deploys were fraught with worry and prayer. Even so, I had a reputation for shipping bug-free code–annoyingly so, since sometimes that required delaying the software’s release until the code was ready to go.&lt;/p&gt;
+
+&lt;h2 id=&quot;stay-focused-on-product--core-competencies&quot;&gt;Stay focused on product &amp;amp; core competencies.&lt;/h2&gt;
+
+&lt;p&gt;We’re a lean company. Infrastructure is not our product; I don’t want to spend precious headcount budget on operations. These days, with everything in the cloud, PacerPro gets to leverage the expertise of some of the largest IT corporations in the world: Amazon, Salesforce, Google. As CTO, I find “best in class” providers to deliver computing infrastructure for our product. I don’t have to pay for a DevOps engineer or an expert DBA. Instead, I get my &lt;em&gt;provider’s&lt;/em&gt; expertise in &lt;em&gt;their&lt;/em&gt; core competencies. So, for a fraction of the cost of a single DBA, for example, I have scalable databases with redundancy, hot backups, and immediate roll forwards. All ACID, encrypted at rest, and privacy compliant.&lt;/p&gt;
+
+&lt;h2 id=&quot;youre-not-paranoid-if-the-world-is-out-to-get-you&quot;&gt;You’re not paranoid if the world is out to get you.&lt;/h2&gt;
+
+&lt;p&gt;There’s an interesting side-effect to building cloud-based applications: You have to engineer with the expectation that any of your service dependencies can and will fail at any moment. This is where an always-testing culture comes in handy. Part of our production test suite has what is sometimes called “enemy testing,” where we simulate that something “bad” has happened. We don’t have to guess whether our application runs or not in the face of failures, because we have already empirically proved that it will. One of our web servers dies? No problem, we have 3 more running. Someone mentions us on Hacker News? Our automated scaling system spins up more servers to handle the extra load. One of the PACER sites goes down? We’ll trip a “circuit breaker” in software to prevent jobs from stacking up on the dead resource until it comes back online again.&lt;/p&gt;
+
+&lt;h2 id=&quot;commodity-services-are-just-another-api&quot;&gt;Commodity services are just another API&lt;/h2&gt;
+
+&lt;p&gt;PacerPro is remarkably flexible when it comes to service providers. There’s virtually no lock-in anywhere in our toolchain. As part of our relentless obsession with reliability, our software is built to talk to &lt;em&gt;services&lt;/em&gt;, not &lt;em&gt;service providers&lt;/em&gt;. e.g. We have a mail service class. Inside the service code, we’ll have pluggable references to our providers, including all authentication and configuration information, so if (and when) we need to switch, we can change a configuration variable in our production environment and continue around the failure. PacerPro generates over 50,000 individualized custom emails every single business day; we can’t wait for a downstream outage to “resolve itself.”&lt;/p&gt;
+
+&lt;h2 id=&quot;privacy-by-design&quot;&gt;Privacy by design&lt;/h2&gt;
+
+&lt;p&gt;There’s much chatter these days about security breaches, which is sad because, while a challenging engineering problem, security is by no means unsolvable–or even unsolved. The trouble starts with senior managers who don’t know anything about security&lt;label for=&quot;1&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;1&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;And why should they, after all? &lt;/span&gt;. They don’t budget for it and their engineering staff does not or cannot communicate the mission-critical aspect of security. So security becomes an afterthought. PacerPro does several things to correct this: Security design is part of every story (usually it is a non-issue, but we do check it). We try not to store any sensitive data, period. You’d be surprised how much you don’t need. We don’t trust ourselves to do encryption “right,” so we, again, offload it to the experts. For example, we use Stripe.com to handle all of our credit card transactions, so never see a credit card number. We encrypt the data that we must store. We have regular scans for code vulnerabilities and patch them as “Level-1” bugs (usually released the same day). If asked whether all this extra work is vital, my reply is always, “Do you want our company logo to appear next to the headline, ‘Hacked’?&lt;/p&gt;
+
+&lt;h2 id=&quot;building-a-culture-of-writing-things-down&quot;&gt;Building a culture of “writing things down.”&lt;/h2&gt;
+
+&lt;p&gt;No one is irreplaceable. &lt;label for=&quot;2&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;2&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Not even the CTO. &lt;/span&gt; Sometimes we joke about “bus counts,” which is the number of people that have to be run over by a bus before the company can no longer operate. A bus count number of “Ken” is unacceptable–PacerPro has to be able to keep running, even if, goodness forbid, something were to happen to me. So, we write down procedures in a company “runbook.” We automate the heck out of anything that we do more than 3 times &lt;label for=&quot;3&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;3&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;3 is a magic number. &lt;/span&gt; We have a company chat channel where we can call an “all hands on deck” emergency, and because we are a  distributed company, we’ve got bi-coastal coverage. Our engineering culture is “full-stack”; everyone has the skills to work with any part of the product. Some of us are more expert on some things than others, so we use pair programming to “level-up” our team knowledge. &lt;label for=&quot;4&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;4&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Pair programming is an “Xtreme Programming” technique where two engineers work on a single story at the same time. I sometimes describe it as “Two brains, one keyboard.” &lt;/span&gt; Thus we increase reliability. Pair programming may have a bum rap because you are paying two developers to deliver one feature, but empirical studies show that the code quality is much higher; enough so that the overall code cost (in time and dollars) is about a wash: But you get to higher quality, more reliable code sooner, for the win.&lt;/p&gt;
+
+&lt;h2 id=&quot;if-you-dont-measure-it-it-doesnt-exist&quot;&gt;If you don’t measure it, it doesn’t exist.&lt;/h2&gt;
+
+&lt;p&gt;Another core part of our development process is &lt;em&gt;a priori&lt;/em&gt; support for metrics. We measure everything, from email delivery latency to database transactions per second. Sometimes we’ll only care about a metric for a short while, such as when we want to optimize a critical block of code. &lt;label for=&quot;5&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;5&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Most of the code that we write is optimized for developer productivity, by the way. Between our skills and Moore’s Law, 85% our code base is fast enough, as is. &lt;/span&gt; That way, we only have to focus on a few critical points in the software, instead of guessing. Other metrics go onto the production dashboard that we distribute internally. We have scripts that monitor for out of bounds values and then send notices to the engineering and DevOps Slack channels. We used to have a PagerDuty account, but we found that to be too heavyweight for us. Since we already listen to Slack, it created less friction to our regular work process.&lt;/p&gt;
+
+&lt;h2 id=&quot;no-you-cant-have-a-pony&quot;&gt;No. You can’t have a pony.&lt;/h2&gt;
+
+&lt;p&gt;Gavin can attest to the fact that I’m a certified pain-in-the-ass when it comes to building new features. Before we start designing, I ask many questions about sales, product, and C-levels. Some of my favorites: “Would this be stupid for us not to do, in the next 90 days?” “Based on the feature, it is going to cost $10x THOUSANDS of dollars to build, test, verify, deliver and maintain. What’s our ROI over the next year?” “What’s our opportunity cost if we build this feature instead of that one?” That keeps us focused. 90 days may seem pretty short, but our world changes so quickly, that 90 days from now, everything that we thought we knew about our business will either change or called into question. Long-term planning in this context is a fool’s game. That’s not to say that we don’t have longer-range plans, but they are not specific implementation plans.&lt;/p&gt;
+
+</description>
+        <pubDate>Mon, 30 Jul 2018 00:00:00 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2018/07/30/sleeping-well-at-night.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2018/07/30/sleeping-well-at-night.html</guid>
+        
+        <category>devops</category>
+        
+        <category>sre</category>
+        
+        <category>scaling</category>
+        
+        
+      </item>
     
       <item>
         <title>Using Ruby Enumerators for Resumable Iterators </title>
@@ -713,55 +765,6 @@
         <pubDate>Tue, 04 Oct 2016 00:00:00 -0700</pubDate>
         <link>http://blog.bitwrangler.com/2016/10/04/digital-preservation.html</link>
         <guid isPermaLink="true">http://blog.bitwrangler.com/2016/10/04/digital-preservation.html</guid>
-        
-        
-      </item>
-    
-      <item>
-        <title>Anatomy of an Apology</title>
-        <description>&lt;p&gt;I’ve written my fair share of apologies. It’s a skill, like any other, one that you wish you didn’t have to practice. Yesterday, I had to write a &lt;em&gt;mea culpa&lt;/em&gt; to our users. It was our fault, and we came clean about it. I got compliments on the letter! I think I increased customer loyalty as a result. Fuck-ups don’t have to hurt your business.&lt;/p&gt;
-
-&lt;p&gt;Here’s the letter:&lt;/p&gt;
-
-&lt;figure&gt;&lt;figcaption&gt;E-mail from me to my user base&lt;/figcaption&gt;&lt;img src=&quot;/assets/Screen_Shot_2016-09-22_at_9_00_06_AM.png&quot; /&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;1-write-the-tldr&quot;&gt;1. Write the tl;dr&lt;/h2&gt;
-
-&lt;p&gt;You don’t have to get into specifics; assess the impact to them. Don’t bother with “I’m sorry,” just stick to the facts, m’am.&lt;/p&gt;
-
-&lt;h2 id=&quot;2-whats-this-about&quot;&gt;2. What’s this about&lt;/h2&gt;
-
-&lt;p&gt;Okay, now go into detail about what changed. In this case, we completely removed a feature. I described what the feature was, where it was located in our application and &lt;em&gt;why&lt;/em&gt; it existed in the first place.&lt;/p&gt;
-
-&lt;h2 id=&quot;3-why-we-had-to-make-the-change&quot;&gt;3. Why we had to make the change&lt;/h2&gt;
-
-&lt;p&gt;Keep it simple. My users are attorneys, associates, librarians and paralegals. They are smart people, but not very technical.&lt;/p&gt;
-
-&lt;h2 id=&quot;4-why-now&quot;&gt;4. Why &lt;em&gt;now&lt;/em&gt;&lt;/h2&gt;
-
-&lt;p&gt;This feature has been in production for months. We knew about the risk, but we decided it was an acceptable one. Until two days ago. Normally, if we have a feature that we plan to remove, we’ll make time for the transition, warn the users in advance, and ease them out of it gracefully. This week was not normal. &lt;em&gt;That&lt;/em&gt; is what we fucked up. We knew this was a potential problem, but did not properly assess the risks.&lt;/p&gt;
-
-&lt;h2 id=&quot;5-impact-to-the-reader&quot;&gt;5. Impact to the &lt;em&gt;reader&lt;/em&gt;&lt;/h2&gt;
-
-&lt;p&gt;Tell them how it hurts. It’s the most important thing that our dear reader needs to know, after all.&lt;label for=&quot;one&quot; class=&quot;margin-toggle sidenote-number&quot;&gt;&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;one&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;sidenote&quot;&gt;After reading the letter, with hindsight, I would have moved this up to the second paragraph. &lt;/span&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;6-remedial-actions-on-our-part&quot;&gt;6. Remedial actions on our part&lt;/h2&gt;
-
-&lt;p&gt;What we’re doing to make up for the failure.&lt;/p&gt;
-
-&lt;h2 id=&quot;7-recognize-the-value-of-the-reader&quot;&gt;7. Recognize the value of the reader&lt;/h2&gt;
-
-&lt;p&gt;I appreciate my clients. Not only because they put bread on my table, but because, without them, I wouldn’t have a product to build. Loyal customers give me honest feedback, which makes PacerPro all that much better in the next iteration.&lt;/p&gt;
-
-&lt;h2 id=&quot;8-make-it-personal&quot;&gt;8. Make it personal&lt;/h2&gt;
-
-&lt;p&gt;I gave them my e-mail, my phone number (which I will personally answer). And I said “Thank you.”&lt;/p&gt;
-</description>
-        <pubDate>Thu, 22 Sep 2016 00:00:00 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2016/09/22/anatomy-of-an-apology.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2016/09/22/anatomy-of-an-apology.html</guid>
-        
-        <category>management</category>
         
         
       </item>
