@@ -6,8 +6,8 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 30 Jul 2018 23:53:04 -0700</pubDate>
-    <lastBuildDate>Mon, 30 Jul 2018 23:53:04 -0700</lastBuildDate>
+    <pubDate>Mon, 30 Jul 2018 23:58:31 -0700</pubDate>
+    <lastBuildDate>Mon, 30 Jul 2018 23:58:31 -0700</lastBuildDate>
     <generator>Jekyll v3.7.3</generator>
     
       <item>
@@ -16,7 +16,7 @@
 
 &lt;h2 id=&quot;no-one-gives-a-damn-about-where-the-electrons-come-from-until-the-lights-go-out&quot;&gt;No one gives a damn about where the electrons come from until the lights go out.&lt;/h2&gt;
 
-&lt;p&gt;The number one core value of PacerPro, from the very beginning, has always been rock solid reliability. “You only get your customer’s trust once,” says Gavin McGrane, CEO, “and if you lose that, you’ll never get it back.” So we’ve built our product with reliability as a primary design constraint. That’s a very, very tough requirement. Most startups (as we were, way back in 2011) write their code with duct tape and bubble gum, we take the opposite tack, writing our code using a “Test Driven Development” (TDD) methodology–which means that we write the tests first, even before we write the first line of production code. We run a lot of tests, thousands of them. We run our test suites dozens of times a day, sometimes hundreds. We only ship code to production when all of our tests pass with flying colors.&lt;/p&gt;
+&lt;p&gt;The number one core value of PacerPro, from the very beginning, has always been rock solid reliability. “You only get your customer’s trust once,” says Gavin McGrane, CEO, “and if you lose that, you’ll never get it back.” So we’ve built our product with reliability as a primary design constraint. That’s a very, very tough requirement. Most startups (as we were, way back in 2011) write their code with duct tape and bubble gum. We took the opposite approach, writing our code using a “Test Driven Development” (TDD) methodology&lt;label for=&quot;0&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;0&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;We write the tests first, even before we write the first line of production code. &lt;/span&gt;. We run a lot of tests, thousands of them. We run our test suites dozens of times a day, sometimes hundreds. We only ship code to production when all of our tests pass with flying colors.&lt;/p&gt;
 
 &lt;p&gt;I’ve been working in the software development industry since 1985. Back then, in the bad old days, production deploys were fraught with worry and prayer. Even so, I had a reputation for shipping bug-free code–annoyingly so, since sometimes that required delaying the software’s release until the code was ready to go.&lt;/p&gt;
 
@@ -46,7 +46,7 @@
 
 &lt;h2 id=&quot;no-you-cant-have-a-pony&quot;&gt;No. You can’t have a pony.&lt;/h2&gt;
 
-&lt;p&gt;Gavin can attest to the fact that I’m a certified pain-in-the-ass when it comes to building new features. Before we start designing, I ask many questions about sales, product, and C-levels. Some of my favorites: “Would this be stupid for us not to do, in the next 90 days?” “Based on the feature, it is going to cost $10x THOUSANDS of dollars to build, test, verify, deliver and maintain. What’s our ROI over the next year?” “What’s our opportunity cost if we build this feature instead of that one?” That keeps us focused. 90 days may seem pretty short, but our world changes so quickly, that 90 days from now, everything that we thought we knew about our business will either change or called into question. Long-term planning in this context is a fool’s game. That’s not to say that we don’t have longer-range plans, but they are not specific implementation plans.&lt;/p&gt;
+&lt;p&gt;Gavin can attest to the fact that I’m a certified pain-in-the-ass when it comes to building new features. Before we start designing, I ask many questions about sales, product, and C-levels. Some of my favorites: “Would this be stupid for us not to do, in the next 90 days?” “Based on the feature, it is going to cost &lt;em&gt;thousands&lt;/em&gt; of dollars to build, test, verify, deliver and maintain. What’s our ROI over the next year?” “What’s our opportunity cost if we build this feature instead of that one?” That keeps us focused. 90 days may seem pretty short, but our world changes so quickly, that 90 days from now, everything that we thought we knew about our business will either change or called into question. Long-term planning in this context is a fool’s game. That’s not to say that we don’t have longer-range plans, but they are not specific implementation plans.&lt;/p&gt;
 
 </description>
         <pubDate>Mon, 30 Jul 2018 00:00:00 -0700</pubDate>
