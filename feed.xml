@@ -6,9 +6,68 @@
 </description>
     <link>http://blog.bitwrangler.com/</link>
     <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 07 Aug 2018 12:50:11 -0700</pubDate>
-    <lastBuildDate>Tue, 07 Aug 2018 12:50:11 -0700</lastBuildDate>
-    <generator>Jekyll v3.7.3</generator>
+    <pubDate>Sun, 23 Jun 2019 11:09:39 -0700</pubDate>
+    <lastBuildDate>Sun, 23 Jun 2019 11:09:39 -0700</lastBuildDate>
+    <generator>Jekyll v3.8.5</generator>
+    
+      <item>
+        <title>A Parable About Allies</title>
+        <description>&lt;p&gt;A person falls into a deep, dark, scary hole.&lt;/p&gt;
+
+&lt;p&gt;They cry for help for a long, long time.&lt;/p&gt;
+
+&lt;p&gt;A stranger comes along, hears the cries and says,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You got into this mess by yourself in the first place. Why don’t you get yourself out?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;They walk off.&lt;/p&gt;
+
+&lt;p&gt;Then a neighbor comes by, hears the cries and says,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Oh, you poor dear; I’ll go and see if I can find a ladder.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;But the ladder needs some assembly and neither of you have the proper tools. Soon the neighbor loses interest,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I have done all that I can. The rest is up to you.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;A priest walks by and says,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;You are in my thoughts and prayers.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Then the family appears at the edge of the hole,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;We’ve bailed you out of so many holes that we can’t do it any more. You must save yourself. Our advisors call it “tough love.”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Finally, a friend comes by, and much to everyone’s surprise, jumps right into the hole with you.&lt;/p&gt;
+
+&lt;p&gt;You say,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Brah! WTF? Now we’re both stuck down here.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;And the friend says,&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;That &lt;em&gt;is&lt;/em&gt; true, but I’ve been here before myself, so I can help you find your way out. Until then, you won’t be left alone in the dark.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        <pubDate>Sun, 23 Jun 2019 00:00:00 -0700</pubDate>
+        <link>http://blog.bitwrangler.com/2019/06/23/a-parable.html</link>
+        <guid isPermaLink="true">http://blog.bitwrangler.com/2019/06/23/a-parable.html</guid>
+        
+        
+      </item>
     
       <item>
         <title>Our CTO Sleeps Well At Night</title>
@@ -695,76 +754,6 @@
         <category>redis</category>
         
         <category>rails</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Digital Preservation Lasts Until the Heat Death of the Universe or Five Years</title>
-        <description>&lt;p&gt;(Whichever comes first)&lt;/p&gt;
-
-&lt;p&gt;Here are my notes and references from my lightning talk. The slides for the talk itself can be found on &lt;a href=&quot;https://dl.dropboxusercontent.com/u/759959/Digital%20Preservation.key&quot;&gt;DropBox&lt;/a&gt;. Warning this is about &lt;em&gt;~150MB&lt;/em&gt;!&lt;/p&gt;
-
-&lt;p&gt;Here’s the article that inspired this talk, &lt;a href=&quot;http://www.clir.org/pubs/archives/ensuring.pdf&quot;&gt;Ensuring the Longevity of Digital Information&lt;/a&gt;, written by Jeff Rothenberg waaay back in 1995 for &lt;a href=&quot;http://www.scientificamerican.com/article/ensuring-the-longevity-of-digital-d/&quot;&gt;Scientific American&lt;/a&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;The year is 2045, and my grandchildren (as yet unborn) are exploring the attic of my house (as yet unbought). They find a letter dated 1995 and a CD-ROM (compact disk). The letter claims that the disk contains a document that provides the key to obtaining my fortune (as yet unearned). My grandchildren are understandably excited, but they have never seen a CD before—except in old movies—and even if they can somehow find a suitable disk drive, how will they run the software necessary to interpret the information on the disk? How can they read my obsolete digital document?&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;If you want to read more by Mr. Rothenberg about digital longevity, he has a &lt;a href=&quot;http://www.panix.com/~jeffr/Prof/digilong.html&quot;&gt;web page for it&lt;/a&gt;. And here, at the &lt;a href=&quot;http://www.clir.org/pubs/reports/rothenberg/contents.html&quot;&gt;Council on Library and Information Resources&lt;/a&gt;. If video is more your thing, on YouTube: &lt;a href=&quot;https://www.youtube.com/watch?v=2Idbur1qR8I&quot;&gt;How Far We’ve Come&lt;/a&gt;. Just so you know that there are other views, and other voices, &lt;a href=&quot;http://blog.dshr.org/2013/02/rothenberg-still-wrong.html&quot;&gt;Rothenberg &lt;em&gt;still&lt;/em&gt; Wrong&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h1 id=&quot;references&quot;&gt;References&lt;/h1&gt;
-
-&lt;p&gt;On the scale of our data collections.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://what-if.xkcd.com/63/&quot;&gt;Google’s Datacenters on Punch Cards&lt;/a&gt;, “what if?” ca 2013&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Lost data.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://blogs.wsj.com/law/2014/08/26/thousands-of-electronic-case-files-lost-in-transition/&quot;&gt;“Thousands of Electronic Case Files Lost in Transition”&lt;/a&gt;, Wall Street Journal, August 26, 2014.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://haveibeenpwned.com&quot;&gt;have i been pwned?&lt;/a&gt;, which I check every time I hear of yet another breach.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Legacy systems.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.gao.gov/assets/680/677436.pdf&quot;&gt;Federal Agencies Need to Address Aging Legacy Systems&lt;/a&gt;, GAO Report, GAO-16-468, May 2016.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.cnn.com/2016/05/26/us/pentagon-floppy-disks-nuclear/&quot;&gt;The U.S. is still using floppy disks to run its nuclear program&lt;/a&gt;, CNN, May 26, 2016.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Digital preservation&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://fortune.com/2016/06/22/google-link-supreme-court-citation/&quot;&gt;Google Link in Supreme Court Case Shows Struggle on Citation&lt;/a&gt;, Fortune, June 22, 2016.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.supremecourt.gov/opinions/15pdf/14-1373_83i7.pdf&quot;&gt;Utah v. Strieff&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://perma.cc&quot;&gt;https://perma.cc&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://digital.lib.umd.edu&quot;&gt;Digital Collections at the University of Maryland&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://archive.org&quot;&gt;The Wayback Machine&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://jsonapi.org&quot;&gt;{json:api}&lt;/a&gt;, “If you’ve ever argued with your team about the way your JSON responses should be formatted, JSON API can be your anti-bikeshedding tool.”&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=IRGz-tNBeXM&quot;&gt;IBM TS4500 Tape Libray Robots&lt;/a&gt;. I, for one, welcome our benevolent robot overlords.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.cambus.net/emulators-written-in-javascript/&quot;&gt;Emulators written in JavaScript&lt;/a&gt;. JavaScript has become the “Rosetta Stone” of all other digital systems. So, we might be able to emulate ancient hardware, after all. We’re ready to go back to the moon: &lt;a href=&quot;http://svtsim.com/moonjs/agc.html&quot;&gt;Apollo Guidance System&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;OMG&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://sploid.gizmodo.com/this-old-ass-commodore-64-is-still-being-used-to-run-an-1787196319&quot;&gt;This Old-Ass Commodore 64 Is Still Being Used to Run an Auto Shop in Poland&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.theverge.com/2016/5/3/11576032/mclaren-f1-compaq-laptop-maintenance&quot;&gt;McLaren needs a 20-year-old Compaq laptop to maintain its F1 supercar&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;All the feels&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.flickr.com/photos/projectapolloarchive/&quot;&gt;Project Apollo&lt;/a&gt; - Glorious scans of the original Hasselblad images.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://www.linkedin.com/in/kate-dohe-076a103&quot;&gt;Kate Dohe&lt;/a&gt;, “punk-ass book jockey.” For more on knitting, wine and bicycles, sometimes all at once, see &lt;a href=&quot;https://www.facebook.com/katedohe&quot;&gt;Facebook&lt;/a&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Tue, 04 Oct 2016 00:00:00 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2016/10/04/digital-preservation.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2016/10/04/digital-preservation.html</guid>
         
         
       </item>
