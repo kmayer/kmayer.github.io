@@ -173,38 +173,70 @@
   .highlight .il {
     color: #099; }
 
+a.tag-cloud ::before {
+  content: " "; }
+a.tag-cloud ::after {
+  content: " "; }
+
 .tag-size-1 {
-  font-size: 100%; }
-
-.tag-size-2 {
-  font-size: 110%; }
-
-.tag-size-3 {
   font-size: 120%; }
 
-.tag-size-4 {
-  font-size: 130%; }
-
-.tag-size-5 {
+.tag-size-2 {
   font-size: 140%; }
 
-.tag-size-6 {
-  font-size: 150%; }
-
-.tag-size-7 {
+.tag-size-3 {
   font-size: 160%; }
 
-.tag-size-8 {
-  font-size: 170%; }
-
-.tag-size-9 {
+.tag-size-4 {
   font-size: 180%; }
 
+.tag-size-5 {
+  font-size: 200%; }
+
+.tag-size-6 {
+  font-size: 220%; }
+
+.tag-size-7 {
+  font-size: 240%; }
+
+.tag-size-8 {
+  font-size: 260%; }
+
+.tag-size-9 {
+  font-size: 280%; }
+
 .tag-size-10 {
-  font-size: 190%; }
+  font-size: 300%; }
 
 .tag-size-11 {
-  font-size: 200%; }
+  font-size: 320%; }
+
+.tag-size-12 {
+  font-size: 340%; }
+
+.tag-size-13 {
+  font-size: 360%; }
+
+.tag-size-14 {
+  font-size: 380%; }
+
+.tag-size-15 {
+  font-size: 400%; }
+
+.tag-size-16 {
+  font-size: 420%; }
+
+.tag-size-17 {
+  font-size: 440%; }
+
+.tag-size-18 {
+  font-size: 460%; }
+
+.tag-size-19 {
+  font-size: 480%; }
+
+.tag-size-20 {
+  font-size: 500%; }
 
 * {
   margin: 0;
