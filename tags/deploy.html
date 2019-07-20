@@ -17,8 +17,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563655806245508000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563655806245508000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563656999383009000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563656999383009000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/tags/deploy.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -45,7 +45,7 @@
   
 </head>
 
-  <body>
+  <body class="full-width">
     <!--- Header and nav template site-wide -->
 <header>
     <nav class="group">
@@ -194,25 +194,47 @@
   	
 	</nav>
 </header>
-    <article class="group">
-      <div class="post">
-<h1><a href="/tags/">Tag</a>: [deploy]</h1>
-<ul>
-
-  <li><a href="/2015/08/15/zero-downtime-migrations.html">Zero Downtime Migrations</a> (15 Aug 2015)<br>
+    <article>
+        <h1 class="content-listing-header sans"><a href="/tags/">Tag</a>: [deploy]</h1>
+  <ul class="content-listing">
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2015/08/15/zero-downtime-migrations.html"><h3 class="contrast">Zero Downtime Migrations</h3></a>
+        <br><span class="smaller">August 15, 2015</span>  <br/>
+        <div><p>For any sufficiently large application, you want to minimize interruptions to service while deploying new code. This is especially challenging for migrations on Heroku and other Platforms-as-a-Service, where you have a Catch-22 problem; you want to run your migrations, <em>first</em>, but you can’t run them until you’ve deployed the migrations to production. Usually, at this point, your new migration-dependent features are in the deploy, too. So when your application restarts, and the migration hasn’t run, yet, your poor application will trip some exceptions, and perhaps, create problems for your users. Of course, you could put the app into maintenance mode, but that creates more downtime for your users.</p>
 
-  <li><a href="/2012/05/12/deploy-strategies-for-herokusan.html">Deploy Strategies for HerokuSan</a> (12 May 2012)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2012/05/12/deploy-strategies-for-herokusan.html"><h3 class="contrast">Deploy Strategies for HerokuSan</h3></a>
+        <br><span class="smaller">May 12, 2012</span>  <br/>
+        <div><p>If you look at the network graphs of <code>heroku_san</code> on github, you'll see a number of branches where the only change is the deletion of the following line from the <code>deploy</code> task:</p>
 
-  <li><a href="/2012/03/25/dry-devops-with-herokusan.html">Dry DevOps with HerokuSan</a> (25 Mar 2012)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2012/03/25/dry-devops-with-herokusan.html"><h3 class="contrast">Dry DevOps with HerokuSan</h3></a>
+        <br><span class="smaller">March 25, 2012</span>  <br/>
+        <div><ol>
+<li>How many times (each day) have you typed this at your console?<br />
+<code>git push heroku master</code> and then <em>forgotten</em> to run<br />
+<code>heroku run rake db:migrate --app yellow-snow-3141</code> <em>or</em><br />
+<code>heroku ps:restart</code></li>
+<li>Does your script support a multi-stage environments?</li>
+<li>Do you remember how to get to the application's console process?</li>
+<li>Is your application's configuration <em>consistent</em> across all stages?</li>
+<li>Are you deploy scripts <em>tested</em>?</li>
+</ol>
 
-</ul>
-</div>
+</div> 
+      </li>
+    
+  </ul>
 
     </article>
     <span class="print-footer">deploy - Ken Mayer</span>

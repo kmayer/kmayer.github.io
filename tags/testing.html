@@ -17,8 +17,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563655806245508000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563655806245508000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563656999383009000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563656999383009000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/tags/testing.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -45,7 +45,7 @@
   
 </head>
 
-  <body>
+  <body class="full-width">
     <!--- Header and nav template site-wide -->
 <header>
     <nav class="group">
@@ -194,57 +194,113 @@
   	
 	</nav>
 </header>
-    <article class="group">
-      <div class="post">
-<h1><a href="/tags/">Tag</a>: [testing]</h1>
-<ul>
-
-  <li><a href="/2017/07/08/do-not-push-to-red-builds.html">Do Not Push to Red Builds</a> (08 Jul 2017)<br>
+    <article>
+        <h1 class="content-listing-header sans"><a href="/tags/">Tag</a>: [testing]</h1>
+  <ul class="content-listing">
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2017/07/08/do-not-push-to-red-builds.html"><h3 class="contrast">Do Not Push to Red Builds</h3></a>
+        <br><span class="smaller">July 8, 2017</span>  <br/>
+        <div><p><code class="highlighter-rouge">There's a pattern to disasters: When you examine the post mortems, its not just one failure, but a cascade of multiple failures that overwhelm the system's safety features. Pushing to a red build risks piling one failure upon another.</code></p>
 
-  <li><a href="/2017/07/07/engineer.html">Wanted: Jaguar Priest</a> (07 Jul 2017)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2017/07/07/engineer.html"><h3 class="contrast">Wanted: Jaguar Priest</h3></a>
+        <br><span class="smaller">July 7, 2017</span>  <br/>
+        <div><p><code class="highlighter-rouge">My job is to be the dumbest person in the room; I want to work with intelligent, opinionated people who can make the world a little better. Then iterate.</code></p>
 
-  <li><a href="/2014/06/08/timecop-time-and-database-time.html">Timecop time and database time</a> (08 Jun 2014)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2014/06/08/timecop-time-and-database-time.html"><h3 class="contrast">Timecop time and database time</h3></a>
+        <br><span class="smaller">June 8, 2014</span>  <br/>
+        <div><p><a href="https://github.com/travisjeffery/timecop">Timecop</a> is a great addition to your testing toolbox, but if you’ve ever tried to use Timecop to interact with a database, and then got the most mysterious of existential errors:</p>
 
-  <li><a href="/2014/02/07/when-you-need-a-rabbit-spec-it.html">When you need a rabbit, spec it</a> (07 Feb 2014)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2014/02/07/when-you-need-a-rabbit-spec-it.html"><h3 class="contrast">When you need a rabbit, spec it</h3></a>
+        <br><span class="smaller">February 7, 2014</span>  <br/>
+        <div><p>On my current project, we're using RabbitMQ. It's a bit of infrastructure that has to be present, and if it isn't, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let's write a test that asserts that we have the requisite infrastructure in place.</p>
 
-  <li><a href="/2014/02/07/speed-up-your-integration-tests-with-a-jig.html">Speed up your integration tests with a jig</a> (07 Feb 2014)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2014/02/07/speed-up-your-integration-tests-with-a-jig.html"><h3 class="contrast">Speed up your integration tests with a jig</h3></a>
+        <br><span class="smaller">February 7, 2014</span>  <br/>
+        <div><p>If you've written enough integration tests (with Capybara <em>et al.</em>), you must have noticed how much time your tests spend just logging into your web app. Even if it takes 1 second each time, it starts to add up. Here's a solution that I've written several times, now. I create a test "jig" that allows me to authenticate into my application with a single <code>visit</code>.</p>
 
-  <li><a href="/2013/05/18/sencha-touch-bdd-part-5-controller-testing.html">Sencha Touch BDD - Part 5 - Controller Testing</a> (18 May 2013)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2013/05/18/sencha-touch-bdd-part-5-controller-testing.html"><h3 class="contrast">Sencha Touch BDD - Part 5 - Controller Testing</h3></a>
+        <br><span class="smaller">May 18, 2013</span>  <br/>
+        <div><p><a href="/2013/05/10/sencha-touch-bdd-part-4-phantomjs.html">Part 4</a> Introduced PhantomJS as an easy and faster alternative to headful Jasmine testing. <a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">Part 3</a> added <a href="https://github.com/pivotal/jasmine-ajax/tree/2_0">jasmine-ajax</a> so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without depending on a back-end server. In <a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you how to unit test Sencha model classes in Jasmine. In <a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework.</p>
 
-  <li><a href="/2013/05/10/sencha-touch-bdd-part-4-phantomjs.html">Sencha Touch BDD - Part 4 - PhantomJS</a> (10 May 2013)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2013/05/10/sencha-touch-bdd-part-4-phantomjs.html"><h3 class="contrast">Sencha Touch BDD - Part 4 - PhantomJS</h3></a>
+        <br><span class="smaller">May 10, 2013</span>  <br/>
+        <div><p><a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">Part 3</a> added <code class="highlighter-rouge">jasmine-ajax</code> so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without depending on a back-end server. In <a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you how to unit test Sencha model classes in Jasmine. In <a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework.</p>
 
-  <li><a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">Sencha Touch BDD - Part 3 - Testing Views and Mocking Stores</a> (05 May 2013)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html"><h3 class="contrast">Sencha Touch BDD - Part 3 - Testing Views and Mocking Stores</h3></a>
+        <br><span class="smaller">May 5, 2013</span>  <br/>
+        <div><p>In <a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework. In <a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you to unit test Sencha model classes in Jasmine. In this part, we’ll test “views” and show how to mock data stores.</p>
 
-  <li><a href="/2013/02/22/method_missing-hazardous-to-your-module.html">method_missing hazardous to your module?</a> (22 Feb 2013)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2013/02/22/method_missing-hazardous-to-your-module.html"><h3 class="contrast">method_missing hazardous to your module?</h3></a>
+        <br><span class="smaller">February 22, 2013</span>  <br/>
+        <div><p>We built an(other) object factory module for our current project and it looks a lot like all the others: After a while, we noticed that the <code>create</code> methods were all exactly the same. Time for some dynamic refactoring!</p>
 
-  <li><a href="/2012/05/12/from-customer-requirements-to-releasable-gem.html">From customer requirements to releasable gem</a> (12 May 2012)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2012/05/12/from-customer-requirements-to-releasable-gem.html"><h3 class="contrast">From customer requirements to releasable gem</h3></a>
+        <br><span class="smaller">May 12, 2012</span>  <br/>
+        <div><p>One of the many pleasures of working at Pivotal Labs is that we are encouraged to release some of our work as open source. Often during the course of our engagements, we write code that might have wide-spread use. Due to the nature of our contracts, we can not unilaterally release such code. Those rights belong to the client. And rightly so. So, it is an even greater pleasure when one of our clients believes in "giving back" to the community, as well. </p>
 
-  <li><a href="/2010/11/18/when-to-do-user-acceptance-testing.html">When to do User Acceptance Testing?</a> (18 Nov 2010)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2010/11/18/when-to-do-user-acceptance-testing.html"><h3 class="contrast">When to do User Acceptance Testing?</h3></a>
+        <br><span class="smaller">November 18, 2010</span>  <br/>
+        <div><p>A former client asked:</p>
+<blockquote>
+<p>"<em>What does Scrum say about User Acceptance Testing? I am wondering if it should best be done within 24 hours of delivery, or at the end of a sprint...</em>"</p>
+</blockquote>
 
-</ul>
-</div>
+</div> 
+      </li>
+    
+  </ul>
 
     </article>
     <span class="print-footer">testing - Ken Mayer</span>

@@ -17,8 +17,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563655806245508000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563655806245508000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563656999383009000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563656999383009000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/tags/devops.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -45,7 +45,7 @@
   
 </head>
 
-  <body>
+  <body class="full-width">
     <!--- Header and nav template site-wide -->
 <header>
     <nav class="group">
@@ -194,37 +194,81 @@
   	
 	</nav>
 </header>
-    <article class="group">
-      <div class="post">
-<h1><a href="/tags/">Tag</a>: [devops]</h1>
-<ul>
-
-  <li><a href="/2018/07/30/sleeping-well-at-night.html">Our CTO Sleeps Well At Night</a> (30 Jul 2018)<br>
+    <article>
+        <h1 class="content-listing-header sans"><a href="/tags/">Tag</a>: [devops]</h1>
+  <ul class="content-listing">
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2018/07/30/sleeping-well-at-night.html"><h3 class="contrast">Our CTO Sleeps Well At Night</h3></a>
+        <br><span class="smaller">July 30, 2018</span>  <br/>
+        <div><p><code class="highlighter-rouge">I am PacerPro’s chief technical officer, which means that I get the first phone call at 3 am when things go pear-shaped. Fortunately, I don’t get many of those calls: I’ve built a development team and process that delivers reliability as a core feature.</code></p>
 
-  <li><a href="/2018/03/11/on-call-op-ed.html">On Call Duty</a> (11 Mar 2018)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2018/03/11/on-call-op-ed.html"><h3 class="contrast">On Call Duty</h3></a>
+        <br><span class="smaller">March 11, 2018</span>  <br/>
+        <div><p><code class="highlighter-rouge">Recently, there was a flurry of tweets about on-call and SRE duty schedules. It triggered a memory of a conversation at a manager meeting about a new product offering:</code></p>
 
-  <li><a href="/2016/10/27/memory-leak-whack-a-mole.html">Memory Leak Whack-a-Mole</a> (27 Oct 2016)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2016/10/27/memory-leak-whack-a-mole.html"><h3 class="contrast">Memory Leak Whack-a-Mole</h3></a>
+        <br><span class="smaller">October 27, 2016</span>  <br/>
+        <div><p><label for="whack-a-mole" class="margin-toggle">⊕</label><input type="checkbox" id="whack-a-mole" class="margin-toggle" /><span class="marginnote"><img class="fullwidth" src="/assets/whack-a-mole.jpg" /><br /><a href="https://www.flickr.com/photos/tpapi/2765541278">https://www.flickr.com/photos/tpapi/2765541278</a></span>Memory leaks happen. They shouldn’t, but you just can’t squash enough of them. Or the leak is so slow that it takes hours to manifest. The trouble with memory leaks is that they are permanent for the life of a process. Once a process has expanded its <a href="http://stackoverflow.com/questions/7880784/what-is-rss-and-vsz-in-linux-memory-management">VSZ</a>, there’s no way in Unix to shrink it. So your process starts to bloat, eventually your servers <a href="http://www.folkstalk.com/2011/11/swapping-and-paging-in-unix.html">page</a> and <a href="https://en.wikipedia.org/wiki/Thrashing_(computer_science)">thrash</a>. Performance tanks. Then your pager starts going off and there goes your beauty sleep.</p>
 
-  <li><a href="/2014/02/07/when-you-need-a-rabbit-spec-it.html">When you need a rabbit, spec it</a> (07 Feb 2014)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2014/02/07/when-you-need-a-rabbit-spec-it.html"><h3 class="contrast">When you need a rabbit, spec it</h3></a>
+        <br><span class="smaller">February 7, 2014</span>  <br/>
+        <div><p>On my current project, we're using RabbitMQ. It's a bit of infrastructure that has to be present, and if it isn't, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let's write a test that asserts that we have the requisite infrastructure in place.</p>
 
-  <li><a href="/2012/03/25/dry-devops-with-herokusan.html">Dry DevOps with HerokuSan</a> (25 Mar 2012)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2012/03/25/dry-devops-with-herokusan.html"><h3 class="contrast">Dry DevOps with HerokuSan</h3></a>
+        <br><span class="smaller">March 25, 2012</span>  <br/>
+        <div><ol>
+<li>How many times (each day) have you typed this at your console?<br />
+<code>git push heroku master</code> and then <em>forgotten</em> to run<br />
+<code>heroku run rake db:migrate --app yellow-snow-3141</code> <em>or</em><br />
+<code>heroku ps:restart</code></li>
+<li>Does your script support a multi-stage environments?</li>
+<li>Do you remember how to get to the application's console process?</li>
+<li>Is your application's configuration <em>consistent</em> across all stages?</li>
+<li>Are you deploy scripts <em>tested</em>?</li>
+</ol>
 
-  <li><a href="/2000/09/19/using-cvs-for-web-server-farms.html">Using CVS for Web Server Farms</a> (19 Sep 2000)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2000/09/19/using-cvs-for-web-server-farms.html"><h3 class="contrast">Using CVS for Web Server Farms</h3></a>
+        <br><span class="smaller">September 19, 2000</span>  <br/>
+        <div><p>Let's assume that you've adopted the techniques described in <a
+  href="http://www.arsdigita.com/asj/cvs">Using CVS for Web Development</a>
+  (or <a href="http://durak.org/cvswebsites/">[Dreilinger]</a>) and you
+  <em>are</em>
+  the Release Master. Now imagine that instead of one web server you have a
+  web server farm of 10 or 100. How do you prevent chaos and carpal tunnel
+  syndrome from keeping you chained at your desk for days on end? Does this
+  look familiar:
 
-</ul>
-</div>
+</div> 
+      </li>
+    
+  </ul>
 
     </article>
     <span class="print-footer">devops - Ken Mayer</span>

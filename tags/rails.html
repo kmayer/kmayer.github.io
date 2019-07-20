@@ -17,8 +17,8 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563655806245508000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563655806245508000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563656999383009000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563656999383009000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/tags/rails.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -45,7 +45,7 @@
   
 </head>
 
-  <body>
+  <body class="full-width">
     <!--- Header and nav template site-wide -->
 <header>
     <nav class="group">
@@ -194,41 +194,83 @@
   	
 	</nav>
 </header>
-    <article class="group">
-      <div class="post">
-<h1><a href="/tags/">Tag</a>: [rails]</h1>
-<ul>
-
-  <li><a href="/2016/11/30/performant-postgres-migrations.html">Performant Large-Scale Postgres Migrations</a> (30 Nov 2016)<br>
+    <article>
+        <h1 class="content-listing-header sans"><a href="/tags/">Tag</a>: [rails]</h1>
+  <ul class="content-listing">
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2016/11/30/performant-postgres-migrations.html"><h3 class="contrast">Performant Large-Scale Postgres Migrations</h3></a>
+        <br><span class="smaller">November 30, 2016</span>  <br/>
+        <div><p>Recently I tried to add a column to one of our very big tables, and as you might expect from the title of this blog, it took so long that I aborted it after an hour. Can you spot the problem?</p>
 
-  <li><a href="/2016/10/27/memory-leak-whack-a-mole.html">Memory Leak Whack-a-Mole</a> (27 Oct 2016)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2016/10/27/memory-leak-whack-a-mole.html"><h3 class="contrast">Memory Leak Whack-a-Mole</h3></a>
+        <br><span class="smaller">October 27, 2016</span>  <br/>
+        <div><p><label for="whack-a-mole" class="margin-toggle">⊕</label><input type="checkbox" id="whack-a-mole" class="margin-toggle" /><span class="marginnote"><img class="fullwidth" src="/assets/whack-a-mole.jpg" /><br /><a href="https://www.flickr.com/photos/tpapi/2765541278">https://www.flickr.com/photos/tpapi/2765541278</a></span>Memory leaks happen. They shouldn’t, but you just can’t squash enough of them. Or the leak is so slow that it takes hours to manifest. The trouble with memory leaks is that they are permanent for the life of a process. Once a process has expanded its <a href="http://stackoverflow.com/questions/7880784/what-is-rss-and-vsz-in-linux-memory-management">VSZ</a>, there’s no way in Unix to shrink it. So your process starts to bloat, eventually your servers <a href="http://www.folkstalk.com/2011/11/swapping-and-paging-in-unix.html">page</a> and <a href="https://en.wikipedia.org/wiki/Thrashing_(computer_science)">thrash</a>. Performance tanks. Then your pager starts going off and there goes your beauty sleep.</p>
 
-  <li><a href="/2015/08/15/zero-downtime-migrations.html">Zero Downtime Migrations</a> (15 Aug 2015)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2015/08/15/zero-downtime-migrations.html"><h3 class="contrast">Zero Downtime Migrations</h3></a>
+        <br><span class="smaller">August 15, 2015</span>  <br/>
+        <div><p>For any sufficiently large application, you want to minimize interruptions to service while deploying new code. This is especially challenging for migrations on Heroku and other Platforms-as-a-Service, where you have a Catch-22 problem; you want to run your migrations, <em>first</em>, but you can’t run them until you’ve deployed the migrations to production. Usually, at this point, your new migration-dependent features are in the deploy, too. So when your application restarts, and the migration hasn’t run, yet, your poor application will trip some exceptions, and perhaps, create problems for your users. Of course, you could put the app into maintenance mode, but that creates more downtime for your users.</p>
 
-  <li><a href="/2014/06/08/timecop-time-and-database-time.html">Timecop time and database time</a> (08 Jun 2014)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2014/06/08/timecop-time-and-database-time.html"><h3 class="contrast">Timecop time and database time</h3></a>
+        <br><span class="smaller">June 8, 2014</span>  <br/>
+        <div><p><a href="https://github.com/travisjeffery/timecop">Timecop</a> is a great addition to your testing toolbox, but if you’ve ever tried to use Timecop to interact with a database, and then got the most mysterious of existential errors:</p>
 
-  <li><a href="/2014/06/01/the-slow-road.html">The slow road</a> (01 Jun 2014)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2014/06/01/the-slow-road.html"><h3 class="contrast">The slow road</h3></a>
+        <br><span class="smaller">June 1, 2014</span>  <br/>
+        <div><p>Once a week, we run a query on our production system that takes a very long time to complete. Invariably, it times out because the default settings on Heroku are (quite reasonably) for web / API interactions; anything longer than 30 seconds is too long and the connection should be closed to let other requests through. How do you get around this, then? You could set up your <code class="highlighter-rouge">database.yml</code> file so that you connect to your production database from a developer workstation. This is actually quite useful, but opens up a hellacious security hole. Let’s not get started about the consequences of accidentally running <code class="highlighter-rouge">rake db:drop:all</code>! Moreover, you want your system to be automated as much as possible, and that means running your tasks on a Heroku instance. Fortunately, with a little hackery, you can modify the connection timeout settings within your application. Do this carefully, and make sure that it can not leak into your running web application dynos.</p>
 
-  <li><a href="/2012/03/28/tdd-action-caching-in-rails-3.html">TDD Action Caching in Rails 3</a> (28 Mar 2012)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2012/03/28/tdd-action-caching-in-rails-3.html"><h3 class="contrast">TDD Action Caching in Rails 3</h3></a>
+        <br><span class="smaller">March 28, 2012</span>  <br/>
+        <div><p>On my current project, we needed to prove that an action cache was working as expected. Alas, the blogosphere had either out-of-date or unhelpful information. So, after many experiments, we came up with an RSpec test that does what we want. It seems ugly to me, and I hope there's a better way. The names have been changed to protect the guilty. Any resemblances to actual classes and methods are purely coincidental.</p>
 
-  <li><a href="/2012/03/25/dry-devops-with-herokusan.html">Dry DevOps with HerokuSan</a> (25 Mar 2012)<br>
+</div> 
+      </li>
     
-  </li>
+      <li class="listing">
+        <hr class="slender">
+        <a href="/2012/03/25/dry-devops-with-herokusan.html"><h3 class="contrast">Dry DevOps with HerokuSan</h3></a>
+        <br><span class="smaller">March 25, 2012</span>  <br/>
+        <div><ol>
+<li>How many times (each day) have you typed this at your console?<br />
+<code>git push heroku master</code> and then <em>forgotten</em> to run<br />
+<code>heroku run rake db:migrate --app yellow-snow-3141</code> <em>or</em><br />
+<code>heroku ps:restart</code></li>
+<li>Does your script support a multi-stage environments?</li>
+<li>Do you remember how to get to the application's console process?</li>
+<li>Is your application's configuration <em>consistent</em> across all stages?</li>
+<li>Are you deploy scripts <em>tested</em>?</li>
+</ol>
 
-</ul>
-</div>
+</div> 
+      </li>
+    
+  </ul>
 
     </article>
     <span class="print-footer">rails - Ken Mayer</span>
