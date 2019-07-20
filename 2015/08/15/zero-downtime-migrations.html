@@ -16,10 +16,10 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1561313658120230000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1561313658120230000" media="print">
-  <link rel="canonical" href="http://blog.bitwrangler.com/2015/08/15/zero-downtime-migrations.html">
-  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563654347791983000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563654347791983000" media="print">
+  <link rel="canonical" href="https://blog.bitwrangler.com/2015/08/15/zero-downtime-migrations.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -33,6 +33,15 @@
 </script>
 
   
+  
+  
+
+
+
+
+
+
+  
 </head>
 
   <body>
@@ -40,6 +49,26 @@
 <header>
     <nav class="group">
 	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
 		
   	
 		
@@ -55,10 +84,82 @@
 	    
   	
 		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
 		    
 		      <a href="/css/print.css"></a>
 		    
 	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
   	
 		
   	
@@ -67,6 +168,22 @@
     <article class="group">
       <h1>Zero Downtime Migrations</h1>
 <p class="subtitle">August 15, 2015</p>
+
+<span>
+  
+    
+    [<a href="/tags/rails"><code><nobr>rails</nobr></code></a>]
+  
+    
+    [<a href="/tags/database"><code><nobr>database</nobr></code></a>]
+  
+    
+    [<a href="/tags/deploy"><code><nobr>deploy</nobr></code></a>]
+  
+    
+    [<a href="/tags/heroku"><code><nobr>heroku</nobr></code></a>]
+  
+</span>
 
 <p>For any sufficiently large application, you want to minimize interruptions to service while deploying new code. This is especially challenging for migrations on Heroku and other Platforms-as-a-Service, where you have a Catch-22 problem; you want to run your migrations, <em>first</em>, but you can’t run them until you’ve deployed the migrations to production. Usually, at this point, your new migration-dependent features are in the deploy, too. So when your application restarts, and the migration hasn’t run, yet, your poor application will trip some exceptions, and perhaps, create problems for your users. Of course, you could put the app into maintenance mode, but that creates more downtime for your users.</p>
 
@@ -206,7 +323,7 @@
     <span class="print-footer">Zero Downtime Migrations - August 15, 2015 - Ken Mayer</span>
     <footer>
   <div class="credits">
-    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Zero+Downtime+Migrations&body=http%3A%2F%2Fblog.bitwrangler.com%2F2015%2F08%2F15%2Fzero-downtime-migrations.html">I'm all ears.</a></span>
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Zero+Downtime+Migrations&body=https%3A%2F%2Fblog.bitwrangler.com%2F2015%2F08%2F15%2Fzero-downtime-migrations.html">I'm all ears.</a></span>
   </div>
   <hr class="slender">
   <ul class="footer-links">

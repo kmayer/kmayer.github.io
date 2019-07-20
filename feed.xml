@@ -4,10 +4,10 @@
     <title>Ken Mayer</title>
     <description>Ramblings about technology, traveling, sailing, family, entrepeneurship. Mostly ramblings.
 </description>
-    <link>http://blog.bitwrangler.com/</link>
-    <atom:link href="http://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 23 Jun 2019 11:14:18 -0700</pubDate>
-    <lastBuildDate>Sun, 23 Jun 2019 11:14:18 -0700</lastBuildDate>
+    <link>https://blog.bitwrangler.com/</link>
+    <atom:link href="https://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 20 Jul 2019 13:25:47 -0700</pubDate>
+    <lastBuildDate>Sat, 20 Jul 2019 13:25:47 -0700</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
@@ -63,8 +63,8 @@
 &lt;/blockquote&gt;
 </description>
         <pubDate>Sun, 23 Jun 2019 00:00:00 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2019/06/23/a-parable.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2019/06/23/a-parable.html</guid>
+        <link>https://blog.bitwrangler.com/2019/06/23/a-parable.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2019/06/23/a-parable.html</guid>
         
         
       </item>
@@ -109,8 +109,8 @@
 
 </description>
         <pubDate>Mon, 30 Jul 2018 00:00:00 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2018/07/30/sleeping-well-at-night.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2018/07/30/sleeping-well-at-night.html</guid>
+        <link>https://blog.bitwrangler.com/2018/07/30/sleeping-well-at-night.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2018/07/30/sleeping-well-at-night.html</guid>
         
         <category>devops</category>
         
@@ -168,8 +168,8 @@
 &lt;p&gt;&lt;label for=&quot;stop-iteration&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;stop-iteration&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;When an enumerator gets to the end of its iterations, it raises the &lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt; exception. That’s how &lt;code class=&quot;highlighter-rouge&quot;&gt;each&lt;/code&gt; with a block is implemented. &lt;/span&gt;Even moar better: &lt;code class=&quot;highlighter-rouge&quot;&gt;loop do...end&lt;/code&gt; has some extra Ruby magic sprinkles in it: It rescues &lt;a href=&quot;https://ruby-doc.org/core/StopIteration.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt;&lt;/a&gt; for you so that when the enumerator does come to its timely end, there’s no exception raised.&lt;/p&gt;
 </description>
         <pubDate>Sun, 11 Mar 2018 00:00:00 -0800</pubDate>
-        <link>http://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</guid>
+        <link>https://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</guid>
         
         <category>ruby</category>
         
@@ -228,8 +228,8 @@
 &lt;p&gt;I’ve been on-call 24x7x365 minus vacation, in daily, weekly and monthly rotations, and not at all. I’ve been so tired that I missed the call and the boss had to call my wife to wake me up. It doesn’t happen too often, and I’ve accepted the responsibility as part of the job. I mostly enjoy it because I get to talk to real customers and hear about their pain points. I get a better sense of what’s important to them than any 3-hour death-by-powerpoint could ever give me. The customers also see that there are real, compassionate, human beings supporting them and their work. Because that’s the real thing: We build stuff to help &lt;em&gt;other&lt;/em&gt; people solve problems. Think about that the next time you drag out your luser hashtag.&lt;/p&gt;
 </description>
         <pubDate>Sun, 11 Mar 2018 00:00:00 -0800</pubDate>
-        <link>http://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html</guid>
+        <link>https://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html</guid>
         
         <category>sysadm</category>
         
@@ -257,8 +257,8 @@
 &lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;We make an offer in less than 48 hours.&lt;/span&gt;  No nail biting. We won’t leave you twisting in the breeze waiting for “someone better to come along.” Then it’s the usual negotiating, accepting, scheduling, etc. Your orientation and “indoctrination” will be pairing, in-person, with the rest of the team for 4-6 weeks at a location to be determined and mutually accepted. Once we’ve got a good feel for each other, you can return to wherever home happens to be, and we’ll start remote pairing.&lt;/p&gt;
 </description>
         <pubDate>Sun, 30 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2017/07/30/hiring-process.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2017/07/30/hiring-process.html</guid>
+        <link>https://blog.bitwrangler.com/2017/07/30/hiring-process.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2017/07/30/hiring-process.html</guid>
         
         <category>job</category>
         
@@ -292,8 +292,8 @@
 &lt;p&gt;&lt;a href=&quot;http://web.mit.edu/2.75/resources/random/How%20Complex%20Systems%20Fail.pdf&quot;&gt;How Complex Systesms Fail&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 08 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2017/07/08/do-not-push-to-red-builds.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2017/07/08/do-not-push-to-red-builds.html</guid>
+        <link>https://blog.bitwrangler.com/2017/07/08/do-not-push-to-red-builds.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2017/07/08/do-not-push-to-red-builds.html</guid>
         
         <category>agile</category>
         
@@ -336,8 +336,8 @@
 &lt;p&gt;Still confused about the &lt;a href=&quot;https://www.eecis.udel.edu/~mills/jaguar.html&quot;&gt;Jaguar Priest&lt;/a&gt;?&lt;/p&gt;
 </description>
         <pubDate>Fri, 07 Jul 2017 00:00:00 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2017/07/07/engineer.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2017/07/07/engineer.html</guid>
+        <link>https://blog.bitwrangler.com/2017/07/07/engineer.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2017/07/07/engineer.html</guid>
         
         <category>agile</category>
         
@@ -464,8 +464,8 @@
 &lt;p&gt;My last recommendation is this: Hire a really excellent DBA or outsource the whole DB platform. There are endless numbers of knobs and settings and configuration values that you might or might not get right. As your system grows to the point of being “interesting,” you’re going to need that expertise. Or, you can take advantage of PaaS companies who make it their core competency. You get a “slice” of an expert DBA. In addition, they probably know how to scale your database up (and down) better than you ever will, since they do it all the time, and you only need to do it once in awhile. Of course, if you’re lucky, you’ll have those problems that are good to have, and you can move things in-house.&lt;/p&gt;
 </description>
         <pubDate>Wed, 30 Nov 2016 00:00:00 -0800</pubDate>
-        <link>http://blog.bitwrangler.com/2016/11/30/performant-postgres-migrations.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2016/11/30/performant-postgres-migrations.html</guid>
+        <link>https://blog.bitwrangler.com/2016/11/30/performant-postgres-migrations.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2016/11/30/performant-postgres-migrations.html</guid>
         
         <category>rails</category>
         
@@ -545,8 +545,8 @@
 &lt;p&gt;There, all better. No more test pollution.&lt;/p&gt;
 </description>
         <pubDate>Thu, 10 Nov 2016 00:00:00 -0800</pubDate>
-        <link>http://blog.bitwrangler.com/2016/11/10/sacrificial-test-classes.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2016/11/10/sacrificial-test-classes.html</guid>
+        <link>https://blog.bitwrangler.com/2016/11/10/sacrificial-test-classes.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2016/11/10/sacrificial-test-classes.html</guid>
         
         
       </item>
@@ -740,8 +740,8 @@
 &lt;h2 id=&quot;fix-the-damn-leaks&quot;&gt;Fix the damn leaks!&lt;/h2&gt;
 </description>
         <pubDate>Thu, 27 Oct 2016 00:00:00 -0700</pubDate>
-        <link>http://blog.bitwrangler.com/2016/10/27/memory-leak-whack-a-mole.html</link>
-        <guid isPermaLink="true">http://blog.bitwrangler.com/2016/10/27/memory-leak-whack-a-mole.html</guid>
+        <link>https://blog.bitwrangler.com/2016/10/27/memory-leak-whack-a-mole.html</link>
+        <guid isPermaLink="true">https://blog.bitwrangler.com/2016/10/27/memory-leak-whack-a-mole.html</guid>
         
         <category>devops</category>
         

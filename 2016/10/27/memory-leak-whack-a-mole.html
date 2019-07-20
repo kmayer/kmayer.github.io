@@ -16,10 +16,10 @@
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1561313658120230000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1561313658120230000" media="print">
-  <link rel="canonical" href="http://blog.bitwrangler.com/2016/10/27/memory-leak-whack-a-mole.html">
-  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="http://blog.bitwrangler.com/feed.xml" />
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563654347791983000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563654347791983000" media="print">
+  <link rel="canonical" href="https://blog.bitwrangler.com/2016/10/27/memory-leak-whack-a-mole.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -33,6 +33,15 @@
 </script>
 
   
+  
+  
+
+
+
+
+
+
+  
 </head>
 
   <body>
@@ -40,6 +49,26 @@
 <header>
     <nav class="group">
 	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
 		
   	
 		
@@ -55,10 +84,82 @@
 	    
   	
 		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
 		    
 		      <a href="/css/print.css"></a>
 		    
 	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
   	
 		
   	
@@ -67,6 +168,28 @@
     <article class="group">
       <h1>Memory Leak Whack-a-Mole</h1>
 <p class="subtitle">October 27, 2016</p>
+
+<span>
+  
+    
+    [<a href="/tags/devops"><code><nobr>devops</nobr></code></a>]
+  
+    
+    [<a href="/tags/puma"><code><nobr>puma</nobr></code></a>]
+  
+    
+    [<a href="/tags/heroku"><code><nobr>heroku</nobr></code></a>]
+  
+    
+    [<a href="/tags/sidekiq"><code><nobr>sidekiq</nobr></code></a>]
+  
+    
+    [<a href="/tags/redis"><code><nobr>redis</nobr></code></a>]
+  
+    
+    [<a href="/tags/rails"><code><nobr>rails</nobr></code></a>]
+  
+</span>
 
 <p><label for="whack-a-mole" class="margin-toggle">⊕</label><input type="checkbox" id="whack-a-mole" class="margin-toggle" /><span class="marginnote"><img class="fullwidth" src="/assets/whack-a-mole.jpg" /><br /><a href="https://www.flickr.com/photos/tpapi/2765541278">https://www.flickr.com/photos/tpapi/2765541278</a></span>Memory leaks happen. They shouldn’t, but you just can’t squash enough of them. Or the leak is so slow that it takes hours to manifest. The trouble with memory leaks is that they are permanent for the life of a process. Once a process has expanded its <a href="http://stackoverflow.com/questions/7880784/what-is-rss-and-vsz-in-linux-memory-management">VSZ</a>, there’s no way in Unix to shrink it. So your process starts to bloat, eventually your servers <a href="http://www.folkstalk.com/2011/11/swapping-and-paging-in-unix.html">page</a> and <a href="https://en.wikipedia.org/wiki/Thrashing_(computer_science)">thrash</a>. Performance tanks. Then your pager starts going off and there goes your beauty sleep.</p>
 
@@ -260,7 +383,7 @@
     <span class="print-footer">Memory Leak Whack-a-Mole - October 27, 2016 - Ken Mayer</span>
     <footer>
   <div class="credits">
-    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Memory+Leak+Whack-a-Mole&body=http%3A%2F%2Fblog.bitwrangler.com%2F2016%2F10%2F27%2Fmemory-leak-whack-a-mole.html">I'm all ears.</a></span>
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Memory+Leak+Whack-a-Mole&body=https%3A%2F%2Fblog.bitwrangler.com%2F2016%2F10%2F27%2Fmemory-leak-whack-a-mole.html">I'm all ears.</a></span>
   </div>
   <hr class="slender">
   <ul class="footer-links">

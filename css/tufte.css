@@ -173,6 +173,39 @@
   .highlight .il {
     color: #099; }
 
+.tag-size-1 {
+  font-size: 100%; }
+
+.tag-size-2 {
+  font-size: 110%; }
+
+.tag-size-3 {
+  font-size: 120%; }
+
+.tag-size-4 {
+  font-size: 130%; }
+
+.tag-size-5 {
+  font-size: 140%; }
+
+.tag-size-6 {
+  font-size: 150%; }
+
+.tag-size-7 {
+  font-size: 160%; }
+
+.tag-size-8 {
+  font-size: 170%; }
+
+.tag-size-9 {
+  font-size: 180%; }
+
+.tag-size-10 {
+  font-size: 190%; }
+
+.tag-size-11 {
+  font-size: 200%; }
+
 * {
   margin: 0;
   padding: 0; }
