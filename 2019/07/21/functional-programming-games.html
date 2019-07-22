@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563763418893698000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563763418893698000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563772554028157000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563772554028157000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2019/07/21/functional-programming-games.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -278,7 +278,7 @@
 <span class="k">end</span>
 </code></pre></div></div>
 
-<p>This immediately diverts us into the question, “What is a <a href="https://github.com/kmayer/blackjack/blob/master/lib/blackjack/card.rb"><code class="highlighter-rouge">Card</code></a> object?” It is certainly a <a href="https://martinfowler.com/bliki/ValueObject.html">Value Object</a>. It can be sorted. When you want to get fancy, they have <a href="https://github.com/kmayer/blackjack/blob/master/lib/blackjack/suit.rb"><code class="highlighter-rouge">Suits</code></a> as well. I’m going to spare you the development of these classes, because it distracts from the core of this article, but you can get copies of them from my <a href="https://github.com/kmayer/blackjack/tree/master/lib/blackjack">blackjack-ruby</a> repository. So, just shade your eyes a little, here’s how we get started, our initializer can create a default deck of cards.</p>
+<p>This immediately diverts us into the question, “What is a <a href="https://github.com/kmayer/blackjack/blob/master/lib/blackjack/card.rb"><code class="highlighter-rouge">Card</code></a> object?” While it is certainly not a <a href="https://martinfowler.com/bliki/ValueObject.html">Value Object</a>, it can be sorted and compared. When you want to get fancy, they have <a href="https://github.com/kmayer/blackjack/blob/master/lib/blackjack/suit.rb"><code class="highlighter-rouge">Suits</code></a> as well. I’m going to spare you the development of these classes, because it distracts from the core of this article, but you can get copies of them from my <a href="https://github.com/kmayer/blackjack/tree/master/lib/blackjack">blackjack-ruby</a> repository. So, just shade your eyes a little, here’s how we get started, our initializer can create a default deck of cards.</p>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="c1"># deck.rb</span>
@@ -352,7 +352,7 @@
 <span class="k">end</span>
 </code></pre></div></div>
 
-<p>The return signature is an <code class="highlighter-rouge">Array</code> that we nicely destructure out into the two variables, <code class="highlighter-rouge">card</code> and <code class="highlighter-rouge">new_deck</code>. Because all we need to do is initialize a new deck with the desired cards, we can do this: <label for="deeply_frozen_duplicates" class="margin-toggle"> ⊕</label><input type="checkbox" id="deeply_frozen_duplicates" class="margin-toggle" /><span class="marginnote">I’m of two minds about this method: The drawn card is not a copy, it is actually the same card object. Neither are the cards in the deck, but the <code class="highlighter-rouge">Deck</code> <em>is</em> new. I think that it’s okay though. It’s the equivalent of maintaining references to the same <code class="highlighter-rouge">Integer(1)</code> object throughout the code. </span></p>
+<p>The return signature is an <code class="highlighter-rouge">Array</code> that we nicely destructure out into the two variables, <code class="highlighter-rouge">card</code> and <code class="highlighter-rouge">new_deck</code>. Because all we need to do is initialize a new deck with the desired cards, we can do this:</p>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 <span class="c1"># deck.rb</span>

@@ -6,8 +6,8 @@
 </description>
     <link>https://blog.bitwrangler.com/</link>
     <atom:link href="https://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 21 Jul 2019 19:43:38 -0700</pubDate>
-    <lastBuildDate>Sun, 21 Jul 2019 19:43:38 -0700</lastBuildDate>
+    <pubDate>Sun, 21 Jul 2019 22:15:54 -0700</pubDate>
+    <lastBuildDate>Sun, 21 Jul 2019 22:15:54 -0700</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
     
       <item>
@@ -70,7 +70,7 @@
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;This immediately diverts us into the question, “What is a &lt;a href=&quot;https://github.com/kmayer/blackjack/blob/master/lib/blackjack/card.rb&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Card&lt;/code&gt;&lt;/a&gt; object?” It is certainly a &lt;a href=&quot;https://martinfowler.com/bliki/ValueObject.html&quot;&gt;Value Object&lt;/a&gt;. It can be sorted. When you want to get fancy, they have &lt;a href=&quot;https://github.com/kmayer/blackjack/blob/master/lib/blackjack/suit.rb&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Suits&lt;/code&gt;&lt;/a&gt; as well. I’m going to spare you the development of these classes, because it distracts from the core of this article, but you can get copies of them from my &lt;a href=&quot;https://github.com/kmayer/blackjack/tree/master/lib/blackjack&quot;&gt;blackjack-ruby&lt;/a&gt; repository. So, just shade your eyes a little, here’s how we get started, our initializer can create a default deck of cards.&lt;/p&gt;
+&lt;p&gt;This immediately diverts us into the question, “What is a &lt;a href=&quot;https://github.com/kmayer/blackjack/blob/master/lib/blackjack/card.rb&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Card&lt;/code&gt;&lt;/a&gt; object?” While it is certainly not a &lt;a href=&quot;https://martinfowler.com/bliki/ValueObject.html&quot;&gt;Value Object&lt;/a&gt;, it can be sorted and compared. When you want to get fancy, they have &lt;a href=&quot;https://github.com/kmayer/blackjack/blob/master/lib/blackjack/suit.rb&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Suits&lt;/code&gt;&lt;/a&gt; as well. I’m going to spare you the development of these classes, because it distracts from the core of this article, but you can get copies of them from my &lt;a href=&quot;https://github.com/kmayer/blackjack/tree/master/lib/blackjack&quot;&gt;blackjack-ruby&lt;/a&gt; repository. So, just shade your eyes a little, here’s how we get started, our initializer can create a default deck of cards.&lt;/p&gt;
 
 &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;c1&quot;&gt;# deck.rb&lt;/span&gt;
@@ -144,7 +144,7 @@
 &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;The return signature is an &lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt; that we nicely destructure out into the two variables, &lt;code class=&quot;highlighter-rouge&quot;&gt;card&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;new_deck&lt;/code&gt;. Because all we need to do is initialize a new deck with the desired cards, we can do this: &lt;label for=&quot;deeply_frozen_duplicates&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;deeply_frozen_duplicates&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;I’m of two minds about this method: The drawn card is not a copy, it is actually the same card object. Neither are the cards in the deck, but the &lt;code class=&quot;highlighter-rouge&quot;&gt;Deck&lt;/code&gt; &lt;em&gt;is&lt;/em&gt; new. I think that it’s okay though. It’s the equivalent of maintaining references to the same &lt;code class=&quot;highlighter-rouge&quot;&gt;Integer(1)&lt;/code&gt; object throughout the code. &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The return signature is an &lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt; that we nicely destructure out into the two variables, &lt;code class=&quot;highlighter-rouge&quot;&gt;card&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;new_deck&lt;/code&gt;. Because all we need to do is initialize a new deck with the desired cards, we can do this:&lt;/p&gt;
 
 &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;c1&quot;&gt;# deck.rb&lt;/span&gt;
