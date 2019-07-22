@@ -15,9 +15,11 @@
   
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563657212400113000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563657212400113000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563761401981011000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563761401981011000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2013/04/17/sencha-touch-bdd-part-1.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -88,6 +90,8 @@
 		
   	
 		
+  	
+		
 		    
 		      <a href="/">blog</a>
 		    
@@ -98,6 +102,8 @@
 		      <a href="/about/">About the Global Village Idiot</a>
 		    
 	    
+  	
+		
   	
 		
   	
@@ -191,6 +197,8 @@
   	
 		
   	
+		
+  	
 	</nav>
 </header>
     <article class="group">
@@ -200,10 +208,7 @@
 <span>
   
     
-    [<a href="/tags/bdd"><code><nobr>bdd</nobr></code></a>]
-  
-    
-    [<a href="/tags/jasmine"><code><nobr>jasmine</nobr></code></a>]
+    [<a href="/tags/behavior-driven-design"><code><nobr>behavior-driven-design</nobr></code></a>]
   
     
     [<a href="/tags/javascript"><code><nobr>javascript</nobr></code></a>]
@@ -213,9 +218,6 @@
   
     
     [<a href="/tags/sencha"><code><nobr>sencha</nobr></code></a>]
-  
-    
-    [<a href="/tags/sencha-touch"><code><nobr>sencha-touch</nobr></code></a>]
   
 </span>
 
@@ -238,14 +240,14 @@
 <p><code>pow</code> looks for a <a href="http://rack.github.io/">rack</a> app, but in my sample app, I don’t have one. <code>pow</code> also looks for a directory named <code>public</code> from which it will server static files. The simplest thing that works is to create a symlink named <code>public</code> that points to the root directory of the project.</p>
 
 <figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="c"># Generate a new ST app</span>
-<span class="nv">$ </span><span class="nb">cd</span> &lt;touch toolkit directory&gt;
+<span class="nv">$ </span><span class="nb">cd</span> &lt;<span class="nb">touch </span>toolkit directory&gt;
 <span class="nv">$ </span>sencha generate app senchaBdd ~/workspace/sencha-bdd
 
 <span class="c"># Set up pow/powder</span>
 <span class="nv">$ </span><span class="nb">cd</span> ~/workspace/sencha-bdd
-<span class="nv">$ </span>ln <span class="nt">-s</span> <span class="nb">.</span> public
+<span class="nv">$ </span><span class="nb">ln</span> <span class="nt">-s</span> <span class="nb">.</span> public
 <span class="nv">$ </span>powder up
-<span class="nv">$ </span>powder link
+<span class="nv">$ </span>powder <span class="nb">link</span>
 
 <span class="c"># Test the server</span>
 <span class="nv">$ </span>open http://sencha-bdd.dev</code></pre></figure>
@@ -278,9 +280,9 @@
 <p>Run <code>jasmine init</code></p>
 </li>
 <li>Jasmine will install a basic set up, but there’s some cruft that you won’t need for a Sencha application.
-<figure class="highlight"><pre><code class="language-sh" data-lang="sh">rm public/javascripts/Player.js
-rm public/javascripts/Song.js
-rm spec/javascripts/PlayerSpec.js</code></pre></figure>
+<figure class="highlight"><pre><code class="language-sh" data-lang="sh"><span class="nb">rm </span>public/javascripts/Player.js
+<span class="nb">rm </span>public/javascripts/Song.js
+<span class="nb">rm </span>spec/javascripts/PlayerSpec.js</code></pre></figure>
 </li>
 <li>Edit the src_files entry in <code>spec/javascripts/support/jasmine.yml</code>:
 <figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span class="na">src_files</span><span class="pi">:</span>
@@ -295,15 +297,15 @@ rm spec/javascripts/PlayerSpec.js</code></pre></figure>
 <span class="p">});</span>
 
 <span class="nx">Ext</span><span class="p">.</span><span class="nx">Loader</span><span class="p">.</span><span class="nx">setPath</span><span class="p">({</span>
-    <span class="s1">'SenchaBdd'</span><span class="p">:</span> <span class="s1">'app'</span>              <span class="c1">// Set the path for all SenchaBdd.* classes</span>
+    <span class="dl">'</span><span class="s1">SenchaBdd</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">app</span><span class="dl">'</span>              <span class="c1">// Set the path for all SenchaBdd.* classes</span>
 <span class="p">});</span>
 
 <span class="nx">Ext</span><span class="p">.</span><span class="nx">application</span><span class="p">({</span>
-    <span class="na">name</span><span class="p">:</span> <span class="s1">'SenchaBdd'</span>               <span class="c1">// Create (but don't launch) an application</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">SenchaBdd</span><span class="dl">'</span>               <span class="c1">// Create (but don't launch) an application</span>
 <span class="p">});</span></code></pre></figure>
 </li>
 <li>And this one in <code>spec/javascripts/helpers/SpecHelper.js</code>:
-<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">Ext</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s1">'Ext.data.Model'</span><span class="p">);</span>
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">Ext</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">Ext.data.Model</span><span class="dl">'</span><span class="p">);</span>
 
 <span class="nx">afterEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
     <span class="nx">Ext</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">cache</span> <span class="o">=</span> <span class="p">{};</span>      <span class="c1">// Clear any cached models</span>
@@ -311,14 +313,14 @@ rm spec/javascripts/PlayerSpec.js</code></pre></figure>
 
 <span class="kd">var</span> <span class="nx">domEl</span><span class="p">;</span>
 <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>            <span class="c1">// Reset the div with a new one.</span>
-    <span class="nx">domEl</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'div'</span><span class="p">);</span>
-    <span class="nx">domEl</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'id'</span><span class="p">,</span> <span class="s1">'jasmine_content'</span><span class="p">);</span>
-    <span class="kd">var</span> <span class="nx">oldEl</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'jasmine_content'</span><span class="p">);</span>
+    <span class="nx">domEl</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="dl">'</span><span class="s1">div</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">domEl</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="dl">'</span><span class="s1">id</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">jasmine_content</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">oldEl</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">jasmine_content</span><span class="dl">'</span><span class="p">);</span>
     <span class="nx">oldEl</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">.</span><span class="nx">replaceChild</span><span class="p">(</span><span class="nx">domEl</span><span class="p">,</span> <span class="nx">oldEl</span><span class="p">);</span>
 <span class="p">});</span>
 
 <span class="nx">afterEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>             <span class="c1">// Make the test runner look pretty</span>
-    <span class="nx">domEl</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'style'</span><span class="p">,</span> <span class="s1">'display:none;'</span><span class="p">);</span>
+    <span class="nx">domEl</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="dl">'</span><span class="s1">style</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">display:none;</span><span class="dl">'</span><span class="p">);</span>
 <span class="p">});</span></code></pre></figure>
 </li>
 </ol>
@@ -362,7 +364,7 @@ rm spec/javascripts/PlayerSpec.js</code></pre></figure>
 │   ├── profile
 │   ├── store
 │   └── view
-└── touch</code></pre></figure>
+└── <span class="nb">touch</span></code></pre></figure>
 
 
 <p>In order to get Jasmine going, you need a special html file named, by convention, <code>SpecRunner</code>. Add it to spec/ as well. It looks like this:</p>
@@ -373,8 +375,8 @@ rm spec/javascripts/PlayerSpec.js</code></pre></figure>
 
 <p>Create a file, <code>spec/javascripts/sanitySpec.js</code></p>
 
-<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">describe</span><span class="p">(</span><span class="s2">"Sanity"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">it</span><span class="p">(</span><span class="s2">"succeeds"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">describe</span><span class="p">(</span><span class="dl">"</span><span class="s2">Sanity</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="dl">"</span><span class="s2">succeeds</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">expect</span><span class="p">(</span><span class="kc">true</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">});</span></code></pre></figure>

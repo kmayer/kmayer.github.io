@@ -6,9 +6,9 @@
 </description>
     <link>https://blog.bitwrangler.com/</link>
     <atom:link href="https://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 20 Jul 2019 14:13:32 -0700</pubDate>
-    <lastBuildDate>Sat, 20 Jul 2019 14:13:32 -0700</lastBuildDate>
-    <generator>Jekyll v3.8.5</generator>
+    <pubDate>Sun, 21 Jul 2019 19:10:01 -0700</pubDate>
+    <lastBuildDate>Sun, 21 Jul 2019 19:10:01 -0700</lastBuildDate>
+    <generator>Jekyll v3.8.6</generator>
     
       <item>
         <title>A Parable About Allies</title>
@@ -260,7 +260,7 @@
         <link>https://blog.bitwrangler.com/2017/07/30/hiring-process.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2017/07/30/hiring-process.html</guid>
         
-        <category>job</category>
+        <category>jobs</category>
         
         <category>interviews</category>
         
@@ -299,9 +299,9 @@
         
         <category>xp</category>
         
-        <category>mantras</category>
-        
         <category>testing</category>
+        
+        <category>sre</category>
         
         
       </item>
@@ -341,21 +341,17 @@
         
         <category>agile</category>
         
-        <category>tdd</category>
+        <category>test-driven-design</category>
         
         <category>pairing</category>
         
         <category>jobs</category>
         
-        <category>rubyonrails</category>
+        <category>rails</category>
         
         <category>reactjs</category>
         
         <category>heroku</category>
-        
-        <category>circleci</category>
-        
-        <category>codeclimate</category>
         
         <category>cloud</category>
         
@@ -363,19 +359,7 @@
         
         <category>testing</category>
         
-        <category>postgresql</category>
-        
-        <category>redis</category>
-        
-        <category>aws</category>
-        
-        <category>s3</category>
-        
         <category>legal</category>
-        
-        <category>pacer</category>
-        
-        <category>opendata</category>
         
         
       </item>
@@ -471,7 +455,7 @@
         
         <category>postgres</category>
         
-        <category>scale</category>
+        <category>scaling</category>
         
         
       </item>

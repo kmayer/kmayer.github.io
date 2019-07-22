@@ -15,9 +15,11 @@
   
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563657212400113000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563657212400113000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563761401981011000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563761401981011000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2013/04/26/sencha-touch-bdd-part-2.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -88,6 +90,8 @@
 		
   	
 		
+  	
+		
 		    
 		      <a href="/">blog</a>
 		    
@@ -98,6 +102,8 @@
 		      <a href="/about/">About the Global Village Idiot</a>
 		    
 	    
+  	
+		
   	
 		
   	
@@ -191,6 +197,8 @@
   	
 		
   	
+		
+  	
 	</nav>
 </header>
     <article class="group">
@@ -200,10 +208,7 @@
 <span>
   
     
-    [<a href="/tags/bdd"><code><nobr>bdd</nobr></code></a>]
-  
-    
-    [<a href="/tags/jasmine"><code><nobr>jasmine</nobr></code></a>]
+    [<a href="/tags/behavior-driven-design"><code><nobr>behavior-driven-design</nobr></code></a>]
   
     
     [<a href="/tags/javascript"><code><nobr>javascript</nobr></code></a>]
@@ -212,10 +217,10 @@
     [<a href="/tags/mobile"><code><nobr>mobile</nobr></code></a>]
   
     
-    [<a href="/tags/sencha-touch"><code><nobr>sencha-touch</nobr></code></a>]
+    [<a href="/tags/sencha"><code><nobr>sencha</nobr></code></a>]
   
     
-    [<a href="/tags/unit-testing"><code><nobr>unit-testing</nobr></code></a>]
+    [<a href="/tags/testing"><code><nobr>testing</nobr></code></a>]
   
 </span>
 
@@ -226,10 +231,10 @@
 <p>Test-Driven-Development starts with a test, of course. Let’s write one that just asserts that our model class <em>exists</em>:</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModelSpec</span><span class="p">.</span><span class="nx">js</span>
-<span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">it</span><span class="p">(</span><span class="s1">'exists'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">);</span>
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">$className</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">);</span>
+<span class="nx">describe</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.model.MyModel</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">exists</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.model.MyModel</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="nx">$className</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.model.MyModel</span><span class="dl">'</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">});</span></code></pre></figure>
 
@@ -245,8 +250,8 @@
 <p>Let’s write one that makes the test pass:</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModel</span><span class="p">.</span><span class="nx">js</span>
-<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Model'</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.model.MyModel</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ext.data.Model</span><span class="dl">'</span>
 <span class="p">});</span></code></pre></figure>
 
 <p>We have proven that we can create a new class, and that it’s name is what we expect.</p>
@@ -256,28 +261,28 @@
 <p>Let’s assert that our model has some attributes:</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModelSpec</span><span class="p">.</span><span class="nx">js</span>
-<span class="nx">it</span><span class="p">(</span><span class="s1">'has data'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">,</span> <span class="p">{</span>
-    <span class="na">name</span><span class="p">:</span> <span class="s1">'Test'</span><span class="p">,</span>
-    <span class="na">email</span><span class="p">:</span> <span class="s1">'test@example.com'</span><span class="p">,</span>
-    <span class="na">favoriteColor</span><span class="p">:</span> <span class="s1">'blue'</span>
+<span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">has data</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.model.MyModel</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Test</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">email</span><span class="p">:</span> <span class="dl">'</span><span class="s1">test@example.com</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">favoriteColor</span><span class="p">:</span> <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span>
   <span class="p">});</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'Test'</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'test@example.com'</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'favoriteColor'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">name</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">Test</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">email</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">test@example.com</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">favoriteColor</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">);</span>
 <span class="p">});</span></code></pre></figure>
 
 
 <p>Which of course, fails, until we add some fields to our model:</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModel</span><span class="p">.</span><span class="nx">js</span>
-<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Model'</span><span class="p">,</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.model.MyModel</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ext.data.Model</span><span class="dl">'</span><span class="p">,</span>
   <span class="na">config</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">fields</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'name'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'string'</span> <span class="p">},</span>
-      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'email'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'string'</span> <span class="p">},</span>
-      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="s1">'favoriteColor'</span> <span class="p">}</span>
+      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">name</span><span class="dl">'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">email</span><span class="dl">'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">favoriteColor</span><span class="dl">'</span> <span class="p">}</span>
     <span class="p">]</span>
   <span class="p">}</span>
 <span class="p">});</span></code></pre></figure>
@@ -287,9 +292,9 @@
 <p>Let’s say that our model has some default values</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModelSpec</span><span class="p">.</span><span class="nx">js</span>
-<span class="nx">it</span><span class="p">(</span><span class="s1">'has default values'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">)</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="s1">'favoriteColor'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'yellow'</span><span class="p">);</span>
+<span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">has default values</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.model.MyModel</span><span class="dl">'</span><span class="p">)</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">model</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">favoriteColor</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">yellow</span><span class="dl">'</span><span class="p">);</span>
 <span class="p">})</span></code></pre></figure>
 
 
@@ -303,18 +308,18 @@
 <p>Which is easily resolved by adding it to the class:</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModel</span><span class="p">.</span><span class="nx">js</span>
-<span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="s1">'favoriteColor'</span><span class="p">,</span> <span class="nx">defaultValue</span><span class="p">:</span> <span class="s1">'yellow'</span> <span class="p">}</span></code></pre></figure>
+<span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">favoriteColor</span><span class="dl">'</span><span class="p">,</span> <span class="nx">defaultValue</span><span class="p">:</span> <span class="dl">'</span><span class="s1">yellow</span><span class="dl">'</span> <span class="p">}</span></code></pre></figure>
 
 <h3 id="validations">Validations</h3>
 <p>One last simple piece, let’s assert that email is a <em>required</em> field.</p>
 
 <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">spec</span><span class="o">/</span><span class="nx">javascripts</span><span class="o">/</span><span class="nx">model</span><span class="o">/</span><span class="nx">MyModelSpec</span><span class="p">.</span><span class="nx">js</span>
-<span class="nx">it</span><span class="p">(</span><span class="s1">'requires an email address'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.model.MyModel'</span><span class="p">);</span>
+<span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">requires an email address</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">model</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.model.MyModel</span><span class="dl">'</span><span class="p">);</span>
   <span class="kd">var</span> <span class="nx">errors</span> <span class="o">=</span> <span class="nx">model</span><span class="p">.</span><span class="nx">validate</span><span class="p">();</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">isValid</span><span class="p">()).</span><span class="nx">toBeFalsy</span><span class="p">();</span>
 
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">getByField</span><span class="p">(</span><span class="s1">'email'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getMessage</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'must be present'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">errors</span><span class="p">.</span><span class="nx">getByField</span><span class="p">(</span><span class="dl">'</span><span class="s1">email</span><span class="dl">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">].</span><span class="nx">getMessage</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">must be present</span><span class="dl">'</span><span class="p">);</span>
 <span class="p">})</span></code></pre></figure>
 
 
@@ -324,7 +329,7 @@
   <span class="nx">config</span><span class="p">:</span> <span class="p">{</span>
     <span class="p">...</span>
     <span class="nx">validations</span><span class="p">:</span> <span class="p">[</span>
-      <span class="p">{</span> <span class="na">field</span><span class="p">:</span> <span class="s1">'email'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="s1">'presence'</span> <span class="p">}</span>
+      <span class="p">{</span> <span class="na">field</span><span class="p">:</span> <span class="dl">'</span><span class="s1">email</span><span class="dl">'</span><span class="p">,</span> <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">presence</span><span class="dl">'</span> <span class="p">}</span>
     <span class="p">]</span></code></pre></figure>
 
 <h2 id="roundup">Roundup</h2>

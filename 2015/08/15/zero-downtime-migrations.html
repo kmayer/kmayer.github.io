@@ -15,9 +15,11 @@
   
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563657212400113000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563657212400113000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563761401981011000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563761401981011000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2015/08/15/zero-downtime-migrations.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -49,6 +51,8 @@
 <header>
     <nav class="group">
 	
+		
+  	
 		
   	
 		
@@ -138,10 +142,14 @@
 		
   	
 		
+  	
+		
 		    
 		      <a href="/css/print.css"></a>
 		    
 	    
+  	
+		
   	
 		
   	
@@ -309,7 +317,7 @@
 <h3 id="13-clean-up">13. Clean up</h3>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch <span class="nt">-D</span> pre-deploy-migrations
- rm patch0
+ <span class="nb">rm </span>patch0
 </code></pre></div></div>
 
 <h3 id="14-bask-in-the-glow-of-your-mastery">14. Bask in the glow of your mastery!</h3>

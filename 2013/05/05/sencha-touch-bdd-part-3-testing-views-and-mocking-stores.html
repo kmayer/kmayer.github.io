@@ -15,9 +15,11 @@
   
   <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
   
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563657212400113000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563657212400113000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563761401981011000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563761401981011000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -88,6 +90,8 @@
 		
   	
 		
+  	
+		
 		    
 		      <a href="/">blog</a>
 		    
@@ -98,6 +102,8 @@
 		      <a href="/about/">About the Global Village Idiot</a>
 		    
 	    
+  	
+		
   	
 		
   	
@@ -191,6 +197,8 @@
   	
 		
   	
+		
+  	
 	</nav>
 </header>
     <article class="group">
@@ -200,10 +208,7 @@
 <span>
   
     
-    [<a href="/tags/bdd"><code><nobr>bdd</nobr></code></a>]
-  
-    
-    [<a href="/tags/jasmine"><code><nobr>jasmine</nobr></code></a>]
+    [<a href="/tags/behavior-driven-design"><code><nobr>behavior-driven-design</nobr></code></a>]
   
     
     [<a href="/tags/javascript"><code><nobr>javascript</nobr></code></a>]
@@ -213,9 +218,6 @@
   
     
     [<a href="/tags/sencha"><code><nobr>sencha</nobr></code></a>]
-  
-    
-    [<a href="/tags/sencha-touch"><code><nobr>sencha-touch</nobr></code></a>]
   
     
     [<a href="/tags/testing"><code><nobr>testing</nobr></code></a>]
@@ -241,25 +243,25 @@
 
 <p>Let’s define a very simple view via tests, we’ll make it work using an in-line store, then we’ll refactor the store into its own class. Next, we’ll refactor the storage class to use a remote back-end.</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">);</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.view.MyView</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="nx">it</span><span class="p">(</span><span class="s2">"has a list of colors"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">,</span> <span class="p">{</span>
-      <span class="na">renderTo</span><span class="p">:</span> <span class="s1">'jasmine_content'</span><span class="p">,</span>
+<span class="nx">describe</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.view.MyView</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="dl">"</span><span class="s2">has a list of colors</span><span class="dl">"</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">view</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.view.MyView</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">renderTo</span><span class="p">:</span> <span class="dl">'</span><span class="s1">jasmine_content</span><span class="dl">'</span><span class="p">,</span>
       <span class="na">store</span><span class="p">:</span>    <span class="p">{</span>
-        <span class="na">fields</span><span class="p">:</span> <span class="p">[</span><span class="s1">'color'</span><span class="p">],</span>
+        <span class="na">fields</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">color</span><span class="dl">'</span><span class="p">],</span>
         <span class="na">data</span><span class="p">:</span>   <span class="p">[</span>
-          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">},</span>
-          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
-          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">}</span>
+          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">},</span>
+          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">green</span><span class="dl">'</span><span class="p">},</span>
+          <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">}</span>
         <span class="p">]</span>
       <span class="p">}</span>
     <span class="p">});</span>
 
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">Ext</span><span class="p">.</span><span class="nx">DomQuery</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s1">'.favorite-color'</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">Ext</span><span class="p">.</span><span class="nx">DomQuery</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="dl">'</span><span class="s1">.favorite-color</span><span class="dl">'</span><span class="p">).</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="nx">el</span><span class="p">.</span><span class="nx">textContent</span>
-    <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="s1">', '</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'red, green, blue'</span><span class="p">);</span>
+    <span class="p">}).</span><span class="nx">join</span><span class="p">(</span><span class="dl">'</span><span class="s1">, </span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">red, green, blue</span><span class="dl">'</span><span class="p">);</span>
 
   <span class="p">});</span>
 <span class="p">});</span>
@@ -269,11 +271,11 @@
 
 <p>Try implementing the view on your own to make the test pass. It should look remarkably similar to this:</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.view.MyView'</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.dataview.DataView'</span><span class="p">,</span>
-  <span class="na">xtype</span><span class="p">:</span>  <span class="s1">'myview'</span><span class="p">,</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.view.MyView</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ext.dataview.DataView</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">xtype</span><span class="p">:</span>  <span class="dl">'</span><span class="s1">myview</span><span class="dl">'</span><span class="p">,</span>
   <span class="na">config</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">itemTpl</span><span class="p">:</span> <span class="s1">'&lt;div class="favorite-color"&gt;{color}&lt;/div&gt;'</span>
+    <span class="na">itemTpl</span><span class="p">:</span> <span class="dl">'</span><span class="s1">&lt;div class="favorite-color"&gt;{color}&lt;/div&gt;</span><span class="dl">'</span>
   <span class="p">}</span>
 <span class="p">});</span>
 </code></pre></div></div>
@@ -282,8 +284,8 @@
 
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">--- a/app/view/Main.js
 </span><span class="gi">+++ b/app/view/Main.js
-</span><span class="gu">@@ -10,6 +10,11 @@ Ext.define('SenchaBdd.view.Main', {
-</span>
+</span><span class="p">@@ -10,6 +10,11 @@</span> Ext.define('SenchaBdd.view.Main', {
+
          items: [
 <span class="gi">+            {
 +              title: 'Favorites',
@@ -299,15 +301,15 @@
 
 <p>Let’s create a store so our view will show us something:</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Store'</span><span class="p">,</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.store.MyStore</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ext.data.Store</span><span class="dl">'</span><span class="p">,</span>
   <span class="na">config</span><span class="p">:</span>    <span class="p">{</span>
-    <span class="na">storeId</span><span class="p">:</span> <span class="s1">'mystore'</span><span class="p">,</span>
-    <span class="na">fields</span><span class="p">:</span> <span class="p">[</span><span class="s1">'color'</span><span class="p">],</span>
+    <span class="na">storeId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">mystore</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">fields</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">color</span><span class="dl">'</span><span class="p">],</span>
     <span class="na">data</span><span class="p">:</span>   <span class="p">[</span>
-      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">},</span>
-      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
-      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">}</span>
+      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">},</span>
+      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">green</span><span class="dl">'</span><span class="p">},</span>
+      <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">}</span>
     <span class="p">]</span>
   <span class="p">}</span>
 <span class="p">});</span>
@@ -317,16 +319,16 @@
 
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">--- a/app.js
 </span><span class="gi">+++ b/app.js
-</span><span class="gu">@@ -31,7 +31,11 @@ Ext.application({
-</span>     ],
+</span><span class="p">@@ -31,7 +31,11 @@</span> Ext.application({
+     ],
 
      views: [
 <span class="gd">-        'Main'
 </span><span class="gi">+        'Main', 'MyView'
 </span>     ],
 
-<span class="gi">+    stores: [
-+            'MyStore'
++    stores: [
+<span class="gi">+            'MyStore'
 +    ],
 </span>
      icon: {
@@ -336,8 +338,8 @@
 
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/view/MyViewSpec.js
 </span><span class="gi">+++ b/spec/javascripts/view/MyViewSpec.js
-</span><span class="gu">@@ -2,17 +2,16 @@ Ext.require('SenchaBdd.view.MyView');
-</span>
+</span><span class="p">@@ -2,17 +2,16 @@</span> Ext.require('SenchaBdd.view.MyView');
+
  describe('SenchaBdd.view.MyView', function () {
    it("has a list of colors", function () {
 <span class="gi">+    var store = Ext.create('SenchaBdd.store.MyStore', {
@@ -378,18 +380,18 @@ git add ./mock-ajax.js
 <p>And we’ll create our first store spec in
 <code class="highlighter-rouge">spec/javascripts/store/MyStoreSpec.js</code>:</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.store.MyStore</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">store</span><span class="p">;</span>
   <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
     <span class="nx">jasmine</span><span class="p">.</span><span class="nx">Ajax</span><span class="p">.</span><span class="nx">useMock</span><span class="p">();</span>
     <span class="nx">clearAjaxRequests</span><span class="p">();</span>
-    <span class="nx">store</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">)</span>
+    <span class="nx">store</span> <span class="o">=</span> <span class="nx">Ext</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.store.MyStore</span><span class="dl">'</span><span class="p">)</span>
   <span class="p">});</span>
 
-  <span class="nx">it</span><span class="p">(</span><span class="s1">'calls out to the proper url'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">calls out to the proper url</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
     <span class="nx">store</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
     <span class="kd">var</span> <span class="nx">request</span> <span class="o">=</span> <span class="nx">mostRecentAjaxRequest</span><span class="p">();</span>
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'/colors.json'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">request</span><span class="p">.</span><span class="nx">url</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">/colors.json</span><span class="dl">'</span><span class="p">);</span>
   <span class="p">});</span>
 <span class="p">});</span>
 </code></pre></div></div>
@@ -399,15 +401,15 @@ git add ./mock-ajax.js
 <p>When you run Jasmine, you’ll get a test failure, “TypeError: Cannot read property ‘url’ of null” because we haven’t set up the proxy in the store, yet. Let’s do that.</p>
 
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">$</span> <span class="nx">cat</span> <span class="nx">app</span><span class="o">/</span><span class="nx">store</span><span class="o">/</span><span class="nx">MyStore</span><span class="p">.</span><span class="nx">js</span>
-<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s1">'SenchaBdd.store.MyStore'</span><span class="p">,</span> <span class="p">{</span>
-  <span class="na">extend</span><span class="p">:</span> <span class="s1">'Ext.data.Store'</span><span class="p">,</span>
+<span class="nx">Ext</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="dl">'</span><span class="s1">SenchaBdd.store.MyStore</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">extend</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Ext.data.Store</span><span class="dl">'</span><span class="p">,</span>
   <span class="na">config</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">autoLoad</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-    <span class="na">storeId</span><span class="p">:</span>  <span class="s1">'mystore'</span><span class="p">,</span>
-    <span class="na">fields</span><span class="p">:</span>   <span class="p">[</span><span class="s1">'color'</span><span class="p">],</span>
+    <span class="na">storeId</span><span class="p">:</span>  <span class="dl">'</span><span class="s1">mystore</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">fields</span><span class="p">:</span>   <span class="p">[</span><span class="dl">'</span><span class="s1">color</span><span class="dl">'</span><span class="p">],</span>
     <span class="na">proxy</span><span class="p">:</span>    <span class="p">{</span>
-      <span class="na">type</span><span class="p">:</span>       <span class="s1">'ajax'</span><span class="p">,</span>
-      <span class="na">url</span><span class="p">:</span>        <span class="s1">'/colors.json'</span>
+      <span class="na">type</span><span class="p">:</span>       <span class="dl">'</span><span class="s1">ajax</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">:</span>        <span class="dl">'</span><span class="s1">/colors.json</span><span class="dl">'</span>
     <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">});</span>
@@ -417,8 +419,8 @@ git add ./mock-ajax.js
 <em>different</em> error! This is because the default settings for the ajax proxy enables caching, paging, etc. Things we don’t need, so we have to turn them off:</p>
 
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nx">proxy</span><span class="p">:</span>   <span class="p">{</span>
-      <span class="nl">type</span><span class="p">:</span>       <span class="s1">'ajax'</span><span class="p">,</span>
-      <span class="nx">url</span><span class="p">:</span>        <span class="s1">'/colors.json'</span><span class="p">,</span>
+      <span class="nl">type</span><span class="p">:</span>       <span class="dl">'</span><span class="s1">ajax</span><span class="dl">'</span><span class="p">,</span>
+      <span class="nx">url</span><span class="p">:</span>        <span class="dl">'</span><span class="s1">/colors.json</span><span class="dl">'</span><span class="p">,</span>
       <span class="nx">noCache</span><span class="p">:</span>    <span class="kc">false</span><span class="p">,</span>
       <span class="nx">pageParam</span><span class="p">:</span>  <span class="kc">false</span><span class="p">,</span>
       <span class="nx">startParam</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
@@ -430,23 +432,23 @@ git add ./mock-ajax.js
 
 <p>Let’s add one more test to finish things off.</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">it</span><span class="p">(</span><span class="s1">'populates the collection'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">populates the collection</span><span class="dl">'</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
     <span class="nx">store</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
     <span class="kd">var</span> <span class="nx">mockedRequest</span> <span class="o">=</span> <span class="nx">mostRecentAjaxRequest</span><span class="p">();</span>
 
     <span class="nx">mockedRequest</span><span class="p">.</span><span class="nx">response</span><span class="p">({</span>
       <span class="na">status</span><span class="p">:</span>       <span class="mi">200</span><span class="p">,</span>
       <span class="na">responseText</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'red'</span><span class="p">},</span>
-        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'green'</span><span class="p">},</span>
-        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="s1">'blue'</span><span class="p">}</span>
+        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">green</span><span class="dl">'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">}</span>
       <span class="p">]</span>
     <span class="p">});</span>
 
     <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getCount</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'red'</span><span class="p">);</span>
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'green'</span><span class="p">);</span>
-    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">color</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">color</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">green</span><span class="dl">'</span><span class="p">);</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">color</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">);</span>
   <span class="p">});</span>
 </code></pre></div></div>
 
@@ -464,9 +466,9 @@ SpecHelper.js file:</p>
 
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">myStoreDataIsValid</span><span class="p">(</span><span class="nx">store</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getCount</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'red'</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'green'</span><span class="p">);</span>
-  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="s1">'color'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s1">'blue'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">color</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">red</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">color</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">green</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">store</span><span class="p">.</span><span class="nx">getAt</span><span class="p">(</span><span class="mi">2</span><span class="p">).</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">color</span><span class="dl">'</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="dl">'</span><span class="s1">blue</span><span class="dl">'</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
@@ -479,8 +481,8 @@ SpecHelper.js file:</p>
 
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/view/MyViewSpec.js
 </span><span class="gi">+++ b/spec/javascripts/view/MyViewSpec.js
-</span><span class="gu">@@ -9,6 +9,7 @@ describe('SenchaBdd.view.MyView', function () {
-</span>         {color: 'blue'}
+</span><span class="p">@@ -9,6 +9,7 @@</span> describe('SenchaBdd.view.MyView', function () {
+         {color: 'blue'}
        ]
      });
 <span class="gi">+    myStoreDataIsValid(store);
@@ -492,12 +494,12 @@ SpecHelper.js file:</p>
 <p>Similarly, we can refactor our colors array into var:</p>
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/helpers/SpecHelper.js
 </span><span class="gi">+++ b/spec/javascripts/helpers/SpecHelper.js
-</span><span class="gu">@@ -16,6 +16,15 @@ afterEach(function () {
-</span>     domEl.setAttribute('style', 'display:none;');
+</span><span class="p">@@ -16,6 +16,15 @@</span> afterEach(function () {
+     domEl.setAttribute('style', 'display:none;');
  });
 
-<span class="gi">+var colorsJSON;
-+beforeEach(function() {
++var colorsJSON;
+<span class="gi">+beforeEach(function() {
 +  colorsJSON = [
 +    {color: 'red'},
 +    {color: 'green'},
@@ -510,8 +512,8 @@ SpecHelper.js file:</p>
 
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/store/MyStoreSpec.js
 </span><span class="gi">+++ b/spec/javascripts/store/MyStoreSpec.js
-</span><span class="gu">@@ -18,11 +18,7 @@ describe('SenchaBdd.store.MyStore', function () {
-</span>
+</span><span class="p">@@ -18,11 +18,7 @@</span> describe('SenchaBdd.store.MyStore', function () {
+
      request.response({
        status:       200,
 <span class="gd">-      responseText: [
@@ -529,8 +531,8 @@ SpecHelper.js file:</p>
 
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">--- a/spec/javascripts/view/MyViewSpec.js
 </span><span class="gi">+++ b/spec/javascripts/view/MyViewSpec.js
-</span><span class="gu">@@ -3,12 +3,9 @@ Ext.require('SenchaBdd.view.MyView');
-</span> describe('SenchaBdd.view.MyView', function () {
+</span><span class="p">@@ -3,12 +3,9 @@</span> Ext.require('SenchaBdd.view.MyView');
+ describe('SenchaBdd.view.MyView', function () {
    it("has a list of colors", function () {
      var store = Ext.create('SenchaBdd.store.MyStore', {
 <span class="gd">-      data:     [
