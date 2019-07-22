@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Functional Programming in Ruby</title>
+  <meta name="description" content="A functional programming riff on a common coding test.">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563763418893698000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1563763418893698000" media="print">
+  <link rel="canonical" href="https://blog.bitwrangler.com/2019/07/21/functional-programming-games.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-87257465-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+  
+  
+
+
+
+
+
+
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Functional Programming in Ruby</h1>
+<p class="subtitle">July 21, 2019</p>
+
+<span>
+  
+    
+    [<a href="/tags/ruby"><code><nobr>ruby</nobr></code></a>]
+  
+    
+    [<a href="/tags/functional-programming"><code><nobr>functional-programming</nobr></code></a>]
+  
+    
+    [<a href="/tags/object-oriented-design"><code><nobr>object-oriented-design</nobr></code></a>]
+  
+</span>
+
+<p><code class="highlighter-rouge">A functional programming riff on a common coding test.</code></p>
+
+<p>During my most recent round of interviewing, I was given the following problem:</p>
+
+<blockquote>
+  <p>Iteratively design, test and build a simple game of Blackjack<label for="blackjack" class="margin-toggle"> ⊕</label><input type="checkbox" id="blackjack" class="margin-toggle" /><span class="marginnote"><a href="https://en.wikipedia.org/wiki/Blackjack">Blackjack</a> is the American variant of a globally popular banking game known as Twenty-One. </span>.</p>
+</blockquote>
+
+<p>I was given the following stub of a test spec to start:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># deck_spec.rb</span>
+<span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">Deck</span> <span class="k">do</span>
+  <span class="n">subject</span><span class="p">(</span><span class="ss">:deck</span><span class="p">)</span> <span class="p">{</span> <span class="no">Deck</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
+
+  <span class="n">it</span> <span class="s2">"creates a new deck of cards"</span> <span class="k">do</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">deck</span><span class="p">).</span><span class="nf">to</span> <span class="n">be_a</span><span class="p">(</span><span class="no">Deck</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">deck</span><span class="p">.</span><span class="nf">count</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">52</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">"can be shuffled"</span>
+
+  <span class="n">it</span> <span class="s2">"can draw a card"</span>
+<span class="k">end</span>
+
+</code></pre></div></div>
+
+<p>Now, before we go on about the value of such coding tests, or whether this is one is a particularly good or bad one, let’s just use this as a <em>personal</em> exercise: How can we solve this problem with code such that it doesn’t run afoul of one of the thornier problems in systems design: Keeping track of all the things in a system such that every change in the system is consistent. <a href="https://avdi.codes">Avid Grim</a> made an excellent Ruby Tapas screencast about this problem and used <a href="https://www.rubytapas.com/2017/03/27/episode-472-contextual-identity/">Contextual Identity</a> as part of the solution.</p>
+
+<p>I want to take a different approach, one that uses functional programming techniques instead<label for="reactjs" class="margin-toggle"> ⊕</label><input type="checkbox" id="reactjs" class="margin-toggle" /><span class="marginnote">If you’re using ReactJS, this will look quite similar to the <code class="highlighter-rouge">state</code> property. </span>. Functional programming, at its simplest, enforces everything in the system to be <em>immutable</em> and that to make changes, one applies a function that returns a new and complete state of the system.</p>
+
+<div class="mathblock"><script type="math/tex; mode=display">f(x_0) \Rightarrow x_1</script></div>
+<div class="mathblock"><script type="math/tex; mode=display">f(x_1) \Rightarrow x_2</script></div>
+<div class="mathblock"><script type="math/tex; mode=display">f(x_n) \Rightarrow x_{n+1}</script></div>
+
+<p>Lather, rinse, repeat.</p>
+
+<p>So, let’s try to make a Blackjack system that operates in FP-ish way. Unlike functional programming languages that guarantee immutability, I’m going to use the <a href="https://github.com/dkubb/ice_nine">ice_nine</a> gem to freeze all of my Ruby objects.<label for="ice_nine" class="margin-toggle"> ⊕</label><input type="checkbox" id="ice_nine" class="margin-toggle" /><span class="marginnote">The Ruby <code class="highlighter-rouge">Object</code> class has a <code class="highlighter-rouge">#freeze</code> method, which prevents an element from further modifications but it doesn’t work for elements that are inside another element (nested elements). </span></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># deck.rb</span>
+<span class="nb">require</span> <span class="s2">"ice_nine"</span>
+<span class="nb">require</span> <span class="s2">"ice_nine/core_ext/object"</span>
+
+<span class="k">class</span> <span class="nc">Deck</span>
+  <span class="nb">attr_reader</span> <span class="ss">:cards</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">cards</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">default_cards</span><span class="p">)</span>
+    <span class="vi">@cards</span> <span class="o">=</span> <span class="n">cards</span>
+    <span class="n">deep_freeze</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">count</span>
+    <span class="n">cards</span><span class="p">.</span><span class="nf">count</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>This immediately diverts us into the question, “What is a <a href="https://github.com/kmayer/blackjack/blob/master/lib/blackjack/card.rb"><code class="highlighter-rouge">Card</code></a> object?” It is certainly a <a href="https://martinfowler.com/bliki/ValueObject.html">Value Object</a>. It can be sorted. When you want to get fancy, they have <a href="https://github.com/kmayer/blackjack/blob/master/lib/blackjack/suit.rb"><code class="highlighter-rouge">Suits</code></a> as well. I’m going to spare you the development of these classes, because it distracts from the core of this article, but you can get copies of them from my <a href="https://github.com/kmayer/blackjack/tree/master/lib/blackjack">blackjack-ruby</a> repository. So, just shade your eyes a little, here’s how we get started, our initializer can create a default deck of cards.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># deck.rb</span>
+<span class="no">CARDS</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">"A"</span><span class="p">,</span> <span class="s2">"Ace"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="nf">to_s</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="nf">to_s</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="p">}</span> <span class="o">+</span> <span class="p">[[</span><span class="s2">"J"</span><span class="p">,</span> <span class="s2">"Jack"</span><span class="p">,</span> <span class="mi">11</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[[</span><span class="s2">"Q"</span><span class="p">,</span> <span class="s2">"Queen"</span><span class="p">,</span> <span class="mi">12</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[[</span><span class="s2">"K"</span><span class="p">,</span> <span class="s2">"King"</span><span class="p">,</span> <span class="mi">13</span><span class="p">]]</span>
+<span class="no">CARDS</span><span class="p">.</span><span class="nf">deep_freeze</span>
+<span class="c1"># https://en.wikipedia.org/wiki/High_card_by_suit</span>
+<span class="no">SPADES</span> <span class="o">=</span> <span class="no">Suit</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"♤"</span><span class="p">,</span> <span class="s2">"Spades"</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span> <span class="no">CLUBS</span> <span class="o">=</span> <span class="no">Suit</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"♧"</span><span class="p">,</span> <span class="s2">"Clubs"</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="no">HEARTS</span> <span class="o">=</span> <span class="no">Suit</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"♡"</span><span class="p">,</span> <span class="s2">"Hearts"</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="no">DIAMONDS</span> <span class="o">=</span> <span class="no">Suit</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"♢︎"</span><span class="p">,</span> <span class="s2">"Diamonds"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Deck</span>
+<span class="o">...</span>
+  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">default_cards</span>
+    <span class="c1"># https://www.rubytapas.com/2016/12/08/episode-459-array-product/</span>
+    <span class="p">[</span><span class="no">SPADES</span><span class="p">,</span> <span class="no">CLUBS</span><span class="p">,</span> <span class="no">HEARTS</span><span class="p">,</span> <span class="no">DIAMONDS</span><span class="p">].</span><span class="nf">product</span><span class="p">(</span><span class="no">CARDS</span><span class="p">).</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="p">(</span><span class="n">suit</span><span class="p">,</span> <span class="n">card</span><span class="p">)</span><span class="o">|</span> <span class="no">Card</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">suit</span><span class="p">,</span> <span class="o">*</span><span class="n">card</span><span class="p">)</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="o">...</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>With the preliminaries out of the way, and our first test is now green, let’s go on to the next one:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># deck_spec.rb</span>
+<span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">Deck</span> <span class="k">do</span>
+<span class="o">...</span>
+  <span class="n">it</span> <span class="s2">"can be shuffled"</span> <span class="k">do</span>
+    <span class="n">new_deck</span> <span class="o">=</span> <span class="n">deck</span><span class="p">.</span><span class="nf">shuffle</span>
+
+    <span class="n">expect</span><span class="p">(</span><span class="n">new_deck</span><span class="p">).</span><span class="nf">not_to</span> <span class="n">be</span><span class="p">(</span><span class="n">deck</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">new_deck</span><span class="p">.</span><span class="nf">cards</span><span class="p">).</span><span class="nf">not_to</span> <span class="n">eq</span><span class="p">(</span><span class="n">deck</span><span class="p">.</span><span class="nf">cards</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="o">...</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>The Ruby <code class="highlighter-rouge">Array</code> class implements a <code class="highlighter-rouge">#shuffle</code> method and in a normal class, we’d do something like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># deck.rb</span>
+<span class="k">def</span> <span class="nf">shuffle</span>
+  <span class="vi">@cards</span> <span class="o">=</span> <span class="n">cards</span><span class="p">.</span><span class="nf">shuffle</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>But that will fail because the <code class="highlighter-rouge">Deck</code> is <em>frozen</em> (I’m totally digging the informative error message).</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FrozenError: can't modify frozen Deck
+</code></pre></div></div>
+
+<p>Remember, however, that our initializer accepts a collection of Cards…</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># deck.rb</span>
+<span class="k">def</span> <span class="nf">shuffle</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">cards</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>So the <code class="highlighter-rouge">#shuffle</code> method shuffles the current <code class="highlighter-rouge">Deck</code>, but instead of modifying it, it returns a brand new <code class="highlighter-rouge">Deck</code> using the shuffled cards in the initializer.</p>
+
+<p>Next, what about <code class="highlighter-rouge">#draw</code>? We need to keep the <code class="highlighter-rouge">Card</code> that was drawn from the <code class="highlighter-rouge">Deck</code>, and we need a deck without the card in it. This ain’t <em>Dogs Playing Poker</em>, sweet cheeks.</p>
+
+<figure><figcaption>A Friend In Need -- 1903, C.M. Coolidge. https://commons.wikimedia.org/wiki/File:A_Friend_in_Need_1903_C.M.Coolidge.jpg</figcaption><img src="/assets/A_Friend_in_Need_1903_C.M.Coolidge.jpg" /></figure>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># deck_spec.rb</span>
+<span class="n">it</span> <span class="s2">"can draw a card from the top of the deck"</span> <span class="k">do</span>
+  <span class="n">card</span><span class="p">,</span> <span class="n">new_deck</span> <span class="o">=</span> <span class="n">deck</span><span class="p">.</span><span class="nf">draw</span>
+
+  <span class="n">expect</span><span class="p">(</span><span class="n">card</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">deck</span><span class="p">.</span><span class="nf">top</span><span class="p">)</span>
+  <span class="n">expect</span><span class="p">(</span><span class="n">new_deck</span><span class="p">.</span><span class="nf">count</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="n">deck</span><span class="p">.</span><span class="nf">count</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>The return signature is an <code class="highlighter-rouge">Array</code> that we nicely destructure out into the two variables, <code class="highlighter-rouge">card</code> and <code class="highlighter-rouge">new_deck</code>. Because all we need to do is initialize a new deck with the desired cards, we can do this: <label for="deeply_frozen_duplicates" class="margin-toggle"> ⊕</label><input type="checkbox" id="deeply_frozen_duplicates" class="margin-toggle" /><span class="marginnote">I’m of two minds about this method: The drawn card is not a copy, it is actually the same card object. Neither are the cards in the deck, but the <code class="highlighter-rouge">Deck</code> <em>is</em> new. I think that it’s okay though. It’s the equivalent of maintaining references to the same <code class="highlighter-rouge">Integer(1)</code> object throughout the code. </span></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># deck.rb</span>
+<span class="k">def</span> <span class="nf">draw</span>
+  <span class="p">[</span><span class="n">cards</span><span class="p">.</span><span class="nf">first</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">cards</span><span class="p">[</span><span class="mi">1</span><span class="o">..-</span><span class="mi">1</span><span class="p">])]</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Believe it or not, we’ve completed the implementation of <code class="highlighter-rouge">Deck</code>! It has a very small surface area, but it does all the things that we want a deck of cards to do (for this card game, anyway). Let’s move on to making a card <code class="highlighter-rouge">Game</code> class.</p>
+
+<p>Object Oriented Design is all about managing state through messages. Our <code class="highlighter-rouge">Game</code> (of Blackjack) class can deal out hands to get things started, and it can draw a card for a single player. Let’s start with the latter, first, because dealing out hands is very much like repeatedly drawing cards for each player in turn.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">Game</span> <span class="k">do</span>
+  <span class="n">it</span> <span class="s2">"can deal out hands to each of the players"</span>
+  <span class="n">it</span> <span class="s2">"can draw a card for a player"</span> <span class="k">do</span>
+    <span class="n">card</span> <span class="o">=</span> <span class="n">game</span><span class="p">.</span><span class="nf">draw</span><span class="p">(</span><span class="n">game</span><span class="p">.</span><span class="nf">players</span><span class="p">.</span><span class="nf">first</span><span class="p">)</span>
+
+    <span class="n">expect</span><span class="p">(</span><span class="n">game</span><span class="p">.</span><span class="nf">deck</span><span class="p">.</span><span class="nf">count</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">51</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">game</span><span class="p">.</span><span class="nf">players</span><span class="p">.</span><span class="nf">first</span><span class="p">.</span><span class="nf">hand</span><span class="p">.</span><span class="nf">count</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">card</span><span class="p">).</span><span class="nf">to</span> <span class="n">be_a</span><span class="p">(</span><span class="no">Card</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>This test will fail because we haven’t defined what our “local” <code class="highlighter-rouge">game</code> is. Let’s keep this game simple, shall we? Our game of Blackjack will use 1 deck of cards and have 2 players: “Player A” and the “Dealer”.<label for="vegas-baby" class="margin-toggle"> ⊕</label><input type="checkbox" id="vegas-baby" class="margin-toggle" /><span class="marginnote">You’ll never see a game like this in Las Vegas. Ever. </span></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># game_spec.rb</span>
+<span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">Game</span> <span class="k">do</span>
+  <span class="n">subject</span><span class="p">(</span><span class="ss">:game</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="no">Game</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+      <span class="no">Deck</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">,</span> 
+      <span class="p">[</span> <span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Player A"</span><span class="p">),</span> <span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Dealer"</span><span class="p">)</span> <span class="p">]</span>
+    <span class="p">)</span> 
+  <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Whoops, our tests are still failing because I wrote <em>the code that I wished I had</em>, including the <code class="highlighter-rouge">Player</code> class that I haven’t written yet. Players are yet another immutable class and they have only 2 attributes: The player’s <em>name</em> and the <em>hand</em> of cards.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># player.rb</span>
+<span class="k">class</span> <span class="nc">Player</span>
+  <span class="nb">attr_reader</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:hand</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">hand</span> <span class="o">=</span> <span class="p">[])</span>
+    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+    <span class="vi">@hand</span> <span class="o">=</span> <span class="n">hand</span>
+    <span class="n">deep_freeze</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+</code></pre></div></div>
+
+<p>Okay, back to our test… The simple start to the problem is just tell the <code class="highlighter-rouge">Deck</code> to draw a <code class="highlighter-rouge">Card</code> from the deck</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># game.rb</span>
+<span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+  <span class="n">card</span><span class="p">,</span> <span class="n">new_deck</span> <span class="o">=</span> <span class="n">deck</span><span class="p">.</span><span class="nf">draw</span>
+
+  <span class="vi">@players</span> <span class="o">=</span> <span class="n">players</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> 
+    <span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="nb">p</span> <span class="o">==</span> <span class="n">player</span> <span class="p">?</span> <span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="nb">p</span><span class="p">.</span><span class="nf">name</span><span class="p">,</span> <span class="nb">p</span><span class="p">.</span><span class="nf">hand</span> <span class="o">+</span> <span class="p">[</span><span class="n">card</span><span class="p">])</span> <span class="p">:</span> <span class="nb">p</span> 
+  <span class="p">}</span>
+  <span class="vi">@deck</span> <span class="o">=</span> <span class="n">new_deck</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Whoops, there’s that <code class="highlighter-rouge">FrozenError: can't modify frozen Game</code> exception that keeps us from cheating. So, how do we solve this? Does <code class="highlighter-rouge">#draw</code> create a brand new <code class="highlighter-rouge">Game</code> each time? That seems semantically odd. We’ve missed something in our modeling. What are we really doing when we draw a card? We’re changing the state of the <code class="highlighter-rouge">Game</code>, so let’s model each “turn” as well, a <code class="highlighter-rouge">Turn</code>.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># turn.rb</span>
+<span class="k">class</span> <span class="nc">Turn</span>
+  <span class="nb">attr_reader</span> <span class="ss">:deck</span><span class="p">,</span> <span class="ss">:players</span><span class="p">,</span> <span class="ss">:description</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">players</span><span class="p">,</span> <span class="n">description</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span>
+    <span class="vi">@deck</span> <span class="o">=</span> <span class="n">deck</span>
+    <span class="vi">@players</span> <span class="o">=</span> <span class="n">players</span>
+    <span class="vi">@description</span> <span class="o">=</span> <span class="n">description</span>
+    <span class="n">deep_freeze</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>A Game becomes an ordered collection of <code class="highlighter-rouge">Turns</code> that are deterministically transformed from one turn to the next by one function, <code class="highlighter-rouge">#draw</code>. This is also our only point of mutability.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># game.rb</span>
+<span class="k">class</span> <span class="nc">Game</span>
+  <span class="nb">attr_reader</span> <span class="ss">:history</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">players</span><span class="p">)</span>
+    <span class="vi">@history</span> <span class="o">=</span> <span class="p">[</span><span class="no">Turn</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">deck</span><span class="p">,</span> <span class="n">players</span><span class="p">,</span> <span class="s2">"Initial game set up"</span><span class="p">)]</span>
+  <span class="k">end</span>
+
+  <span class="c1"># Some convenience accessors </span>
+  <span class="c1"># to look at the "current" state of the Game</span>
+  <span class="k">def</span> <span class="nf">latest_turn</span>
+    <span class="n">history</span><span class="p">.</span><span class="nf">first</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">deck</span>
+    <span class="n">latest_turn</span><span class="p">.</span><span class="nf">deck</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">players</span>
+    <span class="n">latest_turn</span><span class="p">.</span><span class="nf">players</span>
+  <span class="k">end</span>
+<span class="o">...</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>and now rewrite <code class="highlighter-rouge">#draw</code> to push new <code class="highlighter-rouge">Turns</code> onto our game history.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># game.rb</span>
+<span class="c1"># Draws a card from the deck</span>
+<span class="c1"># Adds a new turn on the game history (most recent first)</span>
+<span class="c1"># Returns the card that was drawn</span>
+<span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+  <span class="n">card</span><span class="p">,</span> <span class="n">new_deck</span> <span class="o">=</span> <span class="n">deck</span><span class="p">.</span><span class="nf">draw</span>
+  <span class="n">next_turn</span> <span class="o">=</span> <span class="no">Turn</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">new_deck</span><span class="p">,</span> <span class="n">update_player_hand</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">player</span><span class="p">),</span> <span class="s2">"</span><span class="si">#{</span><span class="n">card</span><span class="si">}</span><span class="s2"> =&gt; </span><span class="si">#{</span><span class="n">player</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+  <span class="n">history</span><span class="p">.</span><span class="nf">unshift</span><span class="p">(</span><span class="n">next_turn</span><span class="p">)</span>
+
+  <span class="n">card</span>
+<span class="k">end</span>
+
+<span class="kp">private</span>
+
+<span class="c1"># Returns an updated player hand, very ReactJSish</span>
+<span class="k">def</span> <span class="nf">update_player_hand</span><span class="p">(</span><span class="n">card</span><span class="p">,</span> <span class="n">player</span><span class="p">)</span>
+  <span class="n">players</span><span class="p">.</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="nb">p</span><span class="o">|</span> <span class="nb">p</span> <span class="o">==</span> <span class="n">player</span> <span class="p">?</span> <span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="nb">p</span><span class="p">.</span><span class="nf">name</span><span class="p">,</span> <span class="nb">p</span><span class="p">.</span><span class="nf">hand</span> <span class="o">+</span> <span class="p">[</span><span class="n">card</span><span class="p">])</span> <span class="p">:</span> <span class="nb">p</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Dealing out the initial hands is super easy, since <code class="highlighter-rouge">#draw</code> does all of the heavy lifting.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># game.rb</span>
+<span class="c1"># Deal N cards to each player</span>
+<span class="k">def</span> <span class="nf">deal</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>
+  <span class="n">cards</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
+    <span class="n">players</span><span class="p">.</span><span class="nf">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">player</span><span class="o">|</span>
+      <span class="n">draw</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>We’ve got a pretty good set up now. Let’s take the code for a spin.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">game</span> <span class="o">=</span> <span class="no">Game</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Deck</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">,</span> <span class="p">[</span><span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Player A"</span><span class="p">),</span> <span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Dealer"</span><span class="p">)])</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;Game:...&gt;</span>
+<span class="n">game</span><span class="p">.</span><span class="nf">deal</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="mi">2</span>
+<span class="nb">puts</span> <span class="n">game</span><span class="p">.</span><span class="nf">history</span><span class="p">.</span><span class="nf">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:description</span><span class="p">).</span><span class="nf">reverse</span>
+<span class="no">Initial</span> <span class="n">game</span> <span class="n">set</span> <span class="n">up</span>
+<span class="mi">2</span><span class="err">♢︎</span> <span class="o">=&gt;</span> <span class="no">Player</span> <span class="no">A</span>
+<span class="mi">2</span><span class="err">♤</span> <span class="o">=&gt;</span> <span class="no">Dealer</span>
+<span class="no">Q</span><span class="err">♢︎</span> <span class="o">=&gt;</span> <span class="no">Player</span> <span class="no">A</span>
+<span class="mi">9</span><span class="err">♤</span> <span class="o">=&gt;</span> <span class="no">Dealer</span>
+</code></pre></div></div>
+
+<p>Pretty neat, huh?</p>
+
+<p>We can go in all sorts of directions, now. We sill haven’t built any <em>rules</em> for Blackjack, yet, but now that we have a <code class="highlighter-rouge">Game</code> class to manage the state of the card table, we’ve got a strong foundation.</p>
+
+
+
+    </article>
+    <span class="print-footer">Functional Programming in Ruby - July 21, 2019 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Functional+Programming+in+Ruby&body=https%3A%2F%2Fblog.bitwrangler.com%2F2019%2F07%2F21%2Ffunctional-programming-games.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2019 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>
