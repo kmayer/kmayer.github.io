@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1563772554028157000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1563772554028157000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1564000454798432000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1564000454798432000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2019/07/21/functional-programming-games.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -251,9 +251,14 @@
 
 <p>I want to take a different approach, one that uses functional programming techniques instead<label for="reactjs" class="margin-toggle"> ⊕</label><input type="checkbox" id="reactjs" class="margin-toggle" /><span class="marginnote">If you’re using ReactJS, this will look quite similar to the <code class="highlighter-rouge">state</code> property. </span>. Functional programming, at its simplest, enforces everything in the system to be <em>immutable</em> and that to make changes, one applies a function that returns a new and complete state of the system.</p>
 
-<div class="mathblock"><script type="math/tex; mode=display">f(x_0) \Rightarrow x_1</script></div>
-<div class="mathblock"><script type="math/tex; mode=display">f(x_1) \Rightarrow x_2</script></div>
-<div class="mathblock"><script type="math/tex; mode=display">f(x_n) \Rightarrow x_{n+1}</script></div>
+<div class="mathblock"><script type="math/tex; mode=display">
+\begin{align}
+f(x_0) &\Rightarrow x_1 \\
+f(x_1) &\Rightarrow x_2 \\
+&\vdots \\
+f(x_n) &\Rightarrow x_{n+1}
+\end{align}
+</script></div>
 
 <p>Lather, rinse, repeat.</p>
 

@@ -6,8 +6,8 @@
 </description>
     <link>https://blog.bitwrangler.com/</link>
     <atom:link href="https://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 21 Jul 2019 22:15:54 -0700</pubDate>
-    <lastBuildDate>Sun, 21 Jul 2019 22:15:54 -0700</lastBuildDate>
+    <pubDate>Wed, 24 Jul 2019 13:34:14 -0700</pubDate>
+    <lastBuildDate>Wed, 24 Jul 2019 13:34:14 -0700</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
     
       <item>
@@ -43,9 +43,14 @@
 
 &lt;p&gt;I want to take a different approach, one that uses functional programming techniques instead&lt;label for=&quot;reactjs&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;reactjs&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;If you’re using ReactJS, this will look quite similar to the &lt;code class=&quot;highlighter-rouge&quot;&gt;state&lt;/code&gt; property. &lt;/span&gt;. Functional programming, at its simplest, enforces everything in the system to be &lt;em&gt;immutable&lt;/em&gt; and that to make changes, one applies a function that returns a new and complete state of the system.&lt;/p&gt;
 
-&lt;div class=&quot;mathblock&quot;&gt;&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(x_0) \Rightarrow x_1&lt;/script&gt;&lt;/div&gt;
-&lt;div class=&quot;mathblock&quot;&gt;&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(x_1) \Rightarrow x_2&lt;/script&gt;&lt;/div&gt;
-&lt;div class=&quot;mathblock&quot;&gt;&lt;script type=&quot;math/tex; mode=display&quot;&gt;f(x_n) \Rightarrow x_{n+1}&lt;/script&gt;&lt;/div&gt;
+&lt;div class=&quot;mathblock&quot;&gt;&lt;script type=&quot;math/tex; mode=display&quot;&gt;
+\begin{align}
+f(x_0) &amp;\Rightarrow x_1 \\
+f(x_1) &amp;\Rightarrow x_2 \\
+&amp;\vdots \\
+f(x_n) &amp;\Rightarrow x_{n+1}
+\end{align}
+&lt;/script&gt;&lt;/div&gt;
 
 &lt;p&gt;Lather, rinse, repeat.&lt;/p&gt;
 
