@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1564000454798432000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1564000454798432000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1564003767878557000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1564003767878557000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2019/07/21/functional-programming-games.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -230,8 +230,7 @@
 
 <p>I was given the following stub of a test spec to start:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># deck_spec.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deck_spec.rb</span>
 <span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">Deck</span> <span class="k">do</span>
   <span class="n">subject</span><span class="p">(</span><span class="ss">:deck</span><span class="p">)</span> <span class="p">{</span> <span class="no">Deck</span><span class="p">.</span><span class="nf">new</span> <span class="p">}</span>
 
@@ -264,8 +263,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>So, let’s try to make a Blackjack system that operates in FP-ish way. Unlike functional programming languages that guarantee immutability, I’m going to use the <a href="https://github.com/dkubb/ice_nine">ice_nine</a> gem to freeze all of my Ruby objects.<label for="ice_nine" class="margin-toggle"> ⊕</label><input type="checkbox" id="ice_nine" class="margin-toggle" /><span class="marginnote">The Ruby <code class="highlighter-rouge">Object</code> class has a <code class="highlighter-rouge">#freeze</code> method, which prevents an element from further modifications but it doesn’t work for elements that are inside another element (nested elements). </span></p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># deck.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deck.rb</span>
 <span class="nb">require</span> <span class="s2">"ice_nine"</span>
 <span class="nb">require</span> <span class="s2">"ice_nine/core_ext/object"</span>
 
@@ -285,8 +283,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>This immediately diverts us into the question, “What is a <a href="https://github.com/kmayer/blackjack/blob/master/lib/blackjack/card.rb"><code class="highlighter-rouge">Card</code></a> object?” While it is certainly not a <a href="https://martinfowler.com/bliki/ValueObject.html">Value Object</a>, it can be sorted and compared. When you want to get fancy, they have <a href="https://github.com/kmayer/blackjack/blob/master/lib/blackjack/suit.rb"><code class="highlighter-rouge">Suits</code></a> as well. I’m going to spare you the development of these classes, because it distracts from the core of this article, but you can get copies of them from my <a href="https://github.com/kmayer/blackjack/tree/master/lib/blackjack">blackjack-ruby</a> repository. So, just shade your eyes a little, here’s how we get started, our initializer can create a default deck of cards.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># deck.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deck.rb</span>
 <span class="no">CARDS</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">"A"</span><span class="p">,</span> <span class="s2">"Ace"</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="o">|</span> <span class="p">[</span><span class="n">x</span><span class="p">.</span><span class="nf">to_s</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="nf">to_s</span><span class="p">,</span> <span class="n">x</span><span class="p">]</span> <span class="p">}</span> <span class="o">+</span> <span class="p">[[</span><span class="s2">"J"</span><span class="p">,</span> <span class="s2">"Jack"</span><span class="p">,</span> <span class="mi">11</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[[</span><span class="s2">"Q"</span><span class="p">,</span> <span class="s2">"Queen"</span><span class="p">,</span> <span class="mi">12</span><span class="p">]]</span> <span class="o">+</span> <span class="p">[[</span><span class="s2">"K"</span><span class="p">,</span> <span class="s2">"King"</span><span class="p">,</span> <span class="mi">13</span><span class="p">]]</span>
 <span class="no">CARDS</span><span class="p">.</span><span class="nf">deep_freeze</span>
 <span class="c1"># https://en.wikipedia.org/wiki/High_card_by_suit</span>
@@ -304,8 +301,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>With the preliminaries out of the way, and our first test is now green, let’s go on to the next one:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># deck_spec.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deck_spec.rb</span>
 <span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">Deck</span> <span class="k">do</span>
 <span class="o">...</span>
   <span class="n">it</span> <span class="s2">"can be shuffled"</span> <span class="k">do</span>
@@ -320,8 +316,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>The Ruby <code class="highlighter-rouge">Array</code> class implements a <code class="highlighter-rouge">#shuffle</code> method and in a normal class, we’d do something like this:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># deck.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deck.rb</span>
 <span class="k">def</span> <span class="nf">shuffle</span>
   <span class="vi">@cards</span> <span class="o">=</span> <span class="n">cards</span><span class="p">.</span><span class="nf">shuffle</span>
 <span class="k">end</span>
@@ -334,8 +329,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>Remember, however, that our initializer accepts a collection of Cards…</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># deck.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deck.rb</span>
 <span class="k">def</span> <span class="nf">shuffle</span>
   <span class="nb">self</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">cards</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">)</span>
 <span class="k">end</span>
@@ -347,8 +341,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <figure><figcaption>A Friend In Need -- 1903, C.M. Coolidge. https://commons.wikimedia.org/wiki/File:A_Friend_in_Need_1903_C.M.Coolidge.jpg</figcaption><img src="/assets/A_Friend_in_Need_1903_C.M.Coolidge.jpg" /></figure>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># deck_spec.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deck_spec.rb</span>
 <span class="n">it</span> <span class="s2">"can draw a card from the top of the deck"</span> <span class="k">do</span>
   <span class="n">card</span><span class="p">,</span> <span class="n">new_deck</span> <span class="o">=</span> <span class="n">deck</span><span class="p">.</span><span class="nf">draw</span>
 
@@ -359,8 +352,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>The return signature is an <code class="highlighter-rouge">Array</code> that we nicely destructure out into the two variables, <code class="highlighter-rouge">card</code> and <code class="highlighter-rouge">new_deck</code>. Because all we need to do is initialize a new deck with the desired cards, we can do this:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># deck.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deck.rb</span>
 <span class="k">def</span> <span class="nf">draw</span>
   <span class="p">[</span><span class="n">cards</span><span class="p">.</span><span class="nf">first</span><span class="p">,</span> <span class="nb">self</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">cards</span><span class="p">[</span><span class="mi">1</span><span class="o">..-</span><span class="mi">1</span><span class="p">])]</span>
 <span class="k">end</span>
@@ -385,8 +377,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>This test will fail because we haven’t defined what our “local” <code class="highlighter-rouge">game</code> is. Let’s keep this game simple, shall we? Our game of Blackjack will use 1 deck of cards and have 2 players: “Player A” and the “Dealer”.<label for="vegas-baby" class="margin-toggle"> ⊕</label><input type="checkbox" id="vegas-baby" class="margin-toggle" /><span class="marginnote">You’ll never see a game like this in Las Vegas. Ever. </span></p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># game_spec.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># game_spec.rb</span>
 <span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">Game</span> <span class="k">do</span>
   <span class="n">subject</span><span class="p">(</span><span class="ss">:game</span><span class="p">)</span> <span class="p">{</span> 
     <span class="no">Game</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
@@ -398,8 +389,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>Whoops, our tests are still failing because I wrote <em>the code that I wished I had</em>, including the <code class="highlighter-rouge">Player</code> class that I haven’t written yet. Players are yet another immutable class and they have only 2 attributes: The player’s <em>name</em> and the <em>hand</em> of cards.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># player.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># player.rb</span>
 <span class="k">class</span> <span class="nc">Player</span>
   <span class="nb">attr_reader</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:hand</span>
 
@@ -414,8 +404,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>Okay, back to our test… The simple start to the problem is just tell the <code class="highlighter-rouge">Deck</code> to draw a <code class="highlighter-rouge">Card</code> from the deck</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># game.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># game.rb</span>
 <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
   <span class="n">card</span><span class="p">,</span> <span class="n">new_deck</span> <span class="o">=</span> <span class="n">deck</span><span class="p">.</span><span class="nf">draw</span>
 
@@ -443,8 +432,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>A Game becomes an ordered collection of <code class="highlighter-rouge">Turns</code> that are deterministically transformed from one turn to the next by one function, <code class="highlighter-rouge">#draw</code>. This is also our only point of mutability.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># game.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># game.rb</span>
 <span class="k">class</span> <span class="nc">Game</span>
   <span class="nb">attr_reader</span> <span class="ss">:history</span>
 
@@ -471,8 +459,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>and now rewrite <code class="highlighter-rouge">#draw</code> to push new <code class="highlighter-rouge">Turns</code> onto our game history.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># game.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># game.rb</span>
 <span class="c1"># Draws a card from the deck</span>
 <span class="c1"># Adds a new turn on the game history (most recent first)</span>
 <span class="c1"># Returns the card that was drawn</span>
@@ -494,8 +481,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>Dealing out the initial hands is super easy, since <code class="highlighter-rouge">#draw</code> does all of the heavy lifting.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1"># game.rb</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># game.rb</span>
 <span class="c1"># Deal N cards to each player</span>
 <span class="k">def</span> <span class="nf">deal</span><span class="p">(</span><span class="n">cards</span><span class="p">)</span>
   <span class="n">cards</span><span class="p">.</span><span class="nf">times</span> <span class="k">do</span>
@@ -508,8 +494,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>We’ve got a pretty good set up now. Let’s take the code for a spin.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">game</span> <span class="o">=</span> <span class="no">Game</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Deck</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">,</span> <span class="p">[</span><span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Player A"</span><span class="p">),</span> <span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Dealer"</span><span class="p">)])</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">game</span> <span class="o">=</span> <span class="no">Game</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="no">Deck</span><span class="p">.</span><span class="nf">new</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">,</span> <span class="p">[</span><span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Player A"</span><span class="p">),</span> <span class="no">Player</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="s2">"Dealer"</span><span class="p">)])</span>
 <span class="o">=&gt;</span> <span class="c1">#&lt;Game:...&gt;</span>
 <span class="n">game</span><span class="p">.</span><span class="nf">deal</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="o">=&gt;</span> <span class="mi">2</span>
