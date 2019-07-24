@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Live Refactoring</title>
+  <meta name="description" content="I "live" tweeted a refactoring session.">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1564007269583620000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1564007269583620000" media="print">
+  <link rel="canonical" href="https://blog.bitwrangler.com/2019/04/28/live-refactoring.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-87257465-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+  
+  
+
+
+
+
+
+
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>Live Refactoring</h1>
+<p class="subtitle">April 28, 2019</p>
+
+<span>
+  
+    
+    [<a href="/tags/ruby"><code><nobr>ruby</nobr></code></a>]
+  
+    
+    [<a href="/tags/refactoring"><code><nobr>refactoring</nobr></code></a>]
+  
+</span>
+
+<p><code class="highlighter-rouge">I "live" tweeted a refactoring session.</code></p>
+
+<p><a href="https://twitter.com/kennethmayer/status/1123375649375248385">https://twitter.com/kennethmayer/status/1123375649375248385</a></p>
+
+<p>We have a class that creates custom document names based on a bunch of other inputs. The original class is called <code class="highlighter-rouge">FileNaming</code>. It’s worked for almost three years, but time and features have made it more troublesome. Customers want more control, support are carrying a heavier load, everyone wants to know how this thing <em>actually</em> works.</p>
+
+<p><code class="highlighter-rouge">FileNaming</code> uses Ruby’s String/Kernel.sprintf “template” system:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">irb: </span><span class="no">Kernel</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="s2">"%{foo} - %{bar}"</span><span class="p">,</span> <span class="p">{</span> <span class="ss">foo: </span><span class="s2">"apple"</span><span class="p">,</span> <span class="ss">bar: </span><span class="s2">"banana"</span> <span class="p">})</span>
+<span class="o">===&gt;</span> <span class="s2">"apple - banana"</span>
+</code></pre></div></div>
+
+<p>That’s pretty sweet; it’s very light weight. If you have a typo in the template name, you get a <code class="highlighter-rouge">KeyError</code> exception (good for validation before committing the template change to the production database). On the other hand, it’s not really safe for user input, since you’re handing a user-input <code class="highlighter-rouge">String</code> to <code class="highlighter-rouge">Kernel.format</code> Which was fine. This template system is changed very rarely and only by “highly skilled support personnel” (i.e. me, the rest of engineering and a couple others in the company). It was never modified by or shown to end user/customers. Nowadays, we have a bigger customer base, who want more and more customizations (0-padding to 5 digits instead of 6, using “.” instead of “-“ between date components, and on and on and on).</p>
+
+<p><span class="newthought">It is time to move on.</span>  I’ve used <a href="https://github.com/Shopify/liquid">Liquid</a>, a gem from Shopify. I’m going to use it again. So, starting with the pretty comprehensive test suite for <code class="highlighter-rouge">FileNaming</code>, we’ll build a new class, <code class="highlighter-rouge">FileNameTemplate</code> that implements all of the old patterns, but using Liquid, plus <a href="https://shopify.github.io/liquid/filters/abs/">filters</a> for formatting, instead of the 3x elements that rendered the same thing, but with different padding. Are you with me so far? I have two classes that have near equivalent functionality. I want to gradually move our customers from one templating system to the other. I also want to minimize impacts on our existing code base; to minimize things going wrong.</p>
+
+<p>Here’s a pretty simple and typical example of how the current template system works…</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">filename</span>
+  <span class="n">template</span> <span class="o">=</span> <span class="n">user</span><span class="p">.</span><span class="nf">try</span><span class="p">(</span><span class="ss">:document_filename_template</span><span class="p">)</span> <span class="o">||</span> <span class="no">FileNaming</span><span class="o">::</span><span class="no">DOCUMENT_TEMPLATE</span>
+  <span class="no">FileNaming</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">template</span><span class="p">).</span><span class="nf">document_filename</span><span class="p">(</span><span class="s2">".pdf"</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p><label for="rubber-ducking" class="margin-toggle"> ⊕</label><input type="checkbox" id="rubber-ducking" class="margin-toggle" /><span class="marginnote">I realize that I’m <a href="https://en.wikipedia.org/wiki/Rubber_duck_debugging">rubber ducking</a> this to Twitter. Please be gentle. I don’t have a SoundCloud account. But support 
+<a href="https://twitter.com/alsoalsoalso_">@alsoalsoalso_</a>:  They have a new album coming out soonish. </span>Users (and other classes in our application) have a mix-in module, <code class="highlighter-rouge">Preferences</code>, that store and manage preference settings with reasonable fall backs. Ideally, all of the uses of <code class="highlighter-rouge">FileNaming</code> would not have to change. That would break the smallest number of things. (We have good test coverage so even if I do make a “big” change, I’m confident that we’ll catch regressions before they leave my git index.)</p>
+
+<p><span class="newthought">First thoughts</span>  The class names are close, but are not symmetric. What am I trying to communicate here? Second thoughts: OOD<label for="ood" class="margin-toggle"> ⊕</label><input type="checkbox" id="ood" class="margin-toggle" /><span class="marginnote">Object Oriented Design </span> eschews <code class="highlighter-rouge">if/then/else</code> branches in favor of classes and methods. Send a message to a class and let the class handle the crazy complexities. Third thoughts: It’s Sunday afternoon and the spouse is out of town. I gotta feed the kids soon. Tomorrow is a school day. I can’t code all night. What can I get done quickly?</p>
+
+<p>I’m going to use some OO patterns to switch between the different rendering classes. Ruby doesn’t have abstract classes, per se, so the structure is a bit more ad hoc, but I think you’ll get the idea. And, to quote <a href="https://twitter.com/KentBeck">@KentBeck</a><label for="I think Kent said it first" class="margin-toggle"> ⊕</label><input type="checkbox" id="I think Kent said it first" class="margin-toggle" /><span class="marginnote"> </span></p>
+
+<blockquote>
+  <p>Make the change easy to make, then make the easy change.</p>
+</blockquote>
+
+<p>I’ll start by creating a factory that just recapitulates the existing behaviors. I’ve already done most of the preparations. <code class="highlighter-rouge">User</code> objects (and their kin) now have a preference that specifies which render engine to use and preference strings for the templates. <code class="highlighter-rouge">User.file_naming_template_class</code> will return the name of the class to use. I’ll spare you the eyes-bleeding cross product of all the different variations, here’s my first cut at the new factory class.</p>
+
+<p><label for="ick" class="margin-toggle"> ⊕</label><input type="checkbox" id="ick" class="margin-toggle" /><span class="marginnote">[ick] but, you know, make it work, then make it right… </span></p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FileNameRenderer</span>
+  <span class="kp">include</span> <span class="no">Singleton</span>
+
+  <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+    <span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">actor</span><span class="p">,</span> <span class="n">template_name</span><span class="p">)</span>
+      <span class="n">template</span> <span class="o">=</span> <span class="n">actor</span><span class="p">.</span><span class="nf">try</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span> <span class="o">||</span> <span class="n">default</span><span class="p">(</span><span class="no">FileNaming</span><span class="p">,</span> <span class="n">template_name</span><span class="p">)</span>
+      <span class="no">FileNaming</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="n">klass</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">klass</span> <span class="o">==</span> <span class="no">FileNaming</span>
+        <span class="n">default_file_naming</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+      <span class="k">else</span>
+        <span class="nb">fail</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="n">klass</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">default_file_naming</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+      <span class="k">case</span> <span class="n">template</span>
+      <span class="k">when</span> <span class="ss">:notification_filename_template</span> <span class="k">then</span> <span class="no">FileNaming</span><span class="o">::</span><span class="no">TRANSMOGRIFIED_TEMPLATE</span>
+      <span class="k">when</span> <span class="ss">:document_filename_template</span> <span class="k">then</span> <span class="no">FileNaming</span><span class="o">::</span><span class="no">DOCUMENT_TEMPLATE</span>
+      <span class="k">else</span>
+        <span class="nb">fail</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="n">template</span>
+      <span class="k">end</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Let’s move all of the default behavior into the <code class="highlighter-rouge">FileNaming</code> class.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FileNaming</span>
+  <span class="c1"># ...</span>
+  <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+    <span class="k">case</span> <span class="n">template</span>
+    <span class="k">when</span> <span class="ss">:notification_filename_template</span> <span class="k">then</span> <span class="no">FileNaming</span><span class="o">::</span><span class="no">TRANSMOGRIFIED_TEMPLATE</span>
+    <span class="k">when</span> <span class="ss">:document_filename_template</span> <span class="k">then</span> <span class="no">FileNaming</span><span class="o">::</span><span class="no">DOCUMENT_TEMPLATE</span>
+    <span class="k">else</span>
+      <span class="nb">fail</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="n">template</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>And a little more refactoring so that the renderer class is <em>computed</em>:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FileNameRenderer</span>
+  <span class="kp">include</span> <span class="no">Singleton</span>
+
+  <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+    <span class="k">def</span> <span class="nf">factory</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">actor</span><span class="p">,</span> <span class="n">template_name</span><span class="p">)</span>
+      <span class="n">klass</span> <span class="o">=</span> <span class="n">renderer_class</span><span class="p">(</span><span class="n">actor</span><span class="p">)</span>
+      <span class="n">template</span> <span class="o">=</span> <span class="n">actor</span><span class="p">.</span><span class="nf">try</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span> <span class="o">||</span> <span class="n">klass</span><span class="p">.</span><span class="nf">default</span><span class="p">(</span><span class="n">template_name</span><span class="p">)</span>
+      <span class="n">klass</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">template</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">def</span> <span class="nf">renderer_class</span><span class="p">(</span><span class="n">actor</span><span class="p">)</span>
+      <span class="no">FileNaming</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>This should actually work with my existing code base, so now I’m going to change all of the places where <code class="highlighter-rouge">FileNaming</code> objects were created directly and replace it with this factory pattern. <span class="newthought">Status update:</span>  Gotta go make dinner for the kids. I found some leaks in our abstractions. Sometimes our code references the template <em>name</em> (or method) and sometimes we just mess around with the template <em>content</em> (as a <code class="highlighter-rouge">String</code>). <a href="http://wiki.c2.com/?PrimitiveObsession">Primitive Obcession</a> bites us, again.</p>
+
+<p><span class="newthought">While I was gone</span> , I shipped the code into production. Nothing changed. Hurray! Now I can make some small changes to use our new rendering class. The “actor” object has a preference setting that knows which class to use.  (I’ve made a slight hack for the null object smell. Sometimes a little bit of deodorant…)</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FileNameRenderer</span>
+  <span class="c1"># ...</span>
+  <span class="k">class</span> <span class="o">&lt;&lt;</span> <span class="nb">self</span>
+    <span class="k">def</span> <span class="nf">renderer_class</span><span class="p">(</span><span class="n">actor</span><span class="p">)</span>
+      <span class="n">actor</span><span class="o">&amp;</span><span class="p">.</span><span class="nf">file_naming_template_class</span> <span class="o">||</span> <span class="no">FileNaming</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>There’s some magic going on behind the scenes — the <code class="highlighter-rouge">Preferences</code> module also disambiguates between template systems, but that’s another beast of code.   (<code class="highlighter-rouge">get_preference</code> reaches into the stored data to get the attribute with that name)</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">document_filename_template</span>
+  <span class="k">case</span> <span class="n">get_preference</span><span class="p">(</span><span class="s1">'file_naming_template_class'</span><span class="p">)</span>
+  <span class="k">when</span> <span class="s1">'FileNaming'</span> <span class="k">then</span> <span class="n">get_preference</span><span class="p">(</span><span class="s1">'document_filename_template'</span><span class="p">)</span>
+  <span class="k">when</span> <span class="s1">'FileNameTemplate'</span> <span class="k">then</span> <span class="n">get_preference</span><span class="p">(</span><span class="s1">'document_filename_template_v2'</span><span class="p">)</span>
+  <span class="k">else</span>
+    <span class="nb">fail</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="n">file_naming_template_class</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>What I didn’t show you was that code moving around from the template system to the preferences system. And that’s okay, the tests guided me and when I noticed duplicate code and feature envy, it was an “obvious” move to make. Making mistakes is okay. Just get it working. I didn’t write a whole lot of tests, either. Just the behavior I wanted.  That way, when I refactored, I didn’t have to rewrite the tests.</p>
+
+<p><label for="arrange-act-assert" class="margin-toggle"> ⊕</label><input type="checkbox" id="arrange-act-assert" class="margin-toggle" /><span class="marginnote">The tests are ‘two’ lines long: Act and Assert (the middle line is mostly a sanity check that I’m using the correct template class). I’m doing all of the Arranging in a before block. See also <a href="http://wiki.c2.com/?ArrangeActAssert">Arrange Act Assert</a> </span></p>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">context</span> <span class="s2">"using the FileNameTemplate renderer"</span> <span class="k">do</span>
+  <span class="n">before</span> <span class="k">do</span>
+    <span class="n">user</span><span class="p">.</span><span class="nf">file_naming_template_class</span> <span class="o">=</span> <span class="s1">'FileNameTemplate'</span>
+  <span class="k">end</span>
+
+  <span class="n">it</span> <span class="s2">"renders using the Liquid template, instead"</span> <span class="k">do</span>
+    <span class="n">renderer</span> <span class="o">=</span> <span class="no">FileNameRenderer</span><span class="p">.</span><span class="nf">factory</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="ss">:document_filename_template</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">renderer</span><span class="p">).</span><span class="nf">to</span> <span class="n">be_a</span><span class="p">(</span><span class="no">FileNameTemplate</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">renderer</span><span class="p">.</span><span class="nf">document_filename</span><span class="p">(</span><span class="s1">'.pdf'</span><span class="p">)).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">"N.D. Cal. 15-cv-37731 dckt 000094_002 filed 2017-06-13.pdf"</span><span class="p">)</span>
+
+    <span class="n">renderer</span> <span class="o">=</span> <span class="no">FileNameRenderer</span><span class="p">.</span><span class="nf">factory</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="ss">:notification_filename_template</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">renderer</span><span class="p">).</span><span class="nf">to</span> <span class="n">be_a</span><span class="p">(</span><span class="no">FileNameTemplate</span><span class="p">)</span>
+    <span class="n">expect</span><span class="p">(</span><span class="n">renderer</span><span class="p">.</span><span class="nf">document_filename</span><span class="p">(</span><span class="s1">'.pdf'</span><span class="p">)).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">"2017-06-13 MOTION FEE SERVICE [dckt 94_2].pdf"</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Remember the default value code I wrote for the <code class="highlighter-rouge">FileNaming</code> class? Here’s the <em>same exact code</em> for the <code class="highlighter-rouge">FileNameTemplate</code> class. The only differences are the <em>values</em> of constants. Here, code duplication is an indication that we’re on the right track.</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">FileNameTemplate</span>
+  <span class="c1"># ...</span>
+  <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+    <span class="k">case</span> <span class="n">template</span>
+    <span class="k">when</span> <span class="ss">:notification_filename_template</span> <span class="k">then</span> <span class="no">TRANSMOGRIFIED_TEMPLATE</span>
+    <span class="k">when</span> <span class="ss">:document_filename_template</span> <span class="k">then</span> <span class="no">DOCUMENT_TEMPLATE</span>
+    <span class="k">else</span>
+      <span class="nb">fail</span> <span class="no">ArgumentError</span><span class="p">,</span> <span class="n">template</span><span class="p">.</span><span class="nf">inspect</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>Time for another pull request and a deploy to production!</p>
+
+<p>That’s about it. Now we can reconfigure a <code class="highlighter-rouge">User</code> (or an <code class="highlighter-rouge">Organization</code> an <code class="highlighter-rouge">Office</code>) to switch rendering systems and then they will use the new Liquid templates from <code class="highlighter-rouge">Preferences</code> to render. Existing customers are unaffected until then. For all of the users that are still using our default templates, we can bulk switch them over.</p>
+
+
+
+    </article>
+    <span class="print-footer">Live Refactoring - April 28, 2019 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=Live+Refactoring&body=https%3A%2F%2Fblog.bitwrangler.com%2F2019%2F04%2F28%2Flive-refactoring.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2019 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>
