@@ -6,8 +6,8 @@
 </description>
     <link>https://blog.bitwrangler.com/</link>
     <atom:link href="https://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 25 Jul 2019 13:00:03 -0700</pubDate>
-    <lastBuildDate>Thu, 25 Jul 2019 13:00:03 -0700</lastBuildDate>
+    <pubDate>Thu, 25 Jul 2019 13:02:14 -0700</pubDate>
+    <lastBuildDate>Thu, 25 Jul 2019 13:02:14 -0700</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
     
       <item>
@@ -616,7 +616,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
         <link>https://blog.bitwrangler.com/2019/02/15/to-boldly-test-where-no-one-has-gone-before.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2019/02/15/to-boldly-test-where-no-one-has-gone-before.html</guid>
         
-        <category>test-driven-development</category>
+        <category>test-driven-design</category>
         
         
       </item>
