@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>To Boldly Test Where No One Has Gone Before</title>
+  <meta name="description" content="Lately, I’ve been reading a fresh crop of "TDD is terrible" posts. Here's my counter argument: Test Driven Development is "liberating." Here's how I use TDD ...">
+
+  <!-- Google Fonts loaded here depending on setting in _data/options.yml true loads font, blank does not-->
+  
+    <link href='//fonts.googleapis.com/css?family=Lato:400,400italic' rel='stylesheet' type='text/css'>
+  
+  
+  <!-- Load up MathJax script if needed ... specify in /_data/options.yml file-->
+  
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1564084803316301000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1564084803316301000" media="print">
+  <link rel="canonical" href="https://blog.bitwrangler.com/2019/02/15/to-boldly-test-where-no-one-has-gone-before.html">
+  <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
+  
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-87257465-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+  
+  
+  
+
+
+
+
+
+
+  
+</head>
+
+  <body>
+    <!--- Header and nav template site-wide -->
+<header>
+    <nav class="group">
+	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/">blog</a>
+		    
+	    
+  	
+		
+  	
+		
+		    
+		      <a href="/about/">About the Global Village Idiot</a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+		    
+		      <a href="/css/print.css"></a>
+		    
+	    
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+		
+  	
+	</nav>
+</header>
+    <article class="group">
+      <h1>To Boldly Test Where No One Has Gone Before</h1>
+<p class="subtitle">February 15, 2019</p>
+
+<span>
+  
+    
+    [<a href="/tags/test-driven-development"><code><nobr>test-driven-development</nobr></code></a>]
+  
+</span>
+
+<p><code class="highlighter-rouge">Lately, I’ve been reading a fresh crop of "TDD is terrible" posts. Here's my counter argument: Test Driven Development is "liberating." Here's how I use TDD as a _design_ tool.</code></p>
+
+<p><span class="newthought">Begin personal rant without any factual data to back it up.</span> <label for="ime" class="margin-toggle"> ⊕</label><input type="checkbox" id="ime" class="margin-toggle" /><span class="marginnote">Also known as “in my experience” </span> I remember my early days at Pivotal Labs and pairing on a heavy JavaScript project. While my Ruby-fu was pretty good, my JS was rusty, to say the least. We sat down at the editor and I vapor-locked. Not a good way to start the morning. I will always remember that discomfort. It felt wrong. I was doing TDD as it is commonly perceived: “Write a test. Watch it go red. Make it green. Refactor. Repeat.” That’s not very creative. Instead, it was mechanical, cold, sterile. It’s very frustrating when you’re stuck. So, I hear y’all with all the feels.</p>
+
+<p>Here’s what I learned later from Martin Fowler, Sandi Metz, Sarah Mei, Kent Beck and others. <span class="newthought">TDD is about making discoveries and design choices.</span>  Now my sessions start with, “What do we know? What’s the most important thing to learn <em>next</em>. What direction do we want to go? What’s the smallest productive step?” TDD is about <em>exploration</em>. That’s much more interesting. We’re going on an <em>adventure</em>.</p>
+
+<p><label for="here_be_dragons" class="margin-toggle">⊕</label><input type="checkbox" id="here_be_dragons" class="margin-toggle" /><span class="marginnote"><img class="fullwidth" src="/assets/here_be_dragons.jpg" /><br /><a href="https://en.wikipedia.org/wiki/Carta_marina">Carta marina</a>, a wallmap of Scandinavia. Olaus Magnus, 1539. The caption reads: <em>Marine map and Description of the Northern Lands and of their Marvels, most carefully drawn up at Venice in the year 1539 through the generous assistance of the Most Honourable Lord Hieronymo Quirino.</em></span> Of course, like any adventure, the first steps can be scary. You don’t know if you’re prepared or not. What happens if something goes horribly wrong? TDD is a methodology to <em>help</em> you move from a place of certainty to the next, safely, without crashing. I use TDD to test my assumptions and my intentions, “I want this module to do X. What do I need? Data? State? Process?” Another analogy that I like to use: You know all those old navigation charts that had colorful drawings at the margins: <em>Here be dragons</em>? TDD allows you to move from the known world to the unknown with safety. It expands the frontiers of our knowledge. It also gives you a path of breadcrumbs back if you find yourself at a dead end (or falling off the edge of the world into infinite waterfalls).</p>
+
+<p>Lots of things that people <em>might</em> say aren’t TDD-ish, are, in my book, <em>totally</em> TDD. Using a REPL (read-eval-print-loop) to poke at existing code or APIs is TDD. Spiking some code to get a feel for the shape of things is TDD. Really. It’s all tests. It drives your design. Eventually, however, you’re <em>out there</em> and a crash-and-burn risks blowing up the development effort. That is when you “down shift” and “add structure;” that is, start writing the familiar red-green-refactor test cycles. When easing people into TDD, I start with “Tell me, in your own words, what you want this code to do.” The usual response is an overly complicated, multi-step solution to the <em>whole</em> problem. I then say, “Whoa cowboy! What’s the <em>simplest</em> statement that you can make?” The answer, usually, is “calling method X returns Y” to which I say, “Yay! Let’s right <em>just</em> that test.”</p>
+
+<p><span class="newthought">But, but, but what about all that other stuff?</span>  Take notes about the other stuff. Scribble it down on note cards. Add it as tasks to the story in Pivotal Tracker. Post-its, notebook, napkins, whatevs. Just dump all those distractions out of your <a href="https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two">7±2</a> short term memory stack. Focus on the test in <em>front of you</em>. The test fails. Yay! Who would have thought that <em>failure</em> could be so liberating? We have a problem to solve. Red-Green-Refactor. Boom! Our knowledge of the problem domain has inched ever so slightly toward our destination (we hope, mostly, probably, I trust my experience). One test usually leads to the next, or a few more. It depends on where we are in the process. Early on, there are a lot of questions, but as we progress, and the solution set narrows, so do the design questions.</p>
+
+<p>Or, we’ve gone down a garden path or two. Our tests have taken us to a place where we can’t solve the problem. That’s okay, too. Our tools allow us to roll back to a <em>known safe point</em> where we can try a different solution path. That’s not failure, that’s Research &amp; Development FTW! Yes, I do sound like a giggling loon when we have to literally delete code that we just spent hours writing. Which would you rather have though? If it were easy to solve every software problem, there’d probably be an <a href="https://www.fastcompany.com/40564859/an-ai-can-now-write-its-own-code">AI</a> doing it already. Most software problems have to deal with humans: Mushy, imperfect, inconsistent, unpredictable, sometimes irrational, lovely humans. In comparison, quantum physics seems easy.<label for="jk" class="margin-toggle"> ⊕</label><input type="checkbox" id="jk" class="margin-toggle" /><span class="marginnote">just kidding </span> Software that models human behavior is going to be tricky. So TDD helps me explore the boundaries of my knowledge, pushing the envelope outward, until, reliably, the edge hits the destination.</p>
+
+<p>We’re not <em>done</em> yet, but take a look back at your <em>accomplishments</em>. The code works. You can show it your stakeholders. You can test it in front of users. You can get feedback at the business value level, “Is this even worth it?” Meanwhile, you write tests to battle-harden the code: Edge conditions, input validation, synchronization, persistence. It’s that <em>reliability</em> that we’ll <em>always</em> find a solution (or at least discover how badly we underestimated the scope of the problem!) that keeps TDD at the top of my tool-bag. At the end of the day, I can always answer the question,</p>
+
+<blockquote>
+  <p>Are we done?</p>
+</blockquote>
+
+
+
+    </article>
+    <span class="print-footer">To Boldly Test Where No One Has Gone Before - February 15, 2019 - Ken Mayer</span>
+    <footer>
+  <div class="credits">
+    <span>Got issues? Comments? Something to say? <a href="https://github.com/kmayer/kmayer.github.io/issues/new?title=To+Boldly+Test+Where+No+One+Has+Gone+Before&body=https%3A%2F%2Fblog.bitwrangler.com%2F2019%2F02%2F15%2Fto-boldly-test-where-no-one-has-gone-before.html">I'm all ears.</a></span>
+  </div>
+  <hr class="slender">
+  <ul class="footer-links">
+    <li><a href="mailto:ken@bitwrangler.com"><span class="icon-mail3"></span></a></li>    
+    
+      <li>
+        <a href="//www.twitter.com/kennethmayer"><span class="icon-twitter"></span></a>
+      </li>
+    
+      <li>
+        <a href="//github.com/kmayer"><span class="icon-github"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.linkedin.com/in/kennethlmayer"><span class="icon-linkedin"></span></a>
+      </li>
+    
+      <li>
+        <a href="//www.facebook.com/ken.mayer"><span class="icon-facebook2"></span></a>
+      </li>
+      
+  </ul>
+<div class="credits">
+<span>&copy; 1995-2019 &nbsp;&nbsp;KEN MAYER</span></br> <br>
+<span>This site created with the <a href="//github.com/clayh53/tufte-jekyll">Tufte theme for Mutterings of the Global Village Idiot </a> in <a href="//jekyllrb.com">Jekyll</a>.</span> 
+</div>  
+</footer>
+
+  </body>
+</html>
