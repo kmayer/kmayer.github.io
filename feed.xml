@@ -6,8 +6,8 @@
 </description>
     <link>https://blog.bitwrangler.com/</link>
     <atom:link href="https://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 25 Jul 2019 13:05:09 -0700</pubDate>
-    <lastBuildDate>Thu, 25 Jul 2019 13:05:09 -0700</lastBuildDate>
+    <pubDate>Thu, 25 Jul 2019 17:09:21 -0700</pubDate>
+    <lastBuildDate>Thu, 25 Jul 2019 17:09:21 -0700</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
     
       <item>
@@ -594,7 +594,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
         <title>To Boldly Test Where No One Has Gone Before</title>
         <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Lately, I’ve been reading a fresh crop of &quot;TDD is terrible&quot; posts. Here's my counter argument: Test Driven Development is &quot;liberating.&quot; Here's how I use TDD as a design tool.&lt;/code&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Begin personal rant without any factual data to back it up.&lt;/span&gt; &lt;label for=&quot;ime&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;ime&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Also known as “in my experience” &lt;/span&gt; I remember my early days at Pivotal Labs and pairing on a heavy JavaScript project. While my Ruby-fu was pretty good, my JS was rusty, to say the least. We sat down at the editor and I vapor-locked. Not a good way to start the morning. I will always remember that discomfort. It felt wrong. I was doing TDD as it is commonly perceived: “Write a test. Watch it go red. Make it green. Refactor. Repeat.” That’s not very creative. Instead, it was mechanical, cold, sterile. It’s very frustrating when you’re stuck. So, I hear y’all with all the feels.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Begin personal rant without any factual data to back it up.&lt;/span&gt; &lt;label for=&quot;ime&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;ime&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Also known as “in my experience” &lt;/span&gt; I remember my early days at Pivotal Labs, pairing on a heavy JavaScript project. While my Ruby-fu was pretty good, my JS was rusty, to say the least. We sat down at the editor and I vapor-locked. Not a good way to start the morning. I will always remember that discomfort. It felt wrong. I was doing TDD as it is commonly perceived: “Write a test. Watch it go red. Make it green. Refactor. Repeat.” That’s not very creative. Instead, it was mechanical, cold, sterile. It’s very frustrating when you’re stuck. So, I hear y’all with all the feels.&lt;/p&gt;
 
 &lt;p&gt;Here’s what I learned later from Martin Fowler, Sandi Metz, Sarah Mei, Kent Beck and others. &lt;span class=&quot;newthought&quot;&gt;TDD is about making discoveries and design choices.&lt;/span&gt;  Now my sessions start with, “What do we know? What’s the most important thing to learn &lt;em&gt;next&lt;/em&gt;. What direction do we want to go? What’s the smallest productive step?” TDD is about &lt;em&gt;exploration&lt;/em&gt;. That’s much more interesting. We’re going on an &lt;em&gt;adventure&lt;/em&gt;.&lt;/p&gt;
 
