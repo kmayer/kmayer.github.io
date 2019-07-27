@@ -6,8 +6,8 @@
 </description>
     <link>https://blog.bitwrangler.com/</link>
     <atom:link href="https://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 25 Jul 2019 17:09:21 -0700</pubDate>
-    <lastBuildDate>Thu, 25 Jul 2019 17:09:21 -0700</lastBuildDate>
+    <pubDate>Fri, 26 Jul 2019 19:51:20 -0700</pubDate>
+    <lastBuildDate>Fri, 26 Jul 2019 19:51:20 -0700</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
     
       <item>
@@ -668,8 +668,6 @@ f(x_n) &amp;\Rightarrow x_{n+1}
         
         <category>devops</category>
         
-        <category>sre</category>
-        
         <category>scaling</category>
         
         
@@ -851,11 +849,9 @@ f(x_n) &amp;\Rightarrow x_{n+1}
         
         <category>agile</category>
         
-        <category>xp</category>
-        
         <category>testing</category>
         
-        <category>sre</category>
+        <category>devops</category>
         
         
       </item>
