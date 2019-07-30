@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1564196296346178000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1564196296346178000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1564509602716412000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1564509602716412000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2019/07/21/functional-programming-games.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -76,28 +76,12 @@
 		
   	
 		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
 		    
 		      <a href="/">blog</a>
 		    
 	    
+  	
+		
   	
 		
 		    
@@ -126,54 +110,10 @@
 		
   	
 		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
 		    
 		      <a href="/css/print.css"></a>
 		    
 	    
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
-  	
-		
   	
 		
   	
@@ -250,9 +190,9 @@
 
 </code></pre></div></div>
 
-<p>Now, before we go on about the value of such coding tests, or whether this is one is a particularly good or bad one, let’s just use this as a <em>personal</em> exercise: How can we solve this problem with code such that it doesn’t run afoul of one of the thornier problems in systems design: Keeping track of all the things in a system such that every change in the system is consistent. <a href="https://avdi.codes">Avid Grim</a> made an excellent Ruby Tapas screencast about this problem and used <a href="https://www.rubytapas.com/2017/03/27/episode-472-contextual-identity/">Contextual Identity</a> as part of the solution.</p>
+<p>Now, before we go on about the value of such coding tests, or whether this one is a particularly good or bad one, let’s just use this as a <em>personal</em> exercise: How can we solve this problem with code such that it doesn’t run afoul of one of the thornier problems in systems design: Keeping track of all the things in a system such that every change in the system is consistent. <a href="https://avdi.codes">Avdi Grim</a> made an excellent Ruby Tapas screencast about this problem and used <a href="https://www.rubytapas.com/2017/03/27/episode-472-contextual-identity/">Contextual Identity</a> as part of the solution.</p>
 
-<p>I want to take a different approach, one that uses functional programming techniques instead<label for="reactjs" class="margin-toggle"> ⊕</label><input type="checkbox" id="reactjs" class="margin-toggle" /><span class="marginnote">If you’re using ReactJS, this will look quite similar to the <code class="highlighter-rouge">state</code> property. </span>. Functional programming, at its simplest, enforces everything in the system to be <em>immutable</em> and that to make changes, one applies a function that returns a new and complete state of the system.</p>
+<p>Let’s try a different approach, one that uses functional programming techniques instead<label for="reactjs" class="margin-toggle"> ⊕</label><input type="checkbox" id="reactjs" class="margin-toggle" /><span class="marginnote">If you’re using ReactJS, this will look quite similar to the <code class="highlighter-rouge">state</code> property. </span>. Functional programming, at its simplest, enforces everything in the system to be <em>immutable</em> and that to make changes, one applies a function that returns a new and complete state of the system.</p>
 
 <div class="mathblock"><script type="math/tex; mode=display">
 \begin{align}
@@ -512,7 +452,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>Pretty neat, huh?</p>
 
-<p>We can go in all sorts of directions, now. We sill haven’t built any <em>rules</em> for Blackjack, yet, but now that we have a <code class="highlighter-rouge">Game</code> class to manage the state of the card table, we’ve got a strong foundation.</p>
+<p>We can go in all sorts of directions, now. We still haven’t built any <em>rules</em> for Blackjack, yet, but now that we have a <code class="highlighter-rouge">Game</code> class to manage the state of the card table, we’ve got a strong foundation.</p>
 
 
 
