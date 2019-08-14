@@ -35,10 +35,8 @@
  * Syntax highlighting styles
  */
 .highlight {
-  margin-bottom: 15px; }
-
-.highlight {
-  background: #fffff8; }
+  background: #fffff8;
+  margin-bottom: 12px; }
   .highlight .c {
     color: #998;
     font-style: italic; }
@@ -354,11 +352,18 @@ blockquote footer {
   font-family: "Gill Sans", "Gill Sans MT", "Lato", Calibri, sans-serif;
   letter-spacing: .03em; }
 
+pre.highlight code {
+  font-size: 0.9rem;
+  line-height: 1.5; }
+
+pre.highlight {
+  border: 1px solid #333333;
+  padding: 3px; }
+
 pre, pre code, p code, p pre code {
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
   font-size: 1.2rem;
-  line-height: 1.71428571;
-  margin-top: 1.71428571rem; }
+  margin-top: 1.5rem; }
 
 h1 code, h2 code, h3 code {
   font-size: 0.80em; }
