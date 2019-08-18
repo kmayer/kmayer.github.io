@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1565795721934556000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1565795721934556000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1566091164165745000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1566091164165745000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -401,7 +401,7 @@ git add ./mock-ajax.js
 <p>Every mocked ajax request has a
 <code class="highlighter-rouge">response()</code> method that you can use to inject your own response, synchronously, to your tests. This confirms that MyStore properly parses and arranges the received data so that it can be presented by the view.</p>
 
-<p>###Validate your mocks</p>
+<h2 id="validate-your-mocks">Validate your mocks</h2>
 
 <p>We now have 2 tests that depend on a back-end to respond in a specified way. How do we keep these tests from drifting out of sync? Since we’ve mocked the store in our view test, we might never know if the back-end API changes!</p>
 
@@ -494,7 +494,7 @@ SpecHelper.js file:</p>
        store:    store
 </code></pre></div></div>
 
-<h3 id="what-weve-managed-so-far">What we’ve managed, so far</h3>
+<h2 id="what-weve-managed-so-far">What we’ve managed, so far</h2>
 
 <p>The toy app is coming along. We’ve test driven a DataView that consumes a back-end API. We’ve added the mock-ajax library so we can unit tests our stores in isolation. We’ve even seen a few techniques for keeping our mocks from getting out of sync (although, if you’ve been paying attention, I’ve still left a gaping hole, that needs to be plugged).</p>
 

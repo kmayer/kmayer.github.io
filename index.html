@@ -19,8 +19,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1565795721934556000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1565795721934556000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1566091164165745000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1566091164165745000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -505,7 +505,7 @@
           
         <li class="listing">
           <hr class="slender">
-          <a href="/2015/01/06/unintended-consequences-and-a-disaster-averted.html"><h3 class="contrast">Unintended consequences (and a disaster averted)</h3></a>
+          <a href="/2015/01/06/unintended-consequences-and-a-disaster-averted.html"><h3 class="contrast">Unintended Consequences (and a Disaster Averted)</h3></a>
           <br><span class="smaller">January 6, 2015</span>  <br/>
           <div><p>I want to tell you a scary-as-shit story, mostly so that my friends that have <a href="http://en.wikipedia.org/wiki/Concealed_carry">CCW</a> permits might read it and not get killed by good intentions, because I love you all.</p>
 
@@ -514,7 +514,7 @@
           
         <li class="listing">
           <hr class="slender">
-          <a href="/2014/06/08/timecop-time-and-database-time.html"><h3 class="contrast">Timecop time and database time</h3></a>
+          <a href="/2014/06/08/timecop-time-and-database-time.html"><h3 class="contrast">Timecop Time and Database Time</h3></a>
           <br><span class="smaller">June 8, 2014</span>  <br/>
           <div><p><a href="https://github.com/travisjeffery/timecop">Timecop</a> is a great addition to your testing toolbox, but if you’ve ever tried to use Timecop to interact with a database, and then got the most mysterious of existential errors:</p>
 
@@ -523,7 +523,7 @@
           
         <li class="listing">
           <hr class="slender">
-          <a href="/2014/06/01/the-slow-road.html"><h3 class="contrast">The slow road</h3></a>
+          <a href="/2014/06/01/the-slow-road.html"><h3 class="contrast">The Slow Road</h3></a>
           <br><span class="smaller">June 1, 2014</span>  <br/>
           <div><p>Once a week, we run a query on our production system that takes a very long time to complete. Invariably, it times out because the default settings on Heroku are (quite reasonably) for web / API interactions; anything longer than 30 seconds is too long and the connection should be closed to let other requests through. How do you get around this, then? You could set up your <code class="highlighter-rouge">database.yml</code> file so that you connect to your production database from a developer workstation. This is actually quite useful, but opens up a hellacious security hole. Let’s not get started about the consequences of accidentally running <code class="highlighter-rouge">rake db:drop:all</code>! Moreover, you want your system to be automated as much as possible, and that means running your tasks on a Heroku instance. Fortunately, with a little hackery, you can modify the connection timeout settings within your application. Do this carefully, and make sure that it can not leak into your running web application dynos.</p>
 
@@ -532,7 +532,7 @@
           
         <li class="listing">
           <hr class="slender">
-          <a href="/2014/02/07/when-you-need-a-rabbit-spec-it.html"><h3 class="contrast">When you need a rabbit, spec it</h3></a>
+          <a href="/2014/02/07/when-you-need-a-rabbit-spec-it.html"><h3 class="contrast">When You Need a Rabbit, Spec It</h3></a>
           <br><span class="smaller">February 7, 2014</span>  <br/>
           <div><p>On my current project, we're using RabbitMQ. It's a bit of infrastructure that has to be present, and if it isn't, our integration tests will fail with mysterious error messages. We want our tests to be informative, so let's write a test that asserts that we have the requisite infrastructure in place.</p>
 
@@ -541,7 +541,7 @@
           
         <li class="listing">
           <hr class="slender">
-          <a href="/2014/02/07/speed-up-your-integration-tests-with-a-jig.html"><h3 class="contrast">Speed up your integration tests with a jig</h3></a>
+          <a href="/2014/02/07/speed-up-your-integration-tests-with-a-jig.html"><h3 class="contrast">Speed Up Your Integration Tests with a Jig</h3></a>
           <br><span class="smaller">February 7, 2014</span>  <br/>
           <div><p>If you've written enough integration tests (with Capybara <em>et al.</em>), you must have noticed how much time your tests spend just logging into your web app. Even if it takes 1 second each time, it starts to add up. Here's a solution that I've written several times, now. I create a test "jig" that allows me to authenticate into my application with a single <code>visit</code>.</p>
 
@@ -550,7 +550,7 @@
           
         <li class="listing">
           <hr class="slender">
-          <a href="/2013/11/05/stop-thinking-like-an-employee.html"><h3 class="contrast">Stop thinking like an employee</h3></a>
+          <a href="/2013/11/05/stop-thinking-like-an-employee.html"><h3 class="contrast">Stop Thinking Like an Employee</h3></a>
           <br><span class="smaller">November 5, 2013</span>  <br/>
           <div><p>A few weeks ago, some of the managers got together for drinks after work. I started to reminisce about an old employer who had, what I thought, was an incredibly unique and reasonable way to handle the “vacation liability” problem. The old firm was a consulting firm, mostly military contracts, in the DC area. We were paid for every hour we billed, and we accrued vacation hours for every hour we were paid. It created an environment where the top performers could rack up so much vacation that they could not use it all. Many companies handle this with the familiar “use it or lose it” policy, which caps the accrued vacation hours to some limit. Instead, the firm let vacation accrue forever, with one modification: When you got a raise, your vacation hours were reduced by exactly the same percentage.</p>
 
@@ -613,7 +613,7 @@
           
         <li class="listing">
           <hr class="slender">
-          <a href="/2013/02/22/method_missing-hazardous-to-your-module.html"><h3 class="contrast">method_missing hazardous to your module?</h3></a>
+          <a href="/2013/02/22/method_missing-hazardous-to-your-module.html"><h3 class="contrast">method_missing Hazardous to Your Module?</h3></a>
           <br><span class="smaller">February 22, 2013</span>  <br/>
           <div><p>We built an(other) object factory module for our current project and it looks a lot like all the others: After a while, we noticed that the <code>create</code> methods were all exactly the same. Time for some dynamic refactoring!</p>
 
@@ -631,7 +631,7 @@
           
         <li class="listing">
           <hr class="slender">
-          <a href="/2012/05/12/from-customer-requirements-to-releasable-gem.html"><h3 class="contrast">From customer requirements to releasable gem</h3></a>
+          <a href="/2012/05/12/from-customer-requirements-to-releasable-gem.html"><h3 class="contrast">From Customer Requirements to Releasable Gem</h3></a>
           <br><span class="smaller">May 12, 2012</span>  <br/>
           <div><p>One of the many pleasures of working at Pivotal Labs is that we are encouraged to release some of our work as open source. Often during the course of our engagements, we write code that might have wide-spread use. Due to the nature of our contracts, we can not unilaterally release such code. Those rights belong to the client. And rightly so. So, it is an even greater pleasure when one of our clients believes in "giving back" to the community, as well. </p>
 
@@ -676,7 +676,7 @@
           
         <li class="listing">
           <hr class="slender">
-          <a href="/2011/04/05/dropbox-git-designer-3.html"><h3 class="contrast">DropBox + Git => Designer &lt;3</h3></a>
+          <a href="/2011/04/05/dropbox-git-designer-3.html"><h3 class="contrast">DropBox + Git Yields Designer Luv</h3></a>
           <br><span class="smaller">April 5, 2011</span>  <br/>
           <div><p>One of the thornier problems in our workflow is knowing when assets are delivered from the designer and keeping them in sync with our application as they change. We used to use e-mail, Skype or sticky notes. The trouble is that the designer's file naming and directory structure were never quite the same as the application's <code>/public/images</code> directory, so direct comparisons were impossible and we ended with a lot bookkeeping to make sure that we didn't lose any changes. Our solution is to <em>clone</em> the project's git repository into a folder inside a <em>shared</em> Dropbox folder.</p>
 
@@ -699,13 +699,13 @@
           <hr class="slender">
           <a href="/2007/02/24/the-elevator-speech.html"><h3 class="contrast">The Elevator Speech</h3></a>
           <br><span class="smaller">February 24, 2007</span>  <br/>
-          <div><p>The purpose of the "speech" is to condense the project definition
+          <div><p>The purpose of the “speech” is to condense the project definition
 into something that would fit into the time it takes to ride an
 elevator. This is where all good ideas are pitched, apparently; you
 stalk an unwary VC until he or she is trapped inside the elevator has
 no choice but to listen to your prattling. If your idea has any merit,
-pray that the VC doesn't call on someone else to launch the project
-and leave you out in the cold.
+pray that the VC doesn’t call on someone else to launch the project
+and leave you out in the cold.</p>
 
 </div> 
         </li>

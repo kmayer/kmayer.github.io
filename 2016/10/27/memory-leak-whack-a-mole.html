@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1565795721934556000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1565795721934556000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1566091164165745000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1566091164165745000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2016/10/27/memory-leak-whack-a-mole.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -195,8 +195,7 @@
 
 <p><label for="logentries-auth" class="margin-toggle"> ⊕</label><input type="checkbox" id="logentries-auth" class="margin-toggle" /><span class="marginnote"><code class="highlighter-rouge">LogentriesAuth</code> is a special helper class to confirm that the message is authentic. We wouldn’t want some nefarious third party injecting messages into our system and restarting our servers over and over again, would we? A gist of it is available here, under the MIT license. <a href="https://gist.github.com/kmayer/f7e5a6ebb9414bb97b1cdd586aced18a">https://gist.github.com/kmayer/f7e5a…</a> </span></p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">class</span> <span class="nc">LogentriesAlertsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">LogentriesAlertsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
   <span class="n">skip_before_action</span> <span class="ss">:verify_authenticity_token</span>
 
   <span class="k">def</span> <span class="nf">create</span>
@@ -239,8 +238,7 @@
 
 <p><span class="newthought"><a href="http://puma.io">Puma</a></span>  version 3 has a new feature that allows you to add <a href="https://github.com/puma/puma#plugins">custom plugins</a>. With it, you can use Puma’s API to signal itself to stop; it will handle the rest of the clean up on its own. This  custom plugin checks Redis for the “message” set by our controller. Puma background threads are lightweight enough that they won’t impact performance.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="nb">require</span> <span class="s1">'puma/plugin'</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'puma/plugin'</span>
 <span class="nb">require</span> <span class="s1">'redis'</span>
 
 <span class="no">Puma</span><span class="o">::</span><span class="no">Plugin</span><span class="p">.</span><span class="nf">create</span> <span class="k">do</span>
@@ -280,8 +278,7 @@
 
 <p><span class="newthought"><a href="https://github.com/mperham/sidekiq">Sidekiq</a></span>  is a little trickier; It has an <a href="https://github.com/mperham/sidekiq/wiki/API#processes">API</a> for going quiet, which will complete all in-flight work, and won’t pull any new jobs off the queue; it has <code class="highlighter-rouge">#stop!</code> which will signal the main process to exit. But there’s no API call that says, “go quiet, then quit.” That’s okay, it’s easy enough to build a little class to wrap the Sidekiq process control API:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">class</span> <span class="nc">SidekiqControl</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SidekiqControl</span>
   <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
     <span class="vi">@pattern</span> <span class="o">=</span> <span class="n">pattern</span>
   <span class="k">end</span>
@@ -313,15 +310,13 @@
       <span class="p">.</span><span class="nf">select</span> <span class="p">{</span> <span class="o">|</span><span class="n">ps</span><span class="o">|</span> <span class="vi">@pattern</span> <span class="o">===</span> <span class="n">ps</span><span class="p">[</span><span class="s1">'hostname'</span><span class="p">]</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
-
 </code></pre></div></div>
 
 <h2 id="signal-the-process-to-exit">Signal the Process to Exit</h2>
 
 <p>Also, unlike Puma, there isn’t a similar plugin architecture for running arbitrary background threads. So we’ll build a little <code class="highlighter-rouge">rake</code> task:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">task</span> <span class="s1">'sidekiq:stop'</span><span class="p">,</span> <span class="p">[</span><span class="ss">:pattern</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="s1">'environment'</span> <span class="k">do</span> <span class="o">|</span><span class="n">_task</span><span class="p">,</span> <span class="n">args</span><span class="o">|</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">task</span> <span class="s1">'sidekiq:stop'</span><span class="p">,</span> <span class="p">[</span><span class="ss">:pattern</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="s1">'environment'</span> <span class="k">do</span> <span class="o">|</span><span class="n">_task</span><span class="p">,</span> <span class="n">args</span><span class="o">|</span>
   <span class="n">sq_ctl</span> <span class="o">=</span> <span class="no">SidekiqControl</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="ss">:pattern</span><span class="p">])</span>
   <span class="n">sq_ctl</span><span class="p">.</span><span class="nf">stop</span>
 <span class="k">end</span>
@@ -329,8 +324,7 @@
 
 <p>and now, let’s modify the controller:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="k">class</span> <span class="nc">LogentriesAlertsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">LogentriesAlertsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
   <span class="k">def</span> <span class="nf">create</span>
   <span class="o">...</span>
     <span class="k">if</span> <span class="n">what</span> <span class="o">=~</span> <span class="sr">/R1[45]/</span> <span class="o">&amp;&amp;</span>

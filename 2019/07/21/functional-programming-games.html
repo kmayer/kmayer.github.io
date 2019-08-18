@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1565795721934556000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1565795721934556000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1566091164165745000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1566091164165745000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2019/07/21/functional-programming-games.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -306,8 +306,7 @@ f(x_n) &\Rightarrow x_{n+1}
 
 <p>Object Oriented Design is all about managing state through messages. Our <code class="highlighter-rouge">Game</code> (of Blackjack) class can deal out hands to get things started, and it can draw a card for a single player. Let’s start with the latter, first, because dealing out hands is very much like repeatedly drawing cards for each player in turn.</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">Game</span> <span class="k">do</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">RSpec</span><span class="p">.</span><span class="nf">describe</span> <span class="no">Game</span> <span class="k">do</span>
   <span class="n">it</span> <span class="s2">"can deal out hands to each of the players"</span>
   <span class="n">it</span> <span class="s2">"can draw a card for a player"</span> <span class="k">do</span>
     <span class="n">card</span> <span class="o">=</span> <span class="n">game</span><span class="p">.</span><span class="nf">draw</span><span class="p">(</span><span class="n">game</span><span class="p">.</span><span class="nf">players</span><span class="p">.</span><span class="nf">first</span><span class="p">)</span>

@@ -19,8 +19,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1565795721934556000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1565795721934556000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1566091164165745000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1566091164165745000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/tags/rails.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -190,7 +190,7 @@
     
       <li class="listing">
         <hr class="slender">
-        <a href="/2014/06/08/timecop-time-and-database-time.html"><h3 class="contrast">Timecop time and database time</h3></a>
+        <a href="/2014/06/08/timecop-time-and-database-time.html"><h3 class="contrast">Timecop Time and Database Time</h3></a>
         <br><span class="smaller">June 8, 2014</span>  <br/>
         <div><p><a href="https://github.com/travisjeffery/timecop">Timecop</a> is a great addition to your testing toolbox, but if you’ve ever tried to use Timecop to interact with a database, and then got the most mysterious of existential errors:</p>
 
@@ -199,7 +199,7 @@
     
       <li class="listing">
         <hr class="slender">
-        <a href="/2014/06/01/the-slow-road.html"><h3 class="contrast">The slow road</h3></a>
+        <a href="/2014/06/01/the-slow-road.html"><h3 class="contrast">The Slow Road</h3></a>
         <br><span class="smaller">June 1, 2014</span>  <br/>
         <div><p>Once a week, we run a query on our production system that takes a very long time to complete. Invariably, it times out because the default settings on Heroku are (quite reasonably) for web / API interactions; anything longer than 30 seconds is too long and the connection should be closed to let other requests through. How do you get around this, then? You could set up your <code class="highlighter-rouge">database.yml</code> file so that you connect to your production database from a developer workstation. This is actually quite useful, but opens up a hellacious security hole. Let’s not get started about the consequences of accidentally running <code class="highlighter-rouge">rake db:drop:all</code>! Moreover, you want your system to be automated as much as possible, and that means running your tasks on a Heroku instance. Fortunately, with a little hackery, you can modify the connection timeout settings within your application. Do this carefully, and make sure that it can not leak into your running web application dynos.</p>
 
@@ -208,7 +208,7 @@
     
       <li class="listing">
         <hr class="slender">
-        <a href="/2012/05/12/from-customer-requirements-to-releasable-gem.html"><h3 class="contrast">From customer requirements to releasable gem</h3></a>
+        <a href="/2012/05/12/from-customer-requirements-to-releasable-gem.html"><h3 class="contrast">From Customer Requirements to Releasable Gem</h3></a>
         <br><span class="smaller">May 12, 2012</span>  <br/>
         <div><p>One of the many pleasures of working at Pivotal Labs is that we are encouraged to release some of our work as open source. Often during the course of our engagements, we write code that might have wide-spread use. Due to the nature of our contracts, we can not unilaterally release such code. Those rights belong to the client. And rightly so. So, it is an even greater pleasure when one of our clients believes in "giving back" to the community, as well. </p>
 

@@ -352,13 +352,18 @@ blockquote footer {
   font-family: "Gill Sans", "Gill Sans MT", "Lato", Calibri, sans-serif;
   letter-spacing: .03em; }
 
-pre.highlight code {
+figure.highlight pre code, pre.highlight code {
   font-size: 0.9rem;
   line-height: 1.5; }
 
-pre.highlight {
+figure.highlight pre {
+  width: 100%;
+  margin-top: 0; }
+
+figure.highlight, pre.highlight {
   border: 1px solid #333333;
-  padding: 3px; }
+  padding: 3px;
+  margin-top: 1.5rem; }
 
 pre, pre code, p code, p pre code {
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;

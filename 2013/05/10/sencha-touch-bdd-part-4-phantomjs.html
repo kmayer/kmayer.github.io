@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1565795721934556000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1565795721934556000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1566091164165745000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1566091164165745000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2013/05/10/sencha-touch-bdd-part-4-phantomjs.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -172,15 +172,15 @@
 
 <p><a href="/2013/05/05/sencha-touch-bdd-part-3-testing-views-and-mocking-stores.html">Part 3</a> added <code class="highlighter-rouge">jasmine-ajax</code> so we can verify that stores and models react properly to back-end data. We also learned how to use stores to test views, without depending on a back-end server. In <a href="/2013/04/26/sencha-touch-bdd-part-2.html">Part 2</a> I showed you how to unit test Sencha model classes in Jasmine. In <a href="/2013/04/17/sencha-touch-bdd-part-1.html">Part 1</a> I showed you how to set up your Sencha Touch development environment to use the <a href="http://jasmine.github.io">Jasmine</a> JavaScript test framework.</p>
 
-<h3 id="i-hear-its-all-about-the-cloud-these-days">I hear it’s all about the cloud these days</h3>
+<h2 id="i-hear-its-all-about-the-cloud-these-days">I hear it’s all about the cloud these days</h2>
 
 <p>Not only do we use Test Driven Development, we test all the time (see also <a href="https://www.google.com/search?q=tatft">TATFT</a>). In fact, continuous testing is a key component in a well-run agile practice. Pivotal developed <a href="http://github.com/pivotal-ciborg">ciborg</a> (previously known as Lobot), to automatically deploy <a href="http://jenkins-ci.org/">Jenkins</a> servers in the cloud. Jasmine has a continuous integration target in its rake tasks, <code>rake jasmine:ci</code>. If you’ve never run it before, now is a good time to try it. You’ll notice that Jasmine launches an instance of the Firefox browser, runs the test suite, then reports the results. That’s great if you’ve got (1) Firefox and (2) a machine that has a <em>display</em>! When you run your CI tests in the cloud, the virtual machines may not be configured with a virtual display. Furthermore, the process is terribly slow.</p>
 
 <p>In this installment, we’ll see how to mix in PhantomJS so we can run our Jasmine tests without the need for a visual browser. PhantomJS is orders of magnitude faster, too.</p>
 
-<h3 id="do-the-install-dance">Do the install dance</h3>
+<h2 id="do-the-install-dance">Do the install dance</h2>
 
-<h4 id="0-add-jasmine-phantom-to-your-gemfile">0. Add ‘jasmine-phantom’ to your <code>Gemfile</code></h4>
+<h3 id="but-first-add-jasmine-phantom-to-your-gemfile">(But first) Add ‘jasmine-phantom’ to your <code>Gemfile</code></h3>
 
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">index e6b5daf..612fb25 100644
 </span><span class="gd">--- a/Gemfile
@@ -215,7 +215,7 @@ rake jasmine:ci          <span class="c"># Run continuous integration tests</spa
 rake jasmine:phantom:ci  <span class="c"># Run jasmine specs using phantomjs and report the results</span>
 </code></pre></div></div>
 
-<h3 id="run-rake">Run rake</h3>
+<h2 id="run-rake">Run rake</h2>
 
 <p>Running it will the phantom:ci target will start the Jasmine continuous integration tests in PhantomJS instead of Firefox.</p>
 

@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1565795721934556000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1565795721934556000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1566091164165745000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1566091164165745000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2016/11/30/performant-postgres-migrations.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -175,7 +175,7 @@
 
 <p><span class="newthought">Not all migrations are created equal.</span>  Adding a column to Postgres <em>without</em> a default value is very fast because only the catalog tables get written. <em>With</em> a default value, however, it can get very, very, s-l-o-w, because it has to make a copy of every row and reindex.</p>
 
-<h2 id="-add-columns-without-default-values">=&gt; Add columns without default values</h2>
+<h2 id="rightarrow-add-columns-without-default-values"><span>​<script type="math/tex">\Rightarrow</script></span> Add columns without default values</h2>
 
 <p>Adding a default value to an <em>existing</em> column is also remarkably fast, as it also does not change any existing rows. So, if we break this migration into 2 steps, it will be very, very, fast:</p>
 
@@ -187,7 +187,7 @@
 <span class="k">end</span>
 </code></pre></div></div>
 
-<h2 id="-add-default-values-to-existing-columns">=&gt; Add default values to existing columns</h2>
+<h2 id="rightarrow-add-default-values-to-existing-columns"><span>​<script type="math/tex">\Rightarrow</script></span> Add default values to existing columns</h2>
 
 <p>Of course, now your table has columns filled with NULL values, which may or may not be a bad thing in your application. Let’s assume for the moment that it is a bad thing. How do we update all of those rows? The naive approach in Rails is to iterate over each object, assigning the new value:</p>
 
@@ -209,7 +209,7 @@
 <div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">UPDATE</span> <span class="n">info</span> <span class="o">=</span> <span class="s1">'{}'</span> <span class="k">FROM</span> <span class="nv">"case_docket_reports"</span> <span class="k">WHERE</span> <span class="n">info</span> <span class="k">IS</span> <span class="k">NULL</span><span class="p">;</span>
 </code></pre></div></div>
 
-<h2 id="-do-as-much-work-inside-postgres-not-in-rails">=&gt; Do as much work inside Postgres, not in Rails</h2>
+<h2 id="rightarrow-do-as-much-work-inside-postgres-not-in-rails"><span>​<script type="math/tex">\Rightarrow</script></span> Do as much work inside Postgres, not in Rails</h2>
 
 <p>As I’ve written <a href="/2015/08/15/zero-downtime-migrations.html">before</a>, plan and deploy your migrations so that they can run independently of your production code. That way, you can deploy <em>just</em> your migrations, and run them in production without affecting your application, or incurring downtime.</p>
 
@@ -224,7 +224,7 @@
 <span class="k">end</span>
 </code></pre></div></div>
 
-<h2 id="-add-indexes-concurrently">=&gt; Add indexes CONCURRENTLY</h2>
+<h2 id="rightarrow-add-indexes-concurrently"><span>​<script type="math/tex">\Rightarrow</script></span> Add indexes CONCURRENTLY</h2>
 
 <p>Another trouble spot is changing the type of a column. Again, as I mentioned in <a href="/2015/08/15/zero-downtime-migrations.html">Zero Downtime Migrations</a>, the solution is: “Don’t!” Instead, add a new column with a new name. When you’ve completed your upgrades, and, at your leisure, you can <code class="highlighter-rouge">DROP</code> the column. Here’s an interesting side-tip, you can “hide” the old column from your code so you don’t accidentally use it:</p>
 
@@ -237,11 +237,11 @@
 <span class="k">end</span>
 </code></pre></div></div>
 
-<h2 id="-dont-change-columns-add-new-ones-then-drop-the-old-ones">=&gt; Don’t change columns, add new ones, then drop the old ones</h2>
+<h2 id="rightarrow-dont-change-columns-add-new-ones-then-drop-the-old-ones"><span>​<script type="math/tex">\Rightarrow</script></span> Don’t change columns, add new ones, then drop the old ones</h2>
 
 <p>You can also run into trouble in the most delightfully insidious way by running an innocuous-looking query that accidentally starts locking big chunks of your db. A good example that has bitten everyone at least once is running a back-office analytics query that does an enormous n-way join. Solution: have a read-only replica and query to that!</p>
 
-<h2 id="-run-big-queries-against-a-read-only-replica">=&gt; Run big queries against a read-only replica</h2>
+<h2 id="rightarrow-run-big-queries-against-a-read-only-replica"><span>​<script type="math/tex">\Rightarrow</script></span> Run big queries against a read-only replica</h2>
 
 <p>My last recommendation is this: Hire a really excellent DBA or outsource the whole DB platform. There are endless numbers of knobs and settings and configuration values that you might or might not get right. As your system grows to the point of being “interesting,” you’re going to need that expertise. Or, you can take advantage of PaaS companies who make it their core competency. You get a “slice” of an expert DBA. In addition, they probably know how to scale your database up (and down) better than you ever will, since they do it all the time, and you only need to do it once in awhile. Of course, if you’re lucky, you’ll have those problems that are good to have, and you can move things in-house.</p>
 

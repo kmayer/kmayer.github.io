@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1565795721934556000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1565795721934556000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1566091164165745000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1566091164165745000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2013/04/26/sencha-touch-bdd-part-2.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -186,10 +186,8 @@
 
 <p>When we run our tests in the browser, Jasmine reports this:</p>
 
-<pre>
-  Error: [Ext.Loader] Failed loading synchronously via XHR: 'app/model/MyModel.js';
-  please verify that the file exists. XHR status code: 404
-</pre>
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nb">Error</span><span class="p">:</span> <span class="p">[</span><span class="nx">Ext</span><span class="p">.</span><span class="nx">Loader</span><span class="p">]</span> <span class="nx">Failed</span> <span class="nx">loading</span> <span class="nx">synchronously</span> <span class="nx">via</span> <span class="nx">XHR</span><span class="p">:</span> <span class="dl">'</span><span class="s1">app/model/MyModel.js</span><span class="dl">'</span><span class="p">;</span>
+<span class="nx">please</span> <span class="nx">verify</span> <span class="nx">that</span> <span class="nx">the</span> <span class="nx">file</span> <span class="nx">exists</span><span class="p">.</span> <span class="nx">XHR</span> <span class="nx">status</span> <span class="nx">code</span><span class="p">:</span> <span class="mi">404</span></code></pre></figure>
 
 <p>Which is just Ext’s very formal way of saying, &#8220;No such class exists&#8221; because we haven’t written it, yet.</p>
 
@@ -246,10 +244,8 @@
 
 <p>Reload the Jasmine runner in the browser and &#8230;</p>
 
-<pre>
-  SenchaBdd.model.MyModel has default values.
-  Expected undefined to equal 'yellow'.
-</pre>
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">SenchaBdd</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">MyModel</span> <span class="nx">has</span> <span class="k">default</span> <span class="nx">values</span><span class="p">.</span>
+<span class="nx">Expected</span> <span class="kc">undefined</span> <span class="nx">to</span> <span class="nx">equal</span> <span class="dl">'</span><span class="s1">yellow</span><span class="dl">'</span><span class="p">.</span></code></pre></figure>
 
 <p>Which is easily resolved by adding it to the class:</p>
 
@@ -282,13 +278,11 @@
 
 <p>This is a pretty simple set of tests. If you are at all familiar with unit testing, you won’t find much new here. Testing for validations by inspecting on the Errors collection was a little tricky to suss out. Hopefully I’ve saved you a few frustrating moments digging through the source code. What’s also interesting, I think, is how the test report <em>reads</em>:</p>
 
-<pre>
-  SenchaBdd.model.MyModel
-    exists
-    has data
-    has default values
-    requires an email address
-</pre>
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="nx">SenchaBdd</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">MyModel</span>
+  <span class="nx">exists</span>
+  <span class="nx">has</span> <span class="nx">data</span>
+  <span class="nx">has</span> <span class="k">default</span> <span class="nx">values</span>
+  <span class="nx">requires</span> <span class="nx">an</span> <span class="nx">email</span> <span class="nx">address</span></code></pre></figure>
 
 <p>The test <em>itself</em> communicates something to the reader about the <em>intention</em> of the model. That’s a key concept to understand about TDD; the most important and expensive reader of the application is not the <em>browser</em>, it’s the <em>person</em> who reads and maintains it. It might be your successor or your team mate, or perhaps, yourself, six months from now, when you’ve forgotten everything about this particular patch of code.</p>
 
