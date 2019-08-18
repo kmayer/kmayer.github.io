@@ -6,37 +6,13 @@
 </description>
     <link>https://blog.bitwrangler.com/</link>
     <atom:link href="https://blog.bitwrangler.com/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 17 Aug 2019 18:19:24 -0700</pubDate>
-    <lastBuildDate>Sat, 17 Aug 2019 18:19:24 -0700</lastBuildDate>
+    <pubDate>Sat, 17 Aug 2019 18:27:08 -0700</pubDate>
+    <lastBuildDate>Sat, 17 Aug 2019 18:27:08 -0700</lastBuildDate>
     <generator>Jekyll v3.8.6</generator>
     
       <item>
         <title>Stupid Ruby Tricks: Arrays</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;If you want a Ruby array with &quot;hard&quot; boundaries, use Array#fetch instead of Array#[]&lt;/code&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;IndexError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;outside&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;array&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;bounds: &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;However: If you want to prohibit negative indexes (which usually refer to offsets from the &lt;em&gt;end&lt;/em&gt; of the Array), you can build this simple override:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;define_singleton_method&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:fetch&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-     &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;negative?&lt;/span&gt;
-       &lt;span class=&quot;nb&quot;&gt;fail&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;IndexError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;index &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; outside of array bound: 0...&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-     &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-       &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;index&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-     &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-   &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:fetch&lt;/span&gt;
-&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;
-&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fetch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;IndexError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;index&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;outside&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;array&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;bound: &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-</description>
+        <description>If you want a Ruby array with &quot;hard&quot; boundaries, use Array#fetch instead of Array#[]</description>
         <pubDate>Wed, 24 Jul 2019 00:00:00 -0700</pubDate>
         <link>https://blog.bitwrangler.com/2019/07/24/stupid-ruby-tricks-arrays.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2019/07/24/stupid-ruby-tricks-arrays.html</guid>
@@ -48,295 +24,7 @@
     
       <item>
         <title>Functional Programming in Ruby</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;A functional programming riff on a common coding test.&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;During my most recent round of interviewing, I was given the following problem:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Iteratively design, test and build a simple game of Blackjack&lt;label for=&quot;blackjack&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;blackjack&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Blackjack&quot;&gt;Blackjack&lt;/a&gt; is the American variant of a globally popular banking game known as Twenty-One. &lt;/span&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;I was given the following stub of a test spec to start:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# deck_spec.rb&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Deck&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;creates a new deck of cards&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;be_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;52&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;can be shuffled&quot;&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;can draw a card&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Now, before we go on about the value of such coding tests, or whether this one is a particularly good or bad one, let’s just use this as a &lt;em&gt;personal&lt;/em&gt; exercise: How can we solve this problem with code such that it doesn’t run afoul of one of the thornier problems in systems design: Keeping track of all the things in a system such that every change in the system is consistent. &lt;a href=&quot;https://avdi.codes&quot;&gt;Avdi Grim&lt;/a&gt; made an excellent Ruby Tapas screencast about this problem and used &lt;a href=&quot;https://www.rubytapas.com/2017/03/27/episode-472-contextual-identity/&quot;&gt;Contextual Identity&lt;/a&gt; as part of the solution.&lt;/p&gt;
-
-&lt;p&gt;Let’s try a different approach, one that uses functional programming techniques instead&lt;label for=&quot;reactjs&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;reactjs&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;If you’re using ReactJS, this will look quite similar to the &lt;code class=&quot;highlighter-rouge&quot;&gt;state&lt;/code&gt; property. &lt;/span&gt;. Functional programming, at its simplest, enforces everything in the system to be &lt;em&gt;immutable&lt;/em&gt; and that to make changes, one applies a function that returns a new and complete state of the system.&lt;/p&gt;
-
-&lt;div class=&quot;mathblock&quot;&gt;&lt;script type=&quot;math/tex; mode=display&quot;&gt;
-\begin{align}
-f(x_0) &amp;\Rightarrow x_1 \\
-f(x_1) &amp;\Rightarrow x_2 \\
-&amp;\vdots \\
-f(x_n) &amp;\Rightarrow x_{n+1}
-\end{align}
-&lt;/script&gt;&lt;/div&gt;
-
-&lt;p&gt;Lather, rinse, repeat.&lt;/p&gt;
-
-&lt;p&gt;So, let’s try to make a Blackjack system that operates in FP-ish way. Unlike functional programming languages that guarantee immutability, I’m going to use the &lt;a href=&quot;https://github.com/dkubb/ice_nine&quot;&gt;ice_nine&lt;/a&gt; gem to freeze all of my Ruby objects.&lt;label for=&quot;ice_nine&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;ice_nine&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;The Ruby &lt;code class=&quot;highlighter-rouge&quot;&gt;Object&lt;/code&gt; class has a &lt;code class=&quot;highlighter-rouge&quot;&gt;#freeze&lt;/code&gt; method, which prevents an element from further modifications but it doesn’t work for elements that are inside another element (nested elements). &lt;/span&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# deck.rb&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ice_nine&quot;&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;require&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ice_nine/core_ext/object&quot;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Deck&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;attr_reader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:cards&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default_cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@cards&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;deep_freeze&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This immediately diverts us into the question, “What is a &lt;a href=&quot;https://github.com/kmayer/blackjack/blob/master/lib/blackjack/card.rb&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Card&lt;/code&gt;&lt;/a&gt; object?” While it is certainly not a &lt;a href=&quot;https://martinfowler.com/bliki/ValueObject.html&quot;&gt;Value Object&lt;/a&gt;, it can be sorted and compared. When you want to get fancy, they have &lt;a href=&quot;https://github.com/kmayer/blackjack/blob/master/lib/blackjack/suit.rb&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Suits&lt;/code&gt;&lt;/a&gt; as well. I’m going to spare you the development of these classes, because it distracts from the core of this article, but you can get copies of them from my &lt;a href=&quot;https://github.com/kmayer/blackjack/tree/master/lib/blackjack&quot;&gt;blackjack-ruby&lt;/a&gt; repository. So, just shade your eyes a little, here’s how we get started, our initializer can create a default deck of cards.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# deck.rb&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;CARDS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;A&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Ace&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to_s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;J&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Jack&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;11&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Q&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Queen&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;12&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;K&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;King&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;CARDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deep_freeze&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# https://en.wikipedia.org/wiki/High_card_by_suit&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;SPADES&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Suit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;♤&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Spades&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;CLUBS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Suit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;♧&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Clubs&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;HEARTS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Suit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;♡&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Hearts&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;DIAMONDS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Suit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;♢︎&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Diamonds&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Deck&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default_cards&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;# https://www.rubytapas.com/2016/12/08/episode-459-array-product/&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;SPADES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;CLUBS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;HEARTS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;DIAMONDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;product&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;CARDS&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;suit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;suit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;With the preliminaries out of the way, and our first test is now green, let’s go on to the next one:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# deck_spec.rb&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Deck&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;can be shuffled&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;new_deck&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;not_to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;be&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;not_to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The Ruby &lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt; class implements a &lt;code class=&quot;highlighter-rouge&quot;&gt;#shuffle&lt;/code&gt; method and in a normal class, we’d do something like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# deck.rb&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;shuffle&lt;/span&gt;
-  &lt;span class=&quot;vi&quot;&gt;@cards&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;But that will fail because the &lt;code class=&quot;highlighter-rouge&quot;&gt;Deck&lt;/code&gt; is &lt;em&gt;frozen&lt;/em&gt; (I’m totally digging the informative error message).&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;FrozenError: can't modify frozen Deck
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Remember, however, that our initializer accepts a collection of Cards…&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# deck.rb&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;shuffle&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;So the &lt;code class=&quot;highlighter-rouge&quot;&gt;#shuffle&lt;/code&gt; method shuffles the current &lt;code class=&quot;highlighter-rouge&quot;&gt;Deck&lt;/code&gt;, but instead of modifying it, it returns a brand new &lt;code class=&quot;highlighter-rouge&quot;&gt;Deck&lt;/code&gt; using the shuffled cards in the initializer.&lt;/p&gt;
-
-&lt;p&gt;Next, what about &lt;code class=&quot;highlighter-rouge&quot;&gt;#draw&lt;/code&gt;? We need to keep the &lt;code class=&quot;highlighter-rouge&quot;&gt;Card&lt;/code&gt; that was drawn from the &lt;code class=&quot;highlighter-rouge&quot;&gt;Deck&lt;/code&gt;, and we need a deck without the card in it. This ain’t &lt;em&gt;Dogs Playing Poker&lt;/em&gt;, sweet cheeks.&lt;/p&gt;
-
-&lt;figure&gt;&lt;figcaption&gt;A Friend In Need -- 1903, C.M. Coolidge. https://commons.wikimedia.org/wiki/File:A_Friend_in_Need_1903_C.M.Coolidge.jpg&lt;/figcaption&gt;&lt;img src=&quot;/assets/A_Friend_in_Need_1903_C.M.Coolidge.jpg&quot; /&gt;&lt;/figure&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# deck_spec.rb&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;can draw a card from the top of the deck&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_deck&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;The return signature is an &lt;code class=&quot;highlighter-rouge&quot;&gt;Array&lt;/code&gt; that we nicely destructure out into the two variables, &lt;code class=&quot;highlighter-rouge&quot;&gt;card&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;new_deck&lt;/code&gt;. Because all we need to do is initialize a new deck with the desired cards, we can do this:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# deck.rb&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;..-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])]&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Believe it or not, we’ve completed the implementation of &lt;code class=&quot;highlighter-rouge&quot;&gt;Deck&lt;/code&gt;! It has a very small surface area, but it does all the things that we want a deck of cards to do (for this card game, anyway). Let’s move on to making a card &lt;code class=&quot;highlighter-rouge&quot;&gt;Game&lt;/code&gt; class.&lt;/p&gt;
-
-&lt;p&gt;Object Oriented Design is all about managing state through messages. Our &lt;code class=&quot;highlighter-rouge&quot;&gt;Game&lt;/code&gt; (of Blackjack) class can deal out hands to get things started, and it can draw a card for a single player. Let’s start with the latter, first, because dealing out hands is very much like repeatedly drawing cards for each player in turn.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Game&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;can deal out hands to each of the players&quot;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;can draw a card for a player&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;card&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;game&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;game&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;players&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;game&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;51&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;game&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;players&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;hand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;be_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This test will fail because we haven’t defined what our “local” &lt;code class=&quot;highlighter-rouge&quot;&gt;game&lt;/code&gt; is. Let’s keep this game simple, shall we? Our game of Blackjack will use 1 deck of cards and have 2 players: “Player A” and the “Dealer”.&lt;label for=&quot;vegas-baby&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;vegas-baby&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;You’ll never see a game like this in Las Vegas. Ever. &lt;/span&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# game_spec.rb&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;RSpec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describe&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Game&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;subject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:game&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; 
-    &lt;span class=&quot;no&quot;&gt;Game&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-      &lt;span class=&quot;no&quot;&gt;Deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; 
-      &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Player A&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Dealer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; 
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Whoops, our tests are still failing because I wrote &lt;em&gt;the code that I wished I had&lt;/em&gt;, including the &lt;code class=&quot;highlighter-rouge&quot;&gt;Player&lt;/code&gt; class that I haven’t written yet. Players are yet another immutable class and they have only 2 attributes: The player’s &lt;em&gt;name&lt;/em&gt; and the &lt;em&gt;hand&lt;/em&gt; of cards.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# player.rb&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Player&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;attr_reader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:hand&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[])&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@hand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;hand&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;deep_freeze&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Okay, back to our test… The simple start to the problem is just tell the &lt;code class=&quot;highlighter-rouge&quot;&gt;Deck&lt;/code&gt; to draw a &lt;code class=&quot;highlighter-rouge&quot;&gt;Card&lt;/code&gt; from the deck&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# game.rb&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_deck&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;
-
-  &lt;span class=&quot;vi&quot;&gt;@players&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;players&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; 
-    &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;hand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt; 
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;vi&quot;&gt;@deck&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_deck&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Whoops, there’s that &lt;code class=&quot;highlighter-rouge&quot;&gt;FrozenError: can't modify frozen Game&lt;/code&gt; exception that keeps us from cheating. So, how do we solve this? Does &lt;code class=&quot;highlighter-rouge&quot;&gt;#draw&lt;/code&gt; create a brand new &lt;code class=&quot;highlighter-rouge&quot;&gt;Game&lt;/code&gt; each time? That seems semantically odd. We’ve missed something in our modeling. What are we really doing when we draw a card? We’re changing the state of the &lt;code class=&quot;highlighter-rouge&quot;&gt;Game&lt;/code&gt;, so let’s model each “turn” as well, a &lt;code class=&quot;highlighter-rouge&quot;&gt;Turn&lt;/code&gt;.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# turn.rb&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Turn&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;attr_reader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:players&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:description&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;players&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@deck&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@players&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;players&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@description&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;description&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;deep_freeze&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;A Game becomes an ordered collection of &lt;code class=&quot;highlighter-rouge&quot;&gt;Turns&lt;/code&gt; that are deterministically transformed from one turn to the next by one function, &lt;code class=&quot;highlighter-rouge&quot;&gt;#draw&lt;/code&gt;. This is also our only point of mutability.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# game.rb&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Game&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;attr_reader&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:history&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;players&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;vi&quot;&gt;@history&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Turn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;players&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Initial game set up&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)]&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;c1&quot;&gt;# Some convenience accessors &lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;# to look at the &quot;current&quot; state of the Game&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;latest_turn&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;history&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;first&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;deck&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;latest_turn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deck&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;players&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;latest_turn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;players&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;and now rewrite &lt;code class=&quot;highlighter-rouge&quot;&gt;#draw&lt;/code&gt; to push new &lt;code class=&quot;highlighter-rouge&quot;&gt;Turns&lt;/code&gt; onto our game history.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# game.rb&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# Draws a card from the deck&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# Adds a new turn on the game history (most recent first)&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# Returns the card that was drawn&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;new_deck&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;draw&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;next_turn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Turn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;new_deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;update_player_hand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; =&amp;gt; &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;history&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;unshift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;next_turn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-&lt;span class=&quot;kp&quot;&gt;private&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;# Returns an updated player hand, very ReactJSish&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;update_player_hand&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;players&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;player&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;hand&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;card&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;p&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Dealing out the initial hands is super easy, since &lt;code class=&quot;highlighter-rouge&quot;&gt;#draw&lt;/code&gt; does all of the heavy lifting.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# game.rb&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;# Deal N cards to each player&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;deal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;cards&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;times&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;players&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;draw&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;We’ve got a pretty good set up now. Let’s take the code for a spin.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;game&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Game&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Deck&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;shuffle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Player A&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Player&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Dealer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)])&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;#&amp;lt;Game:...&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;game&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;deal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;game&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;history&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;map&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;reverse&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;Initial&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;game&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;up&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;♢︎&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Player&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;A&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;♤&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Dealer&lt;/span&gt;
-&lt;span class=&quot;no&quot;&gt;Q&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;♢︎&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Player&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;A&lt;/span&gt;
-&lt;span class=&quot;mi&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;♤&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Dealer&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Pretty neat, huh?&lt;/p&gt;
-
-&lt;p&gt;We can go in all sorts of directions, now. We still haven’t built any &lt;em&gt;rules&lt;/em&gt; for Blackjack, yet, but now that we have a &lt;code class=&quot;highlighter-rouge&quot;&gt;Game&lt;/code&gt; class to manage the state of the card table, we’ve got a strong foundation.&lt;/p&gt;
-</description>
+        <description>A functional programming riff on a common coding test.</description>
         <pubDate>Sun, 21 Jul 2019 00:00:00 -0700</pubDate>
         <link>https://blog.bitwrangler.com/2019/07/21/functional-programming-games.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2019/07/21/functional-programming-games.html</guid>
@@ -352,56 +40,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
     
       <item>
         <title>A Parable About Allies</title>
-        <description>&lt;p&gt;A person falls into a deep, dark, scary hole.&lt;/p&gt;
-
-&lt;p&gt;They cry for help for a long, long time.&lt;/p&gt;
-
-&lt;p&gt;A stranger comes along, hears the cries and says,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;You got into this mess by yourself in the first place. Why don’t you get yourself out?&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;They walk off.&lt;/p&gt;
-
-&lt;p&gt;Then a neighbor comes by, hears the cries and says,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Oh, you poor dear; I’ll go and see if I can find a ladder.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;But the ladder needs some assembly and neither of you have the proper tools. Soon the neighbor loses interest,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;I have done all that I can. The rest is up to you.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A politician walks by and says,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;You are in my thoughts and prayers.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Then the family appears at the edge of the hole,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;We’ve bailed you out of so many holes that we can’t do it any more. You must save yourself. Our advisors call it “tough love.”&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Finally, a friend comes by, and much to everyone’s surprise, jumps right into the hole with you.&lt;/p&gt;
-
-&lt;p&gt;You say,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Brah! WTF? Now we’re both stuck down here.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;And the friend says,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;That &lt;em&gt;is&lt;/em&gt; true, but I’ve been here before myself, so I can help you find your way out. Until then, you won’t be left alone in the dark.&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
+        <description>A person falls into a deep, dark, scary hole.</description>
         <pubDate>Sun, 23 Jun 2019 00:00:00 -0700</pubDate>
         <link>https://blog.bitwrangler.com/2019/06/23/a-parable.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2019/06/23/a-parable.html</guid>
@@ -411,173 +50,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
     
       <item>
         <title>Live Refactoring</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;I &quot;live&quot; tweeted a refactoring session.&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://twitter.com/kennethmayer/status/1123375649375248385&quot;&gt;https://twitter.com/kennethmayer/status/1123375649375248385&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;We have a class that creates custom document names based on a bunch of other inputs. The original class is called &lt;code class=&quot;highlighter-rouge&quot;&gt;FileNaming&lt;/code&gt;. It’s worked for almost three years, but time and features have made it more troublesome. Customers want more control, support are carrying a heavier load, everyone wants to know how this thing &lt;em&gt;actually&lt;/em&gt; works.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;FileNaming&lt;/code&gt; uses Ruby’s String/Kernel.sprintf “template” system:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;ss&quot;&gt;irb: &lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Kernel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%{foo} - %{bar}&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;foo: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;apple&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;bar: &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;banana&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;===&amp;gt;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;apple - banana&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;That’s pretty sweet; it’s very light weight. If you have a typo in the template name, you get a &lt;code class=&quot;highlighter-rouge&quot;&gt;KeyError&lt;/code&gt; exception (good for validation before committing the template change to the production database). On the other hand, it’s not really safe for user input, since you’re handing a user-input &lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;Kernel.format&lt;/code&gt; Which was fine. This template system is changed very rarely and only by “highly skilled support personnel” (i.e. me, the rest of engineering and a couple others in the company). It was never modified by or shown to end user/customers. Nowadays, we have a bigger customer base, who want more and more customizations (0-padding to 5 digits instead of 6, using “.” instead of “-“ between date components, and on and on and on).&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;It is time to move on.&lt;/span&gt;  I’ve used &lt;a href=&quot;https://github.com/Shopify/liquid&quot;&gt;Liquid&lt;/a&gt;, a gem from Shopify. I’m going to use it again. So, starting with the pretty comprehensive test suite for &lt;code class=&quot;highlighter-rouge&quot;&gt;FileNaming&lt;/code&gt;, we’ll build a new class, &lt;code class=&quot;highlighter-rouge&quot;&gt;FileNameTemplate&lt;/code&gt; that implements all of the old patterns, but using Liquid, plus &lt;a href=&quot;https://shopify.github.io/liquid/filters/abs/&quot;&gt;filters&lt;/a&gt; for formatting, instead of the 3x elements that rendered the same thing, but with different padding. Are you with me so far? I have two classes that have near equivalent functionality. I want to gradually move our customers from one templating system to the other. I also want to minimize impacts on our existing code base; to minimize things going wrong.&lt;/p&gt;
-
-&lt;p&gt;Here’s a pretty simple and typical example of how the current template system works…&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;filename&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;:document_filename_template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;DOCUMENT_TEMPLATE&lt;/span&gt;
-  &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;document_filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.pdf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;&lt;label for=&quot;rubber-ducking&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;rubber-ducking&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;I realize that I’m &lt;a href=&quot;https://en.wikipedia.org/wiki/Rubber_duck_debugging&quot;&gt;rubber ducking&lt;/a&gt; this to Twitter. Please be gentle. I don’t have a SoundCloud account. But support 
-&lt;a href=&quot;https://twitter.com/alsoalsoalso_&quot;&gt;@alsoalsoalso_&lt;/a&gt;:  They have a new album coming out soonish. &lt;/span&gt;Users (and other classes in our application) have a mix-in module, &lt;code class=&quot;highlighter-rouge&quot;&gt;Preferences&lt;/code&gt;, that store and manage preference settings with reasonable fall backs. Ideally, all of the uses of &lt;code class=&quot;highlighter-rouge&quot;&gt;FileNaming&lt;/code&gt; would not have to change. That would break the smallest number of things. (We have good test coverage so even if I do make a “big” change, I’m confident that we’ll catch regressions before they leave my git index.)&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;First thoughts&lt;/span&gt;  The class names are close, but are not symmetric. What am I trying to communicate here? Second thoughts: OOD&lt;label for=&quot;ood&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;ood&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Object Oriented Design &lt;/span&gt; eschews &lt;code class=&quot;highlighter-rouge&quot;&gt;if/then/else&lt;/code&gt; branches in favor of classes and methods. Send a message to a class and let the class handle the crazy complexities. Third thoughts: It’s Sunday afternoon and the spouse is out of town. I gotta feed the kids soon. Tomorrow is a school day. I can’t code all night. What can I get done quickly?&lt;/p&gt;
-
-&lt;p&gt;I’m going to use some OO patterns to switch between the different rendering classes. Ruby doesn’t have abstract classes, per se, so the structure is a bit more ad hoc, but I think you’ll get the idea. And, to quote &lt;a href=&quot;https://twitter.com/KentBeck&quot;&gt;@KentBeck&lt;/a&gt;&lt;label for=&quot;I think Kent said it first&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;I think Kent said it first&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt; &lt;/span&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Make the change easy to make, then make the easy change.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;I’ll start by creating a factory that just recapitulates the existing behaviors. I’ve already done most of the preparations. &lt;code class=&quot;highlighter-rouge&quot;&gt;User&lt;/code&gt; objects (and their kin) now have a preference that specifies which render engine to use and preference strings for the templates. &lt;code class=&quot;highlighter-rouge&quot;&gt;User.file_naming_template_class&lt;/code&gt; will return the name of the class to use. I’ll spare you the eyes-bleeding cross product of all the different variations, here’s my first cut at the new factory class.&lt;/p&gt;
-
-&lt;p&gt;&lt;label for=&quot;ick&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;ick&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;[ick] but, you know, make it work, then make it right… &lt;/span&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileNameRenderer&lt;/span&gt;
-  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Singleton&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;actor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;actor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;klass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;klass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;default_file_naming&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;fail&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ArgumentError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;klass&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;default_file_naming&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:notification_filename_template&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;TRANSMOGRIFIED_TEMPLATE&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:document_filename_template&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;DOCUMENT_TEMPLATE&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;fail&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ArgumentError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Let’s move all of the default behavior into the &lt;code class=&quot;highlighter-rouge&quot;&gt;FileNaming&lt;/code&gt; class.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileNaming&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:notification_filename_template&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;TRANSMOGRIFIED_TEMPLATE&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:document_filename_template&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;DOCUMENT_TEMPLATE&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-      &lt;span class=&quot;nb&quot;&gt;fail&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ArgumentError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And a little more refactoring so that the renderer class is &lt;em&gt;computed&lt;/em&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileNameRenderer&lt;/span&gt;
-  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Singleton&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;actor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;klass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;renderer_class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;actor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;actor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;klass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;klass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;renderer_class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;actor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This should actually work with my existing code base, so now I’m going to change all of the places where &lt;code class=&quot;highlighter-rouge&quot;&gt;FileNaming&lt;/code&gt; objects were created directly and replace it with this factory pattern. &lt;span class=&quot;newthought&quot;&gt;Status update:&lt;/span&gt;  Gotta go make dinner for the kids. I found some leaks in our abstractions. Sometimes our code references the template &lt;em&gt;name&lt;/em&gt; (or method) and sometimes we just mess around with the template &lt;em&gt;content&lt;/em&gt; (as a &lt;code class=&quot;highlighter-rouge&quot;&gt;String&lt;/code&gt;). &lt;a href=&quot;http://wiki.c2.com/?PrimitiveObsession&quot;&gt;Primitive Obcession&lt;/a&gt; bites us, again.&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;While I was gone&lt;/span&gt; , I shipped the code into production. Nothing changed. Hurray! Now I can make some small changes to use our new rendering class. The “actor” object has a preference setting that knows which class to use.  (I’ve made a slight hack for the null object smell. Sometimes a little bit of deodorant…)&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileNameRenderer&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;renderer_class&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;actor&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;actor&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;file_naming_template_class&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;FileNaming&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;There’s some magic going on behind the scenes — the &lt;code class=&quot;highlighter-rouge&quot;&gt;Preferences&lt;/code&gt; module also disambiguates between template systems, but that’s another beast of code.   (&lt;code class=&quot;highlighter-rouge&quot;&gt;get_preference&lt;/code&gt; reaches into the stored data to get the attribute with that name)&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;document_filename_template&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_preference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'file_naming_template_class'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'FileNaming'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_preference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'document_filename_template'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'FileNameTemplate'&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;get_preference&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'document_filename_template_v2'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;fail&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ArgumentError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file_naming_template_class&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;What I didn’t show you was that code moving around from the template system to the preferences system. And that’s okay, the tests guided me and when I noticed duplicate code and feature envy, it was an “obvious” move to make. Making mistakes is okay. Just get it working. I didn’t write a whole lot of tests, either. Just the behavior I wanted.  That way, when I refactored, I didn’t have to rewrite the tests.&lt;/p&gt;
-
-&lt;p&gt;&lt;label for=&quot;arrange-act-assert&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;arrange-act-assert&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;The tests are ‘two’ lines long: Act and Assert (the middle line is mostly a sanity check that I’m using the correct template class). I’m doing all of the Arranging in a before block. See also &lt;a href=&quot;http://wiki.c2.com/?ArrangeActAssert&quot;&gt;Arrange Act Assert&lt;/a&gt; &lt;/span&gt;&lt;/p&gt;
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;context&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;using the FileNameTemplate renderer&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;before&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;file_naming_template_class&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'FileNameTemplate'&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;it&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;renders using the Liquid template, instead&quot;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;renderer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;FileNameRenderer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:document_filename_template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;renderer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;be_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;FileNameTemplate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;renderer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;document_filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.pdf'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;N.D. Cal. 15-cv-37731 dckt 000094_002 filed 2017-06-13.pdf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-    &lt;span class=&quot;n&quot;&gt;renderer&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;FileNameRenderer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:notification_filename_template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;renderer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;be_a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;FileNameTemplate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;expect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;renderer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;document_filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'.pdf'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)).&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;eq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2017-06-13 MOTION FEE SERVICE [dckt 94_2].pdf&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Remember the default value code I wrote for the &lt;code class=&quot;highlighter-rouge&quot;&gt;FileNaming&lt;/code&gt; class? Here’s the &lt;em&gt;same exact code&lt;/em&gt; for the &lt;code class=&quot;highlighter-rouge&quot;&gt;FileNameTemplate&lt;/code&gt; class. The only differences are the &lt;em&gt;values&lt;/em&gt; of constants. Here, code duplication is an indication that we’re on the right track.&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FileNameTemplate&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;# ...&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:notification_filename_template&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;TRANSMOGRIFIED_TEMPLATE&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;when&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:document_filename_template&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;DOCUMENT_TEMPLATE&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-      &lt;span class=&quot;nb&quot;&gt;fail&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ArgumentError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;template&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;inspect&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Time for another pull request and a deploy to production!&lt;/p&gt;
-
-&lt;p&gt;That’s about it. Now we can reconfigure a &lt;code class=&quot;highlighter-rouge&quot;&gt;User&lt;/code&gt; (or an &lt;code class=&quot;highlighter-rouge&quot;&gt;Organization&lt;/code&gt; an &lt;code class=&quot;highlighter-rouge&quot;&gt;Office&lt;/code&gt;) to switch rendering systems and then they will use the new Liquid templates from &lt;code class=&quot;highlighter-rouge&quot;&gt;Preferences&lt;/code&gt; to render. Existing customers are unaffected until then. For all of the users that are still using our default templates, we can bulk switch them over.&lt;/p&gt;
-</description>
+        <description>I &quot;live&quot; tweeted a refactoring session.</description>
         <pubDate>Sun, 28 Apr 2019 00:00:00 -0700</pubDate>
         <link>https://blog.bitwrangler.com/2019/04/28/live-refactoring.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2019/04/28/live-refactoring.html</guid>
@@ -591,26 +64,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
     
       <item>
         <title>To Boldly Test Where No One Has Gone Before</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Lately, I’ve been reading a fresh crop of &quot;TDD is terrible&quot; posts. Here's my counter argument: Test Driven Development is &quot;liberating.&quot; Here's how I use TDD as a design tool.&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Begin personal rant without any factual data to back it up.&lt;/span&gt; &lt;label for=&quot;ime&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;ime&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Also known as “in my experience” &lt;/span&gt; I remember my early days at Pivotal Labs, pairing on a heavy JavaScript project. While my Ruby-fu was pretty good, my JS was rusty, to say the least. We sat down at the editor and I vapor-locked. Not a good way to start the morning. I will always remember that discomfort. It felt wrong. I was doing TDD as it is commonly perceived: “Write a test. Watch it go red. Make it green. Refactor. Repeat.” That’s not very creative. Instead, it was mechanical, cold, sterile. It’s very frustrating when you’re stuck. So, I hear y’all with all the feels.&lt;/p&gt;
-
-&lt;p&gt;Here’s what I learned later from Martin Fowler, Sandi Metz, Sarah Mei, Kent Beck and others. &lt;span class=&quot;newthought&quot;&gt;TDD is about making discoveries and design choices.&lt;/span&gt;  Now my sessions start with, “What do we know? What’s the most important thing to learn &lt;em&gt;next&lt;/em&gt;. What direction do we want to go? What’s the smallest productive step?” TDD is about &lt;em&gt;exploration&lt;/em&gt;. That’s much more interesting. We’re going on an &lt;em&gt;adventure&lt;/em&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;label for=&quot;here_be_dragons&quot; class=&quot;margin-toggle&quot;&gt;⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;here_be_dragons&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;&lt;img class=&quot;fullwidth&quot; src=&quot;/assets/here_be_dragons.jpg&quot; /&gt;&lt;br /&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Carta_marina&quot;&gt;Carta marina&lt;/a&gt;, a wallmap of Scandinavia. Olaus Magnus, 1539. The caption reads: &lt;em&gt;Marine map and Description of the Northern Lands and of their Marvels, most carefully drawn up at Venice in the year 1539 through the generous assistance of the Most Honourable Lord Hieronymo Quirino.&lt;/em&gt;&lt;/span&gt; Of course, like any adventure, the first steps can be scary. You don’t know if you’re prepared or not. What happens if something goes horribly wrong? TDD is a methodology to &lt;em&gt;help&lt;/em&gt; you move from a place of certainty to the next, safely, without crashing. I use TDD to test my assumptions and my intentions, “I want this module to do X. What do I need? Data? State? Process?” Another analogy that I like to use: You know all those old navigation charts that had colorful drawings at the margins: &lt;em&gt;Here be dragons&lt;/em&gt;? TDD allows you to move from the known world to the unknown with safety. It expands the frontiers of our knowledge. It also gives you a path of breadcrumbs back if you find yourself at a dead end (or falling off the edge of the world into infinite waterfalls).&lt;/p&gt;
-
-&lt;p&gt;Lots of things that people &lt;em&gt;might&lt;/em&gt; say aren’t TDD-ish, are, in my book, &lt;em&gt;totally&lt;/em&gt; TDD. Using a REPL (read-eval-print-loop) to poke at existing code or APIs is TDD. Spiking some code to get a feel for the shape of things is TDD. Really. It’s all tests. It drives your design. Eventually, however, you’re &lt;em&gt;out there&lt;/em&gt; and a crash-and-burn risks blowing up the development effort. That is when you “down shift” and “add structure;” that is, start writing the familiar red-green-refactor test cycles. When easing people into TDD, I start with “Tell me, in your own words, what you want this code to do.” The usual response is an overly complicated, multi-step solution to the &lt;em&gt;whole&lt;/em&gt; problem. I then say, “Whoa cowboy! What’s the &lt;em&gt;simplest&lt;/em&gt; statement that you can make?” The answer, usually, is “calling method X returns Y” to which I say, “Yay! Let’s right &lt;em&gt;just&lt;/em&gt; that test.”&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;But, but, but what about all that other stuff?&lt;/span&gt;  Take notes about the other stuff. Scribble it down on note cards. Add it as tasks to the story in Pivotal Tracker. Post-its, notebook, napkins, whatevs. Just dump all those distractions out of your &lt;a href=&quot;https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two&quot;&gt;7±2&lt;/a&gt; short term memory stack. Focus on the test in &lt;em&gt;front of you&lt;/em&gt;. The test fails. Yay! Who would have thought that &lt;em&gt;failure&lt;/em&gt; could be so liberating? We have a problem to solve. Red-Green-Refactor. Boom! Our knowledge of the problem domain has inched ever so slightly toward our destination (we hope, mostly, probably, I trust my experience). One test usually leads to the next, or a few more. It depends on where we are in the process. Early on, there are a lot of questions, but as we progress, and the solution set narrows, so do the design questions.&lt;/p&gt;
-
-&lt;p&gt;Or, we’ve gone down a garden path or two. Our tests have taken us to a place where we can’t solve the problem. That’s okay, too. Our tools allow us to roll back to a &lt;em&gt;known safe point&lt;/em&gt; where we can try a different solution path. That’s not failure, that’s Research &amp;amp; Development FTW! Yes, I do sound like a giggling loon when we have to literally delete code that we just spent hours writing. Which would you rather have though? If it were easy to solve every software problem, there’d probably be an &lt;a href=&quot;https://www.fastcompany.com/40564859/an-ai-can-now-write-its-own-code&quot;&gt;AI&lt;/a&gt; doing it already. Most software problems have to deal with humans: Mushy, imperfect, inconsistent, unpredictable, sometimes irrational, lovely humans. In comparison, quantum physics seems easy.&lt;label for=&quot;jk&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;jk&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;just kidding &lt;/span&gt; Software that models human behavior is going to be tricky. So TDD helps me explore the boundaries of my knowledge, pushing the envelope outward, until, reliably, the edge hits the destination.&lt;/p&gt;
-
-&lt;p&gt;We’re not &lt;em&gt;done&lt;/em&gt; yet, but take a look back at your &lt;em&gt;accomplishments&lt;/em&gt;. The code works. You can show it your stakeholders. You can test it in front of users. You can get feedback at the business value level, “Is this even worth it?” Meanwhile, you write tests to battle-harden the code: Edge conditions, input validation, synchronization, persistence. It’s that &lt;em&gt;reliability&lt;/em&gt; that we’ll &lt;em&gt;always&lt;/em&gt; find a solution (or at least discover how badly we underestimated the scope of the problem!) that keeps TDD at the top of my tool-bag. At the end of the day, I can always answer the question,&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Are we done?&lt;/p&gt;
-&lt;/blockquote&gt;
-</description>
+        <description>Lately, I’ve been reading a fresh crop of &quot;TDD is terrible&quot; posts. Here's my counter argument: Test Driven Development is &quot;liberating.&quot; Here's how I use TDD as a design tool.</description>
         <pubDate>Fri, 15 Feb 2019 00:00:00 -0800</pubDate>
         <link>https://blog.bitwrangler.com/2019/02/15/to-boldly-test-where-no-one-has-gone-before.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2019/02/15/to-boldly-test-where-no-one-has-gone-before.html</guid>
@@ -624,43 +78,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
     
       <item>
         <title>Our CTO Sleeps Well At Night</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;I am PacerPro’s chief technical officer, which means that I get the first phone call at 3 am when things go pear-shaped. Fortunately, I don’t get many of those calls: I’ve built a development team and process that delivers reliability as a core feature.&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;no-one-gives-a-damn-about-where-the-electrons-come-from-until-the-lights-go-out&quot;&gt;No one gives a damn about where the electrons come from until the lights go out.&lt;/h2&gt;
-
-&lt;p&gt;The number one core value of PacerPro, from the very beginning, has always been rock solid reliability. “You only get your customer’s trust once,” says Gavin McGrane, CEO, “and if you lose that, you’ll never get it back.” So we’ve built our product with reliability as a primary design constraint. That’s a very, very tough requirement. Most startups (as we were, way back in 2011) write their code with duct tape and bubble gum. We took the opposite approach, writing our code using a “Test Driven Development” (TDD) methodology&lt;label for=&quot;0&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;0&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;We write the tests first, even before we write the first line of production code. &lt;/span&gt;. We run a lot of tests, thousands of them. We run our test suites dozens of times a day, sometimes hundreds. We only ship code to production when all of our tests pass with flying colors.&lt;/p&gt;
-
-&lt;p&gt;I’ve been working in the software development industry since 1985. Back then, in the bad old days, production deploys were fraught with worry and prayer. Even so, I had a reputation for shipping bug-free code–annoyingly so, since sometimes that required delaying the software’s release until the code was ready to go.&lt;/p&gt;
-
-&lt;h2 id=&quot;stay-focused-on-product--core-competencies&quot;&gt;Stay focused on product &amp;amp; core competencies.&lt;/h2&gt;
-
-&lt;p&gt;We’re a lean company. Infrastructure is not our product; I don’t want to spend precious headcount budget on operations. These days, with everything in the cloud, PacerPro gets to leverage the expertise of some of the largest IT corporations in the world: Amazon, Salesforce, Google. As CTO, I find “best in class” providers to deliver computing infrastructure for our product. I don’t have to pay for a DevOps engineer or an expert DBA. Instead, I get my &lt;em&gt;provider’s&lt;/em&gt; expertise in &lt;em&gt;their&lt;/em&gt; core competencies. So, for a fraction of the cost of a single DBA, for example, I have scalable databases with redundancy, hot backups, and immediate roll forwards. All ACID, encrypted at rest, and privacy compliant.&lt;/p&gt;
-
-&lt;h2 id=&quot;youre-not-paranoid-if-the-world-is-out-to-get-you&quot;&gt;You’re not paranoid if the world is out to get you.&lt;/h2&gt;
-
-&lt;p&gt;There’s an interesting side-effect to building cloud-based applications: You have to engineer with the expectation that any of your service dependencies can and will fail at any moment. This is where an always-testing culture comes in handy. Part of our production test suite has what is sometimes called “enemy testing,” where we simulate that something “bad” has happened. We don’t have to guess whether our application runs or not in the face of failures, because we have already empirically proved that it will. One of our web servers dies? No problem, we have 3 more running. Someone mentions us on Hacker News? Our automated scaling system spins up more servers to handle the extra load. One of the PACER sites goes down? We’ll trip a “circuit breaker” in software to prevent jobs from stacking up on the dead resource until it comes back online again.&lt;/p&gt;
-
-&lt;h2 id=&quot;commodity-services-are-just-another-api&quot;&gt;Commodity services are just another API&lt;/h2&gt;
-
-&lt;p&gt;PacerPro is remarkably flexible when it comes to service providers. There’s virtually no lock-in anywhere in our toolchain. As part of our relentless obsession with reliability, our software is built to talk to &lt;em&gt;services&lt;/em&gt;, not &lt;em&gt;service providers&lt;/em&gt;. e.g. We have a mail service class. Inside the service code, we’ll have pluggable references to our providers, including all authentication and configuration information, so if (and when) we need to switch, we can change a configuration variable in our production environment and continue around the failure. PacerPro generates over 50,000 individualized custom emails every single business day; we can’t wait for a downstream outage to “resolve itself.”&lt;/p&gt;
-
-&lt;h2 id=&quot;privacy-by-design&quot;&gt;Privacy by design&lt;/h2&gt;
-
-&lt;p&gt;There’s much chatter these days about security breaches, which is sad because, while a challenging engineering problem, security is by no means unsolvable–or even unsolved. The trouble starts with senior managers who don’t know anything about security&lt;label for=&quot;1&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;1&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;And why should they, after all? &lt;/span&gt;. They don’t budget for it and their engineering staff does not or cannot communicate the mission-critical aspect of security. So security becomes an afterthought. PacerPro does several things to correct this: Security design is part of every story (usually it is a non-issue, but we do check it). We try not to store any sensitive data, period. You’d be surprised how much you don’t need. We don’t trust ourselves to do encryption “right,” so we, again, offload it to the experts. For example, we use Stripe.com to handle all of our credit card transactions, so never see a credit card number. We encrypt the data that we must store. We have regular scans for code vulnerabilities and patch them as “Level-1” bugs (usually released the same day). If asked whether all this extra work is vital, my reply is always, “Do you want our company logo to appear next to the headline, ‘Hacked’?&lt;/p&gt;
-
-&lt;h2 id=&quot;building-a-culture-of-writing-things-down&quot;&gt;Building a culture of “writing things down.”&lt;/h2&gt;
-
-&lt;p&gt;No one is irreplaceable. &lt;label for=&quot;2&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;2&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Not even the CTO. &lt;/span&gt; Sometimes we joke about “bus counts,” which is the number of people that have to be run over by a bus before the company can no longer operate. A bus count number of “Ken” is unacceptable–PacerPro has to be able to keep running, even if, goodness forbid, something were to happen to me. So, we write down procedures in a company “runbook.” We automate the heck out of anything that we do more than 3 times &lt;label for=&quot;3&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;3&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;3 is a magic number. &lt;/span&gt; We have a company chat channel where we can call an “all hands on deck” emergency, and because we are a  distributed company, we’ve got bi-coastal coverage. Our engineering culture is “full-stack”; everyone has the skills to work with any part of the product. Some of us are more expert on some things than others, so we use pair programming to “level-up” our team knowledge. &lt;label for=&quot;4&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;4&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Pair programming is an “Xtreme Programming” technique where two engineers work on a single story at the same time. I sometimes describe it as “Two brains, one keyboard.” &lt;/span&gt; Thus we increase reliability. Pair programming may have a bum rap because you are paying two developers to deliver one feature, but empirical studies show that the code quality is much higher; enough so that the overall code cost (in time and dollars) is about a wash: But you get to higher quality, more reliable code sooner, for the win.&lt;/p&gt;
-
-&lt;h2 id=&quot;if-you-dont-measure-it-it-doesnt-exist&quot;&gt;If you don’t measure it, it doesn’t exist.&lt;/h2&gt;
-
-&lt;p&gt;Another core part of our development process is &lt;em&gt;a priori&lt;/em&gt; support for metrics. We measure everything, from email delivery latency to database transactions per second. Sometimes we’ll only care about a metric for a short while, such as when we want to optimize a critical block of code. &lt;label for=&quot;5&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;5&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Most of the code that we write is optimized for developer productivity, by the way. Between our skills and Moore’s Law, 85% our code base is fast enough, as is. &lt;/span&gt; That way, we only have to focus on a few critical points in the software, instead of guessing. Other metrics go onto the production dashboard that we distribute internally. We have scripts that monitor for out of bounds values and then send notices to the engineering and DevOps Slack channels. We used to have a PagerDuty account, but we found that to be too heavyweight for us. Since we already listen to Slack, it created less friction to our regular work process.&lt;/p&gt;
-
-&lt;h2 id=&quot;no-you-cant-have-a-pony&quot;&gt;No. You can’t have a pony.&lt;/h2&gt;
-
-&lt;p&gt;Gavin can attest to the fact that I’m a certified pain-in-the-ass when it comes to building new features. Before we start designing, I ask many questions about sales, product, and C-levels. Some of my favorites: “Would this be stupid for us not to do, in the next 90 days?” “Based on the feature, it is going to cost &lt;em&gt;thousands&lt;/em&gt; of dollars to build, test, verify, deliver and maintain. What’s our ROI over the next year?” “What’s our opportunity cost if we build this feature instead of that one?” That keeps us focused. 90 days may seem pretty short, but our world changes so quickly, that 90 days from now, everything that we thought we knew about our business will either change or called into question. Long-term planning in this context is a fool’s game. That’s not to say that we don’t have longer-range plans, but they are not specific implementation plans.&lt;/p&gt;
-
-</description>
+        <description>I am PacerPro’s chief technical officer, which means that I get the first phone call at 3 am when things go pear-shaped. Fortunately, I don’t get many of those calls: I’ve built a development team and process that delivers reliability as a core feature.</description>
         <pubDate>Mon, 30 Jul 2018 00:00:00 -0700</pubDate>
         <link>https://blog.bitwrangler.com/2018/07/30/sleeping-well-at-night.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2018/07/30/sleeping-well-at-night.html</guid>
@@ -674,47 +92,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
     
       <item>
         <title>Using Ruby Enumerators for Resumable Iterators </title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Here's a power technique: You can use Ruby Enumerators to create &quot;resumable&quot; iterators when you're extracting data from the application console.&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;In the past, When I had to some one-off analysis of some production data, I’d do something like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;big_collection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Invariably something would ‘asplode&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;no&quot;&gt;OMG&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;Raised&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Which I would dutifully fix, then I’d have to start. all. over. again.&lt;/p&gt;
-
-&lt;p&gt;however&lt;/p&gt;
-
-&lt;p&gt;&lt;label for=&quot;enumerators&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;enumerators&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;I won’t go into the sublime complexities of Enumerables and Enumerators. Others have said it much better than I can. This &lt;em&gt;unwrapping&lt;/em&gt; is exactly what happens when you pass a block to the enumerator returned by &lt;code class=&quot;highlighter-rouge&quot;&gt;each&lt;/code&gt;. &lt;/span&gt;If we unwrap it just a little bit using an &lt;a href=&quot;https://ruby-doc.org/core/Enumerator.html&quot;&gt;enumerator&lt;/a&gt; instead of calling &lt;code class=&quot;highlighter-rouge&quot;&gt;each&lt;/code&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;big_collection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;each&lt;/span&gt;
-&lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;next&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Then (when) an exception is raised, I can “simply” handle it on the console, or edit the method, or say “lets just skip it, bad data, &lt;code class=&quot;highlighter-rouge&quot;&gt;next&lt;/code&gt;!”&lt;/p&gt;
-
-&lt;p&gt;Resuming from where we left off is a simple recapitulation of the loop:&lt;/p&gt;
-
-&lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kp&quot;&gt;loop&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;enum&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;next&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;complex_expensive_computation_on&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;thingy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;and we can carry on with the rest of the data!&lt;/p&gt;
-
-&lt;p&gt;&lt;label for=&quot;stop-iteration&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;stop-iteration&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;When an enumerator gets to the end of its iterations, it raises the &lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt; exception. That’s how &lt;code class=&quot;highlighter-rouge&quot;&gt;each&lt;/code&gt; with a block is implemented. &lt;/span&gt;Even moar better: &lt;code class=&quot;highlighter-rouge&quot;&gt;loop do...end&lt;/code&gt; has some extra Ruby magic sprinkles in it: It rescues &lt;a href=&quot;https://ruby-doc.org/core/StopIteration.html&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt;&lt;/a&gt; for you so that when the enumerator does come to its timely end, there’s no exception raised.&lt;/p&gt;
-</description>
+        <description>Here's a power technique: You can use Ruby Enumerators to create &quot;resumable&quot; iterators when you're extracting data from the application console.</description>
         <pubDate>Sun, 11 Mar 2018 00:00:00 -0800</pubDate>
         <link>https://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2018/03/11/resumable-iterators.html</guid>
@@ -726,55 +104,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
     
       <item>
         <title>On Call Duty</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Recently, there was a flurry of tweets about on-call and SRE duty schedules. It triggered a memory of a conversation at a manager meeting about a new product offering:&lt;/code&gt;&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Manager 1: On call duty? We can’t ask our developers! They work 9 to 6, Monday through Friday. That’s it. &lt;label for=&quot;note-1&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;note-1&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;Remember when it was 9-5, hmm? &lt;/span&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Me: Our servers run 24x7x365&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Manager 2: The developers are our most precious resource! We can’t piss them off. They’ll quit!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Me: You seem to misunderstand the role of a senior developer and yours as manager.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;A feature (or any other chunk of code) is never really “done” until the code is erased from production. All of us must support it, somehow. Bugs happen. Customers call. We are paid for working systems. Clicking “Deliver” and “Accept” is not the end of our responsibility.&lt;/p&gt;
-
-&lt;p&gt;As a manager, it is your job to express the importance of production code to your staff. They are not royalty nor privileged-spoiled-generation whatever. In fact, when I’ve have conversations with my directs, most have been remarkably pragmatic and supportive when they are informed about the value of on-call duty.&lt;/p&gt;
-
-&lt;p&gt;More importantly, if you give your staff the trust and respect that comes with, “there is no dev/ops divide, there is only the product and the success our organization,” then they will come up with their own solutions to the problem: What to do when things go pear shaped.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Support tiers&lt;/li&gt;
-  &lt;li&gt;Run books&lt;/li&gt;
-  &lt;li&gt;Reasonable response time windows&lt;/li&gt;
-  &lt;li&gt;QC tests&lt;/li&gt;
-  &lt;li&gt;Production smoke tests&lt;/li&gt;
-  &lt;li&gt;Production health checks.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Let’s face it, most applications are &lt;em&gt;not&lt;/em&gt; mission / life critical – and those that are, they &lt;em&gt;require&lt;/em&gt; live monitoring and response teams, right? We must also recognize that off-hours duty can be a burden. Young children, elder care, other commitments compete for our time. We don’t own a staffer’s entire 24 hour day, so make accomodations! On-call is not the same as watch-standing. You don’t have to be awake for duty time, just reachable on short notice.&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Flex time&lt;/li&gt;
-  &lt;li&gt;Eily traded slots&lt;/li&gt;
-  &lt;li&gt;Bonuses or extra vacation&lt;/li&gt;
-  &lt;li&gt;Customized pre configured laptops with mondo cell data plan &amp;amp; up-to-date dev environment&lt;/li&gt;
-  &lt;li&gt;A phone&lt;/li&gt;
-  &lt;li&gt;An on-duty bag&lt;/li&gt;
-  &lt;li&gt;Trick up the laptop with games, maybe&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;There Lots of creative ways to make it work. Run retrospectives to make it better. Finally, if a staff member absolutely can’t be present off-hours because life happens and the original job description did not include off-hours duty, &lt;em&gt;don’t&lt;/em&gt; penalize them. It’s not their fault that your business plan &lt;em&gt;failed&lt;/em&gt; to predict one of the most obvious needs of a 24x7 operation.&lt;/p&gt;
-
-&lt;p&gt;I’ve been on-call 24x7x365 minus vacation, in daily, weekly and monthly rotations, and not at all. I’ve been so tired that I missed the call and the boss had to call my wife to wake me up. It doesn’t happen too often, and I’ve accepted the responsibility as part of the job. I mostly enjoy it because I get to talk to real customers and hear about their pain points. I get a better sense of what’s important to them than any 3-hour death-by-powerpoint could ever give me. The customers also see that there are real, compassionate, human beings supporting them and their work. Because that’s the real thing: We build stuff to help &lt;em&gt;other&lt;/em&gt; people solve problems. Think about that the next time you drag out your luser hashtag.&lt;/p&gt;
-</description>
+        <description>Recently, there was a flurry of tweets about on-call and SRE duty schedules. It triggered a memory of a conversation at a manager meeting about a new product offering:</description>
         <pubDate>Sun, 11 Mar 2018 00:00:00 -0800</pubDate>
         <link>https://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2018/03/11/on-call-op-ed.html</guid>
@@ -790,20 +120,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
     
       <item>
         <title>Our Hiring Process</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Here's how the engineering hiring process works at PacerPro.&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;You apply for the position.&lt;/span&gt;  We expect a clearly worded cover letter that addresses my “pain points.” Read Liz Ryan’s &lt;a href=&quot;https://www.forbes.com/sites/lizryan/2015/03/01/how-to-write-your-first-pain-letter/&quot;&gt;excellent article&lt;/a&gt; on how to write one. Your attached resume is in a common document format that we can read without proprietary software or translation. Both items should concretely address the requirements posted in the job description.&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;We’ll respond.&lt;/span&gt;  One way or another, we try to acknowledge the receipt of your application as soon as we get it. If we have questions, we might you send you a follow-up email or two.&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;We’ll schedule a one-hour video conference screening.&lt;/span&gt;  We’ll talk about your qualifications, why you are interested in the job, and why you are qualified to do it. We’ll give you a demo of the product and what we’re trying to do. This is our first impression of us for you and you for us; the goal is to see if there’s enough team/interpersonal fit to proceed.&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;We’ll schedule a one-hour pairing session.&lt;/span&gt;  We’ll develop code in Ruby (not Ruby on Rails), on a simple class that does a well-known function. We’ll use Test-Driven-Development and Pair-Programming. If you don’t love programming in this style, you should probably apply somewhere else. This is a core part of our development methodology and is not negotiable. I’ll provide the IDE and set up, all you have to do is “show up.” There’s not much magic here, so don’t freak out, you’ll get feedback along the way.&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;The penultimate step is an all day, in-house pairing session on real stories.&lt;/span&gt;  When auditioning for a part, directors don’t ask actors how they would act; they &lt;em&gt;audition&lt;/em&gt;. Sports players don’t talk about how they react to a situation; they &lt;em&gt;try out&lt;/em&gt;. We’re going to sit you with our engineers and work on real, production deliverable code. In a perfect world, you’ll see your code go live.&lt;label for=&quot;unpaid&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;unpaid&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;You will not be monetarily compensated. I acknowledge that this is somewhat controversial, but I think that this way, we both have some skin in the game. &lt;/span&gt; We’ll fly you to San Francisco (our nominal home base), and run a pairing session in the morning and another in the afternoon. We’ll take a long break for lunch so you can reset, and be social with us. Yes, this is a remote position, but humans are much better at reading other humans in-person. We need as much data as possible to decide. I guarantee that by the end of the day, you’ll be worn out. If it is a good tired, then we’ll all know that we’ve probably got a good fit.&lt;/p&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;We make an offer in less than 48 hours.&lt;/span&gt;  No nail biting. We won’t leave you twisting in the breeze waiting for “someone better to come along.” Then it’s the usual negotiating, accepting, scheduling, etc. Your orientation and “indoctrination” will be pairing, in-person, with the rest of the team for 4-6 weeks at a location to be determined and mutually accepted. Once we’ve got a good feel for each other, you can return to wherever home happens to be, and we’ll start remote pairing.&lt;/p&gt;
-</description>
+        <description>Here's how the engineering hiring process works at PacerPro.</description>
         <pubDate>Sun, 30 Jul 2017 00:00:00 -0700</pubDate>
         <link>https://blog.bitwrangler.com/2017/07/30/hiring-process.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2017/07/30/hiring-process.html</guid>
@@ -819,26 +136,7 @@ f(x_n) &amp;\Rightarrow x_{n+1}
     
       <item>
         <title>Do Not Push to Red Builds</title>
-        <description>&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;There's a pattern to disasters: When you examine the post mortems, its not just one failure, but a cascade of multiple failures that overwhelm the system's safety features. Pushing to a red build risks piling one failure upon another.&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;One of our goals is to maintain an environment where we can deploy from &lt;code class=&quot;highlighter-rouge&quot;&gt;master&lt;/code&gt; at any time. The logical conclusion of this goal is &lt;em&gt;continuous deployment&lt;/em&gt;, but we’ll save that for another day. For now, let’s examine testing and why &lt;label for=&quot;red-build&quot; class=&quot;margin-toggle&quot;&gt; ⊕&lt;/label&gt;&lt;input type=&quot;checkbox&quot; id=&quot;red-build&quot; class=&quot;margin-toggle&quot; /&gt;&lt;span class=&quot;marginnote&quot;&gt;A &lt;em&gt;red build&lt;/em&gt; is when we push to our source repository, which kicks off a continous integration run, the “&lt;em&gt;build&lt;/em&gt;,” which fails for one reason or another. In a perfect world, we would be able to build everything at our desktop, but as our projects grow, we break up our builds into smaller, isolated, pieces, to keep things fast. &lt;/span&gt;pushing to a red build is an anti-pattern.&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;https://www.google.com/search?q=red+green+refactor&amp;amp;oq=re&amp;amp;aqs=chrome.0.69i59j69i60l3j69i57j0.911j0j7&amp;amp;sourceid=chrome&amp;amp;ie=UTF-8&quot;&gt;Red-Green-Refactor&lt;/a&gt; is a fundamental tenet of our development methodology. It provides us with constant feedback. It warns us when things go wrong. Green tests give us a place of safey from which we can explore without fear. Like all things, it is a &lt;em&gt;fractal&lt;/em&gt; concept. &lt;span class=&quot;newthought&quot;&gt;A broken build is a red unit test, writ large.&lt;/span&gt;  Without a green build, we can not deploy. Without a green build, we can not know if the next change we make is “good.” When we push a build to the repository, we are signalling to our team that we’re making progress toward our goal, but a red build says the opposite. When you push to a red build, unless you’re pushing the fix, of course, we can’t know whether your new code is making things better or worse.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Cowboy Bobbi pushes a seemingly innocuous change to master and goes to lunch. The build goes red. Agile Alli, not noticing the red build, merges her branch to master (tests were green on the branch), too. Now, the build is still red, but some of Alice’s tests are going red, now, too. Alice starts scratching her head and wonders how things could go so terribly wrong. Meanwhile, there’s a problem on production and DevOps Danni creates a production hot-fix and deploys that.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;figure&gt;&lt;figcaption&gt;Stormy Skies, http://archive.boston.com/bigpicture/2010/07/stormy_skies.html&lt;/figcaption&gt;&lt;img src=&quot;/assets/95D17118-BBCA-4400-B0BE-8C345361493E.jpg&quot; /&gt;&lt;/figure&gt;
-
-&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;When the build goes red, your &lt;em&gt;first&lt;/em&gt; priority is to fix it.&lt;/span&gt;  All other tasks are secondary. This gets you back on track.&lt;/p&gt;
-
-&lt;p&gt;In theory there is no difference between theory and practice. In practice there is. You will, at some time or another, have to use some judgement. An intermittently failing build is a code smell, but you might not be able to fix it. You’ll have to choose which is more valuable given the risk.&lt;/p&gt;
-
-&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://web.mit.edu/2.75/resources/random/How%20Complex%20Systems%20Fail.pdf&quot;&gt;How Complex Systesms Fail&lt;/a&gt;&lt;/p&gt;
-</description>
+        <description>There's a pattern to disasters: When you examine the post mortems, its not just one failure, but a cascade of multiple failures that overwhelm the system's safety features. Pushing to a red build risks piling one failure upon another.</description>
         <pubDate>Sat, 08 Jul 2017 00:00:00 -0700</pubDate>
         <link>https://blog.bitwrangler.com/2017/07/08/do-not-push-to-red-builds.html</link>
         <guid isPermaLink="true">https://blog.bitwrangler.com/2017/07/08/do-not-push-to-red-builds.html</guid>
