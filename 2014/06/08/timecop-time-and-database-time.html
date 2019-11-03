@@ -18,8 +18,8 @@
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
   
 
-  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1572115178302665000">
-  <link rel="stylesheet" type="text/css" href="/css/print.css?1572115178302665000" media="print">
+  <link rel="stylesheet" type="text/css" href="/css/tufte.css?1572811763443292000">
+  <link rel="stylesheet" type="text/css" href="/css/print.css?1572811763443292000" media="print">
   <link rel="canonical" href="https://blog.bitwrangler.com/2014/06/08/timecop-time-and-database-time.html">
   <link rel="alternate" type="application/rss+xml" title="Ken Mayer" href="https://blog.bitwrangler.com/feed.xml" />
   
@@ -172,6 +172,16 @@
 
 <p>I feel your pain.</p>
 
+<h1 id="stopovertaken-by-events">Stop—Overtaken by Events</h1>
+
+<p>Timecop used to be the go-to for this in a Rails application, but Rails has had its own time travel tools since 4.1. It even has matchers that handle this particular pain point. You should consider using the built-in tools before adding another gem to your project.</p>
+
+<p>Rails documentation: https://api.rubyonrails.org/classes/ActiveSupport/Testing/TimeHelpers.html</p>
+
+<p>Using it in RSpec: https://andycroll.com/ruby/replace-timecop-with-rails-time-helpers-in-rspec/</p>
+
+<p>—</p>
+
 <p>The trouble comes from the fact that Timecop is freezing time at the resolution of the native Time class, which on my Mac OS X machine is microseconds (aka “usec”), but the database, in this case MySQL only records time to the second. RSpec is trying to be helpful with its matchers by calling <code class="highlighter-rouge">&lt;code&gt;</code>#to_s`, but that hides the significant, sub-second difference.</p>
 
 <p>Here’s a quick little monkey patch that I added to my spec support:</p>
@@ -202,7 +212,6 @@
 </code></pre></div></div>
 
 <p>And no more head scratching. It’s sort of database specific, so your mileage may vary.</p>
-
 
 
 
